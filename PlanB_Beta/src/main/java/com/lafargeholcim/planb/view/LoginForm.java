@@ -49,7 +49,6 @@ public class LoginForm extends JFrame {
     private JPasswordField passwordField;
     private  JTextField usernameTextField;
     private JButton  loginButton; 
-    private final String RESOURCE = "src/main/java/com/lafargeholcim/planb/view/resources/";
     // End of variables declaration            
     
     /**
@@ -67,7 +66,7 @@ public class LoginForm extends JFrame {
     @SuppressWarnings("unchecked")
     private void initComponents() {
         Dimension nativeScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setIconImage(new ImageIcon(RESOURCE+"planB-27x32.png").getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/images/planB-27x32.png")).getImage());
         
         mainPanel = new javax.swing.JPanel();
         logoLabel = new javax.swing.JLabel();
@@ -96,12 +95,12 @@ public class LoginForm extends JFrame {
         mainPanel.setBorder(BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mainPanel.setPreferredSize(new java.awt.Dimension(400, 400));
         
-        logoLabel.setIcon(new ImageIcon(RESOURCE+"holcim-logo-370x152.png"));
+        logoLabel.setIcon(new ImageIcon(getClass().getResource("/images/holcim-logo-370x152.png")));
 
         systemLogoLabel.setFont(new java.awt.Font("Dialog", 1, 44)); // NOI18N
         systemLogoLabel.setForeground(new java.awt.Color(250, 250, 250));
         systemLogoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        systemLogoLabel.setIcon(new ImageIcon(RESOURCE+"planB-27x32.png")); // NOI18N
+        systemLogoLabel.setIcon(new ImageIcon(getClass().getResource("/images/planB-27x32.png"))); // NOI18N
         systemLogoLabel.setText("PlanB");
         systemLogoLabel.setIconTextGap(10);
         
@@ -114,7 +113,7 @@ public class LoginForm extends JFrame {
         
         userIconLabel.setBackground(new Color(252, 254, 252));
         userIconLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        userIconLabel.setIcon(new ImageIcon(RESOURCE+"Collaborator Male-24.png")); // NOI18N
+        userIconLabel.setIcon(new ImageIcon(getClass().getResource("/images/Collaborator Male-24.png"))); // NOI18N
         userIconLabel.setFocusable(false);
         userIconLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 
@@ -213,7 +212,7 @@ public class LoginForm extends JFrame {
 
         lockIconLabel.setBackground(new Color(252, 254, 252));
         lockIconLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        lockIconLabel.setIcon(new ImageIcon(RESOURCE+"Lock-24.png")); // NOI18N
+        lockIconLabel.setIcon(new ImageIcon(getClass().getResource("/images/Lock-24.png"))); // NOI18N
         lockIconLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 
         javax.swing.GroupLayout passwordPanelLayout = new GroupLayout(passwordPanel);
@@ -281,19 +280,19 @@ public class LoginForm extends JFrame {
 
         minimizeLabel.setVerticalAlignment(JLabel.CENTER);
         minimizeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        minimizeLabel.setIcon(new ImageIcon(RESOURCE+"MinusW2-16.png")); // NOI18N
+        minimizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/MinusW2-16.png"))); // NOI18N
         minimizeLabel.setOpaque(true);
         minimizeLabel.setBackground(Color.decode("#303132"));
         minimizeLabel.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseEntered(MouseEvent e){
                 //minimizeLabel.setBackground(Color.decode("#E2E5E2"));
-                minimizeLabel.setIcon(new ImageIcon(RESOURCE+"red-16.png"));
+                minimizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/red-16.png")));
                 minimizeLabel.repaint();
             }
             @Override
             public void mouseExited(MouseEvent e){
-                minimizeLabel.setIcon(new ImageIcon(RESOURCE+"MinusW2-16.png"));
+                minimizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/MinusW2-16.png")));
                 minimizeLabel.repaint();
             }
             @Override
@@ -303,16 +302,16 @@ public class LoginForm extends JFrame {
         });
 
         closeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        closeLabel.setIcon(new ImageIcon(RESOURCE+"images/close2-16.png")); // NOI18N
+        closeLabel.setIcon(new ImageIcon(getClass().getResource("/images/close2-16.png"))); // NOI18N
         closeLabel.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseEntered(MouseEvent e){
-                closeLabel.setIcon(new ImageIcon(RESOURCE+"closeRed2-16.png"));
+                closeLabel.setIcon(new ImageIcon(getClass().getResource("/images/closeRed2-16.png")));
                 closeLabel.repaint();
             }
             @Override
             public void mouseExited(MouseEvent e){
-                closeLabel.setIcon(new ImageIcon(RESOURCE+"close2-16.png"));
+                closeLabel.setIcon(new ImageIcon(getClass().getResource("/images/close2-16.png")));
                 closeLabel.repaint();
             }
             @Override

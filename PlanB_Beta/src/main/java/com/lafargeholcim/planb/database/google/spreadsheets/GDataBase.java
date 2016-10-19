@@ -76,7 +76,7 @@ public class GDataBase {
     public void authorize() throws IOException {
         // Load client secrets.
         InputStream in =
-            GDataBase.class.getResourceAsStream("/com/lafargeholcim/planb/database/google/resources/client_secret.json");
+            GDataBase.class.getResourceAsStream("/secret/client_secret.json");
         GoogleClientSecrets clientSecrets =
             GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 

@@ -137,7 +137,7 @@ public class UITerminal extends JFrame{
         UIManager.put("ToolTip.foreground", Color.decode("#C9CDD1"));
         Border border = BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#3B3C3D"));
         UIManager.put("ToolTip.border", border);
-        setIconImage(new ImageIcon(getClass().getResource("../images/planB-27x32.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/images/planB-27x32.png")).getImage());
         createTitleBarPanel();
         createMainMenu();
         createOptionsContentPanel();
@@ -170,13 +170,13 @@ public class UITerminal extends JFrame{
         
         frameButtonsPanel = new JPanel();
         apsLogoLabel = new JLabel("PlanB System 1.0");
-        apsLogoLabel.setIcon(new ImageIcon(resource+"planB-18x21.png"));
+        apsLogoLabel.setIcon(new ImageIcon(getClass().getResource("/images/planB-18x21.png")));
         apsLogoLabel.setIconTextGap(3);
         Border border = BorderFactory.createEmptyBorder(0,4,0,0);
         apsLogoLabel.setBorder(border);
-        resizeLabel = new JLabel(new ImageIcon(resource+"tabB.png"), JLabel.CENTER);
-        minimizeLabel = new JLabel(new ImageIcon(resource+"minusB.png"), JLabel.CENTER);
-        closeLabel = new JLabel(new ImageIcon(resource+"closeB.png"), JLabel.CENTER);
+        resizeLabel = new JLabel(new ImageIcon(getClass().getResource("/images/tabB.png")), JLabel.CENTER);
+        minimizeLabel = new JLabel(new ImageIcon(getClass().getResource("/images/minusB.png")), JLabel.CENTER);
+        closeLabel = new JLabel(new ImageIcon(getClass().getResource("/images/closeB.png")), JLabel.CENTER);
         
         apsLogoLabel.setForeground(Color.decode("#707070"));
         apsLogoLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -217,13 +217,13 @@ public class UITerminal extends JFrame{
             @Override
             public void mouseEntered(MouseEvent e){
                 minimizeLabel.setBackground(Color.decode("#E2E5E2"));
-                //minimizeLabel.setIcon(new ImageIcon(resource+"minusW.png"));
+                //minimizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/minusW.png"));
                 minimizeLabel.repaint();
             }
             @Override
             public void mouseExited(MouseEvent e){
                 minimizeLabel.setBackground(Color.decode("#FCFEFC"));
-                minimizeLabel.setIcon(new ImageIcon(resource+"minusB.png"));
+                minimizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/minusB.png")));
                 minimizeLabel.repaint();
             }
             @Override
@@ -242,13 +242,13 @@ public class UITerminal extends JFrame{
             @Override
             public void mouseEntered(MouseEvent e){
                 closeLabel.setBackground(Color.decode("#FC4344"));
-                closeLabel.setIcon(new ImageIcon(resource+"closeW.png"));
+                closeLabel.setIcon(new ImageIcon(getClass().getResource("/images/closeW.png")));
                 closeLabel.repaint();
             }
             @Override
             public void mouseExited(MouseEvent e){
                 closeLabel.setBackground(Color.decode("#FCFEFC"));
-                closeLabel.setIcon(new ImageIcon(resource+"closeB.png"));
+                closeLabel.setIcon(new ImageIcon(getClass().getResource("/images/closeB.png")));
                 closeLabel.repaint();
             }
             @Override
@@ -419,7 +419,7 @@ public class UITerminal extends JFrame{
         createDashboardPanel();
         createActionPlanPanel();
         
-        initImageLabel = new JLabel(new ImageIcon(resource+"holcim-logo.png"));
+        initImageLabel = new JLabel(new ImageIcon(getClass().getResource("/images/holcim-logo.png")));
         initImageLabel.setPreferredSize(new Dimension(500,328));
         initImageLabel.setSize(initImageLabel.getPreferredSize());
         optionsContentPanel.add(initImageLabel,BorderLayout.CENTER);
@@ -434,7 +434,7 @@ public class UITerminal extends JFrame{
         dashboardPanel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
         dashboardPanel.setBackground(Color.decode("#FCFEFC"));
         
-        initImageLabel = new JLabel(new ImageIcon(resource+"holcim-logo.png"), JLabel.CENTER);
+        initImageLabel = new JLabel(new ImageIcon(getClass().getResource("/images/holcim-logo.png")), JLabel.CENTER);
         initImageLabel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
         initImageLabel.setPreferredSize(new Dimension(500,328));
         initImageLabel.setBackground(Color.decode("#FCFEFC"));
@@ -859,7 +859,7 @@ public class UITerminal extends JFrame{
             yPosition = (nativeScreenSize.height/2)-(d.height/2);
             this.setLocation(xPosition,yPosition);
             frameButtonsPanel.setPreferredSize(new Dimension(d.width,30));
-            resizeLabel.setIcon(new ImageIcon(resource+"resize.png"));
+            resizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/resize.png")));
             resizeLabel.setToolTipText("Maximize");
             pack();
             resizeFlag = true;
@@ -868,7 +868,7 @@ public class UITerminal extends JFrame{
             this.setLocation(0,0);
             this.setPreferredSize(nativeScreenSize);
             frameButtonsPanel.setPreferredSize(new Dimension(nativeScreenSize.width,30));
-            resizeLabel.setIcon(new ImageIcon(resource+"tabB.png"));
+            resizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/tabB.png")));
             resizeLabel.setToolTipText("Minimize:Size");
             maximize(6);
             revalidate();
@@ -933,17 +933,17 @@ public class UITerminal extends JFrame{
         filterPanel.add(filterContentComboBox);
         filterPanel.add(Box.createHorizontalGlue());
         addActionLabel = new JLabel();
-        addActionLabel.setIcon(new ImageIcon(resource+"plus-24.png"));
+        addActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/plus-24.png")));
         addActionLabel.setPreferredSize(new Dimension(35,filterPanel.getPreferredSize().height));
         addActionLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e){
-                addActionLabel.setIcon(new ImageIcon(resource+"plusGreen-24.png"));
+                addActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/plusGreen-24.png")));
             }
             @Override
             public void mouseExited(MouseEvent e){
                 if(!clickedFlag)
-                    addActionLabel.setIcon(new ImageIcon(resource+"plus-24.png"));
+                    addActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/plus-24.png")));
             }
             @Override
             public void mouseClicked(MouseEvent e){
@@ -951,7 +951,7 @@ public class UITerminal extends JFrame{
                     AddActionForm add_action;
                     try {
                         clickedFlag = true;
-                        addActionLabel.setIcon(new ImageIcon(resource+"plusGreen-24.png"));
+                        addActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/plusGreen-24.png")));
                         add_action = new AddActionForm(getJFrame(),Aps.getTerminal(),meetingName);
                         add_action.setLocationRelativeTo(getJFrame());
                     } catch (Exception ex) {
@@ -967,7 +967,7 @@ public class UITerminal extends JFrame{
             }
         }); 
         modifyActionLabel = new JLabel();
-        modifyActionLabel.setIcon(new ImageIcon(resource+"edit-24.png"));
+        modifyActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/edit-24.png")));
         modifyActionLabel.setPreferredSize(new Dimension(35,filterPanel.getPreferredSize().height));
         modifyActionLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -995,7 +995,7 @@ public class UITerminal extends JFrame{
             }
         }); 
         deleteActionLabel = new JLabel();
-        deleteActionLabel.setIcon(new ImageIcon(resource+"delete-24.png"));
+        deleteActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/delete-24.png")));
         deleteActionLabel.setPreferredSize(new Dimension(35, filterPanel.getPreferredSize().height));
         deleteActionLabel.addMouseListener(new MouseAdapter() {
             @Override
