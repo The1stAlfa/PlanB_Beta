@@ -48,15 +48,17 @@ public class GDataBase {
     /** Global instance of the HTTP transport. */
     private static HttpTransport HTTP_TRANSPORT;
 
+    private static Credential CREDENTIAL;
+    
+    private String spreadsheetId;
+  
     /** Global instance of the scopes required by this quickstart.
      *
      * If modifying these scopes, delete your previously saved credentials
      * at ~/.credentials/sheets.googleapis.com-java-quickstart
      */
     private static final List<String> SCOPES =
-        Arrays.asList(SheetsScopes.SPREADSHEETS_READONLY);
-
-    private static Credential CREDENTIAL;
+        Arrays.asList(SheetsScopes.SPREADSHEETS_READONLY);  
     
     static {
         try {
@@ -64,10 +66,18 @@ public class GDataBase {
             DATA_STORE_FACTORY = new FileDataStoreFactory(DATA_STORE_DIR);
         } catch (Throwable t) {
             t.printStackTrace();
-            System.exit(1);
+            //System.exit(1);
         }
     }
-
+    
+    public GDataBase() throws IOException{
+        authorize();
+    }
+    
+    public void setSpreadsheetID(String  spreadshseetId){
+        this.spreadsheetId = spreadshseetId;
+    }
+    
     /**
      * Creates an authorized Credential object.
      * @return an authorized Credential object.
@@ -93,11 +103,7 @@ public class GDataBase {
                 "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
         CREDENTIAL = credential;
     }
-    
-    public GDataBase() throws IOException{
-        authorize();
-    }
-    
+        
     /**
      * Build and return an authorized Sheets API client service.
      * @return an authorized Sheets API client service
@@ -107,5 +113,9 @@ public class GDataBase {
         return new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, CREDENTIAL)
                 .setApplicationName(APPLICATION_NAME)
                 .build();
+    }
+    
+    public TableQuery selectQuery(String query, String Table){
+        return null;
     }
 }

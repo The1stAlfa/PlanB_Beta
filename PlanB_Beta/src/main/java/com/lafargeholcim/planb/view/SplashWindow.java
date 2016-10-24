@@ -17,7 +17,7 @@ public final class SplashWindow extends JWindow{
 
 	public SplashWindow(String filename, Frame frame, int waitTime){
 		super(frame);
-                JLabel splashLabel = new JLabel(new ImageIcon(filename));
+                JLabel splashLabel = new JLabel(new ImageIcon(getClass().getResource("/images/"+filename)));
                 AWTUtilities.setWindowOpaque(this,false);
 		getContentPane().add(splashLabel, BorderLayout.CENTER);
                 setProgressBar(new JProgressBar());

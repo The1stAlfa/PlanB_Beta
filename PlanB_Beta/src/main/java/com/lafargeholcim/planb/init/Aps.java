@@ -29,7 +29,6 @@ public class Aps {
     private static  Organization org = new Organization();
     private static Terminal terminalAPS;
     private static UITerminal terminalUI;
-    private static final String RESOURCE = "src/main/java/com/lafargeholcim/planb/view/resources/";
     
     /**
      * @param args the command line arguments
@@ -79,7 +78,7 @@ public class Aps {
      */
     public static void initSystem() throws IOException, FontFormatException{
         try{
-            SplashWindow window = new SplashWindow(RESOURCE+"planB-182x263.png", 
+            SplashWindow window = new SplashWindow("planB-182x263.png", 
                 new Frame(), 2500);
             terminalAPS.loadBusinessInformation();
             terminalUI = new UITerminal();

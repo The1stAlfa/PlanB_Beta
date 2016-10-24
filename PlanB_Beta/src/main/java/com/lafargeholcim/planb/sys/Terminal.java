@@ -117,32 +117,6 @@ public class Terminal{
         String saltedPassword = SALT + password;
         String hashedPassword = generateHash(saltedPassword);
         Sheets service = gPlanB.getSheetsService();
-
-        // Prints the names and majors of students in a sample spreadsheet:
-        // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-        // 1Xkd22LiN9unvv7GYOqsv3XwvjVMbFsi-EZASg4hxF9E
-        String spreadsheetId = "1Xkd22LiN9unvv7GYOqsv3XwvjVMbFsi-EZASg4hxF9E";
-        String range = "user!A2:E";
-        
-        ValueRange response = service.spreadsheets().values()
-            .get(spreadsheetId, range)
-            .execute();
-        List<List<Object>> values = response.getValues();
-        if (values == null || values.size() == 0) {
-            System.out.println("No data found.");
-        } else {
-          for (List row : values) {
-            // Print columns A and E, which correspond to indices 0 and 4.
-                if( row.get(0).toString().equals(username) && row.get(2).toString().equals(hashedPassword)){
-                System.out.printf("%s, %s\n", row.get(0), row.get(2));
-                System.out.println("LOGIN SUCCESSFUL");
-                isAuthenticated = true;
-                break;
-            }
-            else
-                  System.out.println("WRONG USERNAME OR PASSWORD");
-          }
-        }
         
         /*String query = "SELECT COUNT(*) AS isUser FROM planb.user WHERE username='"
                 +username+"' AND password='"+hashedPassword+"';";
@@ -343,7 +317,7 @@ public class Terminal{
         if(results != null){
             while(count != results.length){
                 query = "SELECT name,acronym,purpose,dateCreated FROM planb.meeting"
-                        + " where meetingId="+(int)results[count]+";";
+                        + " WHERE meetingId="+(int)results[count]+";";
                 ResultSet result = planB.selectQuery(query);
                 result.next();
                 Meeting meeting = new Meeting();
@@ -423,7 +397,7 @@ public class Terminal{
         String query;
         ArrayList list = new ArrayList();
         
-        query = "SELECT meeting_id FROM planb.facility_meeting where facility_id='"+facilityID+"';";
+        query = "SELECT meeting_id FROM planb.facility_meeting WHERE facility_id='"+facilityID+"';";
         ResultSet rs = planB.selectQuery(query);
         if(rs != null){
             while(rs.next())
