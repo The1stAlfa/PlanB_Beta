@@ -5,6 +5,8 @@
  */
 package com.lafargeholcim.planb.database.google.spreadsheets;
 
+import com.lafargeholcim.planb.database.google.spreadsheets.json.model.Table;
+import com.lafargeholcim.planb.database.google.spreadsheets.json.model.TableQueryModel;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -17,13 +19,19 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.*;
+import com.google.gson.Gson;
 import com.google.api.services.sheets.v4.Sheets;
-
+import java.io.BufferedReader;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
@@ -49,9 +57,14 @@ public class GDataBase {
     private static HttpTransport HTTP_TRANSPORT;
 
     private static Credential CREDENTIAL;
-    
+       
+    /**Google SpreadSheet ID*/
     private String spreadsheetId;
-  
+    
+    /**General URL use to query a Google Spreadsheet*/
+    private final String URL = 
+            "https://spreadsheets.google.com/tq?&tq=";
+      
     /** Global instance of the scopes required by this quickstart.
      *
      * If modifying these scopes, delete your previously saved credentials
@@ -72,9 +85,10 @@ public class GDataBase {
     
     public GDataBase() throws IOException{
         authorize();
+        this.spreadsheetId = "1Xkd22LiN9unvv7GYOqsv3XwvjVMbFsi-EZASg4hxF9E";
     }
     
-    public void setSpreadsheetID(String  spreadshseetId){
+    public void setSpreadsheetId(String  spreadshseetId){
         this.spreadsheetId = spreadshseetId;
     }
     
@@ -115,7 +129,47 @@ public class GDataBase {
                 .build();
     }
     
-    public TableQuery selectQuery(String query, String Table){
+    public Table selectQuery(String query, String table) throws IOException{
+        String urlQuery = URL+query+"&key="+spreadsheetId+"&sheet="+table;
+        DBRequest request = new DBRequest("");
+        try {
+            request.get(urlQuery);
+        } catch (IOException ex) {
+            Logger.getLogger(GDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(request.getResponseCode() == 200)
+            return readResponse(request.getDbResponse());
+        
         return null;
+    }
+    
+    private Table readResponse(InputStream response) throws IOException{
+        Pattern pattern = Pattern.compile(".\\((.*?)\\);");
+        Matcher matcher = pattern.matcher(convertStreamToString(response));
+        matcher.find();
+        String jsonElement = matcher.group(1);
+        Gson gsonFactory = new Gson(); 
+        TableQueryModel tableModel = gsonFactory.fromJson(jsonElement, TableQueryModel.class);
+        return tableModel.getTable();
+    }
+    
+    private static String convertStreamToString(InputStream input) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        StringBuilder result = new StringBuilder();
+
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null)
+                result.append(line); 
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return result.toString();
     }
 }

@@ -36,6 +36,9 @@ import javax.swing.table.DefaultTableModel;
 import com.lafargeholcim.planb.init.Aps;
 import com.lafargeholcim.planb.database.mysql.DataBase;
 import com.lafargeholcim.planb.database.google.spreadsheets.GDataBase;
+import com.lafargeholcim.planb.database.google.spreadsheets.json.model.Cell;
+import com.lafargeholcim.planb.database.google.spreadsheets.json.model.Row;
+import com.lafargeholcim.planb.database.google.spreadsheets.json.model.Table;
 import com.lafargeholcim.planb.sys.Role;
 import com.lafargeholcim.planb.sys.User;
 
@@ -118,6 +121,34 @@ public class Terminal{
         String hashedPassword = generateHash(saltedPassword);
         Sheets service = gPlanB.getSheetsService();
         
+        String query = "SELECT+COUNT(A)+WHERE+A+CONTAINS+%27"+username+"%27+"
+                + "AND+C+CONTAINS+%27"+hashedPassword+"%27+LABEL+COUNT(A)+%27is_user%27";
+        Table result = gPlanB.selectQuery(query, "user");
+        if(result != null){
+            List<Row> rows = result.getRows();
+            if(rows.size() == 1){
+                List<Cell> cells = rows.get(0).getC();
+                if(cells.size() == 1){
+                    if(cells.get(0).getV().equals("1.0")){
+                        isAuthenticated = true;
+                        query = "SELECT+B,E+WHERE+A+CONTAINS=%27username%27";
+                        result = gPlanB.selectQuery(query,"user");
+                        if(result != null){
+                            rows = result.getRows();
+                            cells = rows.get(0).getC();
+                            user.setUsername(username);
+                            user.setEmail(cells.get(0).getV());
+                            user.setRole(getRole(Integer.parseInt(cells.get(1).getV())));
+                            query = "SELECT+B+WHERE+A+CONTAINS+%27"+username+"%27";
+                            result = gPlanB.selectQuery(query,"user_collaborator");
+                            rows = result.getRows();
+                            cells = rows.get(0).getC();
+                            user.setEmployeeId(Integer.parseInt(cells.get(0).getV()));
+                        }
+                    }
+                }
+            }
+        }
         /*String query = "SELECT COUNT(*) AS isUser FROM planb.user WHERE username='"
                 +username+"' AND password='"+hashedPassword+"';";
         planB.connection();

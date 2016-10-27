@@ -39,7 +39,7 @@ public class DBRequest {
         this.userAgent = userAgent;
     }
     
-    private void sendGet(String url) throws IOException{
+    public void get(String url) throws IOException{
         HttpClient client = new DefaultHttpClient();
         HttpGet request = new HttpGet(url);
 
