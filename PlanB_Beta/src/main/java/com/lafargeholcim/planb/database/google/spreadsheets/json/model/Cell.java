@@ -73,5 +73,4 @@ public class Cell {
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
-
 }

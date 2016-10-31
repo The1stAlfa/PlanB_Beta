@@ -148,9 +148,12 @@ public class GDataBase {
         Matcher matcher = pattern.matcher(convertStreamToString(response));
         matcher.find();
         String jsonElement = matcher.group(1);
-        Gson gsonFactory = new Gson(); 
-        TableQueryModel tableModel = gsonFactory.fromJson(jsonElement, TableQueryModel.class);
-        return tableModel.getTable();
+        if(!jsonElement.contains("\"status\":\"error\"")){
+            Gson gsonFactory = new Gson(); 
+            TableQueryModel tableModel = gsonFactory.fromJson(jsonElement, TableQueryModel.class);
+            return tableModel.getTable();
+        }
+        return null;
     }
     
     private static String convertStreamToString(InputStream input) {

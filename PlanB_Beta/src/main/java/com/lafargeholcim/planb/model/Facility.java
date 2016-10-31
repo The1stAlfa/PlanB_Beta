@@ -6,6 +6,8 @@
 package com.lafargeholcim.planb.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  *
@@ -13,7 +15,7 @@ import java.util.ArrayList;
  */
 public class Facility {
     //aps Class Variables 
-    private static ArrayList<Collaborator> collaboratorList;
+    private static HashMap<Integer, Collaborator> collaboratorList;
     private static ArrayList<FuntionalArea> funtionalAreas;
     private ArrayList<Meeting> meetings;
     //************************************************************************
@@ -29,7 +31,7 @@ public class Facility {
         
     }
 
-    public ArrayList<Collaborator> getCollaboratorList() {
+    public HashMap<Integer, Collaborator> getCollaboratorList() {
         return collaboratorList;
     }
 
@@ -64,7 +66,7 @@ public class Facility {
         return s;
     }
 
-    public void setCollaboratorList(ArrayList<Collaborator> collaboratorList) {
+    public void setCollaboratorList(HashMap<Integer, Collaborator> collaboratorList) {
         this.collaboratorList = collaboratorList;
     }
 
@@ -102,7 +104,7 @@ public class Facility {
     
     public Collaborator searchCollaborator(String hint, byte type){
         if(type == 1){
-            for(Collaborator collaborator: this.getCollaboratorList()){
+            for(Collaborator collaborator: this.collaboratorList.values()){
                 String collaborator_names = collaborator.getFirstName()
                         +" "+ collaborator.getLastName();
                 if(collaborator_names.equalsIgnoreCase(hint))
@@ -110,7 +112,7 @@ public class Facility {
             }
         }
         else if(type == 2){
-            for(Collaborator collaborator: this.getCollaboratorList()){
+            for(Collaborator collaborator : this.getCollaboratorList().values()) {
                 if(collaborator.getAcronymName().equalsIgnoreCase(hint))
                     return collaborator;
             }
@@ -119,10 +121,12 @@ public class Facility {
     }
     
     public Collaborator searchCollaborator(int employeeID){
-        for(Collaborator collaborator: this.getCollaboratorList()){
-            if(collaborator.getEmployeeId() == employeeID)
-                return collaborator;
-        }
-        return null;
+        return collaboratorList.get(employeeID);
+    }
+    
+    public int getIntegerId(){
+        if(id.substring(0).equals("0"))
+            return Integer.parseInt(id);
+        return Integer.parseInt(id.substring(1));
     }
 }

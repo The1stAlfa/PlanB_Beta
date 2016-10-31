@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.util.HashMap;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Generated("org.jsonschema2pojo")
@@ -75,5 +76,25 @@ public class Table {
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
+    
+    public String getUniqueCellValueOfUniqueRow(boolean formmattedValue){
+        return rows.get(0).getCellValue(0, formmattedValue);
+    }
+    
+    public HashMap<String, Cell> getMappedRowValues(String[] headers, int index){
+        HashMap<String, Cell> mappedRow = new HashMap();
+        Row row = rows.get(index);
+        for(int i=0; i<headers.length; i++ )
+            mappedRow.put(headers[i], row.getC().get(i));
+        return mappedRow;
+    }
 
+    public String[] getHeaders(){
+        int size = this.cols.size();
+        String[] headers = new String[size];
+        for(int i=0; i < size;i++)
+            headers[i] = cols.get(i).getLabel(); 
+        return headers;
+    }
+    
 }

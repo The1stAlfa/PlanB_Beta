@@ -52,5 +52,12 @@ public class Row {
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
+    
+    public String getCellValue(int index, boolean formattedValue){
+        if(formattedValue)
+            return c.get(index).getF();
+        return c.get(index).getV();
+        
+    }
 
 }

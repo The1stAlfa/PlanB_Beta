@@ -388,21 +388,24 @@ public class LoginForm extends JFrame {
             SQLException, IOException, FontFormatException, Exception{
         if(!(usernameTextField.getText().equals("USERNAME"))){
             if(!(String.valueOf(passwordField.getPassword()).equals("PASSWORD"))){
-                if(Aps.getTerminal().login(usernameTextField.getText(), String.valueOf(passwordField.getPassword()))){
+                if(Aps.getTerminal().login(usernameTextField.getText(), 
+                        String.valueOf(passwordField.getPassword()))){
                     this.dispose();
                     Aps.initSystem();
                 }
                 else{
                     usernameTextField.setText("USERNAME");
                     passwordField.setText("PASSWORD");
-                    JOptionPane.showMessageDialog(getJFrame(),"Username or Password Incorrect.","Error",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(getJFrame(),
+                            "Username or Password Incorrect.","Error",JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
         else{
             if((String.valueOf(passwordField.getPassword()).isEmpty()))
                 passwordField.setText("PASSWORD");
-            JOptionPane.showMessageDialog(getJFrame(),"Error! Username field is Empty.","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(getJFrame(),
+                    "Error! Username field is Empty.","Error",JOptionPane.ERROR_MESSAGE);
         }
     }    
 }
