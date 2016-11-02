@@ -234,9 +234,9 @@ public class LoginForm extends JFrame {
                     .addComponent(lockIconLabel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
         );
 
-        loginButton.setBackground(new Color(252, 67, 68));
+        loginButton.setBackground(Color.decode("#1160AE"));
         loginButton.setFont(new Font("Dialog", 1, 18)); // NOI18N
-        loginButton.setForeground(new Color(48, 49, 50));
+        loginButton.setForeground(Color.decode("#FCFCFC"));
         loginButton.setHorizontalAlignment(JTextField.CENTER);
         loginButton.setText("LOG IN");
         loginButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));

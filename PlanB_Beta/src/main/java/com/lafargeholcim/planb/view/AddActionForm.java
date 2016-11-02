@@ -8,7 +8,10 @@ package com.lafargeholcim.planb.view;
 import com.lafargeholcim.planb.sys.Month;
 import com.lafargeholcim.planb.sys.Terminal;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.time.LocalDate;
@@ -39,7 +42,7 @@ public class AddActionForm extends JDialog{
     private final Terminal terminal;
     private final JFrame parent;
      // Variables declaration - do not modify                     
-    private JButton add_button;
+    private JButton addButton;
     private JComboBox<String> cbDayEnd;
     private JComboBox<String> cbDayReal;
     private JComboBox<String> cbDayStart;
@@ -50,7 +53,7 @@ public class AddActionForm extends JDialog{
     private JComboBox<String> cbYearReal;
     private JComboBox<String> cbYearStart;
     private JComboBox<String> status_comboBox;
-    private JButton cancell_button;
+    private JButton cancellButton;
     private JLabel days_label;
     private JLabel jLabel10;
     private JLabel jLabel11;
@@ -107,8 +110,8 @@ public class AddActionForm extends JDialog{
         tfId = new JTextField();
         responsibleComboBox = new JComboBox();
         tfDuration = new JTextField();
-        add_button = new JButton();
-        cancell_button = new JButton();
+        addButton = new JButton();
+        cancellButton = new JButton();
         jScrollPane1 = new JScrollPane();
         jTextArea1 = new JTextArea();
         jScrollPane2 = new JScrollPane();
@@ -159,46 +162,54 @@ public class AddActionForm extends JDialog{
         jLabel13.setText("Duration");
         jLabel13.setForeground(Color.decode("#C9CDD1"));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        add_button.setText("ADD");
-        add_button.addActionListener((java.awt.event.ActionEvent evt) -> {
-            String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-            String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-            int duration = getDaysBetweenDates(start_date, end_date);
-            if(duration <= 0)
-                JOptionPane.showMessageDialog(getJDialog(),"Inconsistent Dates.","Error",JOptionPane.ERROR_MESSAGE);
-            else if("".equals(jTextArea1.getText()))
-                JOptionPane.showMessageDialog(getJDialog(),"The Action Detail can't be Empty.","Error",JOptionPane.ERROR_MESSAGE);
-            else{
-                try {
-                    Object[] options = { "Yes", "No" };                    
-                    if(JOptionPane.showOptionDialog(getJDialog(),
-                        "<html><center>Are you sure you want to add the Action?",
-                        "Delete Action",JOptionPane.DEFAULT_OPTION, 
-                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == 0){
-                        terminal.addAction(responsibleComboBox.getSelectedItem().toString(),jTextArea1.getText(),
-                                jTextArea2.getText(),start_date,end_date,
-                                status_comboBox.getSelectedItem().toString(),
-                                (byte)progressSlider.getValue(),duration,meetingName);
-                        parent.setEnabled(true);
-                        JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addActionLabel");
-                        label.setIcon(new ImageIcon("src/images/plus-24.png"));
-                        ((UITerminal)parent).setFlag(false);
-                        getJDialog().dispose();
-                   }
-                } catch (Exception ex) {
-                    Logger.getLogger(AddActionForm.class.getName()).log(Level.SEVERE, null, ex);
+        addButton.setText("ADD");
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                int duration = getDaysBetweenDates(start_date, end_date);
+                if(duration <= 0)
+                    JOptionPane.showMessageDialog(getJDialog(),"Inconsistent Dates.","Error",JOptionPane.ERROR_MESSAGE);
+                else if("".equals(jTextArea1.getText()))
+                    JOptionPane.showMessageDialog(getJDialog(),"The Action Detail can't be Empty.","Error",JOptionPane.ERROR_MESSAGE);
+                else{
+                    try {
+                        Object[] options = { "Yes", "No" };                    
+                        if(JOptionPane.showOptionDialog(getJDialog(),
+                            "<html><center>Are you sure you want to add the Action?",
+                            "Delete Action",JOptionPane.DEFAULT_OPTION, 
+                            JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == 0){
+                            terminal.addAction(responsibleComboBox.getSelectedItem().toString(),jTextArea1.getText(),
+                                    jTextArea2.getText(),start_date,end_date,
+                                    status_comboBox.getSelectedItem().toString(),
+                                    (byte)progressSlider.getValue(),duration,meetingName);
+                            parent.setEnabled(true);
+                            JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addActionLabel");
+                            label.setIcon(new ImageIcon("src/images/plus-24.png"));
+                            ((UITerminal)parent).setFlag(false);
+                            getJDialog().dispose();
+                       }
+                    } 
+                    catch (Exception ex) {
+                        Logger.getLogger(AddActionForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });
 
-        cancell_button.setText("CANCELL");
-        cancell_button.addActionListener((java.awt.event.ActionEvent evt) -> {
-            parent.setEnabled(true);
-            JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addActionLabel");
-            label.setIcon(new ImageIcon("src/images/plus-24.png"));
-            ((UITerminal)parent).setFlag(false);
-            getJDialog().dispose();
+        cancellButton.setText("CANCELL");
+        cancellButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parent.setEnabled(true);
+                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addActionLabel");
+                label.setIcon(new ImageIcon("src/images/plus-24.png"));
+                ((UITerminal)parent).setFlag(false);
+                getJDialog().dispose();
+            }
         });
+        
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jTextArea1.setLineWrap(true);
@@ -217,79 +228,97 @@ public class AddActionForm extends JDialog{
             "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
             "23", "24", "25", "26", "27", "28", "29", "30", "31" 
         }));
-        cbDayStart.addItemListener((ItemEvent event) -> {
-            String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-            String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-            tfDuration.setText(String.valueOf(getDaysBetweenDates(start_date, end_date)));
-        });
         cbMonthStart.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
             "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" 
         }));
-        cbMonthStart.addItemListener((ItemEvent event) -> {
-            String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-            String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-            tfDuration.setText(String.valueOf(getDaysBetweenDates(start_date, end_date)));
-        });
         cbYearStart.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
             "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008",
             "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016",
             "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024",
             "2025", "2026", "2027", "2028", "2029", "2030" 
         }));
-        cbYearStart.addItemListener((ItemEvent event) -> {
-            String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-            String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-            tfDuration.setText(String.valueOf(getDaysBetweenDates(start_date, end_date)));
-        });
-        cbDayReal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
-            "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
-            "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
-            "23", "24", "25", "26", "27", "28", "29", "30", "31" 
-        }));
-        cbDayReal.setVisible(false);
         cbDayEnd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
             "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", 
             "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
             "23", "24", "25", "26", "27", "28", "29", "30", "31" 
         }));
-        cbDayEnd.addItemListener((ItemEvent event) -> {
-            String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-            String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-            tfDuration.setText(String.valueOf(getDaysBetweenDates(start_date, end_date)));
-        });
         cbMonthEnd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
             "Jan", "Feb", "Mar", "Apr", "May", "Jun",
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" 
         }));
-        cbMonthEnd.addItemListener((ItemEvent event) -> {
-            String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-            String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-            tfDuration.setText(String.valueOf(getDaysBetweenDates(start_date, end_date)));
-        });
-        cbMonthReal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" 
-        }));
-        cbMonthReal.setVisible(false);
-        cbYearReal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
-            "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", 
-            "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", 
-            "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", 
-            "2025", "2026", "2027", "2028", "2029", "2030" 
-        }));
-        cbYearReal.setVisible(false);
         cbYearEnd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
             "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", 
             "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", 
             "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", 
             "2025", "2026", "2027", "2028", "2029", "2030" 
         }));
-        cbYearEnd.addItemListener((ItemEvent event) -> {
-            String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-            String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-            tfDuration.setText(String.valueOf(getDaysBetweenDates(start_date, end_date)));
+        cbDayReal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
+            "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
+            "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
+            "23", "24", "25", "26", "27", "28", "29", "30", "31" 
+        }));
+        cbMonthReal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" 
+        }));
+        cbYearReal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
+            "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", 
+            "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", 
+            "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", 
+            "2025", "2026", "2027", "2028", "2029", "2030" 
+        }));
+        cbDayStart.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+            }
         });
+        cbMonthStart.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+            }
+        });
+        cbYearStart.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+            }
+        });
+        cbDayEnd.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+            }
+        });
+        cbMonthEnd.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+            }
+        });
+        cbYearEnd.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+            }
+        });
+        cbDayReal.setVisible(false);
+        cbMonthReal.setVisible(false);
+        cbYearReal.setVisible(false);
         status_comboBox.setModel(new DefaultComboBoxModel<>(new String[] { 
             "IN_PROCESS", "COMPLETED_APP", "COMPLETED", "OVERDUE",
             "CANCELLED", "NEAR_TO_DUE_DATE", "WAITING_TO_START"
@@ -371,9 +400,9 @@ public class AddActionForm extends JDialog{
                                         .addComponent(days_label))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(165, 165, 165)
-                        .addComponent(add_button, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
-                        .addComponent(cancell_button, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cancellButton, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -408,8 +437,8 @@ public class AddActionForm extends JDialog{
                         .addComponent(progressSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(70, 70, 70)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(add_button)
-                            .addComponent(cancell_button)))
+                            .addComponent(addButton)
+                            .addComponent(cancellButton)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbDayEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -486,10 +515,10 @@ public class AddActionForm extends JDialog{
         return null;
     }
 
-    private String getMonthAbbreviation(String month_name){
+    private String getMonthAbbreviation(String monthName){
         Month mon[] = Month.values();
         for(Month m:mon){
-            if(m.toString().equalsIgnoreCase(month_name))
+            if(m.toString().equalsIgnoreCase(monthName))
                 return m.getAbbreviation();
         }
         return null;

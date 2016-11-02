@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 
 public class Terminal{
@@ -105,11 +106,10 @@ public class Terminal{
                 query = "SELECT+B,C,D+WHERE+A+CONTAINS+"+facility.getIntegerId();
                 result = gPlanB.selectQuery(query, "facility");
                 if(result != null){
-                    String[] headers = result.getHeaders();
-                    HashMap<String, Cell> row = result.getMappedRowValues(headers,0);
-                    facility.setName(getCellValue(row.get("name"),false));
-                    facility.setAcronym(getCellValue(row.get("acronym"),false));
-                    facility.setCity(getCellValue(row.get("city"),false));
+                    List<Cell> cells = result.getRows().get(0).getC();
+                    facility.setName(getCellValue(cells.get(0),false));
+                    facility.setAcronym(getCellValue(cells.get(1),false));
+                    facility.setCity(getCellValue(cells.get(2),false));
                     facility.setCollaboratorList(getCollaborators(facility.getIntegerId()));
                     facility.setMeetings(getMeetings(facility));
                     org.getFacilities().add(facility);
@@ -128,42 +128,19 @@ public class Terminal{
         String saltedPassword = SALT + password;
         String hashedPassword = generateHash(saltedPassword);
         
-        String query = "SELECT+COUNT(A)+WHERE+A+CONTAINS+%27"+username+"%27+"
-                + "AND+C+CONTAINS+%27"+hashedPassword+"%27+LABEL+COUNT(A)+%27is_user%27";
-        Table result = gPlanB.selectQuery(query, "user");
+        String query = "SELECT+B,C,F+WHERE+A+CONTAINS+%27"+username
+                +"%27AND+D+CONTAINS+%27"+hashedPassword+"%27";
+        Table result = gPlanB.selectQuery(query,"user");
         if(result != null){
-            if(result.getRows().size() == 1){
-                if(result.getUniqueCellValueOfUniqueRow(false).equals("1.0")){
-                    isAuthenticated = true;
-                    query = "SELECT+B,E+WHERE+A+CONTAINS+%27"+username+"%27";
-                    result = gPlanB.selectQuery(query,"user");
-                    if(result != null){
-                        String[] headers = result.getHeaders();
-                        HashMap<String, Cell> row = result.getMappedRowValues(headers,0);
-                        user.setUsername(username);
-                        user.setEmail(row.get("email").getV());
-                        user.setRole(getRole(Integer.parseInt(row.get("role").getF())));
-                        query = "SELECT+B+WHERE+A+CONTAINS+%27"+username+"%27";
-                        result = gPlanB.selectQuery(query,"user_collaborator");
-                        if(result != null){
-                            headers = result.getHeaders();
-                            row = result.getMappedRowValues(headers, 0);
-                            if(row != null){
-                                if(row.get("collaborator_id") != null)
-                                    user.setEmployeeId(Integer.parseInt(row.get("collaborator_id").getF()));
-                            }
-                        }
-                        else
-                            throw new Exception("Error in query response. Null pointer for TableQuery");
-                    }
-                    else
-                        throw new Exception("Error in query response. Null pointer for TableQuery");
-                }
-            }
+            List<Cell> cells = result.getRows().get(0).getC();
+            user.setUsername(username);
+            user.setEmail(getCellValue(cells.get(1),false));
+            user.setRole(getRole(Integer.parseInt(getCellValue(cells.get(2),true))));
+            user.setEmployeeId(Integer.parseInt(getCellValue(cells.get(0),true)));
+            isAuthenticated = true;
         }
         else
             throw new Exception("Error in query response. Null pointer for TableQuery");
-        
         return isAuthenticated;
     }
     
@@ -174,8 +151,11 @@ public class Terminal{
     }
     
     public Object[] getTableContent(ActionItemFilter filter, String meetingName) throws Exception{
-        String id, responsible, date, status, duration;
+        String actionID, responsible, detail, comments,
+                date, progress, status, query;
         ActionPlan plan;
+        Table result;
+        List<Cell> cells;
         Facility facility = org.getFacility("01");
         Meeting meeting = facility.searchMeeting(meetingName);
         
@@ -186,78 +166,78 @@ public class Terminal{
         ArrayList<Action> list = new ArrayList();
         DefaultTableModel dm = new DefaultTableModel(null, new String [] {
                 "ID","Resp.", "Detail", "Comments", 
-                "P.Start Date", "P.End Date", "R.End Date",
+                "StartDate", "DueDate", "EndDate",
                 "Prog. %", "Status", "Dur."
             }){
+                @Override
                 public boolean isCellEditable(int row, int column){
                     return false;
                 }
             };
         
         if(filter.equals(ActionItemFilter.ALL)){
-            String query = "SELECT actionId,itemId,detail,comments,plannedStartDate,"
-                    + "plannedEndDate, realEndDate,progress,status,"
-                    + "timestampdiff(day,plannedStartDate,plannedEndDate) AS duration "
-                    + "FROM planb.action INNER JOIN planb.actionplan_action ON "
-                    + "actionId=action_id and isDeleted=0 and actionPlan_id="+plan.getId()+";";
-            planB.connection();
-            ResultSet result = planB.selectQuery(query);
+            query = "SELECT+A,C,D,E,F,G,H,K,L,DATEDIFF(G,F)+WHERE+B+CONTAINS+"+plan.getId()+
+                    "+AND+N+CONTAINS+0+LABEL+DATEDIFF(G,F)+%27duration%27";
+            result = gPlanB.selectQuery(query, "action");
             if(result != null){
-                while(result.next()){
-                    Action action = new Action();
-                    Vector row = new Vector();
-                    id = result.getString("actionId");
-                    row.add(result.getString("itemId"));
-                    action.setID(result.getString("itemId"));
-                    responsible = getOwnerAcronym(id);
-                    row.add(responsible);
-                    action.setResponsible(getCollaborator(facility.getId(),responsible));
-                    row.add(result.getString("detail"));
-                    action.setDetail(result.getString("detail"));
-                    row.add(result.getString("comments"));
-                    action.setComments(result.getString("comments"));
-                    date = result.getString("plannedStartDate");
-                    row.add(date);
-                    action.setPlannedStartDate(parseDate(date));
-                    date = result.getString("plannedEndDate");
-                    row.add(date);
-                    action.setPlannedEndDate(parseDate(date));
-                    date = result.getString("realEndDate");
-                    row.add(date);
-                    action.setRealEndDate(parseDate(date));
-                    row.add(result.getString("progress"));
-                    action.setProgress((byte) Integer.parseInt(result.getString("progress")));
-                    status = getStatusName(result.getInt("status")); 
-                    row.add(status);
-                    action.setStatus(Status.valueOf(status));
-                    duration = result.getString("duration"); 
-                    row.add(duration);
-                    if(duration == null)
-                        action.setDuration((byte)0);
-                    else
-                        action.setDuration((byte) Integer.parseInt(duration));
-                    row.add(null);
-                    row.add(null);
-                    dm.addRow(row);
-                    list.add(action);
-                }
+                for(Row row:result.getRows()){
+                    if(row != null){
+                        cells = row.getC();
+                        Action action = new Action();
+                        Vector jTableRow = new Vector();
+                        actionID = getCellValue(cells.get(0),false);
+                        jTableRow.add(actionID);
+                        action.setID(actionID);
+                        responsible = facility.searchCollaborator(Integer.parseInt(getCellValue(cells.get(1),true))).getAcronymName();
+                        //getOwnerAcronym(getCellValue(cells.get(1),true), facility);
+                        jTableRow.add(responsible);
+                        action.setResponsible(getCollaborator(facility.getId(),responsible));
+                        detail = getCellValue(cells.get(2),false);
+                        jTableRow.add(detail);
+                        action.setDetail(detail);
+                        comments = getCellValue(cells.get(3),false);
+                        jTableRow.add(comments);
+                        action.setComments(comments);
+                        date = getCellValue(cells.get(4),true);
+                        jTableRow.add(date);
+                        action.setStartDate(parseDate(date));
+                        date = getCellValue(cells.get(5),true);
+                        jTableRow.add(date);
+                        action.setDueDate(parseDate(date));
+                        date = getCellValue(cells.get(6),true);
+                        jTableRow.add(date);
+                        action.setEndDate(parseDate(date));
+                        progress = getCellValue(cells.get(8),true);
+                        jTableRow.add(progress);
+                        action.setProgress(Byte.parseByte(progress));
+                        status = getStatusName(Integer.parseInt(getCellValue(cells.get(7),true))); 
+                        jTableRow.add(status);
+                        action.setStatus(Status.valueOf(status));
+                        if(getCellValue(cells.get(9),false) != null){
+                            double duration = Double.parseDouble(getCellValue(cells.get(9),false));
+                            jTableRow.add(String.valueOf((int)duration));
+                            action.setDuration((int) duration);
+                        }
+                        else
+                            action.setDuration((byte)0);    
+                        dm.addRow(jTableRow);
+                        list.add(action);
+                    }
+                }  
                 plan.setActionList(list);
             }
-            planB.disconnection();
         }
         return new Object[]{meeting,dm};
     }
     
-    public String getOwnerAcronym(String actionID) throws Exception{
-        String query = "SELECT acronymName FROM planb.collaborator INNER JOIN"
-                + " planb.collaborator_action ON employeeId=collaborator_id"
-                + " AND action_id ="+actionID+";";
-        planB.connection();
-        ResultSet result = planB.selectQuery(query);
-        result.next();
-        String acronym = result.getString("acronymName"); 
-        planB.disconnection();
-        return acronym;
+    public String getOwnerAcronym(String actionID, Facility facility) throws Exception{
+        String query = "SELECT+A+WHERE+B+CONTAINS+%27"+actionID+"%27";
+        Table result = gPlanB.selectQuery(query,"collaborator_action");
+        if(result != null){
+            int collaboratorID = Integer.parseInt(result.getUniqueCellValueOfUniqueRow(true));
+            return facility.searchCollaborator(collaboratorID).getAcronymName();
+        }
+        return null;
     }
     
     public String getStatusName(int status){
@@ -300,155 +280,110 @@ public class Terminal{
     }
     
     private HashMap<Integer, Collaborator> getCollaborators(int facilityID) throws SQLException, IOException{
-        int collaboratorID;
         String query;
+        List<Cell> cells;
         HashMap<Integer, Collaborator> list = new HashMap();
-        HashMap<String, Cell> row;
-        ArrayList identifiers = getCollaboratorIds(facilityID);
         Table result;
         
-        if(identifiers != null){
-            for(Iterator it = identifiers.iterator(); it.hasNext();) {
-                collaboratorID = (int) it.next();
-                query = "SELECT+B,C,D,E,F+WHERE+A+CONTAINS+"+collaboratorID;
-                result = gPlanB.selectQuery(query, "collaborator");
-                if(result != null){
-                    String[] headers = result.getHeaders();
-                    for(int i=0; i<result.getRows().size(); i++){
-                        row = result.getMappedRowValues(headers, i);
-                        if(row != null){
-                            Collaborator collaborator = new Collaborator();
-                            collaborator.setEmployeeId(collaboratorID);
-                            collaborator.setFirstName(getCellValue(row.get("firstname"),false));
-                            collaborator.setMiddleName(getCellValue(row.get("middlename"),false));
-                            collaborator.setLastName(getCellValue(row.get("lastname"),false));
-                            collaborator.setCharge(getCellValue(row.get("charge"),false));
-                            collaborator.setAcronymName(getCellValue(row.get("acronymName"),false));
-                            list.put(new Integer(collaboratorID), collaborator);
-                        }
-                    }
+        query = "SELECT+A,C,D,E,F,G+WHERE+B+CONTAINS+"+facilityID;
+        result = gPlanB.selectQuery(query, "collaborator");
+        if(result != null){
+            for(Row row:result.getRows()){
+                cells = row.getC();
+                if(cells != null){
+                    Collaborator collaborator = new Collaborator();
+                    int collaboratorID = Integer.parseInt(getCellValue(cells.get(0),true));
+                    collaborator.setCollaboratorId(collaboratorID);
+                    collaborator.setFirstName(getCellValue(cells.get(1),false));
+                    collaborator.setMiddleName(getCellValue(cells.get(2),false));
+                    collaborator.setLastName(getCellValue(cells.get(3),false));
+                    collaborator.setAcronymName(getCellValue(cells.get(4),false));
+                    collaborator.setCharge(getCellValue(cells.get(5),false));
+                    list.put(collaboratorID, collaborator);
                 }
             }
-            return list;
         }
-        return null;
+        return list;
     }
     
     private ArrayList getMeetings(Facility facility) throws SQLException, IOException{
-        int meetingID;
         String query;
         Table result;
-        HashMap<String, Cell> row;
-        ArrayList identifiers;
+        List<Cell> cells;
         ArrayList<Meeting> list = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        
-        identifiers = getMeetingIds(facility.getIntegerId());      
-        if(identifiers != null){
-            for(Iterator it = identifiers.iterator(); it.hasNext();){
-                meetingID  = (int) it.next();
-                query = "SELECT+B,C,D,E+WHERE+A+CONTAINS+"+meetingID;
-                result = gPlanB.selectQuery(query, "meeting");
-                if(result != null){
-                    String[] headers = result.getHeaders();
-                    for(int i=0; i<result.getRows().size(); i++){
-                        row = result.getMappedRowValues(headers, i);
-                        if(row != null){
-                            Meeting meeting = new Meeting();
-                            meeting.setName(getCellValue(row.get("name"),false));
-                            meeting.setAcronym(getCellValue(row.get("acronym"),false));
-                            meeting.setPurpose(getCellValue(row.get("purpose"),false));
-                            meeting.setDateCreated(LocalDateTime.parse(getCellValue(row.get("dateCreated"),true),formatter));
-                            meeting.setActionPlan(getActionPlan(meetingID,facility.getId()));
-                            //meeting.setTeam(getTeam((int)results[count],facility));
-                            //meeting.setAditionalParticipants(getAdtParticipants((int)results[count],facility));
-                            list.add(meeting);
-                        }
-                    }
+            
+        query = "SELECT+A,C,D,E,F+WHERE+B+CONTAINS+"+facility.getIntegerId();
+        result = gPlanB.selectQuery(query, "meeting");
+        if(result != null){
+            for(Row row:result.getRows()){
+                if(row != null){
+                    cells = row.getC();
+                    Meeting meeting = new Meeting();
+                    int meetingID = Integer.parseInt(getCellValue(cells.get(0),true));
+                    meeting.setName(getCellValue(cells.get(1),false));
+                    meeting.setPurpose(getCellValue(cells.get(2),false));
+                    meeting.setAcronym(getCellValue(cells.get(3),false));
+                    meeting.setDateCreated(LocalDateTime.parse(getCellValue(cells.get(4),true),formatter));
+                    meeting.setActionPlan(getActionPlan(meetingID,facility));
+                    meeting.setTeam(getTeam(meetingID,facility));
+                    meeting.setAditionalParticipants(getAdtParticipants(meetingID,facility));
+                    list.add(meeting);
                 }
             }
-            return list;
         }
-        return null;
+        return list;
     }
     
-    private ActionPlan getActionPlan(int meetingID, String facilityID) throws SQLException, IOException{
+    private ActionPlan getActionPlan(int meetingID, Facility facility) throws SQLException, IOException{
         String query;
-        Table result, result2;
-        HashMap<String, Cell> row, row2;
+        Table result;
+        List<Cell> cells;
         ActionPlan actionPlan = new ActionPlan();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         
-        query = "SELECT+B+WHERE+A+CONTAINS+"+meetingID;
-        result = gPlanB.selectQuery(query, "meeting_actionplan");
+        query = "SELECT+A,C,D,E,F+WHERE+B+CONTAINS+"+meetingID;
+        result = gPlanB.selectQuery(query, "actionplan");
         if(result != null){
-            int actionPlanID = Integer.parseInt(result.getUniqueCellValueOfUniqueRow(true));
-            query = "SELECT+B,C,D+WHERE+A+CONTAINS+"+actionPlanID;
-            result = gPlanB.selectQuery(query, "actionplan");
+            cells = result.getRows().get(0).getC();
+            actionPlan.setId(Short.parseShort(getCellValue(cells.get(0),true)));
+            actionPlan.setOwner(facility.searchCollaborator(Integer.parseInt(getCellValue(cells.get(1),true))));
+            actionPlan.setDateCreated(LocalDateTime.parse(getCellValue(cells.get(2),true), formatter));
+            actionPlan.setDateModified(LocalDateTime.parse(getCellValue(cells.get(3),true), formatter));
+            actionPlan.setExecution(Byte.parseByte(getCellValue(cells.get(4),true)));
+            actionPlan.setCurrentDate(LocalDateTime.now());
+            query = "SELECT+A,C,D,E,F,G,H,I,J+WHERE+B+CONTAINS+"+actionPlan.getId();
+            result = gPlanB.selectQuery(query,"apsummary");
             if(result != null){
-                String[] headers = result.getHeaders();
-                for(int i=0; i<result.getRows().size(); i++){
-                    row = result.getMappedRowValues(headers, i);
-                    if(row != null){
-                        actionPlan.setId((short)actionPlanID);
-                        actionPlan.setDateCreated(LocalDateTime.parse(getCellValue(row.get("dateCreated"),true), formatter));
-                        actionPlan.setDateModified(LocalDateTime.parse(getCellValue(row.get("dateModified"),true), formatter));
-                        actionPlan.setExecution(Byte.parseByte(getCellValue(row.get("execution"),true)));
-                        query = "SELECT+B+WHERE+A+CONTAINS+"+actionPlanID;
-                        result2 = gPlanB.selectQuery(query,"actionplan_apsummary");
-                        if(result2 != null){
-                            int apSummaryID = Integer.parseInt(result2.getUniqueCellValueOfUniqueRow(true));
-                            query = "SELECT+B,C,D,E,F,G,H,I+WHERE+A+CONTAINS+"+apSummaryID;
-                            result2 = gPlanB.selectQuery(query,"apsummary");
-                            if(result2 != null){
-                                String[] headers2 = result2.getHeaders();
-                                row2 = result2.getMappedRowValues(headers2, 0);
-                                if(row2 != null){
-                                    APSummary apsummary = new APSummary();
-                                    apsummary.setDate_modified(LocalDateTime.parse(getCellValue(row.get("dateModified"),true), formatter));
-                                    apsummary.setActions(Integer.parseInt(getCellValue(row2.get("actions"),true)));
-                                    apsummary.setActionsCompleted(Integer.parseInt(getCellValue(row2.get("actionsCompleted"),true)));
-                                    apsummary.setActionsCompletedApp(Integer.parseInt(getCellValue(row2.get("actionsCompletedApp"),true)));
-                                    apsummary.setActionsInProgress(Integer.parseInt(getCellValue(row2.get("actionsInProgress"),true)));
-                                    apsummary.setActionsNearToDueDay(Integer.parseInt(getCellValue(row2.get("actionsNearToDueDay"),true)));
-                                    apsummary.setActionsCancelled(Integer.parseInt(getCellValue(row2.get("actionsCancelled"),true)));
-                                    apsummary.setActionsOverdue(Integer.parseInt(getCellValue(row2.get("actionsOverdue"),true)));
-                                    actionPlan.setZeros(Integer.parseInt(getCellValue(row2.get("actions"),true)));
-                                    actionPlan.setSummary(apsummary);
-                                }
-                            }
-                        }
-                        
-                    }
-                }
-                query = "SELECT+A+WHERE+B+CONTAINS+"+actionPlanID;
-                result = gPlanB.selectQuery(query,"collaborator_actionplan");
-                if(result != null){
-                    int collaboratorID = Integer.parseInt(result.getUniqueCellValueOfUniqueRow(true));     
-                    actionPlan.setOwner(org.getFacility(facilityID).searchCollaborator(collaboratorID));
-                    actionPlan.setCurrentDate(LocalDateTime.now());
-                }
+                cells = result.getRows().get(0).getC();
+                APSummary apsummary = new APSummary();
+                apsummary.setId(Integer.parseInt(getCellValue(cells.get(0),true)));
+                apsummary.setDateModified(LocalDateTime.parse(getCellValue(cells.get(1),true), formatter));
+                apsummary.setActions(Integer.parseInt(getCellValue(cells.get(2),true)));
+                apsummary.setActionsCancelled(Integer.parseInt(getCellValue(cells.get(3),true)));
+                apsummary.setActionsCompleted(Integer.parseInt(getCellValue(cells.get(4),true)));
+                apsummary.setActionsCompletedApp(Integer.parseInt(getCellValue(cells.get(5),true)));
+                apsummary.setActionsInProgress(Integer.parseInt(getCellValue(cells.get(6),true)));
+                apsummary.setActionsNearToDueDay(Integer.parseInt(getCellValue(cells.get(7),true)));
+                apsummary.setActionsOverdue(Integer.parseInt(getCellValue(cells.get(8),true)));
+                actionPlan.setZeros(Integer.parseInt(getCellValue(cells.get(2),true)));
+                actionPlan.setSummary(apsummary);
             }
-            return actionPlan;
         }
-        return null;
+        return actionPlan;
     }
     
     private ArrayList getMeetingIds(int facilityID) throws SQLException, IOException{
         String query;
         Table result;
-        HashMap<String, Cell> row;
         ArrayList list = new ArrayList();
         
         query = "SELECT+B+WHERE+A+CONTAINS+"+facilityID;
         result = gPlanB.selectQuery(query, "facility_meeting");
         if(result != null){
-            String[] headers = result.getHeaders();
-            for(int i=0; i<result.getRows().size(); i++){
-                row = result.getMappedRowValues(headers, i);
-                if(row != null){
-                    list.add(Integer.parseInt(getCellValue(row.get("meeting_id"),true)));
-                }
+            for(Row row:result.getRows()){
+                if(row != null)
+                    list.add(Integer.parseInt(getCellValue(row.getC().get(0),true)));
             }
             return list;
         }
@@ -461,17 +396,14 @@ public class Terminal{
     
     public ArrayList getCollaboratorIds(int facilityID) throws SQLException, IOException{
         String query;
-        ArrayList list = new ArrayList();
-        HashMap<String, Cell> row; 
+        ArrayList list = new ArrayList(); 
         
         query = "SELECT+B+WHERE+A+CONTAINS+%27"+facilityID+"%27";
         Table result = gPlanB.selectQuery(query, "facility_collaborator");
         if(result != null){
-            String[] headers = result.getHeaders();
-            for(int i=0; i<result.getRows().size(); i++){
-                row = result.getMappedRowValues(headers, i);
+            for (Row row : result.getRows()) {
                 if(row != null)
-                    list.add(Integer.parseInt(getCellValue(row.get("collaborator_id"),true)));
+                    list.add(Integer.parseInt(row.getCellValue(0, true)));
             }
             return list/**/;
         }
@@ -501,21 +433,33 @@ public class Terminal{
         return null;
     }
     
-    private WorkTeam getTeam(int meetingID, Facility facility) throws SQLException{
-        String query = "SELECT employeeId FROM planb.collaborator "
-                + "INNER JOIN planb.workteam_collaborator "
-                + "ON employeeId = collaborator_id "
-                + "INNER JOIN planb.workteam_meeting "
-                + "ON workteam_collaborator.workTeam_id = workteam_meeting.workTeam_id "
-                + "and meeting_id="+meetingID+";";
-        ResultSet result = planB.selectQuery(query);
+    private WorkTeam getTeam(int meetingID, Facility facility) throws SQLException, IOException{
+        short workteamID;
+        byte performance;
+        String query;
+        Table result;
+        ArrayList<Collaborator> list = new ArrayList();
+        
+        query = "SELECT+A,C+WHERE+B+CONTAINS+"+meetingID;
+        result = gPlanB.selectQuery(query, "workteam");
         if(result != null){
-            WorkTeam workTeam= new WorkTeam();
-            ArrayList<Collaborator> list = new ArrayList();
-            while(result.next())
-                list.add(facility.searchCollaborator(result.getInt("employeeId")));
-            workTeam.setMembers(list);
-            return workTeam;
+            workteamID = Short.parseShort(result.getRows().get(0).getCellValue(0,true));
+            performance = Byte.parseByte(result.getRows().get(0).getCellValue(1,true));
+            query = "SELECT+B+WHERE+A+CONTAINS+"+workteamID;
+            result = gPlanB.selectQuery(query,"workteam_collaborator");
+            if(result != null){
+                WorkTeam workTeam= new WorkTeam();
+                workTeam.setId(workteamID);
+                workTeam.setPerformance(performance);
+                for(Row row: result.getRows()){
+                    if(row != null){
+                        list.add(facility.searchCollaborator(
+                                Integer.parseInt(row.getC().get(0).getF())));
+                    }
+                }
+                workTeam.setMembers(list);
+                return workTeam;
+            }
         }
         return null;
     }
@@ -540,9 +484,9 @@ public class Terminal{
             action.setDetail(detail);
             action.setComments(comments);
             action.setResponsible(facility.searchCollaborator(responsible,(byte)1));
-            action.setPlannedStartDate(parseDate(plannedStartDate));
-            action.setPlannedEndDate(parseDate(plannedEndDate));
-            action.setRealEndDate(null);
+            action.setStartDate(parseDate(plannedStartDate));
+            action.setDueDate(parseDate(plannedEndDate));
+            action.setEndDate(null);
             action.setStatus(Status.valueOf(status));
             action.setProgress((byte)progress);
             action.setDuration(duration);
@@ -550,8 +494,8 @@ public class Terminal{
             saveActionToDatabase(action, meeting);
             Aps.getUI().addRowToTableContent(new Object[]{
                 action.getID(),action.getResponsible().getAcronymName(),
-                action.getDetail(),action.getComments(),action.getPlannedStartDate().toString(),
-                action.getPlannedEndDate().toString(),null,
+                action.getDetail(),action.getComments(),action.getStartDate().toString(),
+                action.getDueDate().toString(),null,
                 action.getProgress(),action.getStatus().toString(),action.getDuration()
             });
         }
@@ -599,17 +543,17 @@ public class Terminal{
                 list.add(rowDataModified[3]);
             }
             if(startDate != null){
-                action.setPlannedStartDate(parseDate(startDate));
+                action.setStartDate(parseDate(startDate));
                 columns.add("plannedStartDate");
                 list.add(rowDataModified[4]);
             }
             if(endDate != null){
-                action.setPlannedEndDate(parseDate(endDate));
+                action.setDueDate(parseDate(endDate));
                 columns.add("plannedEndDate");
                 list.add(rowDataModified[5]);
             }
             if(realDate != null){
-                action.setRealEndDate(parseDate(realDate));
+                action.setEndDate(parseDate(realDate));
                 columns.add("realEndDate");
                 list.add(rowDataModified[6]);
             }
@@ -632,8 +576,8 @@ public class Terminal{
         String query, values;
         int isRowInserted,actionID,actionPlanID,employeeID;
         values = "('"+action.getID()+"','"+action.getDetail()+"','"+action.getComments()
-                +"','"+action.getPlannedStartDate().toString()+"','"
-                +action.getPlannedEndDate().toString()+"','"
+                +"','"+action.getStartDate().toString()+"','"
+                +action.getDueDate().toString()+"','"
                 +action.getDateCreated().toLocalDate().toString()+" "
                 +action.getDateCreated().toLocalTime().toString()+"',"
                 +action.getStatus().getValue()+","+(int)action.getProgress()+")";
@@ -650,7 +594,7 @@ public class Terminal{
         query = "INSERT INTO planb.actionplan_action (actionPlan_id,action_id) "
                 + "VALUES ("+actionPlanID+","+actionID+");";
         isRowInserted = planB.insertQuery(query);
-        employeeID = action.getResponsible().getEmployeeId();
+        employeeID = action.getResponsible().getCollaboratorId();
         query = "INSERT INTO planb.collaborator_action (collaborator_id,action_id) "
                 + "VALUES ("+employeeID+","+actionID+");";
         planB.insertQuery(query);
@@ -727,14 +671,17 @@ public class Terminal{
         return null;
     }
     
-    private ArrayList getAdtParticipants(int meetingID, Facility facility) throws SQLException{
-        String query = "SELECT collaborator_id FROM planb.adtparticipants_meeting "
-                + "WHERE meeting_id="+meetingID+";";
-        ResultSet result = planB.selectQuery(query);
+    private ArrayList getAdtParticipants(int meetingID, Facility facility) throws SQLException, IOException{
+        String query = "SELECT+A+WHERE+B+CONTAINS+"+meetingID;
+        Table result = gPlanB.selectQuery(query, "adtparticipants_meeting");
+        ArrayList<Collaborator> list = new ArrayList();
+                
         if(result != null){
-            ArrayList<Collaborator> list = new ArrayList();
-            while(result.next())
-                list.add(facility.searchCollaborator(result.getInt("collaborator_id")));
+            for(Row row:result.getRows()){
+                if(row != null)
+                    list.add(facility.searchCollaborator(
+                            Integer.parseInt(row.getC().get(0).getF())));
+            }
             return list;
         }
         return null;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.json.*;
+//import org.json.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -64,7 +64,7 @@ public class HttpClientExample {
                 matcher.find();
                 System.out.println(matcher.group(1)+"\n\n");
                 String [] g = result.toString().split("google.visualization.Query.setResponse\\(");
-                JSONObject obj = new JSONObject(g[1].substring(0, g[1].length()-2));
+                //JSONObject obj = new JSONObject(g[1].substring(0, g[1].length()-2));
                 //String pageName = obj.getJSONObject("pageInfo").getString("pageName");
 
                 Gson gson = new Gson();

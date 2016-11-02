@@ -12,7 +12,10 @@ import javax.swing.GroupLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.time.LocalDate;
@@ -165,29 +168,35 @@ public class EditActionForm extends JDialog {
         responsibleComboBox.setBackground(Color.decode("#FCFEFC"));
         
         saveButton.setText("SAVE");
-        saveButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-            String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-            int duration = getDaysBetweenDates(start_date, end_date);
-            if(duration <= 0)
-                JOptionPane.showMessageDialog(getJDialog(),"Inconsistent Dates.","Error",JOptionPane.ERROR_MESSAGE);
-            else{
-                try {
-                    if(detectActionDataModification()){
-                        terminal.modifyAction(rowDataModified,meetingName);
-                        parent.setEnabled(true);
-                        getJDialog().dispose();
+        saveButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                int duration = getDaysBetweenDates(startDate, dueDate);
+                if(duration <= 0)
+                    JOptionPane.showMessageDialog(getJDialog(),"Inconsistent Dates.","Error",JOptionPane.ERROR_MESSAGE);
+                else{
+                    try {
+                        if(detectActionDataModification()){
+                            terminal.modifyAction(rowDataModified,meetingName);
+                            parent.setEnabled(true);
+                            getJDialog().dispose();
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(AddActionForm.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (Exception ex) {
-                    Logger.getLogger(AddActionForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
 
         cancellButton.setText("CANCELL");
-        cancellButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            parent.setEnabled(true);
-            getJDialog().dispose();
+        cancellButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                parent.setEnabled(true);
+                getJDialog().dispose();
+            }
         });
 
         jTextArea1.setColumns(20);
@@ -207,32 +216,50 @@ public class EditActionForm extends JDialog {
             "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
             "23", "24", "25", "26", "27", "28", "29", "30", "31" 
         }));
+        cbDayStart.setEnabled(false);
+        cbDayStart.setBackground(Color.decode("#FCFEFC"));
         cbMonthStart.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
             "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" 
         }));
+        cbMonthStart.setBackground(Color.decode("#FCFEFC"));
+        cbMonthStart.setEnabled(false);
         cbYearStart.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
             "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", 
             "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", 
             "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", 
             "2025", "2026", "2027", "2028", "2029", "2030" 
         }));
+        cbYearStart.setBackground(Color.decode("#FCFEFC"));
+        cbYearStart.setEnabled(false);
+        cbDayEnd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
+            "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
+            "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
+            "23", "24", "25", "26", "27", "28", "29", "30", "31" 
+        }));
+        cbDayEnd.setBackground(Color.decode("#FCFEFC"));
+        cbDayEnd.setEnabled(false);
+        cbMonthEnd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" 
+        }));
+        cbMonthEnd.setBackground(Color.decode("#FCFEFC"));
+        cbMonthEnd.setBackground(Color.decode("#FCFEFC"));
+        cbMonthEnd.setEnabled(false);
+        cbYearEnd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
+            "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", 
+            "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", 
+            "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", 
+            "2025", "2026", "2027", "2028", "2029", "2030" 
+        }));
+        cbYearEnd.setEnabled(false);
+        cbYearEnd.setBackground(Color.decode("#FCFEFC"));
         cbDayReal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
             "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
             "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
             "23", "24", "25", "26", "27", "28", "29", "30", "31" 
         }));
         cbDayReal.setBackground(Color.decode("#FCFEFC"));
-        cbDayEnd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
-            "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
-            "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
-            "23", "24", "25", "26", "27", "28", "29", "30", "31" 
-        }));
-        cbMonthEnd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" 
-        }));
-        cbMonthEnd.setBackground(Color.decode("#FCFEFC"));
         cbMonthReal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
             "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" 
@@ -245,12 +272,6 @@ public class EditActionForm extends JDialog {
             "2025", "2026", "2027", "2028", "2029", "2030" 
         }));
         cbYearReal.setBackground(Color.decode("#FCFEFC"));
-        cbYearEnd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
-            "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", 
-            "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", 
-            "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", 
-            "2025", "2026", "2027", "2028", "2029", "2030" 
-        }));
         statusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
             "IN_PROCESS", "COMPLETED_APP", "COMPLETED", "OVERDUE",
             "CANCELLED", "NEAR_TO_DUE_DATE", "WAITING_TO_START" 
@@ -260,48 +281,55 @@ public class EditActionForm extends JDialog {
         progressSlider.setOpaque(false);
         setTeamMembersNames();
         setRowData();
-        cbYearStart.addItemListener((ItemEvent event) -> {
-            String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-            String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-            tfDuration.setText(String.valueOf(getDaysBetweenDates(start_date, end_date)));
+        cbDayStart.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+            }
         });
-        cbYearStart.setBackground(Color.decode("#FCFEFC"));
-        cbYearStart.setEnabled(false);
-        cbMonthStart.addItemListener((ItemEvent event) -> {
-            String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-            String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-            tfDuration.setText(String.valueOf(getDaysBetweenDates(start_date, end_date)));
+        cbMonthStart.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+            }
         });
-        cbMonthStart.setBackground(Color.decode("#FCFEFC"));
-        cbMonthStart.setEnabled(false);
-        cbDayStart.addItemListener((ItemEvent event) -> {
-            String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-            String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-            tfDuration.setText(String.valueOf(getDaysBetweenDates(start_date, end_date)));
+        cbYearStart.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+            }
         });
-        cbDayStart.setEnabled(false);
-        cbDayStart.setBackground(Color.decode("#FCFEFC"));
-        cbYearEnd.addItemListener((ItemEvent event) -> {
-            String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-            String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-            tfDuration.setText(String.valueOf(getDaysBetweenDates(start_date, end_date)));
+        cbDayEnd.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+            }
         });
-        cbYearEnd.setEnabled(false);
-        cbYearEnd.setBackground(Color.decode("#FCFEFC"));
-        cbMonthEnd.addItemListener((ItemEvent event) -> {
-            String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-            String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-            tfDuration.setText(String.valueOf(getDaysBetweenDates(start_date, end_date)));
+        cbMonthEnd.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+            }
         });
-        cbMonthEnd.setBackground(Color.decode("#FCFEFC"));
-        cbMonthEnd.setEnabled(false);
-        cbDayEnd.addItemListener((ItemEvent event) -> {
-            String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-            String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-            tfDuration.setText(String.valueOf(getDaysBetweenDates(start_date, end_date)));
+        cbYearEnd.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+            }
         });
-        cbDayEnd.setBackground(Color.decode("#FCFEFC"));
-        cbDayEnd.setEnabled(false);
+        
         idTextField.setEditable(false);
         idTextField.setBackground(Color.decode("#FCFEFC"));
         
@@ -517,10 +545,10 @@ public class EditActionForm extends JDialog {
         return null;
     }
     
-    private String getMonthAbbreviation(String month_name){
+    private String getMonthAbbreviation(String monthName){
         Month mon[] = Month.values();
         for(Month m:mon){
-            if(m.toString().equalsIgnoreCase(month_name))
+            if(m.toString().equalsIgnoreCase(monthName))
                 return m.getAbbreviation();
         }
         return null;

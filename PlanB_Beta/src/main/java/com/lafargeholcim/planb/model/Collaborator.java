@@ -15,9 +15,9 @@ public class Collaborator {
     //************************************************************************
     private String acronymName; // This variable is exposed in the Action Plan
     private String charge;       // where the collaborator belongs.
-    private int employeeID;
+    private int collaboratorID;
     private String firstName;
-    private String middlename;
+    private String middleName;
     private String lastName;
     
     /** 
@@ -53,8 +53,8 @@ public class Collaborator {
         return charge;
     }
 
-    public int getEmployeeId() {
-        return employeeID;
+    public int getCollaboratorId() {
+        return collaboratorID;
     }
     
     public String getFirstName() {
@@ -62,7 +62,7 @@ public class Collaborator {
     }
 
     public String getMiddleName(){
-        return this.middlename;
+        return this.middleName;
     }
     
     public String getLastName() {
@@ -88,8 +88,8 @@ public class Collaborator {
         this.charge = charge;
     }
 
-    public void setEmployeeId(int employeeID) {
-        this.employeeID = employeeID;
+    public void setCollaboratorId(int collaboratorID) {
+        this.collaboratorID = collaboratorID;
 
     }
     
@@ -97,8 +97,8 @@ public class Collaborator {
         this.firstName = firstName;
     }
     
-    public void setMiddleName(String middlename){
-        this.middlename = middlename;
+    public void setMiddleName(String middleName){
+        this.middleName = middleName;
     }
 
     public void setLastName(String lastName) {

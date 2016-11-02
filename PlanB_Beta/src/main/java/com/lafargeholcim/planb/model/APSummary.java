@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
  * @author AI-Saac
  */
 public class APSummary {
+    private int id;
     private LocalDateTime dateModified;
     private int actionsCancelled;
     private int actions;  // Total of Actions
@@ -38,6 +39,10 @@ public class APSummary {
         return dateModified;
     }
 
+    public int getId(){
+        return this.id;
+    }
+    
     public int getActionsCancelled() {
         return actionsCancelled;
     }
@@ -66,7 +71,11 @@ public class APSummary {
         return actionsOverdue;
     }
     
-    public void setDate_modified(LocalDateTime dateModified) {
+    public void setId(int id){
+        this.id = id;
+    }
+    
+    public void setDateModified(LocalDateTime dateModified) {
         this.dateModified = dateModified;
     }
 

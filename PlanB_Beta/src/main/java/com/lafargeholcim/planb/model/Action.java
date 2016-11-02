@@ -21,9 +21,9 @@ public class Action {
     private String detail;
     private String comments;
     private String benefit;
-    private LocalDate plannedStartDate;  // Equals to APP = As Per Plan
-    private LocalDate plannedEndDate;
-    private LocalDate realEndDate;
+    private LocalDate startDate;  // Equals to APP = As Per Plan
+    private LocalDate dueDate;
+    private LocalDate endDate;
     private LocalDateTime dateCreated;
     private LocalDateTime dateModified;
     private String trackingBy;
@@ -58,12 +58,12 @@ public class Action {
      * @param benefit
      */
     public Action(String meetingAcronym,String detail, 
-            Collaborator responsible, LocalDate plannedStartDate, 
-            LocalDate plannedEndDate,String comments, String benefit){
+            Collaborator responsible, LocalDate startDate, 
+            LocalDate dueDate,String comments, String benefit){
         this.detail = detail;
         this.responsible = responsible;
-        this.plannedStartDate = plannedStartDate;
-        this.plannedEndDate = plannedEndDate;
+        this.startDate = startDate;
+        this.dueDate = dueDate;
         this.comments = comments;
         this.benefit = benefit;
         setStatus(status);
@@ -130,24 +130,24 @@ public class Action {
      *
      * @return
      */
-    public LocalDate getPlannedStartDate() {
-        return plannedStartDate;
+    public LocalDate getStartDate() {
+        return startDate;
     }
     
     /**
      *
      * @return
      */
-    public LocalDate getPlannedEndDate() {
-        return plannedEndDate;
+    public LocalDate getDueDate() {
+        return dueDate;
     }
     
     /**
      *
      * @return
      */
-    public LocalDate getRealEndDate() {
-        return realEndDate;
+    public LocalDate getEndDate() {
+        return endDate;
     }
     
     /**
@@ -271,26 +271,26 @@ public class Action {
     
     /**
      *
-     * @param plannedStartDate
+     * @param startDate
      */
-    public void setPlannedStartDate(LocalDate plannedStartDate) {
-        this.plannedStartDate = plannedStartDate;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
     
     /**
      *
-     * @param plannedEndDate
+     * @param dueDate
      */
-    public void setPlannedEndDate(LocalDate plannedEndDate) {
-        this.plannedEndDate = plannedEndDate;
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
    
     /**
      *
-     * @param realEndDate
+     * @param endDate
      */
-    public void setRealEndDate(LocalDate realEndDate) {
-        this.realEndDate = realEndDate;
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     /**
@@ -351,7 +351,8 @@ public class Action {
         return true;
     }
     
-    public static String generateId(String facilityID, String meetingAcronymName,short number,byte zeros){
+    public static String generateId(String facilityID, 
+            String meetingAcronymName,short number,byte zeros){
         return String.format("%s%s%0" + zeros + "d", facilityID, meetingAcronymName,
                 (int)number + 1);
     }

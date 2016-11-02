@@ -32,6 +32,7 @@ import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
@@ -97,9 +98,9 @@ public class UITerminal extends JFrame{
     private int value_at_changed, xPosition=0, yPosition=0, selectedRow=-1;
     private JMenuBar mainMenu;
     private JMenuItem dashboardMenu, meetingMenu, actionPlanMenu, teamMenu,
-            profileMenu,settingMenu,menuItem;
-    private JPanel mainPanel, menuPanel, titleBarPanel, optionsContentPanel,
-            frameButtonsPanel;
+            profileMenu,settingsMenu,menuItem,itemFlag;
+    private JPanel contentPanel, highlightPanel, titleBarPanel, optionsContentPanel,
+            frameButtonsPanel, mainPanel;
     private JPanel dashboardPanel, actionPlanPanel, meetingPanel;
     private JLabel apsLogoLabel, resizeLabel, minimizeLabel, closeLabel;
     private JLabel initImageLabel;
@@ -116,7 +117,8 @@ public class UITerminal extends JFrame{
     private JTable jTable1; 
     private JScrollPane jScrollPane1, jScrollPane2;
     private JTextArea parTextArea;
-    private boolean menuFlag = false, resizeFlag = false, clickedFlag = false;
+    private JPanel h1,h2,h3,h4,h5,h6,h7;
+    private boolean menuFlag = false, resizeFlag = false, clickFlag = false;
 
        
     public UITerminal() throws IOException, FontFormatException, Exception{
@@ -124,7 +126,6 @@ public class UITerminal extends JFrame{
     }
             
     private void initComponents() throws FontFormatException, Exception{
-        resource = "src/images/";
         setUndecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setWindowListener();
@@ -138,20 +139,33 @@ public class UITerminal extends JFrame{
         Border border = BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#3B3C3D"));
         UIManager.put("ToolTip.border", border);
         setIconImage(new ImageIcon(getClass().getResource("/images/planB-27x32.png")).getImage());
-        createTitleBarPanel();
+        createTitleBarPanel();      
         createMainMenu();
         createOptionsContentPanel();
-       
+        itemFlag = new JMenuItem();
+        
         mainPanel = new JPanel();
-        mainPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#F8FAF8")));
-        mainPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
-        setContentPane(mainPanel);
-        getContentPane().setBackground(Color.decode("#000000"));
+        highlightPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(titleBarPanel, BorderLayout.NORTH);
-        mainPanel.add(mainMenu, BorderLayout.WEST);
-        mainPanel.add(optionsContentPanel, BorderLayout.CENTER);
+        highlightPanel.setLayout(new BoxLayout(highlightPanel, BoxLayout.PAGE_AXIS));
+        highlightPanel.setMaximumSize(new Dimension(4,Integer.MAX_VALUE));
+        highlightPanel.setPreferredSize(new Dimension(4,600));
+        highlightPanel.setMinimumSize(new Dimension(4,50));
+        highlightPanel.setBackground(Color.decode("#EDEBEB"));
+        setHighlightPanels();
+        mainPanel.setLayout(new BorderLayout());
+        contentPanel = new JPanel();
+        contentPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#F8FAF8")));
+        contentPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.add(titleBarPanel, BorderLayout.NORTH);
+        contentPanel.add(highlightPanel, BorderLayout.WEST);
+        contentPanel.add(mainPanel, BorderLayout.CENTER);
+        mainPanel.add(optionsContentPanel,BorderLayout.CENTER);
+        mainPanel.add(mainMenu,BorderLayout.WEST);
+        getContentPane().setBackground(Color.decode("#000000"));
         addFonts();
+        setContentPane(contentPanel);
         pack();
         maximize(6);
         setVisible(true);
@@ -162,7 +176,7 @@ public class UITerminal extends JFrame{
         titleBarPanel.setLayout(new BorderLayout());    
         titleBarPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE,30));
         titleBarPanel.setPreferredSize(new Dimension(867,30));
-        titleBarPanel.setBackground(Color.decode("#FCFEFC"));
+        titleBarPanel.setBackground(Color.decode("#FFFFFF"));
         titleBarPanel.addMouseListener(new MouseAdapter(){});
         MoveMouseListener ml = new MoveMouseListener(titleBarPanel);
         titleBarPanel.addMouseListener(ml);
@@ -271,14 +285,13 @@ public class UITerminal extends JFrame{
     }
     
     private JMenuItem createMenuItem(JMenuItem item, String iconName){
-        item.setBackground(Color.decode("#303132"));
+        item.setBackground(Color.decode("#EDEBEB"));
         item.setFont(new Font("Roboto-Regular", Font.PLAIN, 14));
-        //FFFBF5
-        item.setForeground(Color.decode("#C9CDD1"));
+        item.setForeground(Color.decode("#000000"));
         item.setIconTextGap(13);
         item.setMaximumSize(new Dimension(Integer.MAX_VALUE,78));
         item.setPreferredSize(new Dimension(165,55));
-        item.setIcon(new ImageIcon(resource+iconName));
+        item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
         if(item.equals(this.menuItem))
             item.setToolTipText("Maximize Navigation Bar");
         else
@@ -290,17 +303,49 @@ public class UITerminal extends JFrame{
         item.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                //3E4242
-                item.setBackground(Color.decode("#3B3C3D"));
-                item.setIcon(new ImageIcon(resource+iconName));
-                item.setForeground(Color.decode("#FFFBF5"));
+                item.setBackground(Color.decode("#CDCFCD"));
+                item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
+                if(item.equals(menuItem))
+                    h1.setBackground(Color.decode("#CDCFCD"));
+                if(!item.equals(itemFlag)){    
+                    if(item.equals(dashboardMenu))
+                        h2.setBackground(Color.decode("#CDCFCD"));
+                    else if(item.equals(meetingMenu))
+                        h3.setBackground(Color.decode("#CDCFCD"));
+                    else if(item.equals(actionPlanMenu))
+                        h4.setBackground(Color.decode("#CDCFCD"));
+                    else if(item.equals(teamMenu))
+                        h5.setBackground(Color.decode("#CDCFCD"));
+                    else if(item.equals(profileMenu))
+                        h6.setBackground(Color.decode("#CDCFCD"));
+                    else if(item.equals(settingsMenu))
+                        h7.setBackground(Color.decode("#CDCFCD"));
+                }
                 item.repaint();
             }
             @Override
             public void mouseExited(MouseEvent e){
-                item.setBackground(Color.decode("#303132"));
-                item.setIcon(new ImageIcon(resource+iconName2));
-                item.setForeground(Color.decode("#C9CDD1"));
+                item.setBackground(Color.decode("#EDEBEB"));
+                if(item.equals(menuItem))
+                    h1.setBackground(Color.decode("#EDEBEB"));
+                if(!item.equals(itemFlag)){    
+                    if(item.equals(dashboardMenu))
+                        h2.setBackground(Color.decode("#EDEBEB"));
+                    else if(item.equals(meetingMenu))
+                        h3.setBackground(Color.decode("#EDEBEB"));
+                    else if(item.equals(actionPlanMenu))
+                        h4.setBackground(Color.decode("#EDEBEB"));
+                    else if(item.equals(teamMenu))
+                        h5.setBackground(Color.decode("#EDEBEB"));
+                    else if(item.equals(profileMenu))
+                        h6.setBackground(Color.decode("#EDEBEB"));
+                    else if(item.equals(settingsMenu))
+                        h7.setBackground(Color.decode("#EDEBEB"));
+                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName2)));
+                }
+                else{
+                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
+                }
                 item.repaint();
             }
             @Override
@@ -310,12 +355,14 @@ public class UITerminal extends JFrame{
                         mainMenu.setPreferredSize(new Dimension(165,600));
                         //menuItem.setToolTipText("<html><body style=\"background-color:#303132;color:#C9CDD1;border=0\">"
                         //        + " Minimize Navigation Bar </body></ht‌​ml>");
-                        menuItem.setToolTipText("Minimize Navigation Bar");
                         mainPanel.revalidate();
+                        //contentPanel.revalidate();
+                        menuItem.setToolTipText("Minimize Navigation Bar");
                         menuFlag = true;
                     }
                     else{
                         mainMenu.setPreferredSize(new Dimension(65,600));
+                        //contentPanel.revalidate();
                         mainPanel.revalidate();
                         menuItem.setToolTipText("Maximize Navigation Bar");
                         menuFlag = false;
@@ -324,20 +371,84 @@ public class UITerminal extends JFrame{
                 else if(item.equals(dashboardMenu)){
                     optionsContentPanel.removeAll();
                     optionsContentPanel.add(dashboardPanel, BorderLayout.CENTER);
+                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
+                    h2.setBackground(Color.decode("#1160AE"));
+                    h3.setBackground(Color.decode("#EDEBEB"));
+                    h4.setBackground(Color.decode("#EDEBEB"));
+                    h5.setBackground(Color.decode("#EDEBEB"));
+                    h6.setBackground(Color.decode("#EDEBEB"));
+                    h7.setBackground(Color.decode("#EDEBEB"));
+                    itemFlag = dashboardMenu;
                     pack();
                     optionsContentPanel.repaint();
                 }
                 else if(item.equals(meetingMenu)){
-                    
+                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
+                    h2.setBackground(Color.decode("#EDEBEB"));
+                    h3.setBackground(Color.decode("#1160AE"));
+                    h4.setBackground(Color.decode("#EDEBEB"));
+                    h5.setBackground(Color.decode("#EDEBEB"));
+                    h6.setBackground(Color.decode("#EDEBEB"));
+                    h7.setBackground(Color.decode("#EDEBEB"));
+                    itemFlag = meetingMenu;
                 }
                 else if(item.equals(actionPlanMenu)){
+                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
                     optionsContentPanel.removeAll();
                     optionsContentPanel.add(actionPlanPanel, BorderLayout.CENTER);
+                    h2.setBackground(Color.decode("#EDEBEB"));
+                    h3.setBackground(Color.decode("#EDEBEB"));
+                    h4.setBackground(Color.decode("#1160AE"));
+                    h5.setBackground(Color.decode("#EDEBEB"));
+                    h6.setBackground(Color.decode("#EDEBEB"));
+                    h7.setBackground(Color.decode("#EDEBEB"));
+                    itemFlag = actionPlanMenu;
                     pack();
                     optionsContentPanel.repaint();
                 }
                 else if(item.equals(teamMenu)){
-                    
+                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
+                    h2.setBackground(Color.decode("#EDEBEB"));
+                    h3.setBackground(Color.decode("#EDEBEB"));
+                    h4.setBackground(Color.decode("#EDEBEB"));
+                    h5.setBackground(Color.decode("#1160AE"));
+                    h6.setBackground(Color.decode("#EDEBEB"));
+                    h7.setBackground(Color.decode("#EDEBEB"));
+                    itemFlag = teamMenu;
+                }
+                else if(item.equals(profileMenu)){
+                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
+                    h2.setBackground(Color.decode("#EDEBEB"));
+                    h3.setBackground(Color.decode("#EDEBEB"));
+                    h4.setBackground(Color.decode("#EDEBEB"));
+                    h5.setBackground(Color.decode("#EDEBEB"));
+                    h6.setBackground(Color.decode("#1160AE"));
+                    h7.setBackground(Color.decode("#EDEBEB"));
+                    itemFlag = profileMenu;
+                }
+                else if(item.equals(settingsMenu)){
+                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
+                    h2.setBackground(Color.decode("#EDEBEB"));
+                    h3.setBackground(Color.decode("#EDEBEB"));
+                    h4.setBackground(Color.decode("#EDEBEB"));
+                    h5.setBackground(Color.decode("#EDEBEB"));
+                    h6.setBackground(Color.decode("#EDEBEB"));
+                    h7.setBackground(Color.decode("#1160AE"));
+                    itemFlag = settingsMenu;
+                }
+                if(!item.equals(menuItem)){
+                    if(!meetingMenu.equals(item))
+                        meetingMenu.setIcon(new ImageIcon(getClass().getResource("/images/meetingL.png")));
+                    if(!dashboardMenu.equals(item))
+                        dashboardMenu.setIcon(new ImageIcon(getClass().getResource("/images/dashboardL.png")));
+                    if(!teamMenu.equals(item))
+                        teamMenu.setIcon(new ImageIcon(getClass().getResource("/images/teamL.png")));
+                    if(!profileMenu.equals(item))
+                        profileMenu.setIcon(new ImageIcon(getClass().getResource("/images/userL.png")));
+                    if(!settingsMenu.equals(item))
+                        settingsMenu.setIcon(new ImageIcon(getClass().getResource("/images/settingsL.png")));
+                    if(!actionPlanMenu.equals(item))
+                        actionPlanMenu.setIcon(new ImageIcon(getClass().getResource("/images/actionplanL.png")));
                 }
             }
         }); 
@@ -345,32 +456,32 @@ public class UITerminal extends JFrame{
    
     private void createMainMenu(){ 
         mainMenu = new JMenuBar();
-        dashboardMenu = new JMenuItem(" DashBoard"){ 
+        dashboardMenu = new JMenuItem("  DashBoard"){ 
             public Point getToolTipLocation(MouseEvent e) {
                 return new Point(5, -15);
             }
         };
-        meetingMenu = new JMenuItem(" Meeting"){ 
+        meetingMenu = new JMenuItem("  Meeting"){ 
             public Point getToolTipLocation(MouseEvent e) {
                 return new Point(5, -15);
             }
         };
-        actionPlanMenu = new JMenuItem(" Action Plan"){ 
+        actionPlanMenu = new JMenuItem("  Action Plan"){ 
             public Point getToolTipLocation(MouseEvent e) {
                 return new Point(5, -15);
             }
         };
-        teamMenu = new JMenuItem(" Team"){ 
+        teamMenu = new JMenuItem("  Team"){ 
             public Point getToolTipLocation(MouseEvent e) {
                 return new Point(5, -15);
             }
         };
-        profileMenu = new JMenuItem(" Profile"){ 
+        profileMenu = new JMenuItem("  Profile"){ 
             public Point getToolTipLocation(MouseEvent e) {
                 return new Point(5, -15);
             }
         };
-        settingMenu = new JMenuItem(" Settings"){ 
+        settingsMenu = new JMenuItem("  Settings"){ 
             public Point getToolTipLocation(MouseEvent e) {
                 return new Point(5, -15);
             }
@@ -385,26 +496,26 @@ public class UITerminal extends JFrame{
         mainMenu.setMaximumSize(new Dimension(165,Integer.MAX_VALUE));
         mainMenu.setPreferredSize(new Dimension(65,600));
         mainMenu.setMinimumSize(new Dimension(50,50));
-        mainMenu.setBackground(Color.decode("#303132"));
-        mainMenu.setBorder(BorderFactory.createMatteBorder(0,0,0,1,Color.decode("#202020")));
+        mainMenu.setBackground(Color.decode("#EDEBEB"));
+        //mainMenu.setBorder(BorderFactory.createMatteBorder(0,0,0,1,Color.decode("#202020")));
         
-        mainMenu.add(createMenuItem(menuItem, "menu.png"));
-        mainMenu.add(createMenuItem(dashboardMenu, "combo.png"));
-        mainMenu.add(createMenuItem(meetingMenu, "Podium.png"));
-        mainMenu.add(createMenuItem(actionPlanMenu, "Overtime.png"));
-        mainMenu.add(createMenuItem(teamMenu, "1Team.png"));
-        mainMenu.add(createMenuItem(profileMenu, "User.png"));
+        mainMenu.add(createMenuItem(menuItem, "menuBlack.png"));
+        mainMenu.add(createMenuItem(dashboardMenu, "dashboardL.png"));
+        mainMenu.add(createMenuItem(meetingMenu, "meetingL.png"));
+        mainMenu.add(createMenuItem(actionPlanMenu, "actionplanL.png"));
+        mainMenu.add(createMenuItem(teamMenu, "teamL.png"));
+        mainMenu.add(createMenuItem(profileMenu, "userL.png"));
         mainMenu.add(Box.createVerticalGlue());
-        mainMenu.add(createMenuItem(settingMenu, "gear.png"));
-        settingMenu.setMargin(new Insets(0,10,5,0));
+        mainMenu.add(createMenuItem(settingsMenu, "settingsL.png"));
+        settingsMenu.setMargin(new Insets(0,5,5,0));
         
-        menuEvents(menuItem, "menu2.png", "menu.png");
-        menuEvents(dashboardMenu, "combo2.png", "combo.png");
-        menuEvents(meetingMenu, "podium2.png", "Podium.png");
-        menuEvents(actionPlanMenu, "Overtime2.png", "Overtime.png");
-        menuEvents(teamMenu, "1Team2.png", "1Team.png");
-        menuEvents(profileMenu, "User2.png", "User.png");
-        menuEvents(settingMenu, "gear2.png", "gear.png");        
+        menuEvents(menuItem, "menuBlue.png", "menuBlack.png");
+        menuEvents(dashboardMenu, "dashBoardLB.png", "dashboardL.png");
+        menuEvents(meetingMenu, "meetingLB.png", "meetingL.png");
+        menuEvents(actionPlanMenu, "actionplanLB.png", "actionplanL.png");
+        menuEvents(teamMenu, "teamLB.png", "teamL.png");
+        menuEvents(profileMenu, "userLB.png", "userL.png");
+        menuEvents(settingsMenu, "settingsLB.png", "settingsL.png");        
         
     }
     
@@ -434,7 +545,7 @@ public class UITerminal extends JFrame{
         dashboardPanel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
         dashboardPanel.setBackground(Color.decode("#FCFEFC"));
         
-        initImageLabel = new JLabel(new ImageIcon(getClass().getResource("/images/holcim-logo.png")), JLabel.CENTER);
+        initImageLabel = new JLabel(new ImageIcon(getClass().getResource("/images/planta.jpg")), JLabel.CENTER);
         initImageLabel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
         initImageLabel.setPreferredSize(new Dimension(500,328));
         initImageLabel.setBackground(Color.decode("#FCFEFC"));
@@ -457,7 +568,7 @@ public class UITerminal extends JFrame{
         
         apInformationPanel = new JPanel();
         apInformationPanel.setLayout(new GridBagLayout());
-        apInformationPanel.setBackground(Color.decode("#FCFEFC"));
+        apInformationPanel.setBackground(Color.decode("#303132"));
         actionListPanel = new JPanel();
         actionListPanel.setLayout(new BorderLayout());
         actionListPanel.setPreferredSize(new Dimension(300,300));
@@ -529,54 +640,56 @@ public class UITerminal extends JFrame{
         meetComboBox.setMaximumSize(new Dimension(170, 24));
         meetComboBox.setPreferredSize(new Dimension(170, 24));
         meetComboBox.setSelectedIndex(-1);
-        meetComboBox.addItemListener((ItemEvent event) -> {
-            meetingSelected(event);
-            try {
-                Object[] object = Aps.getTerminal().getTableContent(ActionItemFilter.ALL, meetingName);
-                Meeting meeting = (Meeting)object[0];
-                jTable1.setModel((TableModel)object[1]);                
-                setColumnWidth();
-                centerColumnContent();
-                
-                if(meeting != null){
-                    ActionPlan plan = meeting.getActionPlan();
-                    APSummary summary = plan.getSummary();
-                    owContentLabel.setText(plan.getOwner().getFirstName()+" "
-                            +plan.getOwner().getLastName());
-                    actContentLabel.setText(String.valueOf(summary.getActions()));
-                    compContentLabel.setText(String.valueOf(summary.getActionsCompleted()));
-                    compAppContentLabel.setText(String.valueOf(summary.getActionsCompletedApp()));
-                    overAppContentLabel.setText(String.valueOf(summary.getActionsOverdue()));
-                    parTextArea.setText(getParticipantsAcronyms(meeting.getTeam(),meeting.getAditionalParticipants()));
-                    int team_performance = 100;
-                    if(summary.getActionsOverdue() == 0 && summary.getActionsCompletedApp() > 0)
-                        performanceContentLabel.setText(String.valueOf(team_performance)+"%");
-                    else{
-                        team_performance = (int)Math.round(((float)summary.getActionsCompletedApp()/
-                                ((float)summary.getActions()))*100);
-                        performanceContentLabel.setText(String.valueOf(team_performance)+"%");
-                    }
-                    int execution = (int)Math.round((float)(summary.getActionsCompleted()/(float)summary.getActions())*100);
-                    exeContentLabel.setText(String.valueOf(execution)+"%");
-                    if(team_performance <= 70){
-                        performanceContentLabel.setBackground(Color.decode("#E80C0C"));
-                        performanceContentLabel.setForeground(Color.decode("#FCFEFC"));
-                    }
-                    else if(71 <= team_performance || team_performance <= 89){
-                        performanceContentLabel.setBackground(Color.YELLOW);
-                        performanceContentLabel.setForeground(Color.decode("#303132"));
-                    }
-                    else{
-                        performanceContentLabel.setBackground(Color.decode("#00FF47"));
-                        performanceContentLabel.setForeground(Color.decode("#303132"));
+        meetComboBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent event) {
+                meetingSelected(event);
+                try {
+                    Object[] object = Aps.getTerminal().getTableContent(ActionItemFilter.ALL, meetingName);
+                    Meeting meeting = (Meeting)object[0];
+                    jTable1.setModel((TableModel)object[1]);                
+                    setColumnWidth();
+                    centerColumnContent();
+
+                    if(meeting != null){
+                        ActionPlan plan = meeting.getActionPlan();
+                        APSummary summary = plan.getSummary();
+                        owContentLabel.setText(plan.getOwner().getFirstName()+" "
+                                +plan.getOwner().getLastName());
+                        actContentLabel.setText(String.valueOf(summary.getActions()));
+                        compContentLabel.setText(String.valueOf(summary.getActionsCompleted()));
+                        compAppContentLabel.setText(String.valueOf(summary.getActionsCompletedApp()));
+                        overAppContentLabel.setText(String.valueOf(summary.getActionsOverdue()));
+                        parTextArea.setText(getParticipantsAcronyms(meeting.getTeam(),meeting.getAditionalParticipants()));
+                        int team_performance = 100;
+                        if(summary.getActionsOverdue() == 0 && summary.getActionsCompletedApp() > 0)
+                            performanceContentLabel.setText(String.valueOf(team_performance)+"%");
+                        else{
+                            team_performance = (int)Math.round(((float)summary.getActionsCompletedApp()/
+                                    ((float)summary.getActions()))*100);
+                            performanceContentLabel.setText(String.valueOf(team_performance)+"%");
+                        }
+                        int execution = (int)Math.round((float)(summary.getActionsCompleted()/(float)summary.getActions())*100);
+                        exeContentLabel.setText(String.valueOf(execution)+"%");
+                        if(team_performance <= 70){
+                            performanceContentLabel.setBackground(Color.decode("#E80C0C"));
+                            performanceContentLabel.setForeground(Color.decode("#FCFEFC"));
+                        }
+                        else if(71 <= team_performance || team_performance <= 89){
+                            performanceContentLabel.setBackground(Color.YELLOW);
+                            performanceContentLabel.setForeground(Color.decode("#303132"));
+                        }
+                        else{
+                            performanceContentLabel.setBackground(Color.decode("#00FF47"));
+                            performanceContentLabel.setForeground(Color.decode("#303132"));
+                        }
                     }
                 }
-            }
-            catch (Exception ex) {
-                Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                catch (Exception ex) {
+                    Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
+                }}
         });
-
+        
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -585,7 +698,7 @@ public class UITerminal extends JFrame{
         gbc.ipady = 2;
         gbc.insets = new Insets(0, 2, 2, 2);
         apInformationPanel.add(meetComboBox, gbc);
-
+        
         actLabel = new JLabel("Actions");
         actLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
         actLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -611,7 +724,7 @@ public class UITerminal extends JFrame{
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 2, 2, 2);
         apInformationPanel.add(compLabel, gbc);
-
+        
         compAppLabel = new JLabel("Completed APP");
         compAppLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
         compAppLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -913,7 +1026,9 @@ public class UITerminal extends JFrame{
     }
     
     private void createFilterPanel(){
-        filterPanel = new JPanel();
+        filterPanel = new JPanel();//1160AE
+        filterPanel.setBackground(Color.decode("#1160AE"));
+        //filterPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#000000")));
         filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.LINE_AXIS));
         filterPanel.setPreferredSize(new Dimension(actionPlanPanel.getMaximumSize().height, 40));
         JLabel filterLabel = new JLabel("Filter by");
@@ -932,6 +1047,7 @@ public class UITerminal extends JFrame{
         filterContentComboBox.setMaximumSize(new Dimension(140,26));
         filterPanel.add(filterContentComboBox);
         filterPanel.add(Box.createHorizontalGlue());
+        
         addActionLabel = new JLabel();
         addActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/plus-24.png")));
         addActionLabel.setPreferredSize(new Dimension(35,filterPanel.getPreferredSize().height));
@@ -942,7 +1058,7 @@ public class UITerminal extends JFrame{
             }
             @Override
             public void mouseExited(MouseEvent e){
-                if(!clickedFlag)
+                if(!clickFlag)
                     addActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/plus-24.png")));
             }
             @Override
@@ -950,7 +1066,7 @@ public class UITerminal extends JFrame{
                 if(meetComboBox.getSelectedIndex() != -1){
                     AddActionForm add_action;
                     try {
-                        clickedFlag = true;
+                        clickFlag = true;
                         addActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/plusGreen-24.png")));
                         add_action = new AddActionForm(getJFrame(),Aps.getTerminal(),meetingName);
                         add_action.setLocationRelativeTo(getJFrame());
@@ -966,6 +1082,7 @@ public class UITerminal extends JFrame{
                 }
             }
         }); 
+        
         modifyActionLabel = new JLabel();
         modifyActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/edit-24.png")));
         modifyActionLabel.setPreferredSize(new Dimension(35,filterPanel.getPreferredSize().height));
@@ -987,16 +1104,18 @@ public class UITerminal extends JFrame{
                             "Validation",JOptionPane.ERROR_MESSAGE);
                 }
                 else{
-                    EditActionForm edit_action = new EditActionForm(getJFrame(),
+                    EditActionForm editAction = new EditActionForm(getJFrame(),
                             Aps.getTerminal(),meetingName, getSelectedRowData());
-                    edit_action.setLocationRelativeTo(getJFrame());
+                    editAction.setLocationRelativeTo(getJFrame());
                     jTable1.getSelectionModel().clearSelection();
                 }
             }
         }); 
+        
         deleteActionLabel = new JLabel();
         deleteActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/delete-24.png")));
         deleteActionLabel.setPreferredSize(new Dimension(35, filterPanel.getPreferredSize().height));
+        
         deleteActionLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e){}
@@ -1043,6 +1162,7 @@ public class UITerminal extends JFrame{
         filterPanel.add(addActionLabel);
         filterPanel.add(modifyActionLabel);
         filterPanel.add(deleteActionLabel);
+        
     }
     
     private void centerColumnContent(){
@@ -1065,11 +1185,11 @@ public class UITerminal extends JFrame{
     private void setColumnWidth(){       
         jTable1.getColumnModel().getColumn(0).setMaxWidth(75);  //ID
         jTable1.getColumnModel().getColumn(1).setMaxWidth(40);  //RESPONSIBLE
-        jTable1.getColumnModel().getColumn(4).setMaxWidth(73);  //P.START DATE
-        jTable1.getColumnModel().getColumn(5).setMaxWidth(73);  //P.FINISH DATE
-        jTable1.getColumnModel().getColumn(6).setMaxWidth(73);  //R.FINISH DATE
+        jTable1.getColumnModel().getColumn(4).setMaxWidth(73);  //START DATE
+        jTable1.getColumnModel().getColumn(5).setMaxWidth(73);  //DUE DATE
+        jTable1.getColumnModel().getColumn(6).setMaxWidth(73);  //END DATE
         jTable1.getColumnModel().getColumn(7).setMaxWidth(50);  //PROGRESS
-        jTable1.getColumnModel().getColumn(8).setMinWidth(120); //STATUS
+        jTable1.getColumnModel().getColumn(8).setMinWidth(77); //STATUS
         jTable1.getColumnModel().getColumn(9).setMaxWidth(40);  //DURATION
     }
     
@@ -1159,6 +1279,48 @@ public class UITerminal extends JFrame{
     }
     
     public void setFlag(boolean bool){
-        clickedFlag = bool;
+        clickFlag = bool;
+    }
+    
+    private void setHighlightPanels(){
+        h1 = new JPanel();
+        h2 = new JPanel();
+        h3 = new JPanel();
+        h4 = new JPanel();
+        h5 = new JPanel();
+        h6 = new JPanel();
+        h7 = new JPanel();
+        
+        h1.setBackground(Color.decode("#EDEBEB"));
+        h2.setBackground(Color.decode("#EDEBEB"));
+        h3.setBackground(Color.decode("#EDEBEB"));
+        h4.setBackground(Color.decode("#EDEBEB"));
+        h5.setBackground(Color.decode("#EDEBEB"));
+        h6.setBackground(Color.decode("#EDEBEB"));
+        h7.setBackground(Color.decode("#EDEBEB"));
+        
+        h1.setMaximumSize(new Dimension(4,78));
+        h1.setPreferredSize(new Dimension(4,55));
+        h2.setMaximumSize(new Dimension(4,78));
+        h2.setPreferredSize(new Dimension(4,55));
+        h3.setMaximumSize(new Dimension(4,78));
+        h3.setPreferredSize(new Dimension(4,55));
+        h4.setMaximumSize(new Dimension(4,78));
+        h4.setPreferredSize(new Dimension(4,55));
+        h5.setMaximumSize(new Dimension(4,78));
+        h5.setPreferredSize(new Dimension(4,55));
+        h6.setMaximumSize(new Dimension(4,78));
+        h6.setPreferredSize(new Dimension(4,55));
+        h7.setMaximumSize(new Dimension(4,78));
+        h7.setPreferredSize(new Dimension(4,55));
+        
+        highlightPanel.add(h1);
+        highlightPanel.add(h2);
+        highlightPanel.add(h3);
+        highlightPanel.add(h4);
+        highlightPanel.add(h5);
+        highlightPanel.add(h6);
+        highlightPanel.add(Box.createVerticalGlue());
+        highlightPanel.add(h7);
     }
 }
