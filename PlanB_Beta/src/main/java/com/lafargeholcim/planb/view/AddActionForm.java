@@ -8,6 +8,7 @@ package com.lafargeholcim.planb.view;
 import com.lafargeholcim.planb.sys.Month;
 import com.lafargeholcim.planb.sys.Terminal;
 import java.awt.Color;
+import static java.awt.Frame.ICONIFIED;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -31,6 +32,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
+import javax.swing.plaf.SliderUI;
+import javax.swing.plaf.basic.BasicSliderUI;
 
 /**
  *
@@ -96,7 +101,6 @@ public class AddActionForm extends JDialog{
     private void initComponents() throws Exception {
         parent.setEnabled(false);
         addWindowListener();
-        
         jLabel2 = new JLabel();
         jLabel3 = new JLabel();
         jLabel6 = new JLabel();
@@ -166,9 +170,9 @@ public class AddActionForm extends JDialog{
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String start_date = getDate(cbYearStart,cbMonthStart,cbDayStart);
-                String end_date = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-                int duration = getDaysBetweenDates(start_date, end_date);
+                String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
+                String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                int duration = getDaysBetweenDates(startDate, dueDate);
                 if(duration <= 0)
                     JOptionPane.showMessageDialog(getJDialog(),"Inconsistent Dates.","Error",JOptionPane.ERROR_MESSAGE);
                 else if("".equals(jTextArea1.getText()))
@@ -181,12 +185,12 @@ public class AddActionForm extends JDialog{
                             "Delete Action",JOptionPane.DEFAULT_OPTION, 
                             JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == 0){
                             terminal.addAction(responsibleComboBox.getSelectedItem().toString(),jTextArea1.getText(),
-                                    jTextArea2.getText(),start_date,end_date,
+                                    jTextArea2.getText(),startDate,dueDate,
                                     status_comboBox.getSelectedItem().toString(),
                                     (byte)progressSlider.getValue(),duration,meetingName);
                             parent.setEnabled(true);
                             JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addActionLabel");
-                            label.setIcon(new ImageIcon("src/images/plus-24.png"));
+                            label.setIcon(new ImageIcon(getClass().getResource("/images/plus-24.png")));
                             ((UITerminal)parent).setFlag(false);
                             getJDialog().dispose();
                        }
@@ -204,7 +208,7 @@ public class AddActionForm extends JDialog{
             public void actionPerformed(ActionEvent e) {
                 parent.setEnabled(true);
                 JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addActionLabel");
-                label.setIcon(new ImageIcon("src/images/plus-24.png"));
+                label.setIcon(new ImageIcon(getClass().getResource("src/images/plus-24.png")));
                 ((UITerminal)parent).setFlag(false);
                 getJDialog().dispose();
             }
@@ -221,8 +225,15 @@ public class AddActionForm extends JDialog{
         jTextArea2.setLineWrap(true);
         jTextArea2.setWrapStyleWord(true);
         jScrollPane2.setViewportView(jTextArea2);
-
-                
+        /*
+        UIManager.put("Slider.altTrackColor", Color.decode("#1160AE"));
+        UIManager.put("Slider.tickColor", Color.decode("#1160AE"));
+        UIManager.put("Slider.focus", Color.decode("#1160AE"));
+        UIManager.put("Slider.darkShadow", Color.decode("#1160AE"));
+        UIManager.put("Slider.highlight", Color.decode("#1160AE"));
+        UIManager.put("Slider.thumb", Color.decode("#303132"));
+        UIManager.put("Slider.background", Color.decode("#1160AE"));
+        */
         cbDayStart.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
             "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
             "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
@@ -326,8 +337,12 @@ public class AddActionForm extends JDialog{
         status_comboBox.setSelectedIndex(0);
         setParticipantsNames();
         responsibleComboBox.setSelectedIndex(-1);
-        progressSlider.setValue(0);
-        progressSlider.setOpaque(false);
+        progressSlider.setValue(0);       
+        //progressSlider.setOpaque(false);
+        boolean u = progressSlider.getPaintTrack();
+        //ui.put("Slider.altTrackColor", Color.decode("#1160AE"));
+        //progressSlider.setUI();
+
         tfId.setText(terminal.getNewActionId(meetingName));
         tfId.setEditable(false);
         setDates();
@@ -551,7 +566,7 @@ public class AddActionForm extends JDialog{
             public void windowClosing(WindowEvent e){
                 parent.setEnabled(true);
                 JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addActionLabel");
-                label.setIcon(new ImageIcon("src/images/plus-24.png"));
+                label.setIcon(new ImageIcon(getClass().getResource("/images/plus-24.png")));
                 ((UITerminal)parent).setFlag(false);
             }
 
@@ -559,10 +574,14 @@ public class AddActionForm extends JDialog{
             public void windowClosed(WindowEvent e){}
 
             @Override
-            public void windowIconified(WindowEvent e){}
+            public void windowIconified(WindowEvent e){
+                ((UITerminal)parent).setState(ICONIFIED);
+            }
 
             @Override
-            public void windowDeiconified(WindowEvent e){}
+            public void windowDeiconified(WindowEvent e){
+                //((UITerminal)parent).setState();
+            }
 
             @Override
             public void windowActivated(WindowEvent e){}

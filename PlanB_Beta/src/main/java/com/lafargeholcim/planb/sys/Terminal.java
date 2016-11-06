@@ -61,6 +61,7 @@ public class Terminal{
         //planB = new DataBase();
         org = Aps.getOrganization();
         gPlanB = new GDataBase();
+        gPlanB.insert();
         //boolean con = planB.connection();
     }
 
@@ -156,7 +157,7 @@ public class Terminal{
         ActionPlan plan;
         Table result;
         List<Cell> cells;
-        Facility facility = org.getFacility("01");
+        Facility facility = org.getFacility(meetingName,"meetingName");
         Meeting meeting = facility.searchMeeting(meetingName);
         
         if(meeting!= null)
@@ -250,7 +251,7 @@ public class Terminal{
     }
     
     public Collaborator getCollaborator(String facilityID, String collaboratorAcronym){
-        Facility facility = org.getFacility(facilityID);
+        Facility facility = org.getFacility(facilityID,"id");
         return facility.searchCollaborator(collaboratorAcronym,(byte) 2);
     }
     
@@ -391,7 +392,7 @@ public class Terminal{
     }
     
     public Object[] getMeetingsNames(){
-        return org.getFacility("01").getMeetingsNames().toArray();
+        return org.getFacility("01","id").getMeetingsNames().toArray();
     }
     
     public ArrayList getCollaboratorIds(int facilityID) throws SQLException, IOException{
@@ -413,20 +414,18 @@ public class Terminal{
     public String getNewActionId(String meetingName) throws Exception{
         short number;
         String query;
-        Facility facility = org.getFacility("01"); 
+        Facility facility = org.getFacility(meetingName,"meetingName"); 
         String id = facility.getId();
+        Table result;
         Meeting meeting = facility.searchMeeting(meetingName); 
         String acronym = meeting.getAcronym();
         ActionPlan ap = meeting.getActionPlan();
         
-        query = "SELECT COUNT(*) as number from planb.action INNER JOIN "
-        + "planb.actionplan_action ON actionId=action_id and "
-        + "actionPlan_id="+ap.getId()+";";
-        planB.connection();
-        ResultSet rs = planB.selectQuery(query);
-        if(rs != null){
-            rs.next();
-            number = (short)rs.getInt("number");
+        query = "SELECT+COUNT(A)+WHERE+B+CONTAINS+"+ap.getId();
+        result = gPlanB.selectQuery(query, "action");
+        if(result != null){
+            float value = Float.parseFloat(result.getUniqueCellValueOfUniqueRow(false));
+            number = (short)value;
             return com.lafargeholcim.planb.model.
                     Action.generateId(id, acronym, number, ap.getZeros());
         }
@@ -468,7 +467,7 @@ public class Terminal{
             String plannedStartDate, String plannedEndDate, 
             String status, byte progress, int duration, String meetingName) throws Exception{
 
-        Facility facility = org.getFacility("01"); 
+        Facility facility = org.getFacility(meetingName,"meetingName"); 
         Meeting meeting = facility.searchMeeting(meetingName);
         short number;
         Action action;
@@ -503,7 +502,7 @@ public class Terminal{
     }
     
     public void modifyAction(Object[] rowDataModified, String meetingName) throws SQLException, Exception{
-        Facility facility = org.getFacility("01");
+        Facility facility = org.getFacility(meetingName,"meetingName");
         Meeting meeting = facility.searchMeeting(meetingName);
         ActionPlan plan = meeting.getActionPlan();
         Action action;
@@ -629,7 +628,7 @@ public class Terminal{
     
     public boolean deleteAction(String actionID, String meetingName) throws Exception{
         if(actionID != null){
-            Facility facility = org.getFacility("01"); 
+            Facility facility = org.getFacility(meetingName,"meetingName"); 
             Meeting meeting = facility.searchMeeting(meetingName);
             if(meeting.getActionPlan().deleteAction(actionID))
                 deleteActionFromDatabase(actionID);
@@ -652,7 +651,7 @@ public class Terminal{
     }
     
     public String[] getParticipantsNames(String meetingName){
-        Facility facility = org.getFacility("01");
+        Facility facility = org.getFacility(meetingName,"meetingName");
         Meeting meeting = facility.searchMeeting(meetingName);
         ArrayList<Collaborator> members = (ArrayList<Collaborator>)meeting.getTeam().getMembers().clone();
         if(!meeting.getAditionalParticipants().isEmpty())

@@ -40,10 +40,18 @@ public class Organization {
         return brandName;
     }   
     
-    public Facility getFacility(String id){
+    public Facility getFacility(String hint, String type){
         for(Facility facility:facilities){
-            if(facility.getId().equalsIgnoreCase(id))
-                return facility;
+            if(type.equalsIgnoreCase("id")){
+                if(facility.getId().equalsIgnoreCase(hint))
+                    return facility;
+            }
+            else if(type.equalsIgnoreCase("meetingName")){
+                for(Meeting meeting:facility.getMeetings()){
+                    if(meeting.getName().equalsIgnoreCase(hint))
+                        return facility;
+                }
+            }
         }
         return null;
     }

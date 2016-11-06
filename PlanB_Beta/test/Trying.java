@@ -1,3 +1,4 @@
+import com.lafargeholcim.planb.sys.Terminal;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
@@ -6,6 +7,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -19,10 +23,7 @@ import java.net.URLEncoder;
 public class Trying {
     
     public static void main(String[] args) throws UnsupportedEncodingException{
-        String urlParameters =
-        "fName=" + URLEncoder.encode("???", "UTF-8") +
-        "&lName=" + URLEncoder.encode("???", "UTF-8");
-        executePost("https://spreadsheets.google.com/tq?&tq=&key=1Xkd22LiN9unvv7GYOqsv3XwvjVMbFsi-EZASg4hxF9E&gid=1911680966", urlParameters);
+        System.out.println(getDaysBetweenDates("2016-06-10 12:10:00", "2016-06-11 00:10:00"));
     }
      
     public static String executePost(String targetURL, String urlParameters) {
@@ -70,5 +71,11 @@ public class Trying {
               connection.disconnect();
             }
         }
+    }
+    
+    public static long getDaysBetweenDates(String start, String end){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return ChronoUnit.HALF_DAYS.between(LocalDateTime.parse(start, formatter), LocalDateTime.parse(end,formatter));
+//        return (int)ChronoUnit.DAYS.between(Terminal.parseDate(start),Terminal.parseDate(end));
     }
 }

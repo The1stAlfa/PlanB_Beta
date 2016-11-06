@@ -12,6 +12,7 @@ import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInsta
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.batch.BatchRequest;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -21,12 +22,14 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.*;
 import com.google.gson.Gson;
 import com.google.api.services.sheets.v4.Sheets;
+import com.google.api.services.sheets.v4.Sheets.Spreadsheets.Values.Update;
 import java.io.BufferedReader;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -71,7 +74,7 @@ public class GDataBase {
      * at ~/.credentials/sheets.googleapis.com-java-quickstart
      */
     private static final List<String> SCOPES =
-        Arrays.asList(SheetsScopes.SPREADSHEETS_READONLY);  
+        Arrays.asList(SheetsScopes.SPREADSHEETS);  
     
     static {
         try {
@@ -116,6 +119,32 @@ public class GDataBase {
         System.out.println(
                 "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
         CREDENTIAL = credential;
+        /*
+            public static void main(String[] args) {
+              try {
+                httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+                dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR);
+                // authorization
+                Credential credential = authorize();
+                // set up global Plus instance
+                plus = new Plus.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(
+                    APPLICATION_NAME).build();
+               // ...
+            }
+
+            private static Credential authorize() throws Exception {
+              // load client secrets
+              GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
+                  new InputStreamReader(PlusSample.class.getResourceAsStream("/client_secrets.json")));
+              // set up authorization code flow
+              GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+                  httpTransport, JSON_FACTORY, clientSecrets,
+                  Collections.singleton(PlusScopes.PLUS_ME)).setDataStoreFactory(
+                  dataStoreFactory).build();
+              // authorize
+              return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
+            }
+        */
     }
         
     /**
@@ -141,6 +170,102 @@ public class GDataBase {
             return readResponse(request.getDbResponse());
         
         return null;
+    }
+    
+    public void update(){
+        
+    }
+    
+    public void insert(){
+        System.out.println("I'M HERE");
+        try {
+            /*
+            Sheets service = getSheetsService();
+            String range = "access";
+            ValueRange values = new ValueRange();
+            List<List<Object>> ob = new ArrayList<>();
+            List<Object> o = new ArrayList<>();
+            o.add("01CTE0026");
+            o.add("3");
+            ob.add(o);
+            values.setValues(ob);
+            values.setMajorDimension("ROWS");
+            Update v = service.spreadsheets().values().update(spreadsheetId, range, values);
+            
+            v.setValueInputOption("USER_ENTERED");
+            UpdateValuesResponse y = v.execute();
+            System.out.println("");
+            //.update(range, range, vr)
+            //service.spreadsheets().values().
+            */
+            Sheets service = getSheetsService();
+            List<Request> requests = new ArrayList<>();
+
+                   List<CellData> values = new ArrayList<>();
+                   values.add(new CellData()
+                        .setUserEnteredValue(new ExtendedValue()
+                                .setStringValue("01CTE0026")));
+                    values.add(new CellData()
+                    .setUserEnteredValue(new ExtendedValue()
+                    .setNumberValue(new Double("3"))));
+                    values.add(new CellData()
+                    .setUserEnteredValue(new ExtendedValue()
+                    .setNumberValue(new Double("45140"))));
+                    values.add(new CellData()
+                        .setUserEnteredValue(new ExtendedValue()
+                                .setStringValue("CON JEHOVÁ NO HAY CIELO OSCURO QUE NUNCA VAYA ACLARAR")));
+                    values.add(new CellData()
+                        .setUserEnteredValue(new ExtendedValue()
+                                .setStringValue("DERRAMA TU CORAZÓN SOBRE JEHOVÁ Y CON CONFIA CON TODO TU CORAZÓN")));
+                    values.add(new CellData()
+                            .setFormattedValue("2016-05-10")
+                      .setUserEnteredValue(new ExtendedValue()
+                    .setNumberValue(new Double("42500.0"))));
+                    values.add(new CellData()
+                            .setFormattedValue("2016-06-10")
+                      .setUserEnteredValue(new ExtendedValue()
+                    .setNumberValue(new Double("42531.0"))));
+                    values.add(new CellData()
+                        .setUserEnteredValue(new ExtendedValue()
+                                .setStringValue("")));
+                    values.add(new CellData()
+                            .setFormattedValue("2016-06-10 19:00:00")
+                      .setUserEnteredValue(new ExtendedValue()
+                    .setNumberValue(new Double("42531.798611"))));
+                    values.add(new CellData()
+                        .setUserEnteredValue(new ExtendedValue()
+                                .setStringValue("")));
+                    values.add(new CellData()
+                    .setUserEnteredValue(new ExtendedValue()
+                    .setNumberValue(new Double("1"))));
+                    values.add(new CellData()
+                    .setUserEnteredValue(new ExtendedValue()
+                    .setNumberValue(new Double("0"))));
+                    values.add(new CellData()
+                        .setUserEnteredValue(new ExtendedValue()
+                                .setStringValue("")));
+                    values.add(new CellData()
+                    .setUserEnteredValue(new ExtendedValue()
+                    .setNumberValue(new Double("0"))));
+                requests.add(new Request()
+                                .setAppendCells(new AppendCellsRequest()
+                                .setSheetId(new Integer("1911680966"))
+                                .setRows(Arrays.asList(
+                                        new RowData().setValues(values)))
+                                .setFields("userEnteredValue,userEnteredFormat.backgroundColor")));
+
+             BatchUpdateSpreadsheetRequest batchUpdateRequest = new BatchUpdateSpreadsheetRequest()
+                        .setRequests(requests);
+                service.spreadsheets().batchUpdate(spreadsheetId, batchUpdateRequest)
+                        .execute();
+                System.out.println("BIEN... CREO");
+        } catch (IOException ex) {
+            Logger.getLogger(GDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void delete(){
+        
     }
     
     private Table readResponse(InputStream response) throws IOException{

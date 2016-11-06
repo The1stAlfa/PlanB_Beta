@@ -54,6 +54,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -104,17 +105,17 @@ public class UITerminal extends JFrame{
     private JPanel dashboardPanel, actionPlanPanel, meetingPanel;
     private JLabel apsLogoLabel, resizeLabel, minimizeLabel, closeLabel;
     private JLabel initImageLabel;
-    private String resource, meetingName;
+    private String meetingName;
     private JLabel apLabel, owLabel, parLabel, meetLabel, actLabel, compLabel, 
                 compAppLabel, overAppLabel, actContentLabel, owContentLabel,
                 compContentLabel, compAppContentLabel, overAppContentLabel, 
-                performanceLabel, exeLabel, performanceContentLabel, 
-                exeContentLabel;
+                performanceLabel, exeLabel, performanceContentLabel;
     private JPanel filterPanel, apInformationPanel, actionListPanel, 
             gapPanel1,gapPanel2,pagePanel;
     private JLabel addActionLabel, modifyActionLabel, deleteActionLabel;
     private JComboBox filterContentComboBox,filterCombobox,meetComboBox;
     private JTable jTable1; 
+    private JProgressBar exeContentLabel;
     private JScrollPane jScrollPane1, jScrollPane2;
     private JTextArea parTextArea;
     private JPanel h1,h2,h3,h4,h5,h6,h7;
@@ -136,6 +137,12 @@ public class UITerminal extends JFrame{
         this.setResizable(true);
         UIManager.put("ToolTip.background", Color.decode("#303132"));
         UIManager.put("ToolTip.foreground", Color.decode("#C9CDD1"));
+        UIManager.put("ProgressBar.selectionForeground", Color.decode("#FCFEFC"));
+        UIManager.put("ProgressBar.selectionBackground", Color.decode("#FCFEFC"));
+        UIManager.put("JSlider.altTrackColor", Color.decode("#1160AE"));
+        //UIManager.put("Slider.tickColor", Color.decode("#1160AE"));
+        //UIManager.put("Slider.focus", Color.decode("#1160AE"));
+        //UIManager.put("Slider.shadow", Color.decode("#1160AE"));
         Border border = BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#3B3C3D"));
         UIManager.put("ToolTip.border", border);
         setIconImage(new ImageIcon(getClass().getResource("/images/planB-27x32.png")).getImage());
@@ -568,7 +575,7 @@ public class UITerminal extends JFrame{
         
         apInformationPanel = new JPanel();
         apInformationPanel.setLayout(new GridBagLayout());
-        apInformationPanel.setBackground(Color.decode("#303132"));
+        apInformationPanel.setBackground(Color.decode("#3c3e41"));
         actionListPanel = new JPanel();
         actionListPanel.setLayout(new BorderLayout());
         actionListPanel.setPreferredSize(new Dimension(300,300));
@@ -578,6 +585,7 @@ public class UITerminal extends JFrame{
         //**********************************************************************
         apLabel = new JLabel("Action Plan");
         apLabel.setFont(new Font("Dialog", 1, 24)); // NOI18N
+        apLabel.setForeground(Color.decode("#FCFEFC"));
         apLabel.setHorizontalAlignment(SwingConstants.CENTER);
         apLabel.setVerticalTextPosition(SwingConstants.TOP);
         
@@ -591,6 +599,7 @@ public class UITerminal extends JFrame{
         
         owLabel = new JLabel("Owner");
         owLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
+        owLabel.setForeground(Color.decode("#FCFEFC"));
         owLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         owLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
         owLabel.setMaximumSize(new Dimension(45, 16));
@@ -608,6 +617,7 @@ public class UITerminal extends JFrame{
 
         parLabel = new JLabel("Participants");
         parLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
+        parLabel.setForeground(Color.decode("#FCFEFC"));
         parLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         parLabel.setVerticalAlignment(SwingConstants.TOP);
         parLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -622,6 +632,7 @@ public class UITerminal extends JFrame{
         apInformationPanel.add(parLabel, gbc);
         
         meetLabel = new JLabel("Meeting");
+        meetLabel.setForeground(Color.decode("#FCFEFC"));
         meetLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
         meetLabel.setHorizontalAlignment(SwingConstants.LEFT);
         meetLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -670,7 +681,8 @@ public class UITerminal extends JFrame{
                             performanceContentLabel.setText(String.valueOf(team_performance)+"%");
                         }
                         int execution = (int)Math.round((float)(summary.getActionsCompleted()/(float)summary.getActions())*100);
-                        exeContentLabel.setText(String.valueOf(execution)+"%");
+                        exeContentLabel.setValue(execution);
+                        //String.valueOf(execution)+"%");
                         if(team_performance <= 70){
                             performanceContentLabel.setBackground(Color.decode("#E80C0C"));
                             performanceContentLabel.setForeground(Color.decode("#FCFEFC"));
@@ -701,6 +713,7 @@ public class UITerminal extends JFrame{
         
         actLabel = new JLabel("Actions");
         actLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
+        actLabel.setForeground(Color.decode("#FCFEFC"));
         actLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         gbc =  new GridBagConstraints();
         gbc.gridx = 2;
@@ -714,6 +727,7 @@ public class UITerminal extends JFrame{
 
         compLabel = new JLabel("Completed");
         compLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
+        compLabel.setForeground(Color.decode("#FCFEFC"));
         compLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
@@ -727,6 +741,7 @@ public class UITerminal extends JFrame{
         
         compAppLabel = new JLabel("Completed APP");
         compAppLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
+        compAppLabel.setForeground(Color.decode("#FCFEFC"));
         compAppLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         compAppLabel.setVerticalAlignment(SwingConstants.TOP);
         compAppLabel.setPreferredSize(new Dimension(105, 24));
@@ -743,6 +758,7 @@ public class UITerminal extends JFrame{
         
         overAppLabel = new JLabel("OverDue APP");
         overAppLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
+        overAppLabel.setForeground(Color.decode("#FCFEFC"));
         overAppLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
@@ -808,6 +824,7 @@ public class UITerminal extends JFrame{
 
         performanceLabel = new JLabel("Team Preformance APP");
         performanceLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
+        performanceLabel.setForeground(Color.decode("#FCFEFC"));
         performanceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         performanceLabel.setPreferredSize(new Dimension(164, 16));
         gbc = new java.awt.GridBagConstraints();
@@ -826,8 +843,9 @@ public class UITerminal extends JFrame{
         jScrollPane1.setPreferredSize(new Dimension(170, 25));
 
         parTextArea.setText("");
-        parTextArea.setBackground(Color.decode("#FCFEFC"));
+        parTextArea.setBackground(Color.decode("#303132"));
         parTextArea.setFont(new Font("Dialog", 1, 12));
+        parTextArea.setForeground(Color.decode("#FCFEFC"));
         parTextArea.setEditable(false);
         parTextArea.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         parTextArea.setLineWrap(true);
@@ -844,6 +862,7 @@ public class UITerminal extends JFrame{
 
         exeLabel = new JLabel("Overall Execution");
         exeLabel.setFont(new Font("Dialog", 1, 14));
+        exeLabel.setForeground(Color.decode("#FCFEFC"));
         exeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
@@ -871,12 +890,16 @@ public class UITerminal extends JFrame{
         gbc.insets = new Insets(0, 12, 2, 2);
         apInformationPanel.add(performanceContentLabel, gbc);
 
-        exeContentLabel = new JLabel();
-        exeContentLabel.setBackground(new Color(55, 55, 55));
+        exeContentLabel = new JProgressBar();
+        exeContentLabel.setValue(0);
+        exeContentLabel.setBackground(Color.decode("#303132"));
+        exeContentLabel.setBorder(BorderFactory.createLineBorder(Color.decode("#FCFEFC"), 1));
+        //exeContentLabel.set
         exeContentLabel.setFont(new Font("Dialog", 1, 18)); // NOI18N
-        exeContentLabel.setForeground(new Color(255, 255, 255));
-        exeContentLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        exeContentLabel.setOpaque(true);
+        exeContentLabel.setForeground(Color.decode("#64D610"));
+        //exeContentLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        //exeContentLabel.setOpaque(true);
+        exeContentLabel.setStringPainted(true);
         exeContentLabel.setPreferredSize(new Dimension(77, 16));
         gbc = new GridBagConstraints();
         gbc.gridx = 7;
@@ -899,14 +922,14 @@ public class UITerminal extends JFrame{
                 "Prog. %", "Status", "Dur."
             }));
         jTable1.setMinimumSize(new Dimension(300, 200));
-        jTable1.setBackground(Color.decode("#FCFEFC"));
+        //jTable1.setBackground(Color.decode("#FCFEFC"));
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setRowHeight(30);
-        jTable1.setGridColor(Color.decode("#FCFEFC"));
+        //jTable1.setGridColor(Color.decode("#FCFEFC"));
         jTable1.setFillsViewportHeight(true);
         //jTable1.setFocusable(false);
-        jTable1.setSelectionBackground(Color.decode("#303132"));
-        jTable1.setSelectionForeground(Color.decode("#C9CDD1"));
+        //jTable1.setSelectionBackground(Color.decode("#303132"));
+        //jTable1.setSelectionForeground(Color.decode("#C9CDD1"));
         jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setColumnWidth();
         jTable1.addMouseListener(new MouseAdapter(){
@@ -1175,7 +1198,7 @@ public class UITerminal extends JFrame{
                     Component c = DEFAULT_RENDERER.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                     if(!(column == 2 || column ==3) )
                         DEFAULT_RENDERER.setHorizontalAlignment(SwingConstants.CENTER);
-                    c.setBackground(row%2==0 ? Color.WHITE : Color.LIGHT_GRAY);
+                    //c.setBackground(row%2==0 ? Color.WHITE : Color.LIGHT_GRAY);
                     return c;
                 }
             });

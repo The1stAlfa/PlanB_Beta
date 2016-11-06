@@ -2,6 +2,7 @@ package com.lafargeholcim.planb.view;
 
 import com.sun.awt.AWTUtilities;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JWindow;
 import java.awt.Frame;
@@ -20,7 +21,7 @@ public final class SplashWindow extends JWindow{
                 JLabel splashLabel = new JLabel(new ImageIcon(getClass().getResource("/images/"+filename)));
                 AWTUtilities.setWindowOpaque(this,false);
 		getContentPane().add(splashLabel, BorderLayout.CENTER);
-                setProgressBar(new JProgressBar());
+                setProgressBar();
                 pack();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension labelSize = splashLabel.getPreferredSize();
@@ -50,7 +51,11 @@ public final class SplashWindow extends JWindow{
 		splashThread.start();
 	}
         
-        public void setProgressBar(JProgressBar b){
-            this.getContentPane().add(b, BorderLayout.SOUTH);
+        public void setProgressBar(){
+            JProgressBar progressBar = new JProgressBar();
+            progressBar.setForeground(Color.decode("#1160AE"));
+            progressBar.setValue(50);
+            //progressBar.setIndeterminate(true);
+            this.getContentPane().add(progressBar, BorderLayout.SOUTH);
         }
 }
