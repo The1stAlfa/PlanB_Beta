@@ -22,6 +22,8 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.*;
 import com.google.gson.Gson;
 import com.google.api.services.sheets.v4.Sheets;
+import com.google.api.services.sheets.v4.Sheets.Spreadsheets;
+import com.google.api.services.sheets.v4.Sheets.Spreadsheets.BatchUpdate;
 import com.google.api.services.sheets.v4.Sheets.Spreadsheets.Values.Update;
 import java.io.BufferedReader;
 import java.util.regex.Pattern;
@@ -198,9 +200,14 @@ public class GDataBase {
             //.update(range, range, vr)
             //service.spreadsheets().values().
             */
+            String uri = "https://sheets.googleapis.com/v4/spreadsheets/"+spreadsheetId+"?&fields=sheets.properties";
             Sheets service = getSheetsService();
+            Spreadsheet s = service.spreadsheets().get(uri)
+                    .setSpreadsheetId(spreadsheetId)
+                    .execute();
+            System.out.println(s.getSheets().get(0).getProperties().getSheetId());
             List<Request> requests = new ArrayList<>();
-
+            
                    List<CellData> values = new ArrayList<>();
                    values.add(new CellData()
                         .setUserEnteredValue(new ExtendedValue()
@@ -258,7 +265,6 @@ public class GDataBase {
                         .setRequests(requests);
                 service.spreadsheets().batchUpdate(spreadsheetId, batchUpdateRequest)
                         .execute();
-                System.out.println("BIEN... CREO");
         } catch (IOException ex) {
             Logger.getLogger(GDataBase.class.getName()).log(Level.SEVERE, null, ex);
         }

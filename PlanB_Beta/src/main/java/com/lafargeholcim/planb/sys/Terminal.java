@@ -374,23 +374,6 @@ public class Terminal{
         return actionPlan;
     }
     
-    private ArrayList getMeetingIds(int facilityID) throws SQLException, IOException{
-        String query;
-        Table result;
-        ArrayList list = new ArrayList();
-        
-        query = "SELECT+B+WHERE+A+CONTAINS+"+facilityID;
-        result = gPlanB.selectQuery(query, "facility_meeting");
-        if(result != null){
-            for(Row row:result.getRows()){
-                if(row != null)
-                    list.add(Integer.parseInt(getCellValue(row.getC().get(0),true)));
-            }
-            return list;
-        }
-        return null;
-    }
-    
     public Object[] getMeetingsNames(){
         return org.getFacility("01","id").getMeetingsNames().toArray();
     }
