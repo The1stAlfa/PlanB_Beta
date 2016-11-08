@@ -1,4 +1,4 @@
-import com.lafargeholcim.planb.sys.Terminal;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import com.lafargeholcim.planb.util.Time;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -23,7 +24,12 @@ import java.time.temporal.ChronoUnit;
 public class Trying {
     
     public static void main(String[] args) throws UnsupportedEncodingException{
-        System.out.println(getDaysBetweenDates("2016-06-10 12:10:00", "2016-06-11 00:10:00"));
+        String percent = "100%";
+        System.out.println(Time.getNow());
+        System.out.println(percent.substring(0, percent.length()-1));
+        System.out.println(Time.getSerialNumberDate("2016-05-10", false).toString()+" coco");
+        System.out.println(Time.getSerialNumberDate("2016-06-10", false).toString()+" coco");
+        System.out.println(Time.getSerialNumberDate("2016-06-10 19:10:00", true).toString()+" coco");
     }
      
     public static String executePost(String targetURL, String urlParameters) {

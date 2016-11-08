@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -76,7 +77,15 @@ public class GDataBase {
      * at ~/.credentials/sheets.googleapis.com-java-quickstart
      */
     private static final List<String> SCOPES =
-        Arrays.asList(SheetsScopes.SPREADSHEETS);  
+        Arrays.asList(SheetsScopes.SPREADSHEETS); 
+    
+    /** Global instance of the scopes required by this quickstart.
+     *
+     * If modifying these scopes, delete your previously saved credentials
+     * at ~/.credentials/sheets.googleapis.com-java-quickstart
+     */
+    private static HashMap<String, Worksheet> worksheets =
+            new HashMap();
     
     static {
         try {
@@ -91,6 +100,7 @@ public class GDataBase {
     public GDataBase() throws IOException{
         authorize();
         this.spreadsheetId = "1Xkd22LiN9unvv7GYOqsv3XwvjVMbFsi-EZASg4hxF9E";
+        fetchSheetsIds();
     }
     
     public void setSpreadsheetId(String  spreadshseetId){
@@ -178,8 +188,7 @@ public class GDataBase {
         
     }
     
-    public void insert(){
-        System.out.println("I'M HERE");
+    public void insert(String sheetTitle, List<CellData> values){
         try {
             /*
             Sheets service = getSheetsService();
@@ -200,71 +209,23 @@ public class GDataBase {
             //.update(range, range, vr)
             //service.spreadsheets().values().
             */
-            String uri = "https://sheets.googleapis.com/v4/spreadsheets/"+spreadsheetId+"?&fields=sheets.properties";
             Sheets service = getSheetsService();
-            Spreadsheet s = service.spreadsheets().get(uri)
-                    .setSpreadsheetId(spreadsheetId)
-                    .execute();
-            System.out.println(s.getSheets().get(0).getProperties().getSheetId());
             List<Request> requests = new ArrayList<>();
-            
-                   List<CellData> values = new ArrayList<>();
-                   values.add(new CellData()
-                        .setUserEnteredValue(new ExtendedValue()
-                                .setStringValue("01CTE0026")));
-                    values.add(new CellData()
-                    .setUserEnteredValue(new ExtendedValue()
-                    .setNumberValue(new Double("3"))));
-                    values.add(new CellData()
-                    .setUserEnteredValue(new ExtendedValue()
-                    .setNumberValue(new Double("45140"))));
-                    values.add(new CellData()
-                        .setUserEnteredValue(new ExtendedValue()
-                                .setStringValue("CON JEHOVÁ NO HAY CIELO OSCURO QUE NUNCA VAYA ACLARAR")));
-                    values.add(new CellData()
-                        .setUserEnteredValue(new ExtendedValue()
-                                .setStringValue("DERRAMA TU CORAZÓN SOBRE JEHOVÁ Y CON CONFIA CON TODO TU CORAZÓN")));
-                    values.add(new CellData()
-                            .setFormattedValue("2016-05-10")
-                      .setUserEnteredValue(new ExtendedValue()
-                    .setNumberValue(new Double("42500.0"))));
-                    values.add(new CellData()
-                            .setFormattedValue("2016-06-10")
-                      .setUserEnteredValue(new ExtendedValue()
-                    .setNumberValue(new Double("42531.0"))));
-                    values.add(new CellData()
-                        .setUserEnteredValue(new ExtendedValue()
-                                .setStringValue("")));
-                    values.add(new CellData()
-                            .setFormattedValue("2016-06-10 19:00:00")
-                      .setUserEnteredValue(new ExtendedValue()
-                    .setNumberValue(new Double("42531.798611"))));
-                    values.add(new CellData()
-                        .setUserEnteredValue(new ExtendedValue()
-                                .setStringValue("")));
-                    values.add(new CellData()
-                    .setUserEnteredValue(new ExtendedValue()
-                    .setNumberValue(new Double("1"))));
-                    values.add(new CellData()
-                    .setUserEnteredValue(new ExtendedValue()
-                    .setNumberValue(new Double("0"))));
-                    values.add(new CellData()
-                        .setUserEnteredValue(new ExtendedValue()
-                                .setStringValue("")));
-                    values.add(new CellData()
-                    .setUserEnteredValue(new ExtendedValue()
-                    .setNumberValue(new Double("0"))));
-                requests.add(new Request()
-                                .setAppendCells(new AppendCellsRequest()
-                                .setSheetId(new Integer("1911680966"))
-                                .setRows(Arrays.asList(
-                                        new RowData().setValues(values)))
-                                .setFields("userEnteredValue,userEnteredFormat.backgroundColor")));
+            int sheetId = getSheetId(sheetTitle);
+                   
+            requests.add(new Request()
+                    .setAppendCells(new AppendCellsRequest()
+                    .setSheetId(sheetId)
+                    .setRows(Arrays.asList(
+                        new RowData().setValues(values)))
+                        .setFields("userEnteredValue,userEnteredFormat.backgroundColor")));
 
-             BatchUpdateSpreadsheetRequest batchUpdateRequest = new BatchUpdateSpreadsheetRequest()
-                        .setRequests(requests);
-                service.spreadsheets().batchUpdate(spreadsheetId, batchUpdateRequest)
-                        .execute();
+            BatchUpdateSpreadsheetRequest batchUpdateRequest = 
+                    new BatchUpdateSpreadsheetRequest()
+                    .setRequests(requests);
+            
+            service.spreadsheets().batchUpdate(spreadsheetId, batchUpdateRequest)
+                    .execute();
         } catch (IOException ex) {
             Logger.getLogger(GDataBase.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -272,6 +233,71 @@ public class GDataBase {
     
     public void delete(){
         
+    }
+    
+    private void fetchSheetsIds() throws IOException{
+        String sheetsIdURL = 
+                "https://sheets.googleapis.com/v4/spreadsheets/"+spreadsheetId
+                +"?&fields=sheets.properties";
+        Sheets service = getSheetsService();
+        Spreadsheet spreadsheet = service.spreadsheets().get(sheetsIdURL)
+                                    .setSpreadsheetId(spreadsheetId)
+                                    .execute();
+        List<Sheet> sheets = spreadsheet.getSheets();
+        for(Sheet sheet:sheets){
+            String title = sheet.getProperties().getTitle();
+            Worksheet worksheet;
+            switch(title){
+                case "action":
+                    worksheet = Worksheet.ACTION;
+                    worksheet.setSheetId(sheet.getProperties().getSheetId());
+                    worksheets.put("action",worksheet);
+                case "actionplan":
+                    worksheet = Worksheet.ACTIONPLAN;
+                    worksheet.setSheetId(sheet.getProperties().getSheetId());
+                    worksheets.put("actionplan", worksheet);
+                case "adtparticipants_meeting":
+                    worksheet = Worksheet.ADTPARTICIPANTS_MEETING;
+                    worksheet.setSheetId(sheet.getProperties().getSheetId());
+                    worksheets.put("actionplan", worksheet);
+                case "apsummary":
+                    worksheet = Worksheet.APSUMMARY;
+                    worksheet.setSheetId(sheet.getProperties().getSheetId());    
+                    worksheets.put("apsummary", worksheet);
+                case "collaborator":
+                    worksheet = Worksheet.COLLABORATOR;
+                    worksheet.setSheetId(sheet.getProperties().getSheetId());    
+                    worksheets.put("collaborator", worksheet);
+                case "facility":
+                    worksheet = Worksheet.FACILITY;
+                    worksheet.setSheetId(sheet.getProperties().getSheetId());    
+                    worksheets.put("facility", worksheet);
+                case "facility_collaborator":
+                    worksheet = Worksheet.FACILITY_COLLABORATOR;
+                    worksheet.setSheetId(sheet.getProperties().getSheetId());    
+                    worksheets.put("facility_collaborator", worksheet);
+                case "followup_action":
+                    worksheet = Worksheet.FOLLOWUP_ACTION;
+                    worksheet.setSheetId(sheet.getProperties().getSheetId());    
+                    worksheets.put("followup_action", worksheet);
+                case "meeting":
+                    worksheet = Worksheet.MEETING;
+                    worksheet.setSheetId(sheet.getProperties().getSheetId());    
+                    worksheets.put("meeting", worksheet);
+                case "user":
+                    worksheet = Worksheet.USER;
+                    worksheet.setSheetId(sheet.getProperties().getSheetId());    
+                    worksheets.put("user", worksheet);
+                case "workteam":
+                    worksheet = Worksheet.WORKTEAM;
+                    worksheet.setSheetId(sheet.getProperties().getSheetId());    
+                    worksheets.put("workteam", worksheet);
+                case "workteam_collaborator":
+                    worksheet = Worksheet.WORKTEAM_COLLABORATOR;
+                    worksheet.setSheetId(sheet.getProperties().getSheetId());    
+                    worksheets.put("workteam_collaborator", worksheet);
+            }
+        }
     }
     
     private Table readResponse(InputStream response) throws IOException{
@@ -305,5 +331,9 @@ public class GDataBase {
             }
         }
         return result.toString();
+    }
+    
+    private int getSheetId(String sheetTitle){
+        return worksheets.get(sheetTitle).getSheetId();
     }
 }

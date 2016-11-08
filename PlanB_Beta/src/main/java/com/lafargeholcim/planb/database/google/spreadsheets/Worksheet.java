@@ -10,7 +10,7 @@ package com.lafargeholcim.planb.database.google.spreadsheets;
  * @author AI-Saac
  */
 public enum Worksheet {
-      /**
+    /**
      *
      */
     ACTION (0),
@@ -18,18 +18,6 @@ public enum Worksheet {
      *
      */
     ACTIONPLAN (0),
-    /**
-     *
-     */
-    MEETING (0),
-    /**
-     *
-     */
-    FACILITY (0),
-    /**
-     *
-     */
-    COLLABORATOR (0),
     /**
      *
      */
@@ -41,11 +29,35 @@ public enum Worksheet {
     /**
      *
      */
+    COLLABORATOR (0),
+    /**
+     *
+     */
+    FACILITY (0),
+    /**
+     *
+     */
+    FACILITY_COLLABORATOR (0),
+    /**
+     *
+     */
+    FOLLOWUP_ACTION (0),
+    /**
+     *
+     */
+    MEETING (0),
+    /**
+     *
+     */
     USER (0),
     /**
      *
      */
-    WORKTEAM (0);
+    WORKTEAM (0),
+    /**
+     *
+     */
+    WORKTEAM_COLLABORATOR (0);
     
     private int sheetId;
     

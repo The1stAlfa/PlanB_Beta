@@ -655,51 +655,8 @@ public class UITerminal extends JFrame{
             @Override
             public void itemStateChanged(ItemEvent event) {
                 meetingSelected(event);
-                try {
-                    Object[] object = Aps.getTerminal().getTableContent(ActionItemFilter.ALL, meetingName);
-                    Meeting meeting = (Meeting)object[0];
-                    jTable1.setModel((TableModel)object[1]);                
-                    setColumnWidth();
-                    centerColumnContent();
-
-                    if(meeting != null){
-                        ActionPlan plan = meeting.getActionPlan();
-                        APSummary summary = plan.getSummary();
-                        owContentLabel.setText(plan.getOwner().getFirstName()+" "
-                                +plan.getOwner().getLastName());
-                        actContentLabel.setText(String.valueOf(summary.getActions()));
-                        compContentLabel.setText(String.valueOf(summary.getActionsCompleted()));
-                        compAppContentLabel.setText(String.valueOf(summary.getActionsCompletedApp()));
-                        overAppContentLabel.setText(String.valueOf(summary.getActionsOverdue()));
-                        parTextArea.setText(getParticipantsAcronyms(meeting.getTeam(),meeting.getAditionalParticipants()));
-                        int team_performance = 100;
-                        if(summary.getActionsOverdue() == 0 && summary.getActionsCompletedApp() > 0)
-                            performanceContentLabel.setText(String.valueOf(team_performance)+"%");
-                        else{
-                            team_performance = (int)Math.round(((float)summary.getActionsCompletedApp()/
-                                    ((float)summary.getActions()))*100);
-                            performanceContentLabel.setText(String.valueOf(team_performance)+"%");
-                        }
-                        int execution = (int)Math.round((float)(summary.getActionsCompleted()/(float)summary.getActions())*100);
-                        exeContentLabel.setValue(execution);
-                        //String.valueOf(execution)+"%");
-                        if(team_performance <= 70){
-                            performanceContentLabel.setBackground(Color.decode("#E80C0C"));
-                            performanceContentLabel.setForeground(Color.decode("#FCFEFC"));
-                        }
-                        else if(71 <= team_performance || team_performance <= 89){
-                            performanceContentLabel.setBackground(Color.YELLOW);
-                            performanceContentLabel.setForeground(Color.decode("#303132"));
-                        }
-                        else{
-                            performanceContentLabel.setBackground(Color.decode("#00FF47"));
-                            performanceContentLabel.setForeground(Color.decode("#303132"));
-                        }
-                    }
-                }
-                catch (Exception ex) {
-                    Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
-                }}
+                updateJTable();
+            }
         });
         
         gbc = new GridBagConstraints();
@@ -1345,5 +1302,53 @@ public class UITerminal extends JFrame{
         highlightPanel.add(h6);
         highlightPanel.add(Box.createVerticalGlue());
         highlightPanel.add(h7);
+    }
+    
+    protected void updateJTable(){
+        try {
+            Object[] object = Aps.getTerminal().getTableContent(ActionItemFilter.ALL, meetingName);
+            Meeting meeting = (Meeting)object[0];
+            jTable1.setModel((TableModel)object[1]);                
+            setColumnWidth();
+            centerColumnContent();
+
+            if(meeting != null){
+                ActionPlan plan = meeting.getActionPlan();
+                APSummary summary = plan.getSummary();
+                owContentLabel.setText(plan.getOwner().getFirstName()+" "
+                        +plan.getOwner().getLastName());
+                actContentLabel.setText(String.valueOf(summary.getActions()));
+                compContentLabel.setText(String.valueOf(summary.getActionsCompleted()));
+                compAppContentLabel.setText(String.valueOf(summary.getActionsCompletedApp()));
+                overAppContentLabel.setText(String.valueOf(summary.getActionsOverdue()));
+                parTextArea.setText(getParticipantsAcronyms(meeting.getTeam(),meeting.getAditionalParticipants()));
+                int team_performance = 100;
+                if(summary.getActionsOverdue() == 0 && summary.getActionsCompletedApp() > 0)
+                    performanceContentLabel.setText(String.valueOf(team_performance)+"%");
+                else{
+                    team_performance = (int)Math.round(((float)summary.getActionsCompletedApp()/
+                            ((float)summary.getActions()))*100);
+                    performanceContentLabel.setText(String.valueOf(team_performance)+"%");
+                }
+                exeContentLabel.setValue((int)plan.getExecution());
+                if(team_performance <= 70){
+                    performanceContentLabel.setBackground(Color.decode("#E80C0C"));
+                    performanceContentLabel.setForeground(Color.decode("#FCFEFC"));
+                }
+                else if(71 <= team_performance || team_performance <= 89){
+                    performanceContentLabel.setBackground(Color.YELLOW);
+                    performanceContentLabel.setForeground(Color.decode("#303132"));
+                }
+                else{
+                    performanceContentLabel.setBackground(Color.decode("#00FF47"));
+                    performanceContentLabel.setForeground(Color.decode("#303132"));
+                }
+            }
+            jTable1.repaint();
+            performanceContentLabel.repaint();
+        }
+        catch (Exception ex) {
+            Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -19,6 +19,7 @@ public class Meeting {
     private WorkTeam team; 
     private ActionPlan actionPlan;
  //************************************************************************
+    private int meetingId;
     private String name;
     private String acronym;
     private String purpose;
@@ -44,8 +45,7 @@ public class Meeting {
      * @param id
      * @param date_created
      */
-    public Meeting(String name, String purpose, String id,
-            LocalDateTime dateCreated){
+    public Meeting(String name, String purpose, LocalDateTime dateCreated){
         this.name = name;
         this.purpose = purpose;
         this.dateCreated = dateCreated;
@@ -82,6 +82,10 @@ public class Meeting {
      */
     public String getName() {
         return name;
+    }
+
+    public int getMeetingId() {
+        return meetingId;
     }
 
     /**
@@ -178,5 +182,9 @@ public class Meeting {
      */
     public void setDateModified(LocalDateTime dateModified) {
         this.dateModified = dateModified;
-    }    
+    }
+
+    public void setMeetingId(int meetingId) {
+        this.meetingId = meetingId;
+    }
 }

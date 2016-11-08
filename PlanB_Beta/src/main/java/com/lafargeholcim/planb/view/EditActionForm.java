@@ -5,9 +5,9 @@
  */
 package com.lafargeholcim.planb.view;
 
-
 import com.lafargeholcim.planb.sys.Month;
 import com.lafargeholcim.planb.sys.Terminal;
+import com.lafargeholcim.planb.util.Time;
 import javax.swing.GroupLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -19,7 +19,6 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -173,7 +172,7 @@ public class EditActionForm extends JDialog {
             public void actionPerformed(ActionEvent e){
                 String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
                 String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-                int duration = getDaysBetweenDates(startDate, dueDate);
+                int duration = Time.getDaysBetweenDates(startDate, dueDate);
                 if(duration <= 0)
                     JOptionPane.showMessageDialog(getJDialog(),"Inconsistent Dates.","Error",JOptionPane.ERROR_MESSAGE);
                 else{
@@ -286,7 +285,7 @@ public class EditActionForm extends JDialog {
             public void itemStateChanged(ItemEvent e) {
                 String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
                 String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+                tfDuration.setText(String.valueOf(Time.getDaysBetweenDates(startDate, dueDate)));
             }
         });
         cbMonthStart.addItemListener(new ItemListener(){
@@ -294,7 +293,7 @@ public class EditActionForm extends JDialog {
             public void itemStateChanged(ItemEvent e){
                 String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
                 String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+                tfDuration.setText(String.valueOf(Time.getDaysBetweenDates(startDate, dueDate)));
             }
         });
         cbYearStart.addItemListener(new ItemListener(){
@@ -302,7 +301,7 @@ public class EditActionForm extends JDialog {
             public void itemStateChanged(ItemEvent e){
                 String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
                 String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+                tfDuration.setText(String.valueOf(Time.getDaysBetweenDates(startDate, dueDate)));
             }
         });
         cbDayEnd.addItemListener(new ItemListener(){
@@ -310,7 +309,7 @@ public class EditActionForm extends JDialog {
             public void itemStateChanged(ItemEvent e){
                 String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
                 String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+                tfDuration.setText(String.valueOf(Time.getDaysBetweenDates(startDate, dueDate)));
             }
         });
         cbMonthEnd.addItemListener(new ItemListener(){
@@ -318,7 +317,7 @@ public class EditActionForm extends JDialog {
             public void itemStateChanged(ItemEvent e){
                 String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
                 String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+                tfDuration.setText(String.valueOf(Time.getDaysBetweenDates(startDate, dueDate)));
             }
         });
         cbYearEnd.addItemListener(new ItemListener(){
@@ -326,7 +325,7 @@ public class EditActionForm extends JDialog {
             public void itemStateChanged(ItemEvent e){
                 String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
                 String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
-                tfDuration.setText(String.valueOf(getDaysBetweenDates(startDate, dueDate)));
+                tfDuration.setText(String.valueOf(Time.getDaysBetweenDates(startDate, dueDate)));
             }
         });
         
@@ -556,10 +555,6 @@ public class EditActionForm extends JDialog {
     
     private JDialog getJDialog(){
         return this;
-    }
-    
-    private int getDaysBetweenDates(String start, String end){
-        return (int)ChronoUnit.DAYS.between(Terminal.parseDate(start),Terminal.parseDate(end));
     }
      
     private String getDate(JComboBox year, JComboBox month, JComboBox day){
