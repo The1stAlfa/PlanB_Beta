@@ -46,7 +46,7 @@ import java.util.logging.Logger;
 public class GDataBase {
     /** Application name. */
     private static final String APPLICATION_NAME =
-        "Google Sheets API Java Quickstart";
+        "PlanB v1.0";
 
     /** Directory to store user credentials for this application. */
     private static final java.io.File DATA_STORE_DIR = new java.io.File(
@@ -184,8 +184,28 @@ public class GDataBase {
         return null;
     }
     
-    public void update(){
-        
+    public void update(String sheetTitle, List<CellData> values){
+        try {
+            Sheets service = getSheetsService();
+            List<Request> requests = new ArrayList<>();
+            int sheetId = getSheetId(sheetTitle);
+                   
+            requests.add(new Request()
+                    .setAppendCells(new AppendCellsRequest()
+                    .setSheetId(sheetId)
+                    .setRows(Arrays.asList(
+                        new RowData().setValues(values)))
+                        .setFields("userEnteredValue,userEnteredFormat.backgroundColor")));
+
+            BatchUpdateSpreadsheetRequest batchUpdateRequest = 
+                    new BatchUpdateSpreadsheetRequest()
+                    .setRequests(requests);
+            
+            service.spreadsheets().batchUpdate(spreadsheetId, batchUpdateRequest)
+                    .execute();
+        } catch (IOException ex) {
+            Logger.getLogger(GDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void insert(String sheetTitle, List<CellData> values){

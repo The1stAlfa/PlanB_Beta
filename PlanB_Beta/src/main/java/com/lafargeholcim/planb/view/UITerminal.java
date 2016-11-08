@@ -517,7 +517,7 @@ public class UITerminal extends JFrame{
         settingsMenu.setMargin(new Insets(0,5,5,0));
         
         menuEvents(menuItem, "menuBlue.png", "menuBlack.png");
-        menuEvents(dashboardMenu, "dashBoardLB.png", "dashboardL.png");
+        menuEvents(dashboardMenu, "dashboardLB.png", "dashboardL.png");
         menuEvents(meetingMenu, "meetingLB.png", "meetingL.png");
         menuEvents(actionPlanMenu, "actionplanLB.png", "actionplanL.png");
         menuEvents(teamMenu, "teamLB.png", "teamL.png");
@@ -575,7 +575,7 @@ public class UITerminal extends JFrame{
         
         apInformationPanel = new JPanel();
         apInformationPanel.setLayout(new GridBagLayout());
-        apInformationPanel.setBackground(Color.decode("#3c3e41"));
+        apInformationPanel.setBackground(Color.decode("#3C3E41"));
         actionListPanel = new JPanel();
         actionListPanel.setLayout(new BorderLayout());
         actionListPanel.setPreferredSize(new Dimension(300,300));
@@ -703,6 +703,7 @@ public class UITerminal extends JFrame{
         compAppLabel.setVerticalAlignment(SwingConstants.TOP);
         compAppLabel.setPreferredSize(new Dimension(105, 24));
         compAppLabel.setVerticalTextPosition(SwingConstants.TOP);
+        compAppLabel.setForeground(Color.decode("#FCFEFC"));
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 3;
@@ -730,6 +731,7 @@ public class UITerminal extends JFrame{
         actContentLabel = new JLabel();
         actContentLabel.setHorizontalAlignment(SwingConstants.CENTER);
         actContentLabel.setPreferredSize(new Dimension(40, 16));
+        actContentLabel.setForeground(Color.decode("#FCFEFC"));
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 1;
@@ -741,6 +743,7 @@ public class UITerminal extends JFrame{
         owContentLabel.setLabelFor(owLabel);
         owContentLabel.setHorizontalTextPosition(SwingConstants.LEFT);
         owContentLabel.setPreferredSize(new Dimension(150, 24));
+        owContentLabel.setForeground(Color.decode("#FCFEFC"));
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 2;
@@ -754,6 +757,7 @@ public class UITerminal extends JFrame{
         compContentLabel = new JLabel();
         compContentLabel.setHorizontalAlignment(SwingConstants.CENTER);
         compContentLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+        compContentLabel.setForeground(Color.decode("#FCFEFC"));
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 2;
@@ -766,6 +770,7 @@ public class UITerminal extends JFrame{
         compAppContentLabel.setVerticalAlignment(SwingConstants.TOP);
         compAppContentLabel.setHorizontalTextPosition(SwingConstants.LEADING);
         compAppContentLabel.setVerticalTextPosition(SwingConstants.TOP);
+        compAppContentLabel.setForeground(Color.decode("#FCFEFC"));
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 3;
@@ -774,6 +779,7 @@ public class UITerminal extends JFrame{
         apInformationPanel.add(compAppContentLabel, gbc);
 
         overAppContentLabel = new JLabel();
+        overAppContentLabel.setForeground(Color.decode("#FCFEFC"));
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 4;
@@ -795,12 +801,12 @@ public class UITerminal extends JFrame{
         apInformationPanel.add(performanceLabel, gbc);
         
         jScrollPane1 = new JScrollPane();
-        jScrollPane1.setBackground(Color.decode("#FCFEFC"));
+        jScrollPane1.setBackground(Color.decode("#3C3E41"));
         jScrollPane1.setBorder(BorderFactory.createEmptyBorder(0, 2, 2, 2));
         jScrollPane1.setPreferredSize(new Dimension(170, 25));
 
         parTextArea.setText("");
-        parTextArea.setBackground(Color.decode("#303132"));
+        parTextArea.setBackground(Color.decode("#3C3E41"));
         parTextArea.setFont(new Font("Dialog", 1, 12));
         parTextArea.setForeground(Color.decode("#FCFEFC"));
         parTextArea.setEditable(false);
@@ -849,7 +855,7 @@ public class UITerminal extends JFrame{
 
         exeContentLabel = new JProgressBar();
         exeContentLabel.setValue(0);
-        exeContentLabel.setBackground(Color.decode("#303132"));
+        exeContentLabel.setBackground(Color.decode("#3C3E41"));
         exeContentLabel.setBorder(BorderFactory.createLineBorder(Color.decode("#FCFEFC"), 1));
         //exeContentLabel.set
         exeContentLabel.setFont(new Font("Dialog", 1, 18)); // NOI18N
@@ -882,11 +888,11 @@ public class UITerminal extends JFrame{
         //jTable1.setBackground(Color.decode("#FCFEFC"));
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setRowHeight(30);
-        //jTable1.setGridColor(Color.decode("#FCFEFC"));
+        jTable1.setGridColor(Color.decode("#FCFEFC"));
         jTable1.setFillsViewportHeight(true);
-        //jTable1.setFocusable(false);
-        //jTable1.setSelectionBackground(Color.decode("#303132"));
-        //jTable1.setSelectionForeground(Color.decode("#C9CDD1"));
+        jTable1.setFocusable(false);
+        jTable1.setSelectionBackground(Color.decode("#1160AE"));
+        jTable1.setSelectionForeground(Color.decode("#1160AE"));
         jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setColumnWidth();
         jTable1.addMouseListener(new MouseAdapter(){
@@ -1155,7 +1161,7 @@ public class UITerminal extends JFrame{
                     Component c = DEFAULT_RENDERER.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                     if(!(column == 2 || column ==3) )
                         DEFAULT_RENDERER.setHorizontalAlignment(SwingConstants.CENTER);
-                    //c.setBackground(row%2==0 ? Color.WHITE : Color.LIGHT_GRAY);
+                    c.setBackground(row%2==0 ? Color.WHITE : Color.decode("#EDEDED"));
                     return c;
                 }
             });
@@ -1163,13 +1169,15 @@ public class UITerminal extends JFrame{
     }
     
     private void setColumnWidth(){       
-        jTable1.getColumnModel().getColumn(0).setMaxWidth(75);  //ID
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(77);  //ID
+        jTable1.getColumnModel().getColumn(0).setMinWidth(77);  //ID
         jTable1.getColumnModel().getColumn(1).setMaxWidth(40);  //RESPONSIBLE
         jTable1.getColumnModel().getColumn(4).setMaxWidth(73);  //START DATE
         jTable1.getColumnModel().getColumn(5).setMaxWidth(73);  //DUE DATE
         jTable1.getColumnModel().getColumn(6).setMaxWidth(73);  //END DATE
         jTable1.getColumnModel().getColumn(7).setMaxWidth(50);  //PROGRESS
-        jTable1.getColumnModel().getColumn(8).setMinWidth(77); //STATUS
+        jTable1.getColumnModel().getColumn(8).setMaxWidth(120); //STATUS
+        jTable1.getColumnModel().getColumn(8).setMinWidth(110); //STATUS
         jTable1.getColumnModel().getColumn(9).setMaxWidth(40);  //DURATION
     }
     
@@ -1210,7 +1218,8 @@ public class UITerminal extends JFrame{
         return rowData;
     }
     
-    private String getParticipantsAcronyms(WorkTeam workteam, ArrayList<Collaborator> adtParticipants){
+    private String getParticipantsAcronyms(WorkTeam workteam, 
+            ArrayList<Collaborator> adtParticipants){
         String s = "";
         ArrayList<Collaborator> collaborators = (ArrayList<Collaborator>)workteam.getMembers().clone();
         if(!adtParticipants.isEmpty())
@@ -1344,8 +1353,7 @@ public class UITerminal extends JFrame{
                     performanceContentLabel.setForeground(Color.decode("#303132"));
                 }
             }
-            jTable1.repaint();
-            performanceContentLabel.repaint();
+            //jTable1.repaint();
         }
         catch (Exception ex) {
             Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);

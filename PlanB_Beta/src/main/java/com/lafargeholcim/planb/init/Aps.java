@@ -37,16 +37,16 @@ public class Aps {
      * @throws java.lang.reflect.InvocationTargetException
      */
     public static void main(String[] args) throws InterruptedException, 
-            InvocationTargetException,
-            Exception {
+            InvocationTargetException,Exception {
+        
         terminalAPS = new Terminal();
         javax.swing.SwingUtilities.invokeLater(() -> {
             LoginForm login = new LoginForm();
             try {
-                //  UIManager.setLookAndFeel(
-                  //        UIManager.getCrossPlatformLookAndFeelClassName());
+                UIManager.setLookAndFeel(
+                          UIManager.getCrossPlatformLookAndFeelClassName());
                 //UIManager.setLookAndFeel("com.bulenkov.darcula.DarculaLaf");
-                UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+                //UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
                 login.setVisible(true);
                /*
                 for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
