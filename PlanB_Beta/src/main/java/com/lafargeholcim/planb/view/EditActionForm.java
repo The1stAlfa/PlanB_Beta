@@ -180,6 +180,7 @@ public class EditActionForm extends JDialog {
                         if(detectActionDataModification()){
                             terminal.modifyAction(rowDataModified,meetingName);
                             parent.setEnabled(true);
+                            ((UITerminal)parent).updateJTable();
                             getJDialog().dispose();
                         }
                     } catch (Exception ex) {

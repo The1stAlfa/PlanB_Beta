@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class User {
     private String username = null;
     private String password = null;
-    private int employeeID;
+    private int collaboratorID;
     private Role role;
     private String email;
     private ArrayList<String> accessList;
@@ -51,8 +51,8 @@ public class User {
         return this.email;
     }
     
-    public int getEmployeeId(){
-        return this.employeeID;
+    public int getCollaboratorId(){
+        return this.collaboratorID;
     }
     
     public void setUsername(String username) {
@@ -75,7 +75,7 @@ public class User {
         this.email = email;
     }
     
-    public void setEmployeeId(int id){
-        this.employeeID = id;   
+    public void setCollaboratorId(int id){
+        this.collaboratorID = id;   
     }
 }

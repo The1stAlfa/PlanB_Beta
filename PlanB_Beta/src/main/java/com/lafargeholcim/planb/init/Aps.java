@@ -14,6 +14,9 @@ import java.awt.FontFormatException;
 import java.awt.Frame;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -36,17 +39,20 @@ public class Aps {
      * @throws java.lang.InterruptedException
      * @throws java.lang.reflect.InvocationTargetException
      */
-    public static void main(String[] args) throws InterruptedException, 
-            InvocationTargetException,Exception {
+    public static void main(String[] args)  {
         
-        terminalAPS = new Terminal();
+        try {
+            terminalAPS = new Terminal();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(terminalUI, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
         javax.swing.SwingUtilities.invokeLater(() -> {
             LoginForm login = new LoginForm();
             try {
-                UIManager.setLookAndFeel(
-                          UIManager.getCrossPlatformLookAndFeelClassName());
+                //UIManager.setLookAndFeel(
+                  //        UIManager.getCrossPlatformLookAndFeelClassName());
                 //UIManager.setLookAndFeel("com.bulenkov.darcula.DarculaLaf");
-                //UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
                 login.setVisible(true);
                /*
                 for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {

@@ -50,7 +50,7 @@ public class GDataBase {
 
     /** Directory to store user credentials for this application. */
     private static final java.io.File DATA_STORE_DIR = new java.io.File(
-        System.getProperty("user.home"), ".credentials/sheets.googleapis.com-java-quickstart");
+        System.getProperty("user.home"), ".credentials/sheets.googleapis.com-java-planB");
 
     /** Global instance of the {@link FileDataStoreFactory}. */
     private static FileDataStoreFactory DATA_STORE_FACTORY;
@@ -120,6 +120,7 @@ public class GDataBase {
             GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.
+        
         GoogleAuthorizationCodeFlow flow =
                 new GoogleAuthorizationCodeFlow.Builder(
                         HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
@@ -184,24 +185,13 @@ public class GDataBase {
         return null;
     }
     
-    public void update(String sheetTitle, List<CellData> values){
+    public void update(List<Request> requests ){
         try {
             Sheets service = getSheetsService();
-            List<Request> requests = new ArrayList<>();
-            int sheetId = getSheetId(sheetTitle);
-                   
-            requests.add(new Request()
-                    .setAppendCells(new AppendCellsRequest()
-                    .setSheetId(sheetId)
-                    .setRows(Arrays.asList(
-                        new RowData().setValues(values)))
-                        .setFields("userEnteredValue,userEnteredFormat.backgroundColor")));
-
             BatchUpdateSpreadsheetRequest batchUpdateRequest = 
-                    new BatchUpdateSpreadsheetRequest()
-                    .setRequests(requests);
-            
-            service.spreadsheets().batchUpdate(spreadsheetId, batchUpdateRequest)
+                    new BatchUpdateSpreadsheetRequest().setRequests(requests);
+            service.spreadsheets()
+                    .batchUpdate(spreadsheetId, batchUpdateRequest)
                     .execute();
         } catch (IOException ex) {
             Logger.getLogger(GDataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -268,6 +258,10 @@ public class GDataBase {
             String title = sheet.getProperties().getTitle();
             Worksheet worksheet;
             switch(title){
+                case "access":
+                    worksheet = Worksheet.ACCESS;
+                    worksheet.setSheetId(sheet.getProperties().getSheetId());
+                    worksheets.put("access",worksheet);
                 case "action":
                     worksheet = Worksheet.ACTION;
                     worksheet.setSheetId(sheet.getProperties().getSheetId());
@@ -355,5 +349,19 @@ public class GDataBase {
     
     private int getSheetId(String sheetTitle){
         return worksheets.get(sheetTitle).getSheetId();
+    }
+    
+    public Request getRequest(String sheetTitle, List<CellData> values, 
+            int rowIndex, int columnIndex){
+        
+        int sheetId = getSheetId(sheetTitle);
+        return new Request().setUpdateCells(new UpdateCellsRequest()
+                            .setStart(new GridCoordinate()
+                                    .setSheetId(sheetId)
+                                    .setRowIndex(rowIndex)
+                                    .setColumnIndex(columnIndex))
+                            .setRows(Arrays.asList(
+                                    new RowData().setValues(values)))
+                            .setFields("userEnteredValue,userEnteredFormat.backgroundColor"));
     }
 }
