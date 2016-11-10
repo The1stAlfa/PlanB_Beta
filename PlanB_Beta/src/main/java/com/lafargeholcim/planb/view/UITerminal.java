@@ -658,7 +658,7 @@ public class UITerminal extends JFrame{
                 updateJTable();
             }
         });
-        
+
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -1068,7 +1068,7 @@ public class UITerminal extends JFrame{
                 }
             }
         }); 
-        
+
         modifyActionLabel = new JLabel();
         modifyActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/edit-24.png")));
         modifyActionLabel.setPreferredSize(new Dimension(35,filterPanel.getPreferredSize().height));

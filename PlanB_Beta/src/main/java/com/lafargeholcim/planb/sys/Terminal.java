@@ -39,6 +39,8 @@ import javax.swing.table.DefaultTableModel;
 import java.io.IOException;
 import java.util.HashMap;
 import com.lafargeholcim.planb.util.Time;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 
 public class Terminal{
@@ -73,8 +75,8 @@ public class Terminal{
         String query;
         Facility facility = new Facility();
         
-        query = "SELECT+B+WHERE+C+CONTAINS+"+user.getCollaboratorId();
-        Table result = gPlanB.selectQuery(query, "facility_collaborator");
+        query = "SELECT+C+WHERE+B+CONTAINS+"+user.getCollaboratorId();
+        Table result = gPlanB.selectQuery(query, "collaborator");
         if(result != null){
             if(result.getRows().size() == 1){
                 facility.setId("0"+result.getUniqueCellValueOfUniqueRow(true));
@@ -235,23 +237,6 @@ public class Terminal{
         Facility facility = org.getFacility(facilityID,"id");
         return facility.searchCollaborator(collaboratorAcronym,(byte) 2);
     }
-    
-    /*public ArrayList getCollaboratorIds(int facilityID) 
-            throws SQLException, IOException{
-        String query;
-        ArrayList list = new ArrayList(); 
-        
-        query = "SELECT+C+WHERE+B+CONTAINS+%27"+facilityID+"%27";
-        Table result = gPlanB.selectQuery(query, "facility_collaborator");
-        if(result != null){
-            for (Row row : result.getRows()) {
-                if(row != null)
-                    list.add(Integer.parseInt(row.getCellValue(0, true)));
-            }
-            return list;
-        }
-        return null;
-    }*/
     
     private HashMap<Integer, Collaborator> getCollaborators(int facilityID) 
             throws SQLException, IOException{
@@ -615,9 +600,16 @@ public class Terminal{
             String detail, String comments, String startDate, String dueDate, 
             int statusValue, byte progress, Meeting meeting) throws SQLException, Exception{
         
+        int rowIndex = 0;
         String temporalActionId = actionId;
         List<CellData> values = new ArrayList<>();
-        
+        String query = "SELECT+COUNT(A)";
+        Table result = gPlanB.selectQuery(query, "action");
+        if(result != null){
+            rowIndex = (int) Double.parseDouble(
+                    result.getUniqueCellValueOfUniqueRow(false));
+        }
+        values.add(getCellData((double)(rowIndex+2)));  // Value for the index
         values.add(getCellData(actionId));  // Value for actionId
         values.add(getCellData((double)actionplanId));  // Value for actionplanId
         values.add(getCellData((double)collaboratorId));  // Value for collaboratorId
@@ -634,7 +626,6 @@ public class Terminal{
         values.add(getCellData(""));  // Value for DateModified
         values.add(getCellData((double)statusValue));  // Value for status
         values.add(getCellData((double)progress));  // Value for progress
-        values.add(getCellData(""));  // Value for benefit
         values.add(getCellData((double)0));  // Value for isDeleted
         while(isDuplicatedActionId(temporalActionId)){
             temporalActionId = getNewActionId(meeting.getName());
@@ -659,6 +650,7 @@ public class Terminal{
     public boolean signup(String username, String password) throws NoSuchAlgorithmException{
         String saltedPassword = SALT + password;
         String hashedPassword = generateHash(saltedPassword);
+        System.out.println(hashedPassword);
         return false;
     }
     
@@ -701,22 +693,23 @@ public class Terminal{
     }
     
     public boolean deleteAction(String actionID, String meetingName) throws Exception{
-        if(actionID != null){
-            Facility facility = org.getFacility(meetingName,"meetingName"); 
-            Meeting meeting = facility.searchMeeting(meetingName);
-            if(meeting.getActionPlan().deleteAction(actionID))
-                deleteActionFromDatabase(actionID);
-            return true;
-        }
-        return false;
-    }
-    
-    private boolean deleteActionFromDatabase(String actionID) throws Exception{
-        String query;
-
+        int rowIndex = 0, columnIndex = 13;
+        List<Request> requests = new ArrayList();
+        String query = "SELECT+A+WHERE+B+CONTAINS+%27"+actionID+"%27";
+        Table result = gPlanB.selectQuery(query, "action");
         
-        if(actionID != null){
-            query = "UPDATE planb.action SET isDeleted=1 WHERE itemId='"+actionID+"';";
+        if(result != null){
+            if(result.getRows().size() == 1){
+                rowIndex = Integer.parseInt(
+                        result.getUniqueCellValueOfUniqueRow(true))-1;
+                List<CellData> values = new ArrayList<>();
+                values.add(new CellData()
+                            .setUserEnteredValue(new ExtendedValue()
+                            .setNumberValue((double)1)));
+                requests.add(gPlanB.getRequest("action", values, rowIndex, 
+                            columnIndex));
+            }
+            return true;
         }
         return false;
     }
