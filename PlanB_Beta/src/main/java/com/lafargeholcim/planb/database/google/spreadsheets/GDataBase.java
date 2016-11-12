@@ -212,7 +212,7 @@ public class GDataBase {
             values.setValues(ob);
             values.setMajorDimension("ROWS");
             Update v = service.spreadsheets().values().update(spreadsheetId, range, values);
-            
+            pdate
             v.setValueInputOption("USER_ENTERED");
             UpdateValuesResponse y = v.execute();
             System.out.println("");
@@ -228,7 +228,7 @@ public class GDataBase {
                     .setSheetId(sheetId)
                     .setRows(Arrays.asList(
                         new RowData().setValues(values)))
-                        .setFields("userEnteredValue,userEnteredFormat.backgroundColor")));
+                    .setFields("userEnteredValue,userEnteredFormat.backgroundColor")));
 
             BatchUpdateSpreadsheetRequest batchUpdateRequest = 
                     new BatchUpdateSpreadsheetRequest()

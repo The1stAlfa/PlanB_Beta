@@ -338,6 +338,8 @@ public class AddActionForm extends JDialog{
         status_comboBox.setSelectedIndex(0);
         setParticipantsNames();
         responsibleComboBox.setSelectedIndex(-1);
+        responsibleComboBox.setBackground(Color.decode("#45494A"));
+        responsibleComboBox.setForeground(Color.decode("#FCFEFC"));
         progressSlider.setValue(0);       
         //progressSlider.setOpaque(false);
         //ui.put("Slider.altTrackColor", Color.decode("#1160AE"));

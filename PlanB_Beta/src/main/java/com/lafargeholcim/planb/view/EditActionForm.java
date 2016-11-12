@@ -164,7 +164,9 @@ public class EditActionForm extends JDialog {
         jLabel13.setText("Duration");
         jLabel13.setForeground(Color.decode("#C9CDD1"));
         tfDuration.setText("");
-        responsibleComboBox.setBackground(Color.decode("#FCFEFC"));
+        responsibleComboBox.setBackground(Color.decode("#45494A"));
+        responsibleComboBox.setForeground(Color.decode("#FCFEFC"));
+        responsibleComboBox.setEnabled(false);
         
         saveButton.setText("SAVE");
         saveButton.addActionListener(new ActionListener(){

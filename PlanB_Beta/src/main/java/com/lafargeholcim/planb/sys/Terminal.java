@@ -27,6 +27,7 @@ import com.lafargeholcim.planb.database.google.spreadsheets.json.model.Row;
 import com.lafargeholcim.planb.database.google.spreadsheets.json.model.Table;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.CellData;
+import com.google.api.services.sheets.v4.model.CellFormat;
 import com.google.api.services.sheets.v4.model.ExtendedValue;
 import com.google.api.services.sheets.v4.model.Request;
 import java.security.MessageDigest;
@@ -218,10 +219,15 @@ public class Terminal{
                 .setNumberValue(value));
     }
     
-    private CellData getCellData(String value){
+    private CellData getCellData(String value, boolean formula){
+        if(formula){
+            return new CellData()
+                        .setUserEnteredValue(new ExtendedValue()
+                            .setFormulaValue(value));
+        }
         return new CellData()
                         .setUserEnteredValue(new ExtendedValue()
-                        .setStringValue(value));
+                            .setStringValue(value));
     }
     
     private String getCellValue(Cell cell, boolean formatted){
@@ -610,27 +616,31 @@ public class Terminal{
                     result.getUniqueCellValueOfUniqueRow(false));
         }
         values.add(getCellData((double)(rowIndex+2)));  // Value for the index
-        values.add(getCellData(actionId));  // Value for actionId
+        values.add(getCellData(actionId, false));  // Value for actionId
         values.add(getCellData((double)actionplanId));  // Value for actionplanId
         values.add(getCellData((double)collaboratorId));  // Value for collaboratorId
-        values.add(getCellData(detail));  // Value for detail
-        values.add(getCellData(comments));  // Value for comments
+        values.add(getCellData(detail, false));  // Value for detail
+        values.add(getCellData(comments, false));  // Value for comments
         values.add(getCellData(Time.getSerialNumberDate(startDate, false))
                 .setFormattedValue(startDate));  // Value for startDate
         values.add(getCellData(Time.getSerialNumberDate(dueDate, false))
                 .setFormattedValue(dueDate));  // Value for dueDate
-        values.add(getCellData(""));  // Value for finishDate
+        values.add(getCellData("", false));  // Value for finishDate
         values.add(getCellData(
                 Time.getSerialNumberDate(
                 Time.getNow(), true)));  // Value for DateCreated
-        values.add(getCellData(""));  // Value for DateModified
+        values.add(getCellData("", false));  // Value for DateModified
         values.add(getCellData((double)statusValue));  // Value for status
         values.add(getCellData((double)progress));  // Value for progress
         values.add(getCellData((double)0));  // Value for isDeleted
+        /*
+        String q = "=IF(ISERROR(QUERY(action!$B$2:$N;\"SELECT COUNT(B) WHERE l = 6 AND C = \"&$C2&\" AND N=0 LABEL COUNT(B) ''\"));0;QUERY(action!$B$2:$N;\"SELECT COUNT(B) WHERE L = 6 AND C = \"&$C2&\" AND N=0 LABEL COUNT(B) ''\"))";
+        values.add();
+        */
         while(isDuplicatedActionId(temporalActionId)){
             temporalActionId = getNewActionId(meeting.getName());
             if(!temporalActionId.equals(actionId)){
-                values.set(0, getCellData(temporalActionId));
+                values.set(0, getCellData(temporalActionId, false));
                 gPlanB.insert("action", values);
                 return temporalActionId;
             }
@@ -658,7 +668,7 @@ public class Terminal{
             ArrayList<Integer> columnsIndex, ArrayList<Object> list)
             throws SQLException, Exception{
         
-        int rowIndex, index;
+        int rowIndex, columnIndex;
         List<Request> requests = new ArrayList();
         String query = "SELECT+A+WHERE+B+CONTAINS+%27"+actionID+"%27";
         Table result = gPlanB.selectQuery(query, "action");
@@ -669,19 +679,14 @@ public class Terminal{
                         result.getUniqueCellValueOfUniqueRow(true))-1;
                 for(int c=0; c<columnsIndex.size(); c++){
                     List<CellData> values = new ArrayList<>();
-                    index = columnsIndex.get(c);
-                    if(index == 11 || index == 12 || (index>= 6 && index<=8) ){
-                        values.add(new CellData()
-                                .setUserEnteredValue(new ExtendedValue()
-                                .setNumberValue((Double)list.get(c))));
-                    }
-                    else{
-                        values.add(new CellData()
-                                .setUserEnteredValue(new ExtendedValue()
-                                .setStringValue(list.get(c).toString())));
-                    }
+                    columnIndex = columnsIndex.get(c);
+                    if(columnIndex == 11 || columnIndex == 12 
+                            || (columnIndex>= 6 && columnIndex<=8))
+                        values.add(getCellData((Double)list.get(c)));
+                    else
+                        values.add(getCellData(list.get(c).toString(), false));
                     requests.add(gPlanB.getRequest("action", values, rowIndex, 
-                            index));
+                            columnIndex));
                 }
                 gPlanB.update(requests);
             }
@@ -708,8 +713,9 @@ public class Terminal{
                             .setNumberValue((double)1)));
                 requests.add(gPlanB.getRequest("action", values, rowIndex, 
                             columnIndex));
+                gPlanB.update(requests);
+                return true;
             }
-            return true;
         }
         return false;
     }

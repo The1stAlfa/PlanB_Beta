@@ -1344,13 +1344,14 @@ public class UITerminal extends JFrame{
                     performanceContentLabel.setBackground(Color.decode("#E80C0C"));
                     performanceContentLabel.setForeground(Color.decode("#FCFEFC"));
                 }
-                else if(71 <= team_performance || team_performance <= 89){
+                else if(team_performance > 70 && team_performance < 90){
                     performanceContentLabel.setBackground(Color.YELLOW);
                     performanceContentLabel.setForeground(Color.decode("#303132"));
                 }
                 else{
-                    performanceContentLabel.setBackground(Color.decode("#00FF47"));
-                    performanceContentLabel.setForeground(Color.decode("#303132"));
+                    // Darcula black color 3C3E41
+                    performanceContentLabel.setBackground(Color.decode("#64D610"));
+                    performanceContentLabel.setForeground(Color.decode("#FCFEFC"));
                 }
             }
             //jTable1.repaint();
