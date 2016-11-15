@@ -5,6 +5,12 @@
  */
 package com.lafargeholcim.planb.view;
 
+import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 /**
  *
  * @author AI-Saac
@@ -27,7 +33,7 @@ public class Panel extends javax.swing.JFrame {
     private void initComponents() {//GEN-BEGIN:initComponents
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
+        apInformationPanel = new javax.swing.JPanel();
         apPanel = new javax.swing.JPanel();
         actionLabel = new javax.swing.JLabel();
         planLabel = new javax.swing.JLabel();
@@ -38,11 +44,11 @@ public class Panel extends javax.swing.JFrame {
         dotMenuLabel = new javax.swing.JLabel();
         ownerNamePanel = new javax.swing.JPanel();
         firstNameLabel = new javax.swing.JLabel();
-        surNameLabel = new javax.swing.JLabel();
+        surnameLabel = new javax.swing.JLabel();
         ownerLabel = new javax.swing.JLabel();
         participantsPanel = new javax.swing.JPanel();
         participantsLabel = new javax.swing.JLabel();
-        scrollParctipants = new javax.swing.JScrollPane();
+        scrollParticipants = new javax.swing.JScrollPane();
         participantsTextArea = new javax.swing.JTextArea();
         totalActionsPanel = new javax.swing.JPanel();
         actionsLabel = new javax.swing.JLabel();
@@ -58,37 +64,58 @@ public class Panel extends javax.swing.JFrame {
         overdueValueLabel = new javax.swing.JLabel();
         teamPerformancePanel = new javax.swing.JPanel();
         performanceLabel = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        performanceValueLabel = new javax.swing.JLabel();
         planExecutionPanel = new javax.swing.JPanel();
         executionLabel = new javax.swing.JLabel();
         executionValueLabel = new javax.swing.JLabel();
         datePanel = new javax.swing.JPanel();
         dateLabel = new javax.swing.JLabel();
         dateValueLabel = new javax.swing.JLabel();
+        filterLabelPanel = new javax.swing.JPanel();
+        filterLabel = new javax.swing.JLabel();
+        statusPanel = new javax.swing.JPanel();
+        statusRadioButton = new javax.swing.JRadioButton();
+        statusComboBox = new javax.swing.JComboBox<>();
+        status2Label = new javax.swing.JLabel();
+        dateRadioButton = new javax.swing.JRadioButton();
+        dateComboBox = new javax.swing.JComboBox<>();
+        date2Label = new javax.swing.JLabel();
+        startLabel = new javax.swing.JTextField();
+        endLabel = new javax.swing.JTextField();
+        ownerRadioButton = new javax.swing.JRadioButton();
+        owner2Label = new javax.swing.JLabel();
+        owner2TextField = new javax.swing.JTextField();
+        contentRadioButton = new javax.swing.JRadioButton();
+        content2Label = new javax.swing.JLabel();
+        hintTextField = new javax.swing.JTextField();
+        buttonsPanel = new javax.swing.JPanel();
+        addIcon = new javax.swing.JLabel();
+        editIcon = new javax.swing.JLabel();
+        deleteIcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setMaximumSize(new java.awt.Dimension(2147483647, 400));
-        setMinimumSize(new java.awt.Dimension(230, 190));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1002, 190));
+        setPreferredSize(new java.awt.Dimension(1002, 250));
         setResizable(false);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        jPanel1.setPreferredSize(new java.awt.Dimension(100, 204));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        apInformationPanel.setBackground(new java.awt.Color(252, 254, 252));
+        apInformationPanel.setMinimumSize(new java.awt.Dimension(650, 250));
+        apInformationPanel.setPreferredSize(new java.awt.Dimension(800, 250));
+        apInformationPanel.setLayout(new java.awt.GridBagLayout());
 
         apPanel.setBackground(new java.awt.Color(0, 66, 118));
         apPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 4, 2, new java.awt.Color(252, 254, 252)));
-        apPanel.setMaximumSize(new java.awt.Dimension(154, 190));
-        apPanel.setMinimumSize(new java.awt.Dimension(0, 190));
-        apPanel.setPreferredSize(new java.awt.Dimension(154, 190));
+        apPanel.setMaximumSize(new java.awt.Dimension(164, 200));
+        apPanel.setMinimumSize(new java.awt.Dimension(110, 200));
+        apPanel.setPreferredSize(new java.awt.Dimension(120, 200));
 
-        actionLabel.setFont(new java.awt.Font("Dialog", 1, 40)); // NOI18N
+        actionLabel.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         actionLabel.setForeground(new java.awt.Color(252, 254, 252));
         actionLabel.setText("Action");
 
-        planLabel.setFont(new java.awt.Font("Dialog", 1, 40)); // NOI18N
+        planLabel.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         planLabel.setForeground(new java.awt.Color(252, 254, 252));
         planLabel.setText("Plan");
 
@@ -101,7 +128,7 @@ public class Panel extends javax.swing.JFrame {
                 .addGroup(apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(actionLabel)
                     .addComponent(planLabel))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
         apPanelLayout.setVerticalGroup(
             apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,7 +137,7 @@ public class Panel extends javax.swing.JFrame {
                 .addComponent(actionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(planLabel)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -119,16 +146,18 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weightx = 2.0;
         gridBagConstraints.weighty = 1.0;
-        jPanel1.add(apPanel, gridBagConstraints);
+        apInformationPanel.add(apPanel, gridBagConstraints);
 
+        meetingNamePanel.setBackground(new java.awt.Color(48, 49, 50));
         meetingNamePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 2, 2, 2, new java.awt.Color(252, 254, 252)));
-        meetingNamePanel.setMaximumSize(new java.awt.Dimension(32767, 95));
-        meetingNamePanel.setMinimumSize(new java.awt.Dimension(252, 95));
-        meetingNamePanel.setPreferredSize(new java.awt.Dimension(252, 95));
+        meetingNamePanel.setMinimumSize(new java.awt.Dimension(242, 100));
+        meetingNamePanel.setPreferredSize(new java.awt.Dimension(252, 100));
 
+        meetingLabel.setBackground(new java.awt.Color(187, 187, 188));
         meetingLabel.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        meetingLabel.setForeground(new java.awt.Color(252, 254, 252));
         meetingLabel.setText("meeting");
 
         title1Label.setFont(new java.awt.Font("Dialog", 1, 28)); // NOI18N
@@ -139,7 +168,9 @@ public class Panel extends javax.swing.JFrame {
         title2Label.setForeground(new java.awt.Color(252, 254, 252));
         title2Label.setText("Técnico");
 
+        dotMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         dotMenuLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dotsMenu-24.png"))); // NOI18N
+        dotMenuLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         dotMenuLabel.setIconTextGap(0);
 
         javax.swing.GroupLayout meetingNamePanelLayout = new javax.swing.GroupLayout(meetingNamePanel);
@@ -149,15 +180,15 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(meetingNamePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(meetingNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, meetingNamePanelLayout.createSequentialGroup()
+                    .addGroup(meetingNamePanelLayout.createSequentialGroup()
                         .addComponent(title1Label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(meetingLabel))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, meetingNamePanelLayout.createSequentialGroup()
-                        .addGap(0, 37, Short.MAX_VALUE)
-                        .addComponent(title2Label, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)
-                        .addComponent(dotMenuLabel)))
+                    .addGroup(meetingNamePanelLayout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(title2Label, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                        .addGap(10, 10, 10)
+                        .addComponent(dotMenuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         meetingNamePanelLayout.setVerticalGroup(
@@ -165,14 +196,14 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(meetingNamePanelLayout.createSequentialGroup()
                 .addGroup(meetingNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(meetingNamePanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(title1Label))
+                        .addGap(4, 4, 4)
+                        .addComponent(title1Label, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
                     .addComponent(meetingLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(meetingNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(title2Label)
-                    .addComponent(dotMenuLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(2, 2, 2)
+                .addGroup(meetingNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(title2Label, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dotMenuLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         title2Label.getAccessibleContext().setAccessibleName("Indicadores");
@@ -181,24 +212,27 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        jPanel1.add(meetingNamePanel, gridBagConstraints);
+        apInformationPanel.add(meetingNamePanel, gridBagConstraints);
 
+        ownerNamePanel.setBackground(new java.awt.Color(48, 49, 50));
         ownerNamePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 4, 2, new java.awt.Color(252, 254, 252)));
-        ownerNamePanel.setMaximumSize(new java.awt.Dimension(32767, 95));
-        ownerNamePanel.setMinimumSize(new java.awt.Dimension(126, 95));
-        ownerNamePanel.setPreferredSize(new java.awt.Dimension(126, 95));
+        ownerNamePanel.setMinimumSize(new java.awt.Dimension(121, 100));
+        ownerNamePanel.setPreferredSize(new java.awt.Dimension(126, 100));
 
         firstNameLabel.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
         firstNameLabel.setForeground(new java.awt.Color(252, 254, 252));
         firstNameLabel.setText("SERGIO");
 
-        surNameLabel.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
-        surNameLabel.setForeground(new java.awt.Color(252, 254, 252));
-        surNameLabel.setText("ORJUELA");
+        surnameLabel.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
+        surnameLabel.setForeground(new java.awt.Color(252, 254, 252));
+        surnameLabel.setText("ORJUELA");
 
+        ownerLabel.setBackground(new java.awt.Color(187, 187, 188));
         ownerLabel.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        ownerLabel.setForeground(new java.awt.Color(252, 254, 252));
         ownerLabel.setText("owner");
 
         javax.swing.GroupLayout ownerNamePanelLayout = new javax.swing.GroupLayout(ownerNamePanel);
@@ -209,40 +243,46 @@ public class Panel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(ownerNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(firstNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(surNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ownerNamePanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(ownerLabel)))
+                        .addComponent(ownerLabel))
+                    .addGroup(ownerNamePanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(surnameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         ownerNamePanelLayout.setVerticalGroup(
             ownerNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ownerNamePanelLayout.createSequentialGroup()
                 .addComponent(ownerLabel)
-                .addGap(7, 7, 7)
-                .addComponent(firstNameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(surNameLabel)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGap(4, 4, 4)
+                .addComponent(firstNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(surnameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        jPanel1.add(ownerNamePanel, gridBagConstraints);
+        apInformationPanel.add(ownerNamePanel, gridBagConstraints);
 
-        participantsPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(252, 254, 252)));
-        participantsPanel.setMaximumSize(new java.awt.Dimension(32767, 95));
-        participantsPanel.setMinimumSize(new java.awt.Dimension(126, 95));
-        participantsPanel.setPreferredSize(new java.awt.Dimension(126, 95));
+        participantsPanel.setBackground(new java.awt.Color(48, 49, 50));
+        participantsPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 4, 2, new java.awt.Color(252, 254, 252)));
+        participantsPanel.setMinimumSize(new java.awt.Dimension(126, 100));
+        participantsPanel.setPreferredSize(new java.awt.Dimension(126, 100));
 
         participantsLabel.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        participantsLabel.setForeground(new java.awt.Color(252, 254, 252));
         participantsLabel.setText("participants");
 
-        scrollParctipants.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 3, 0, 0));
-        scrollParctipants.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollParticipants.setBackground(new java.awt.Color(48, 49, 50));
+        scrollParticipants.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 3, 0, 0));
+        scrollParticipants.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollParticipants.setPreferredSize(new java.awt.Dimension(120, 48));
 
         participantsTextArea.setEditable(false);
         participantsTextArea.setBackground(new java.awt.Color(60, 63, 65));
@@ -256,19 +296,20 @@ public class Panel extends javax.swing.JFrame {
         participantsTextArea.setWrapStyleWord(true);
         participantsTextArea.setAutoscrolls(false);
         participantsTextArea.setBorder(null);
+        participantsTextArea.setMinimumSize(new java.awt.Dimension(0, 150));
         participantsTextArea.setPreferredSize(new java.awt.Dimension(120, 52));
-        scrollParctipants.setViewportView(participantsTextArea);
+        scrollParticipants.setViewportView(participantsTextArea);
 
         javax.swing.GroupLayout participantsPanelLayout = new javax.swing.GroupLayout(participantsPanel);
         participantsPanel.setLayout(participantsPanelLayout);
         participantsPanelLayout.setHorizontalGroup(
             participantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(participantsPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(4, 4, 4)
                 .addGroup(participantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollParctipants, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(scrollParticipants, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, participantsPanelLayout.createSequentialGroup()
-                        .addGap(0, 45, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(participantsLabel)))
                 .addContainerGap())
         );
@@ -277,40 +318,45 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(participantsPanelLayout.createSequentialGroup()
                 .addComponent(participantsLabel)
                 .addGap(4, 4, 4)
-                .addComponent(scrollParctipants, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+                .addComponent(scrollParticipants, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel1.add(participantsPanel, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        apInformationPanel.add(participantsPanel, gridBagConstraints);
 
-        totalActionsPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(252, 254, 252)));
-        totalActionsPanel.setMaximumSize(new java.awt.Dimension(32767, 95));
-        totalActionsPanel.setMinimumSize(new java.awt.Dimension(100, 95));
-        totalActionsPanel.setPreferredSize(new java.awt.Dimension(100, 95));
+        totalActionsPanel.setBackground(new java.awt.Color(230, 231, 234));
+        totalActionsPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 2, 2, 2, new java.awt.Color(252, 254, 252)));
+        totalActionsPanel.setMinimumSize(new java.awt.Dimension(100, 100));
+        totalActionsPanel.setPreferredSize(new java.awt.Dimension(100, 100));
 
         actionsLabel.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        actionsLabel.setForeground(new java.awt.Color(48, 49, 50));
         actionsLabel.setText("actions");
 
         actionValueLabel.setFont(new java.awt.Font("Dialog", 1, 42)); // NOI18N
-        actionValueLabel.setForeground(new java.awt.Color(252, 254, 252));
+        actionValueLabel.setForeground(new java.awt.Color(122, 120, 123));
         actionValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         actionValueLabel.setText("100");
+        actionValueLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        actionValueLabel.setIconTextGap(0);
 
         javax.swing.GroupLayout totalActionsPanelLayout = new javax.swing.GroupLayout(totalActionsPanel);
         totalActionsPanel.setLayout(totalActionsPanelLayout);
         totalActionsPanelLayout.setHorizontalGroup(
             totalActionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(totalActionsPanelLayout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(actionValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(4, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, totalActionsPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(actionsLabel)
+                .addContainerGap()
+                .addGroup(totalActionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, totalActionsPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(actionsLabel))
+                    .addComponent(actionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
                 .addContainerGap())
         );
         totalActionsPanelLayout.setVerticalGroup(
@@ -318,25 +364,30 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(totalActionsPanelLayout.createSequentialGroup()
                 .addComponent(actionsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(actionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                .addComponent(actionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
-        jPanel1.add(totalActionsPanel, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        apInformationPanel.add(totalActionsPanel, gridBagConstraints);
 
-        completedActionPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(252, 254, 252)));
-        completedActionPanel.setMaximumSize(new java.awt.Dimension(32767, 95));
-        completedActionPanel.setMinimumSize(new java.awt.Dimension(0, 95));
-        completedActionPanel.setPreferredSize(new java.awt.Dimension(100, 95));
+        completedActionPanel.setBackground(new java.awt.Color(230, 231, 234));
+        completedActionPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 4, 2, new java.awt.Color(252, 254, 252)));
+        completedActionPanel.setForeground(new java.awt.Color(230, 231, 234));
+        completedActionPanel.setMinimumSize(new java.awt.Dimension(100, 100));
+        completedActionPanel.setPreferredSize(new java.awt.Dimension(100, 100));
 
         completedLabel.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        completedLabel.setForeground(new java.awt.Color(48, 49, 50));
         completedLabel.setText("completed");
 
         completedValueLabel.setFont(new java.awt.Font("Dialog", 1, 42)); // NOI18N
-        completedValueLabel.setForeground(new java.awt.Color(252, 254, 252));
+        completedValueLabel.setForeground(new java.awt.Color(120, 120, 123));
         completedValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         completedValueLabel.setText("40");
         completedValueLabel.setMaximumSize(new java.awt.Dimension(69, 54));
@@ -353,7 +404,7 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, completedActionPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(completedLabel))
-                    .addComponent(completedValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))
+                    .addComponent(completedValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
                 .addContainerGap())
         );
         completedActionPanelLayout.setVerticalGroup(
@@ -361,233 +412,564 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(completedActionPanelLayout.createSequentialGroup()
                 .addComponent(completedLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(completedValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                .addComponent(completedValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
-        jPanel1.add(completedActionPanel, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        apInformationPanel.add(completedActionPanel, gridBagConstraints);
 
-        appActionPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(252, 254, 252)));
-        appActionPanel.setMaximumSize(new java.awt.Dimension(32767, 95));
-        appActionPanel.setMinimumSize(new java.awt.Dimension(100, 95));
-        appActionPanel.setPreferredSize(new java.awt.Dimension(100, 95));
+        appActionPanel.setBackground(new java.awt.Color(230, 231, 234));
+        appActionPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 2, 2, 2, new java.awt.Color(252, 254, 252)));
+        appActionPanel.setMinimumSize(new java.awt.Dimension(100, 100));
+        appActionPanel.setPreferredSize(new java.awt.Dimension(100, 100));
 
         appLabel.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        appLabel.setForeground(new java.awt.Color(48, 49, 50));
         appLabel.setText("app");
 
+        appValueLabel.setBackground(new java.awt.Color(48, 49, 50));
         appValueLabel.setFont(new java.awt.Font("Dialog", 1, 42)); // NOI18N
-        appValueLabel.setForeground(new java.awt.Color(252, 254, 252));
+        appValueLabel.setForeground(new java.awt.Color(120, 120, 123));
         appValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         appValueLabel.setText("35");
         appValueLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        appValueLabel.setIconTextGap(0);
 
         javax.swing.GroupLayout appActionPanelLayout = new javax.swing.GroupLayout(appActionPanel);
         appActionPanel.setLayout(appActionPanelLayout);
         appActionPanelLayout.setHorizontalGroup(
             appActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, appActionPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(appLabel)
-                .addContainerGap())
             .addGroup(appActionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(appValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(appActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(appActionPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(appLabel))
+                    .addComponent(appValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE))
+                .addContainerGap())
         );
         appActionPanelLayout.setVerticalGroup(
             appActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(appActionPanelLayout.createSequentialGroup()
                 .addComponent(appLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(appValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addComponent(appValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
-        jPanel1.add(appActionPanel, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        apInformationPanel.add(appActionPanel, gridBagConstraints);
 
-        overdueActionPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(252, 254, 252)));
-        overdueActionPanel.setMaximumSize(new java.awt.Dimension(32767, 95));
-        overdueActionPanel.setMinimumSize(new java.awt.Dimension(100, 95));
-        overdueActionPanel.setPreferredSize(new java.awt.Dimension(100, 95));
+        overdueActionPanel.setBackground(new java.awt.Color(230, 231, 234));
+        overdueActionPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 4, 2, new java.awt.Color(252, 254, 252)));
+        overdueActionPanel.setMinimumSize(new java.awt.Dimension(100, 100));
 
         overdueLabel.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        overdueLabel.setForeground(new java.awt.Color(48, 49, 50));
         overdueLabel.setText("overdue");
 
         overdueValueLabel.setFont(new java.awt.Font("Dialog", 1, 42)); // NOI18N
-        overdueValueLabel.setForeground(new java.awt.Color(252, 254, 252));
+        overdueValueLabel.setForeground(new java.awt.Color(120, 120, 123));
         overdueValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         overdueValueLabel.setText("15");
+        overdueValueLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout overdueActionPanelLayout = new javax.swing.GroupLayout(overdueActionPanel);
         overdueActionPanel.setLayout(overdueActionPanelLayout);
         overdueActionPanelLayout.setHorizontalGroup(
             overdueActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, overdueActionPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(overdueLabel)
-                .addContainerGap())
             .addGroup(overdueActionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(overdueValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(overdueActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, overdueActionPanelLayout.createSequentialGroup()
+                        .addGap(0, 144, Short.MAX_VALUE)
+                        .addComponent(overdueLabel))
+                    .addComponent(overdueValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         overdueActionPanelLayout.setVerticalGroup(
             overdueActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(overdueActionPanelLayout.createSequentialGroup()
                 .addComponent(overdueLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(overdueValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addComponent(overdueValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
-        jPanel1.add(overdueActionPanel, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        apInformationPanel.add(overdueActionPanel, gridBagConstraints);
 
-        teamPerformancePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(252, 254, 252)));
-        teamPerformancePanel.setMaximumSize(new java.awt.Dimension(32767, 95));
-        teamPerformancePanel.setMinimumSize(new java.awt.Dimension(100, 95));
-        teamPerformancePanel.setPreferredSize(new java.awt.Dimension(100, 95));
+        teamPerformancePanel.setBackground(new java.awt.Color(254, 67, 68));
+        teamPerformancePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 2, 2, 2, new java.awt.Color(252, 254, 252)));
+        teamPerformancePanel.setMinimumSize(new java.awt.Dimension(110, 100));
+        teamPerformancePanel.setPreferredSize(new java.awt.Dimension(110, 100));
 
         performanceLabel.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        performanceLabel.setForeground(new java.awt.Color(252, 254, 252));
         performanceLabel.setText("performance");
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 42)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(254, 67, 68));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("65%");
+        performanceValueLabel.setFont(new java.awt.Font("Dialog", 1, 40)); // NOI18N
+        performanceValueLabel.setForeground(new java.awt.Color(252, 254, 252));
+        performanceValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        performanceValueLabel.setText("165%");
+        performanceValueLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        performanceValueLabel.setIconTextGap(0);
 
         javax.swing.GroupLayout teamPerformancePanelLayout = new javax.swing.GroupLayout(teamPerformancePanel);
         teamPerformancePanel.setLayout(teamPerformancePanelLayout);
         teamPerformancePanelLayout.setHorizontalGroup(
             teamPerformancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(teamPerformancePanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(performanceLabel)
+                .addGroup(teamPerformancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(teamPerformancePanelLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(performanceLabel))
+                    .addComponent(performanceValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(teamPerformancePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         teamPerformancePanelLayout.setVerticalGroup(
             teamPerformancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(teamPerformancePanelLayout.createSequentialGroup()
                 .addComponent(performanceLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addComponent(performanceValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
-        jPanel1.add(teamPerformancePanel, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        apInformationPanel.add(teamPerformancePanel, gridBagConstraints);
 
-        planExecutionPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 4, new java.awt.Color(252, 254, 252)));
-        planExecutionPanel.setMaximumSize(new java.awt.Dimension(32767, 95));
-        planExecutionPanel.setMinimumSize(new java.awt.Dimension(100, 95));
-        planExecutionPanel.setPreferredSize(new java.awt.Dimension(100, 95));
+        planExecutionPanel.setBackground(new java.awt.Color(48, 49, 50));
+        planExecutionPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 2, 2, 4, new java.awt.Color(252, 254, 252)));
+        planExecutionPanel.setMinimumSize(new java.awt.Dimension(110, 100));
+        planExecutionPanel.setPreferredSize(new java.awt.Dimension(110, 100));
 
         executionLabel.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        executionLabel.setForeground(new java.awt.Color(252, 254, 252));
         executionLabel.setText("execution");
 
-        executionValueLabel.setFont(new java.awt.Font("Dialog", 1, 42)); // NOI18N
+        executionValueLabel.setFont(new java.awt.Font("Dialog", 1, 40)); // NOI18N
         executionValueLabel.setForeground(new java.awt.Color(51, 255, 0));
         executionValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        executionValueLabel.setText("76%");
+        executionValueLabel.setText("106%");
 
         javax.swing.GroupLayout planExecutionPanelLayout = new javax.swing.GroupLayout(planExecutionPanel);
         planExecutionPanel.setLayout(planExecutionPanelLayout);
         planExecutionPanelLayout.setHorizontalGroup(
             planExecutionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, planExecutionPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(executionLabel)
-                .addContainerGap())
             .addGroup(planExecutionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(executionValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(4, Short.MAX_VALUE))
+                .addGroup(planExecutionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, planExecutionPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(executionLabel))
+                    .addComponent(executionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
+                .addContainerGap())
         );
         planExecutionPanelLayout.setVerticalGroup(
             planExecutionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(planExecutionPanelLayout.createSequentialGroup()
                 .addComponent(executionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(executionValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addComponent(executionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 0;
-        jPanel1.add(planExecutionPanel, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        apInformationPanel.add(planExecutionPanel, gridBagConstraints);
 
-        datePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 4, new java.awt.Color(252, 254, 252)));
-        datePanel.setMaximumSize(new java.awt.Dimension(32767, 90));
-        datePanel.setMinimumSize(new java.awt.Dimension(0, 90));
-        datePanel.setPreferredSize(new java.awt.Dimension(200, 95));
+        datePanel.setBackground(new java.awt.Color(252, 254, 252));
+        datePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 4, 4, new java.awt.Color(252, 254, 252)));
+        datePanel.setMinimumSize(new java.awt.Dimension(220, 100));
+        datePanel.setPreferredSize(new java.awt.Dimension(220, 100));
 
         dateLabel.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        dateLabel.setForeground(new java.awt.Color(122, 120, 123));
         dateLabel.setText("date");
 
         dateValueLabel.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
-        dateValueLabel.setForeground(new java.awt.Color(252, 254, 252));
+        dateValueLabel.setForeground(new java.awt.Color(120, 120, 123));
+        dateValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         dateValueLabel.setText("2016-11-14");
+        dateValueLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout datePanelLayout = new javax.swing.GroupLayout(datePanel);
         datePanel.setLayout(datePanelLayout);
         datePanelLayout.setHorizontalGroup(
             datePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(datePanelLayout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(datePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, datePanelLayout.createSequentialGroup()
-                        .addComponent(dateLabel)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, datePanelLayout.createSequentialGroup()
-                        .addComponent(dateValueLabel)
-                        .addGap(16, 16, 16))))
+                    .addGroup(datePanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(dateLabel))
+                    .addComponent(dateValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
+                .addContainerGap())
         );
         datePanelLayout.setVerticalGroup(
             datePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(datePanelLayout.createSequentialGroup()
                 .addComponent(dateLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(dateValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 24, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dateValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel1.add(datePanel, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        apInformationPanel.add(datePanel, gridBagConstraints);
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        filterLabelPanel.setBackground(new java.awt.Color(230, 231, 234));
+        filterLabelPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 4, 2, new java.awt.Color(252, 254, 252)));
+        filterLabelPanel.setMaximumSize(new java.awt.Dimension(164, 50));
+        filterLabelPanel.setMinimumSize(new java.awt.Dimension(120, 50));
+        filterLabelPanel.setPreferredSize(new java.awt.Dimension(164, 50));
+        filterLabelPanel.setLayout(new java.awt.BorderLayout());
+
+        filterLabel.setBackground(new java.awt.Color(230, 231, 234));
+        filterLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        filterLabel.setForeground(new java.awt.Color(122, 120, 123));
+        filterLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        filterLabel.setText("Filter by");
+        filterLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        filterLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        filterLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        filterLabel.setIconTextGap(0);
+        filterLabel.setMaximumSize(new java.awt.Dimension(164, 24));
+        filterLabel.setMinimumSize(new java.awt.Dimension(80, 24));
+        filterLabel.setOpaque(true);
+        filterLabel.setPreferredSize(new java.awt.Dimension(100, 24));
+        filterLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                filterLabelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                filterLabelMouseExited(evt);
+            }
+        });
+        filterLabelPanel.add(filterLabel, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        apInformationPanel.add(filterLabelPanel, gridBagConstraints);
+
+        statusPanel.setBackground(new java.awt.Color(0, 66, 118));
+        statusPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 2, 4, 0, new java.awt.Color(252, 254, 252)));
+        statusPanel.setMaximumSize(new java.awt.Dimension(32767, 50));
+        statusPanel.setMinimumSize(new java.awt.Dimension(710, 50));
+        statusPanel.setPreferredSize(new java.awt.Dimension(710, 50));
+
+        statusRadioButton.setBackground(new java.awt.Color(0, 66, 118));
+        statusRadioButton.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
+        statusRadioButton.setForeground(new java.awt.Color(252, 254, 252));
+        statusRadioButton.setSelected(true);
+        statusRadioButton.setIconTextGap(0);
+        statusRadioButton.setMargin(new java.awt.Insets(0, 2, 0, 2));
+        statusRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statusRadioButtonActionPerformed(evt);
+            }
+        });
+
+        statusComboBox.setBackground(new java.awt.Color(252, 254, 252));
+        statusComboBox.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        statusComboBox.setForeground(new java.awt.Color(48, 49, 50));
+        statusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "  --- Select ---", "Completed", "Overdue", "In Process", "Completed APP", "Near to Due Date", "Waiting to Start" }));
+        statusComboBox.setBorder(null);
+        statusComboBox.setMaximumSize(new java.awt.Dimension(149, 29));
+        statusComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statusComboBoxActionPerformed(evt);
+            }
+        });
+
+        status2Label.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        status2Label.setForeground(new java.awt.Color(252, 254, 252));
+        status2Label.setText("status");
+
+        dateRadioButton.setBackground(new java.awt.Color(0, 66, 118));
+        dateRadioButton.setForeground(new java.awt.Color(252, 254, 252));
+        dateRadioButton.setSelected(true);
+        dateRadioButton.setIconTextGap(0);
+        dateRadioButton.setMargin(new java.awt.Insets(0, 2, 0, 2));
+        dateRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateRadioButtonActionPerformed(evt);
+            }
+        });
+
+        dateComboBox.setBackground(new java.awt.Color(252, 254, 252));
+        dateComboBox.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        dateComboBox.setForeground(new java.awt.Color(48, 49, 50));
+        dateComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " -- Select --", "start Date", "due Date", "end Date" }));
+        dateComboBox.setBorder(null);
+        dateComboBox.setMaximumSize(new java.awt.Dimension(106, 29));
+        dateComboBox.setMinimumSize(new java.awt.Dimension(90, 29));
+
+        date2Label.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        date2Label.setForeground(new java.awt.Color(252, 254, 252));
+        date2Label.setText("date");
+
+        startLabel.setBackground(new java.awt.Color(252, 254, 252));
+        startLabel.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        startLabel.setText("start");
+        startLabel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 3, 1, 1, new java.awt.Color(252, 254, 252)));
+        startLabel.setMinimumSize(new java.awt.Dimension(34, 27));
+        startLabel.setPreferredSize(new java.awt.Dimension(27, 27));
+
+        endLabel.setBackground(new java.awt.Color(252, 254, 252));
+        endLabel.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        endLabel.setText("end");
+        endLabel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 3, 1, 1, new java.awt.Color(252, 254, 252)));
+        endLabel.setMinimumSize(new java.awt.Dimension(34, 27));
+        endLabel.setPreferredSize(new java.awt.Dimension(25, 27));
+
+        ownerRadioButton.setBackground(new java.awt.Color(6, 66, 118));
+        ownerRadioButton.setIconTextGap(0);
+        ownerRadioButton.setMargin(new java.awt.Insets(0, 2, 0, 0));
+        ownerRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ownerRadioButtonActionPerformed(evt);
+            }
+        });
+
+        owner2Label.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        owner2Label.setForeground(new java.awt.Color(252, 254, 252));
+        owner2Label.setText("owner");
+
+        owner2TextField.setBackground(new java.awt.Color(252, 254, 252));
+        owner2TextField.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        owner2TextField.setText("acronym");
+        owner2TextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 3, 1, 1, new java.awt.Color(252, 254, 252)));
+        owner2TextField.setCaretPosition(3);
+        owner2TextField.setMinimumSize(new java.awt.Dimension(4, 27));
+        owner2TextField.setPreferredSize(new java.awt.Dimension(54, 27));
+
+        contentRadioButton.setBackground(new java.awt.Color(0, 66, 118));
+        contentRadioButton.setIconTextGap(0);
+        contentRadioButton.setMargin(new java.awt.Insets(0, 2, 0, 2));
+        contentRadioButton.setMinimumSize(new java.awt.Dimension(0, 26));
+        contentRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contentRadioButtonActionPerformed(evt);
+            }
+        });
+
+        content2Label.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        content2Label.setForeground(new java.awt.Color(252, 254, 252));
+        content2Label.setText("content");
+        content2Label.setMinimumSize(new java.awt.Dimension(0, 15));
+
+        hintTextField.setBackground(new java.awt.Color(252, 254, 252));
+        hintTextField.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        hintTextField.setText("hint");
+        hintTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 3, 1, 1, new java.awt.Color(252, 254, 252)));
+        hintTextField.setMinimumSize(new java.awt.Dimension(0, 27));
+        hintTextField.setPreferredSize(new java.awt.Dimension(35, 27));
+
+        javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
+        statusPanel.setLayout(statusPanelLayout);
+        statusPanelLayout.setHorizontalGroup(
+            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statusPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(status2Label)
+                    .addComponent(statusRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addComponent(statusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(date2Label)
+                    .addComponent(dateRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addComponent(dateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(startLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(endLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(owner2Label)
+                    .addComponent(ownerRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(owner2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(content2Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(contentRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addComponent(hintTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(93, Short.MAX_VALUE))
+        );
+        statusPanelLayout.setVerticalGroup(
+            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statusPanelLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(statusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(dateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(startLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(endLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(hintTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(statusPanelLayout.createSequentialGroup()
+                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(statusPanelLayout.createSequentialGroup()
+                        .addComponent(owner2Label)
+                        .addGap(2, 2, 2)
+                        .addComponent(ownerRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(statusPanelLayout.createSequentialGroup()
+                        .addComponent(content2Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(contentRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(statusPanelLayout.createSequentialGroup()
+                        .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(status2Label)
+                            .addComponent(date2Label))
+                        .addGap(2, 2, 2)
+                        .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(dateRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, Short.MAX_VALUE)
+                            .addComponent(statusRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addGroup(statusPanelLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(owner2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 1, Short.MAX_VALUE))
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        apInformationPanel.add(statusPanel, gridBagConstraints);
+
+        buttonsPanel.setBackground(new java.awt.Color(0, 66, 118));
+        buttonsPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 0, 4, 2, new java.awt.Color(252, 254, 252)));
+        buttonsPanel.setMaximumSize(new java.awt.Dimension(32767, 50));
+        buttonsPanel.setMinimumSize(new java.awt.Dimension(122, 50));
+        buttonsPanel.setPreferredSize(new java.awt.Dimension(122, 50));
+        buttonsPanel.setLayout(new javax.swing.BoxLayout(buttonsPanel, javax.swing.BoxLayout.LINE_AXIS));
+
+        addIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        addIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plusWhite24.png"))); // NOI18N
+        addIcon.setToolTipText("Add Action");
+        addIcon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        addIcon.setIconTextGap(0);
+        addIcon.setMaximumSize(new java.awt.Dimension(32767, 32767));
+        addIcon.setMinimumSize(new java.awt.Dimension(36, 40));
+        addIcon.setPreferredSize(new java.awt.Dimension(36, 40));
+        buttonsPanel.add(addIcon);
+
+        editIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        editIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editWhite24.png"))); // NOI18N
+        editIcon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        editIcon.setIconTextGap(0);
+        editIcon.setMaximumSize(new java.awt.Dimension(32767, 32767));
+        editIcon.setMinimumSize(new java.awt.Dimension(35, 40));
+        editIcon.setPreferredSize(new java.awt.Dimension(35, 40));
+        buttonsPanel.add(editIcon);
+
+        deleteIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        deleteIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deleteWhite24.png"))); // NOI18N
+        deleteIcon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        deleteIcon.setIconTextGap(0);
+        deleteIcon.setMaximumSize(new java.awt.Dimension(32767, 32767));
+        deleteIcon.setMinimumSize(new java.awt.Dimension(35, 40));
+        deleteIcon.setPreferredSize(new java.awt.Dimension(35, 40));
+        buttonsPanel.add(deleteIcon);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        apInformationPanel.add(buttonsPanel, gridBagConstraints);
+
+        getContentPane().add(apInformationPanel, java.awt.BorderLayout.CENTER);
 
         pack();
     }//GEN-END:initComponents
 
+    private void statusComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_statusComboBoxActionPerformed
+
+    private void statusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_statusRadioButtonActionPerformed
+
+    private void dateRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateRadioButtonActionPerformed
+
+    private void ownerRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ownerRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ownerRadioButtonActionPerformed
+
+    private void contentRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contentRadioButtonActionPerformed
+
+    private void filterLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_filterLabelMouseEntered
+        filterLabel.setBackground(Color.decode("#D9DADC"));
+    }//GEN-LAST:event_filterLabelMouseEntered
+
+    private void filterLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_filterLabelMouseExited
+        filterLabel.setBackground(Color.decode("#E6E7EA"));
+    }//GEN-LAST:event_filterLabelMouseExited
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    public static void main(String args[]) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         try {
+            /* Set the Nimbus look and feel */
+            //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+            /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+            * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+            */
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Panel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /*try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -617,37 +999,58 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JLabel actionLabel;
     private javax.swing.JLabel actionValueLabel;
     private javax.swing.JLabel actionsLabel;
+    private javax.swing.JLabel addIcon;
+    private javax.swing.JPanel apInformationPanel;
     private javax.swing.JPanel apPanel;
     private javax.swing.JPanel appActionPanel;
     private javax.swing.JLabel appLabel;
     private javax.swing.JLabel appValueLabel;
+    private javax.swing.JPanel buttonsPanel;
     private javax.swing.JPanel completedActionPanel;
     private javax.swing.JLabel completedLabel;
     private javax.swing.JLabel completedValueLabel;
+    private javax.swing.JLabel content2Label;
+    private javax.swing.JRadioButton contentRadioButton;
+    private javax.swing.JLabel date2Label;
+    private javax.swing.JComboBox<String> dateComboBox;
     private javax.swing.JLabel dateLabel;
     private javax.swing.JPanel datePanel;
+    private javax.swing.JRadioButton dateRadioButton;
     private javax.swing.JLabel dateValueLabel;
+    private javax.swing.JLabel deleteIcon;
     private javax.swing.JLabel dotMenuLabel;
+    private javax.swing.JLabel editIcon;
+    private javax.swing.JTextField endLabel;
     private javax.swing.JLabel executionLabel;
     private javax.swing.JLabel executionValueLabel;
+    private javax.swing.JLabel filterLabel;
+    private javax.swing.JPanel filterLabelPanel;
     private javax.swing.JLabel firstNameLabel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField hintTextField;
     private javax.swing.JLabel meetingLabel;
     private javax.swing.JPanel meetingNamePanel;
     private javax.swing.JPanel overdueActionPanel;
     private javax.swing.JLabel overdueLabel;
     private javax.swing.JLabel overdueValueLabel;
+    private javax.swing.JLabel owner2Label;
+    private javax.swing.JTextField owner2TextField;
     private javax.swing.JLabel ownerLabel;
     private javax.swing.JPanel ownerNamePanel;
+    private javax.swing.JRadioButton ownerRadioButton;
     private javax.swing.JLabel participantsLabel;
     private javax.swing.JPanel participantsPanel;
     private javax.swing.JTextArea participantsTextArea;
     private javax.swing.JLabel performanceLabel;
+    private javax.swing.JLabel performanceValueLabel;
     private javax.swing.JPanel planExecutionPanel;
     private javax.swing.JLabel planLabel;
-    private javax.swing.JScrollPane scrollParctipants;
-    private javax.swing.JLabel surNameLabel;
+    private javax.swing.JScrollPane scrollParticipants;
+    private javax.swing.JTextField startLabel;
+    private javax.swing.JLabel status2Label;
+    private javax.swing.JComboBox<String> statusComboBox;
+    private javax.swing.JPanel statusPanel;
+    private javax.swing.JRadioButton statusRadioButton;
+    private javax.swing.JLabel surnameLabel;
     private javax.swing.JPanel teamPerformancePanel;
     private javax.swing.JLabel title1Label;
     private javax.swing.JLabel title2Label;
