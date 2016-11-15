@@ -135,6 +135,7 @@ public class UITerminal extends JFrame{
         setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
         setMinimumSize(new Dimension(867,662));
         this.setResizable(true);
+        UIManager.put("ComboBox.squareButton", Boolean.FALSE);
         UIManager.put("ToolTip.background", Color.decode("#303132"));
         UIManager.put("ToolTip.foreground", Color.decode("#C9CDD1"));
         UIManager.put("ProgressBar.selectionForeground", Color.decode("#FCFEFC"));
@@ -1013,10 +1014,10 @@ public class UITerminal extends JFrame{
     
     private void createFilterPanel(){
         filterPanel = new JPanel();//1160AE
-        filterPanel.setBackground(Color.decode("#1160AE"));
-        //filterPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#000000")));
+        filterPanel.setBackground(Color.decode("#004276"));
+        filterPanel.setBorder(BorderFactory.createMatteBorder(7,0,0,0,Color.decode("#FCFEFC")));
         filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.LINE_AXIS));
-        filterPanel.setPreferredSize(new Dimension(actionPlanPanel.getMaximumSize().height, 40));
+        filterPanel.setPreferredSize(new Dimension(actionPlanPanel.getMaximumSize().height, 50));
         JLabel filterLabel = new JLabel("Filter by");
         filterLabel.setHorizontalAlignment(JLabel.CENTER);
         filterLabel.setPreferredSize(new Dimension(60,filterPanel.getPreferredSize().height));

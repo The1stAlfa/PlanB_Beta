@@ -606,16 +606,10 @@ public class Terminal{
             String detail, String comments, String startDate, String dueDate, 
             int statusValue, byte progress, Meeting meeting) throws SQLException, Exception{
         
-        int rowIndex = 0;
         String temporalActionId = actionId;
         List<CellData> values = new ArrayList<>();
-        String query = "SELECT+COUNT(A)";
-        Table result = gPlanB.selectQuery(query, "action");
-        if(result != null){
-            rowIndex = (int) Double.parseDouble(
-                    result.getUniqueCellValueOfUniqueRow(false));
-        }
-        values.add(getCellData((double)(rowIndex+2)));  // Value for the index
+
+        values.add(getCellData("=row()", true)); // Value for the index
         values.add(getCellData(actionId, false));  // Value for actionId
         values.add(getCellData((double)actionplanId));  // Value for actionplanId
         values.add(getCellData((double)collaboratorId));  // Value for collaboratorId
