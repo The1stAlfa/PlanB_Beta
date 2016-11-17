@@ -187,8 +187,6 @@ public class Terminal{
                         getCellValue(cells.get(7),true)));
                 apsummary.setActionsOverdue(Integer.parseInt(
                         getCellValue(cells.get(8),true)));
-                actionPlan.setZeros(Integer.parseInt(
-                        getCellValue(cells.get(2),true)));
                 actionPlan.setSummary(apsummary);
             }
         }
@@ -313,7 +311,7 @@ public class Terminal{
     public ArrayList<String> getMeetingsNames(){
         return org.getFacility("01","id").getMeetingsNames();
     }
-    
+/*    
     public String getNewActionId(String meetingName) 
             throws Exception{
         short number;
@@ -336,7 +334,7 @@ public class Terminal{
         }
         return null;
     }
-    
+*/    
     public String getOwnerAcronym(String actionID, Facility facility) 
             throws Exception{
         String query = "SELECT+B+WHERE+C+CONTAINS+%27"+actionID+"%27";
@@ -517,19 +515,15 @@ public class Terminal{
         
         short actionplanId;
         Collaborator collaborator;
-        String actionId;
-        Status status;
         Facility facility = org.getFacility(meetingName,"meetingName"); 
         Meeting meeting = facility.searchMeeting(meetingName);
+        String facilityId = facility.getId();
         
-        actionId = getNewActionId(meetingName);
         actionplanId = meeting.getActionPlan().getId();
         collaborator = facility.searchCollaborator(responsible,(byte)1);
-        status = Status.valueOf(statusName);
         saveActionToDatabase(
-                actionId, actionplanId, collaborator.getCollaboratorId(),
-                detail, comments, startDate, dueDate, status.getValue(), 
-                progress, meeting);
+                actionplanId, collaborator.getCollaboratorId(),detail,
+                comments, startDate, dueDate, progress, meeting, facilityId);
     }
     
     public void modifyAction(Object[] rowDataModified, String meetingName) throws SQLException, Exception{
@@ -602,15 +596,20 @@ public class Terminal{
         }
     }
     
-    private String saveActionToDatabase(String actionId, short actionplanId, int collaboratorId, 
+    private void saveActionToDatabase(short actionplanId, int collaboratorId, 
             String detail, String comments, String startDate, String dueDate, 
-            int statusValue, byte progress, Meeting meeting) throws SQLException, Exception{
+            byte progress, Meeting meeting, String facilityId) throws SQLException, Exception{
         
-        String temporalActionId = actionId;
         List<CellData> values = new ArrayList<>();
-
+        String acronym = meeting.getAcronym();
+        
         values.add(getCellData("=row()", true)); // Value for the index
-        values.add(getCellData(actionId, false));  // Value for actionId
+        String id = "=CONCAT(\""+facilityId+acronym+"\";IF(ROW()=2;1;IF(ISNA"
+                + "(QUERY(INDIRECT(\"action!$A$2:$C\"&ROW()-1);\"SELECT COUNT(A)"
+                + " WHERE C = "+actionplanId+" LABEL COUNT(A) ''\")+1);1;QUERY"
+                + "(INDIRECT(\"action!$A$2:$C\"&ROW()-1);\"SELECT COUNT(A) "
+                + "WHERE C = "+actionplanId+" LABEL COUNT(A) ''\")+1)))";
+        values.add(getCellData(id, true));  // Value for actionId
         values.add(getCellData((double)actionplanId));  // Value for actionplanId
         values.add(getCellData((double)collaboratorId));  // Value for collaboratorId
         values.add(getCellData(detail, false));  // Value for detail
@@ -636,16 +635,7 @@ public class Terminal{
                 + "-DATEVALUE(INDIRECT(\"$H\"&ROW())))";
         values.add(getCellData(diffFormula, true)); // Value for the difference between dates
 
-        while(isDuplicatedActionId(temporalActionId)){
-            temporalActionId = getNewActionId(meeting.getName());
-            if(!temporalActionId.equals(actionId)){
-                values.set(0, getCellData(temporalActionId, false));
-                gPlanB.insert("action", values);
-                return temporalActionId;
-            }
-        }
         gPlanB.insert("action", values);
-        return temporalActionId;
     }
     
     public void setId(byte id) {

@@ -24,9 +24,7 @@ public class ActionPlan {
     private LocalDateTime dateModified;
     private LocalDateTime currentDate;
     private byte execution; // Action Plan porcentage of execution
-    private byte zeros;
-    private byte initialZeros = 4;
-            
+
     /**
      *
      */
@@ -78,11 +76,7 @@ public class ActionPlan {
     public byte getExecution() {
         return execution;
     }
-    
-    public byte getZeros() {
-        return zeros;
-    }
-    
+
     public void setSummary(APSummary summary) {
         this.summary = summary;
     }
@@ -114,20 +108,6 @@ public class ActionPlan {
     public void setExecution(byte execution) {
         this.execution = execution;
     }    
-
-    public void setZeros(byte zeros) {
-        this.zeros = zeros;
-    }
-    
-    public void setZeros(int number){
-        String n = String.valueOf(number); 
-        if(n.length() == initialZeros)
-            this.zeros = (byte)(initialZeros+(byte)1);
-        else if(n.length() > initialZeros)
-            this.zeros = (byte)(n.length()+1);
-        else
-            this.zeros = initialZeros;
-    }
     
     public Action searchAction(String key){
         Optional<Action> a = actionList.stream()

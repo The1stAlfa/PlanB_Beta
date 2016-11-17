@@ -149,13 +149,13 @@ public class AddActionForm extends JDialog{
         jLabel6.setForeground(Color.decode("#C9CDD1"));
         jLabel7.setText("Comments");
         jLabel7.setForeground(Color.decode("#C9CDD1"));
-        jLabel8.setText("<html>Planned<br>Start Date</html>");
+        jLabel8.setText("Start Date");
         jLabel8.setForeground(Color.decode("#C9CDD1"));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel9.setText("<html>Planned<br> End Date</html>");
+        jLabel9.setText("Due Date");
         jLabel9.setForeground(Color.decode("#C9CDD1"));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel10.setText("<html>Real  <br>End Date</html>");
+        jLabel10.setText("End Date");
         jLabel10.setForeground(Color.decode("#C9CDD1"));
         jLabel10.setVisible(false);
         jLabel11.setText("Progress");
@@ -172,17 +172,20 @@ public class AddActionForm extends JDialog{
             public void actionPerformed(ActionEvent e) {
                 String startDate = getDate(cbYearStart,cbMonthStart,cbDayStart);
                 String dueDate = getDate(cbYearEnd,cbMonthEnd,cbDayEnd);
+                
                 int duration = Time.getDaysBetweenDates(startDate, dueDate);
                 if(duration <= 0)
-                    JOptionPane.showMessageDialog(getJDialog(),"Inconsistent Dates.","Error",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(getJDialog(),"The Due Date can't be the same of the Start Date","Error",JOptionPane.ERROR_MESSAGE);
                 else if("".equals(jTextArea1.getText()))
-                    JOptionPane.showMessageDialog(getJDialog(),"The Action Detail can't be Empty.","Error",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(getJDialog(),"The Action Detail can't be empty.","Error",JOptionPane.ERROR_MESSAGE);
+                else if(responsibleComboBox.getSelectedItem() == null)
+                    JOptionPane.showMessageDialog(getJDialog(),"The Responsible for the action hasn't been selected.","Error",JOptionPane.ERROR_MESSAGE);
                 else{
                     try {
                         Object[] options = { "Yes", "No" };                    
                         if(JOptionPane.showOptionDialog(getJDialog(),
                             "<html><center>Are you sure you want to add the Action?",
-                            "Delete Action",JOptionPane.DEFAULT_OPTION, 
+                            "Confirmation",JOptionPane.DEFAULT_OPTION, 
                             JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == 0){
                             terminal.addAction(responsibleComboBox.getSelectedItem().toString(),jTextArea1.getText(),
                                     jTextArea2.getText(),startDate,dueDate,
@@ -338,7 +341,7 @@ public class AddActionForm extends JDialog{
         //ui.put("Slider.altTrackColor", Color.decode("#1160AE"));
         //progressSlider.setUI();
 
-        tfId.setText(terminal.getNewActionId(meetingName));
+        tfId.setText("Auto-Generated");
         tfId.setEditable(false);
         setDates();
 

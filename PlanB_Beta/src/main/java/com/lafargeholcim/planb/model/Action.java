@@ -42,7 +42,8 @@ public class Action {
      * @param number
      * @param zeros
     */
-    public Action(String facilityID, String meetingAcronymName, short number, byte zeros){
+    public Action(String facilityID, String meetingAcronymName, short number, 
+            byte zeros){
         setID(facilityID, meetingAcronymName,number, zeros);
         this.setDateCreated(LocalDateTime.now());
     }
@@ -237,7 +238,8 @@ public class Action {
      * @param number
      * @param zeros
      */
-    public void setID(String facilityID, String meetingAcronymName, short number, byte zeros) {
+    public void setID(String facilityID, String meetingAcronymName, 
+            short number, byte zeros) {
         this.itemID = generateId(facilityID, meetingAcronymName, number, zeros);
     }
 
