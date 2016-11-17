@@ -280,6 +280,7 @@ public class EditActionForm extends JDialog {
         }));
         statusComboBox.setBackground(Color.decode("#FCFEFC"));
         statusComboBox.setSelectedIndex(1);
+        statusComboBox.setEnabled(false);
         progressSlider.setOpaque(false);
         setTeamMembersNames();
         setRowData();
@@ -663,10 +664,18 @@ public class EditActionForm extends JDialog {
                 rowDataModified[6] = date;
                 detection += 1;
             }
-        }//falta cuando la fecha está establecida
-        else
-            rowDataModified[6] = null;
-
+        }
+        else{
+            String date = cbYearReal.getSelectedItem().toString()+"-"
+                        +getMonthValue(cbMonthReal.getSelectedItem().toString())+"-"
+                        +cbDayReal.getSelectedItem().toString();
+            if(!String.valueOf(rowData[6]).equalsIgnoreCase(date)){
+                rowDataModified[6] = date;
+                detection += 1;
+            }
+            else
+                rowDataModified[6] = null;
+        }
         if(Integer.parseInt(String.valueOf(rowData[7])) != progressSlider.getValue()){
             rowDataModified[7] = progressSlider.getValue();
             detection += 1;

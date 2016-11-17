@@ -190,8 +190,8 @@ public class AddActionForm extends JDialog{
                                     (byte)progressSlider.getValue(),duration,meetingName);
                             ((UITerminal)parent).updateJTable();
                             parent.setEnabled(true);
-                            JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addActionLabel");
-                            label.setIcon(new ImageIcon(getClass().getResource("/images/plus-24.png")));
+                            JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
+                            label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
                             ((UITerminal)parent).setFlag(false);
                             getJDialog().dispose();
                        }
@@ -208,8 +208,8 @@ public class AddActionForm extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {
                 parent.setEnabled(true);
-                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addActionLabel");
-                label.setIcon(new ImageIcon(getClass().getResource("/images/plus-24.png")));
+                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
+                label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
                 ((UITerminal)parent).setFlag(false);
                 getJDialog().dispose();
             }
@@ -226,15 +226,7 @@ public class AddActionForm extends JDialog{
         jTextArea2.setLineWrap(true);
         jTextArea2.setWrapStyleWord(true);
         jScrollPane2.setViewportView(jTextArea2);
-        /*
-        UIManager.put("Slider.altTrackColor", Color.decode("#1160AE"));
-        UIManager.put("Slider.tickColor", Color.decode("#1160AE"));
-        UIManager.put("Slider.focus", Color.decode("#1160AE"));
-        UIManager.put("Slider.darkShadow", Color.decode("#1160AE"));
-        UIManager.put("Slider.highlight", Color.decode("#1160AE"));
-        UIManager.put("Slider.thumb", Color.decode("#303132"));
-        UIManager.put("Slider.background", Color.decode("#1160AE"));
-        */
+
         cbDayStart.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
             "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
             "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
@@ -336,6 +328,7 @@ public class AddActionForm extends JDialog{
             "CANCELLED", "NEAR_TO_DUE_DATE", "WAITING_TO_START"
         }));
         status_comboBox.setSelectedIndex(0);
+        status_comboBox.setEnabled(false);
         setParticipantsNames();
         responsibleComboBox.setSelectedIndex(-1);
         responsibleComboBox.setBackground(Color.decode("#45494A"));
@@ -563,8 +556,8 @@ public class AddActionForm extends JDialog{
             @Override
             public void windowClosing(WindowEvent e){
                 parent.setEnabled(true);
-                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addActionLabel");
-                label.setIcon(new ImageIcon(getClass().getResource("/images/plus-24.png")));
+                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
+                label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
                 ((UITerminal)parent).setFlag(false);
             }
 

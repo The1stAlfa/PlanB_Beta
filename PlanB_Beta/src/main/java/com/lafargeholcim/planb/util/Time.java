@@ -37,6 +37,7 @@ public class Time {
         
         return date+" "+time.substring(0, 8);
     }
+    
     public static String getEpochDate() {
         return EPOCH_DATE;
     }

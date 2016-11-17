@@ -14,6 +14,7 @@ import com.lafargeholcim.planb.model.ActionPlan;
 import com.lafargeholcim.planb.model.Collaborator;
 import com.lafargeholcim.planb.model.Meeting;
 import com.lafargeholcim.planb.model.WorkTeam;
+import com.lafargeholcim.planb.util.Time;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -29,6 +30,8 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
@@ -54,10 +57,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.*;
@@ -121,63 +127,27 @@ public class UITerminal extends JFrame{
     private JPanel h1,h2,h3,h4,h5,h6,h7;
     private boolean menuFlag = false, resizeFlag = false, clickFlag = false;
     
-    private javax.swing.JLabel actionLabel;
-    private javax.swing.JLabel actionValueLabel;
-    private javax.swing.JLabel actionsLabel;
-    private javax.swing.JLabel addIcon;
-    private javax.swing.JPanel apPanel;
-    private javax.swing.JPanel appActionPanel;
-    private javax.swing.JLabel appLabel;
-    private javax.swing.JLabel appValueLabel;
-    private javax.swing.JPanel buttonsPanel;
-    private javax.swing.JPanel completedActionPanel;
-    private javax.swing.JLabel completedLabel;
-    private javax.swing.JLabel completedValueLabel;
-    private javax.swing.JLabel content2Label;
-    private javax.swing.JRadioButton contentRadioButton;
-    private javax.swing.JLabel date2Label;
-    private javax.swing.JComboBox<String> dateComboBox;
-    private javax.swing.JLabel dateLabel;
-    private javax.swing.JPanel datePanel;
-    private javax.swing.JRadioButton dateRadioButton;
-    private javax.swing.JLabel dateValueLabel;
-    private javax.swing.JLabel deleteIcon;
-    private javax.swing.JLabel dotMenuLabel;
-    private javax.swing.JLabel editIcon;
-    private javax.swing.JTextField endLabel;
-    private javax.swing.JLabel executionLabel;
-    private javax.swing.JLabel executionValueLabel;
-    private javax.swing.JLabel filterLabel;
-    private javax.swing.JPanel filterLabelPanel;
-    private javax.swing.JLabel firstNameLabel;
-    private javax.swing.JTextField hintTextField;
-    private javax.swing.JLabel meetingLabel;
-    private javax.swing.JPanel meetingNamePanel;
-    private javax.swing.JPanel overdueActionPanel;
-    private javax.swing.JLabel overdueLabel;
-    private javax.swing.JLabel overdueValueLabel;
-    private javax.swing.JLabel owner2Label;
-    private javax.swing.JTextField owner2TextField;
-    private javax.swing.JLabel ownerLabel;
-    private javax.swing.JPanel ownerNamePanel;
-    private javax.swing.JRadioButton ownerRadioButton;
-    private javax.swing.JLabel participantsLabel;
-    private javax.swing.JPanel participantsPanel;
-    private javax.swing.JTextArea participantsTextArea;
-    private javax.swing.JLabel performanceValueLabel;
-    private javax.swing.JPanel planExecutionPanel;
-    private javax.swing.JLabel planLabel;
-    private javax.swing.JScrollPane scrollParticipants;
-    private javax.swing.JTextField startLabel;
-    private javax.swing.JLabel status2Label;
-    private javax.swing.JComboBox<String> statusComboBox;
-    private javax.swing.JPanel statusPanel;
-    private javax.swing.JRadioButton statusRadioButton;
-    private javax.swing.JLabel surnameLabel;
-    private javax.swing.JPanel teamPerformancePanel;
-    private javax.swing.JLabel title1Label;
-    private javax.swing.JLabel title2Label;
-    private javax.swing.JPanel totalActionsPanel;
+    private JLabel actionLabel, actionValueLabel, actionsLabel, addIcon, 
+            appLabel, appValueLabel, completedLabel, completedValueLabel, 
+            content2Label, date2Label, dateLabel, dateValueLabel, deleteIcon, 
+            dotMenuLabel, editIcon, executionLabel, executionValueLabel, 
+            filterLabel, firstNameLabel, meetingLabel, overdueLabel, 
+            overdueValueLabel, owner2Label, ownerLabel, participantsLabel, 
+            performanceValueLabel, planLabel, surnameLabel, status2Label, 
+            title1Label, title2Label;
+    private JPanel apPanel, appActionPanel, buttonsPanel, completedActionPanel, 
+            datePanel, filterLabelPanel, meetingNamePanel, overdueActionPanel, 
+            ownerNamePanel, participantsPanel, planExecutionPanel, statusPanel, 
+            teamPerformancePanel, totalActionsPanel;
+    private JRadioButton contentRadioButton, dateRadioButton, ownerRadioButton, statusRadioButton;
+    private javax.swing.JComboBox<String> dateComboBox, statusComboBox;
+    private JTextField endLabel, hintTextField, owner2TextField, startLabel;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private ArrayList<JMenuItem> meetingNameItems;
+    private JPopupMenu meetingPopupMenu;
+    private JTextArea participantsTextArea;
+    private JScrollPane scrollParticipants;
 
        
     public UITerminal() throws IOException, FontFormatException, Exception{
@@ -348,7 +318,7 @@ public class UITerminal extends JFrame{
         titleBarPanel.add(frameButtonsPanel, BorderLayout.LINE_START);
     }
     
-    private JMenuItem createMenuItem(JMenuItem item, String iconName){
+    private JMenuItem createMainMenuItem(JMenuItem item, String iconName){
         item.setBackground(Color.decode("#EDEBEB"));
         item.setFont(new Font("Roboto-Regular", Font.PLAIN, 14));
         item.setForeground(Color.decode("#000000"));
@@ -363,7 +333,7 @@ public class UITerminal extends JFrame{
         return item;
     }
     
-    private void menuEvents(JMenuItem item, String iconName, String iconName2){
+    private void mainMenuEvents(JMenuItem item, String iconName, String iconName2){
         item.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -562,23 +532,37 @@ public class UITerminal extends JFrame{
         mainMenu.setMinimumSize(new Dimension(40,50));
         mainMenu.setBackground(Color.decode("#EDEBEB"));
         
-        mainMenu.add(createMenuItem(menuItem, "menuBlack.png"));
-        mainMenu.add(createMenuItem(dashboardMenu, "dashboardL.png"));
-        mainMenu.add(createMenuItem(meetingMenu, "meetingL.png"));
-        mainMenu.add(createMenuItem(actionPlanMenu, "actionplanL.png"));
-        mainMenu.add(createMenuItem(teamMenu, "teamL.png"));
-        mainMenu.add(createMenuItem(profileMenu, "userL.png"));
+        mainMenu.add(createMainMenuItem(menuItem, "menuBlack.png"));
+        mainMenu.add(createMainMenuItem(dashboardMenu, "dashboardL.png"));
+        mainMenu.add(createMainMenuItem(meetingMenu, "meetingL.png"));
+        mainMenu.add(createMainMenuItem(actionPlanMenu, "actionplanL.png"));
+        mainMenu.add(createMainMenuItem(teamMenu, "teamL.png"));
+        mainMenu.add(createMainMenuItem(profileMenu, "userL.png"));
         mainMenu.add(Box.createVerticalGlue());
-        mainMenu.add(createMenuItem(settingsMenu, "settingsL.png"));
+        mainMenu.add(createMainMenuItem(settingsMenu, "settingsL.png"));
         
-        menuEvents(menuItem, "menuBlue.png", "menuBlack.png");
-        menuEvents(dashboardMenu, "dashboardLB.png", "dashboardL.png");
-        menuEvents(meetingMenu, "meetingLB.png", "meetingL.png");
-        menuEvents(actionPlanMenu, "actionplanLB.png", "actionplanL.png");
-        menuEvents(teamMenu, "teamLB.png", "teamL.png");
-        menuEvents(profileMenu, "userLB.png", "userL.png");
-        menuEvents(settingsMenu, "settingsLB.png", "settingsL.png");        
+        mainMenuEvents(menuItem, "menuBlue.png", "menuBlack.png");
+        mainMenuEvents(dashboardMenu, "dashboardLB.png", "dashboardL.png");
+        mainMenuEvents(meetingMenu, "meetingLB.png", "meetingL.png");
+        mainMenuEvents(actionPlanMenu, "actionplanLB.png", "actionplanL.png");
+        mainMenuEvents(teamMenu, "teamLB.png", "teamL.png");
+        mainMenuEvents(profileMenu, "userLB.png", "userL.png");
+        mainMenuEvents(settingsMenu, "settingsLB.png", "settingsL.png");        
         
+    }
+    
+    private void createMenuItem(String option){
+        JMenuItem item = new JMenuItem(option);
+        item.setBackground(Color.decode("#303132"));
+        item.setForeground(Color.decode("#FCFEFC"));
+        item.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                meetingName = ((JMenuItem)e.getSource()).getText();
+                updateJTable();
+            }
+        });
+        meetingPopupMenu.add(item);
     }
     
     private void createOptionsContentPanel() throws Exception{
@@ -628,14 +612,15 @@ public class UITerminal extends JFrame{
         actionPlanPanel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
         actionPlanPanel.setBackground(Color.decode("#FCFEFC"));
         createActionPlanInformationPanel();
-        /*
-        apInformationPanel = new JPanel();
-        apInformationPanel.setLayout(new GridBagLayout());
-        apInformationPanel.setBackground(Color.decode("#3C3E41"));
         actionListPanel = new JPanel();
         actionListPanel.setLayout(new BorderLayout());
         actionListPanel.setPreferredSize(new Dimension(300,300));
         actionListPanel.setBackground(Color.decode("#FCFEFC"));
+        /*
+        apInformationPanel = new JPanel();
+        apInformationPanel.setLayout(new GridBagLayout());
+        apInformationPanel.setBackground(Color.decode("#3C3E41"));
+        
         //**********************************************************************
         //  ActionPlan Information Panel Components
         //**********************************************************************
@@ -933,7 +918,6 @@ public class UITerminal extends JFrame{
         //  Action List Table Components
         //**********************************************************************
         //  Filter Panel
-        JOptionPane.showMessageDialog(this, "aki toy2", "umm", JOptionPane.ERROR_MESSAGE);
         //createFilterPanel();
         //  Action List Table
         jTable1.setModel(new DefaultTableModel(null, new String [] {
@@ -951,9 +935,8 @@ public class UITerminal extends JFrame{
         jTable1.setSelectionBackground(Color.decode("#1160AE"));
         jTable1.setSelectionForeground(Color.decode("#1160AE"));
         jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JOptionPane.showMessageDialog(this, "aki toy3.1", "umm", JOptionPane.ERROR_MESSAGE);
         setColumnWidth();
-        /*jTable1.addMouseListener(new MouseAdapter(){
+        jTable1.addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e) {
                 JTable table =(JTable) e.getSource();
@@ -978,31 +961,32 @@ public class UITerminal extends JFrame{
             @Override
             public void focusGained(FocusEvent e) {
             }
-        });*/
+        });
         jScrollPane2 = new JScrollPane();
         jScrollPane2.setViewportView(jTable1);
         jScrollPane2.getViewport().setBackground(Color.decode("#FCFEFC"));
         jScrollPane2.setBorder(BorderFactory.createEmptyBorder());
         //actionListPanel.add(filterPanel, BorderLayout.NORTH);
-        //actionListPanel.add(jScrollPane2, BorderLayout.CENTER);
-        JOptionPane.showMessageDialog(this, "aki toy3.2", "umm", JOptionPane.ERROR_MESSAGE);
+        actionListPanel.add(jScrollPane2, BorderLayout.CENTER);
         gapPanel1 = new JPanel();
-        gapPanel1.setPreferredSize(new Dimension(10,300));
-        gapPanel1.setMinimumSize(new Dimension(10,300));
+        gapPanel1.setPreferredSize(new Dimension(4,300));
+        gapPanel1.setMinimumSize(new Dimension(4,300));
         gapPanel1.setOpaque(false);
         gapPanel2 = new JPanel();
-        gapPanel2.setPreferredSize(new Dimension(10,300));
-        gapPanel2.setMinimumSize(new Dimension(10,300));
+        gapPanel2.setPreferredSize(new Dimension(4,300));
+        gapPanel2.setMinimumSize(new Dimension(4,300));
         gapPanel2.setOpaque(false);
         pagePanel = new JPanel();
         pagePanel.setPreferredSize(new Dimension(Short.MAX_VALUE,15));
         JOptionPane.showMessageDialog(this, "aki toy3", "umm", JOptionPane.ERROR_MESSAGE);
         actionPlanPanel.add(apInformationPanel, BorderLayout.NORTH);
         JOptionPane.showMessageDialog(this, "aki toy4", "umm", JOptionPane.ERROR_MESSAGE);
-        //actionPlanPanel.add(actionListPanel, BorderLayout.CENTER);
+        actionPlanPanel.add(actionListPanel, BorderLayout.CENTER);
         actionPlanPanel.add(gapPanel1, BorderLayout.WEST);
         actionPlanPanel.add(gapPanel2, BorderLayout.EAST);
         actionPlanPanel.add(pagePanel, BorderLayout.SOUTH);
+        meetingName = "PlanB";
+        updateJTable();
         
     }
     
@@ -1161,7 +1145,6 @@ public class UITerminal extends JFrame{
         deleteActionLabel = new JLabel();
         deleteActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/delete-24.png")));
         deleteActionLabel.setPreferredSize(new Dimension(35, filterPanel.getPreferredSize().height));
-        
         deleteActionLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e){}
@@ -1322,8 +1305,8 @@ public class UITerminal extends JFrame{
     }
     
     public Component getJComponent(String name){
-        if(name.equals("addActionLabel"))
-            return addActionLabel;
+        if(name.equals("addIcon"))
+            return addIcon;
         return null;
     }
     
@@ -1384,37 +1367,54 @@ public class UITerminal extends JFrame{
             if(meeting != null){
                 ActionPlan plan = meeting.getActionPlan();
                 APSummary summary = plan.getSummary();
-                owContentLabel.setText(plan.getOwner().getFirstName()+" "
-                        +plan.getOwner().getLastName());
-                actContentLabel.setText(String.valueOf(summary.getActions()));
-                compContentLabel.setText(String.valueOf(summary.getActionsCompleted()));
-                compAppContentLabel.setText(String.valueOf(summary.getActionsCompletedApp()));
-                overAppContentLabel.setText(String.valueOf(summary.getActionsOverdue()));
-                parTextArea.setText(getParticipantsAcronyms(meeting.getTeam(),meeting.getAditionalParticipants()));
+                String[] nameSplitted = meetingName.split(" ");
+                if(nameSplitted.length > 1){
+                    String namePortion = "";
+                    for(int i=0; i < nameSplitted.length; i++){
+                        if(i == 0)
+                            title1Label.setText(nameSplitted[i]);
+                        else
+                            namePortion += nameSplitted[i]+" ";
+                    }
+                    title2Label.setText(namePortion);
+                }
+                else{
+                    title1Label.setText(null);
+                    title2Label.setText(meetingName);
+                }
+                firstNameLabel.setText(plan.getOwner().getFirstName());
+                int index = plan.getOwner().getLastName().indexOf(" ");
+                String surname = plan.getOwner().getLastName().substring(0,index);
+                surnameLabel.setText(surname);
+                actionValueLabel.setText(String.valueOf(summary.getActions()));
+                completedValueLabel.setText(String.valueOf(summary.getActionsCompleted()));
+                appValueLabel.setText(String.valueOf(summary.getActionsCompletedApp()));
+                overdueValueLabel.setText(String.valueOf(summary.getActionsOverdue()));
+                participantsTextArea.setText(getParticipantsAcronyms(meeting.getTeam(),meeting.getAditionalParticipants()));
                 int team_performance = 100;
                 if(summary.getActionsOverdue() == 0 && summary.getActionsCompletedApp() > 0)
-                    performanceContentLabel.setText(String.valueOf(team_performance)+"%");
+                    performanceValueLabel.setText(String.valueOf(team_performance)+"%");
                 else{
                     team_performance = (int)Math.round(((float)summary.getActionsCompletedApp()/
                             ((float)summary.getActions()))*100);
-                    performanceContentLabel.setText(String.valueOf(team_performance)+"%");
+                    performanceValueLabel.setText(String.valueOf(team_performance)+"%");
                 }
-                exeContentLabel.setValue((int)plan.getExecution());
+                executionValueLabel.setText(String.valueOf(plan.getExecution())+"%");
                 if(team_performance <= 70){
-                    performanceContentLabel.setBackground(Color.decode("#E80C0C"));
-                    performanceContentLabel.setForeground(Color.decode("#FCFEFC"));
+                    teamPerformancePanel.setBackground(Color.decode("#E80C0C"));
+                    performanceValueLabel.setForeground(Color.decode("#FCFEFC"));
                 }
                 else if(team_performance > 70 && team_performance < 90){
-                    performanceContentLabel.setBackground(Color.YELLOW);
-                    performanceContentLabel.setForeground(Color.decode("#303132"));
+                    teamPerformancePanel.setBackground(Color.YELLOW);
+                    performanceValueLabel.setForeground(Color.decode("#303132"));
                 }
                 else{
                     // Darcula black color 3C3E41
-                    performanceContentLabel.setBackground(Color.decode("#64D610"));
-                    performanceContentLabel.setForeground(Color.decode("#FCFEFC"));
+                    teamPerformancePanel.setBackground(Color.decode("#64D610"));
+                    performanceValueLabel.setForeground(Color.decode("#FCFEFC"));
                 }
             }
-            //jTable1.repaint();
+            jTable1.repaint();
         }
         catch (Exception ex) {
             Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
@@ -1422,8 +1422,10 @@ public class UITerminal extends JFrame{
     }
     
     private void createActionPlanInformationPanel(){
-        java.awt.GridBagConstraints gridBagConstraints;
-
+        GridBagConstraints gridBagConstraints;
+        
+        meetingPopupMenu = new  JPopupMenu();
+        
         apInformationPanel = new javax.swing.JPanel();
         apPanel = new javax.swing.JPanel();
         actionLabel = new javax.swing.JLabel();
@@ -1483,14 +1485,18 @@ public class UITerminal extends JFrame{
         addIcon = new javax.swing.JLabel();
         editIcon = new javax.swing.JLabel();
         deleteIcon = new javax.swing.JLabel();
+        
+        meetingPopupMenu.setAutoscrolls(true);
+        for(String name:Aps.getTerminal().getMeetingsNames())
+            createMenuItem(name);
 
         apInformationPanel.setBackground(new java.awt.Color(252, 254, 252));
         apInformationPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         apInformationPanel.setMinimumSize(new java.awt.Dimension(950, 250));
         apInformationPanel.setPreferredSize(new java.awt.Dimension(700, 250));
         apInformationPanel.setLayout(new java.awt.GridBagLayout());
-
-               apPanel.setBackground(new java.awt.Color(0, 66, 118));
+        
+        apPanel.setBackground(new java.awt.Color(0, 66, 118));
         apPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 4, 2, new java.awt.Color(252, 254, 252)));
         apPanel.setMaximumSize(new java.awt.Dimension(164, 200));
         apPanel.setMinimumSize(new java.awt.Dimension(110, 200));
@@ -1513,7 +1519,7 @@ public class UITerminal extends JFrame{
                 .addGroup(apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(actionLabel)
                     .addComponent(planLabel))
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(131, Short.MAX_VALUE))
         );
         apPanelLayout.setVerticalGroup(
             apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1522,7 +1528,7 @@ public class UITerminal extends JFrame{
                 .addComponent(actionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(planLabel)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1547,16 +1553,21 @@ public class UITerminal extends JFrame{
 
         title1Label.setFont(new java.awt.Font("Dialog", 1, 28)); // NOI18N
         title1Label.setForeground(new java.awt.Color(252, 254, 252));
-        title1Label.setText("Comité");
 
         title2Label.setFont(new java.awt.Font("Dialog", 1, 28)); // NOI18N
         title2Label.setForeground(new java.awt.Color(252, 254, 252));
-        title2Label.setText("Técnico");
 
         dotMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         dotMenuLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dotsMenu-24.png"))); // NOI18N
         dotMenuLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         dotMenuLabel.setIconTextGap(0);
+        
+        dotMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int xPos = meetingPopupMenu.getPreferredSize().width - 3;
+                meetingPopupMenu.show(dotMenuLabel, -xPos, -5);
+            }
+        });
 
         javax.swing.GroupLayout meetingNamePanelLayout = new javax.swing.GroupLayout(meetingNamePanel);
         meetingNamePanel.setLayout(meetingNamePanelLayout);
@@ -1571,7 +1582,7 @@ public class UITerminal extends JFrame{
                         .addComponent(meetingLabel))
                     .addGroup(meetingNamePanelLayout.createSequentialGroup()
                         .addGap(39, 39, 39)
-                        .addComponent(title2Label, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                        .addComponent(title2Label, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
                         .addGap(10, 10, 10)
                         .addComponent(dotMenuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -1582,7 +1593,7 @@ public class UITerminal extends JFrame{
                 .addGroup(meetingNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(meetingNamePanelLayout.createSequentialGroup()
                         .addGap(4, 4, 4)
-                        .addComponent(title1Label, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                        .addComponent(title1Label, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
                     .addComponent(meetingLabel))
                 .addGap(2, 2, 2)
                 .addGroup(meetingNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1591,7 +1602,7 @@ public class UITerminal extends JFrame{
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
-        title2Label.getAccessibleContext().setAccessibleName("Indicadores");
+        title2Label.getAccessibleContext().setAccessibleName("");
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -1609,11 +1620,9 @@ public class UITerminal extends JFrame{
 
         firstNameLabel.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
         firstNameLabel.setForeground(new java.awt.Color(252, 254, 252));
-        firstNameLabel.setText("SERGIO");
 
         surnameLabel.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
         surnameLabel.setForeground(new java.awt.Color(252, 254, 252));
-        surnameLabel.setText("ORJUELA");
 
         ownerLabel.setBackground(new java.awt.Color(187, 187, 188));
         ownerLabel.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
@@ -1633,7 +1642,7 @@ public class UITerminal extends JFrame{
                         .addComponent(ownerLabel))
                     .addGroup(ownerNamePanelLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(surnameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)))
+                        .addComponent(surnameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         ownerNamePanelLayout.setVerticalGroup(
@@ -1643,8 +1652,8 @@ public class UITerminal extends JFrame{
                 .addGap(4, 4, 4)
                 .addComponent(firstNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
-                .addComponent(surnameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addComponent(surnameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1677,7 +1686,6 @@ public class UITerminal extends JFrame{
         participantsTextArea.setLineWrap(true);
         participantsTextArea.setRows(3);
         participantsTextArea.setTabSize(0);
-        participantsTextArea.setText("SOR, WCO, HRI, DCE, OMA, MCI, RCP, CRO, JOA, MDM");
         participantsTextArea.setWrapStyleWord(true);
         participantsTextArea.setAutoscrolls(false);
         participantsTextArea.setBorder(null);
@@ -1692,7 +1700,7 @@ public class UITerminal extends JFrame{
             .addGroup(participantsPanelLayout.createSequentialGroup()
                 .addGap(4, 4, 4)
                 .addGroup(participantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollParticipants, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                    .addComponent(scrollParticipants, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, participantsPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(participantsLabel)))
@@ -1703,7 +1711,7 @@ public class UITerminal extends JFrame{
             .addGroup(participantsPanelLayout.createSequentialGroup()
                 .addComponent(participantsLabel)
                 .addGap(4, 4, 4)
-                .addComponent(scrollParticipants, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                .addComponent(scrollParticipants, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1727,7 +1735,6 @@ public class UITerminal extends JFrame{
         actionValueLabel.setFont(new java.awt.Font("Dialog", 1, 42)); // NOI18N
         actionValueLabel.setForeground(new java.awt.Color(122, 120, 123));
         actionValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        actionValueLabel.setText("100");
         actionValueLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         actionValueLabel.setIconTextGap(0);
 
@@ -1741,7 +1748,7 @@ public class UITerminal extends JFrame{
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, totalActionsPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(actionsLabel))
-                    .addComponent(actionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
+                    .addComponent(actionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
                 .addContainerGap())
         );
         totalActionsPanelLayout.setVerticalGroup(
@@ -1749,7 +1756,7 @@ public class UITerminal extends JFrame{
             .addGroup(totalActionsPanelLayout.createSequentialGroup()
                 .addComponent(actionsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(actionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addComponent(actionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1789,7 +1796,7 @@ public class UITerminal extends JFrame{
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, completedActionPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(completedLabel))
-                    .addComponent(completedValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
+                    .addComponent(completedValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
                 .addContainerGap())
         );
         completedActionPanelLayout.setVerticalGroup(
@@ -1797,7 +1804,7 @@ public class UITerminal extends JFrame{
             .addGroup(completedActionPanelLayout.createSequentialGroup()
                 .addComponent(completedLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(completedValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                .addComponent(completedValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1836,7 +1843,7 @@ public class UITerminal extends JFrame{
                     .addGroup(appActionPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(appLabel))
-                    .addComponent(appValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE))
+                    .addComponent(appValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE))
                 .addContainerGap())
         );
         appActionPanelLayout.setVerticalGroup(
@@ -1844,7 +1851,7 @@ public class UITerminal extends JFrame{
             .addGroup(appActionPanelLayout.createSequentialGroup()
                 .addComponent(appLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(appValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addComponent(appValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1878,7 +1885,7 @@ public class UITerminal extends JFrame{
                 .addContainerGap()
                 .addGroup(overdueActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, overdueActionPanelLayout.createSequentialGroup()
-                        .addGap(0, 144, Short.MAX_VALUE)
+                        .addGap(0, 85, Short.MAX_VALUE)
                         .addComponent(overdueLabel))
                     .addComponent(overdueValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -1888,7 +1895,7 @@ public class UITerminal extends JFrame{
             .addGroup(overdueActionPanelLayout.createSequentialGroup()
                 .addComponent(overdueLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(overdueValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                .addComponent(overdueValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1925,7 +1932,7 @@ public class UITerminal extends JFrame{
                     .addGroup(teamPerformancePanelLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(performanceLabel))
-                    .addComponent(performanceValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                    .addComponent(performanceValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))
                 .addContainerGap())
         );
         teamPerformancePanelLayout.setVerticalGroup(
@@ -1933,7 +1940,7 @@ public class UITerminal extends JFrame{
             .addGroup(teamPerformancePanelLayout.createSequentialGroup()
                 .addComponent(performanceLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(performanceValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addComponent(performanceValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1968,7 +1975,7 @@ public class UITerminal extends JFrame{
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, planExecutionPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(executionLabel))
-                    .addComponent(executionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
+                    .addComponent(executionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
                 .addContainerGap())
         );
         planExecutionPanelLayout.setVerticalGroup(
@@ -1976,7 +1983,7 @@ public class UITerminal extends JFrame{
             .addGroup(planExecutionPanelLayout.createSequentialGroup()
                 .addComponent(executionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(executionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addComponent(executionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -2000,7 +2007,7 @@ public class UITerminal extends JFrame{
         dateValueLabel.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
         dateValueLabel.setForeground(new java.awt.Color(120, 120, 123));
         dateValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        dateValueLabel.setText("2016-11-14");
+        dateValueLabel.setText(Time.nowDate().toString());
         dateValueLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout datePanelLayout = new javax.swing.GroupLayout(datePanel);
@@ -2013,7 +2020,7 @@ public class UITerminal extends JFrame{
                     .addGroup(datePanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(dateLabel))
-                    .addComponent(dateValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
+                    .addComponent(dateValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
                 .addContainerGap())
         );
         datePanelLayout.setVerticalGroup(
@@ -2021,7 +2028,7 @@ public class UITerminal extends JFrame{
             .addGroup(datePanelLayout.createSequentialGroup()
                 .addComponent(dateLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dateValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                .addComponent(dateValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -2055,8 +2062,10 @@ public class UITerminal extends JFrame{
         filterLabel.setOpaque(true);
         filterLabel.setPreferredSize(new java.awt.Dimension(100, 24));
         filterLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-             }
+
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
 
             }
@@ -2084,7 +2093,8 @@ public class UITerminal extends JFrame{
         statusRadioButton.setMargin(new java.awt.Insets(0, 2, 0, 2));
         statusRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-             }
+
+            }
         });
 
         statusComboBox.setBackground(new java.awt.Color(252, 254, 252));
@@ -2095,7 +2105,8 @@ public class UITerminal extends JFrame{
         statusComboBox.setMaximumSize(new java.awt.Dimension(149, 29));
         statusComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-             }
+
+            }
         });
 
         status2Label.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
@@ -2215,7 +2226,7 @@ public class UITerminal extends JFrame{
                     .addComponent(contentRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
                 .addComponent(hintTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         statusPanelLayout.setVerticalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2232,24 +2243,24 @@ public class UITerminal extends JFrame{
                 .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(statusPanelLayout.createSequentialGroup()
                         .addComponent(owner2Label)
-                        .addGap(2, 2, 2)
+                        .addGap(1, 1, 1)
                         .addComponent(ownerRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(statusPanelLayout.createSequentialGroup()
                         .addComponent(content2Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
+                        .addGap(1, 1, 1)
                         .addComponent(contentRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(statusPanelLayout.createSequentialGroup()
                         .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(status2Label)
                             .addComponent(date2Label))
-                        .addGap(2, 2, 2)
+                        .addGap(1, 1, 1)
                         .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(dateRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, Short.MAX_VALUE)
                             .addComponent(statusRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                     .addGroup(statusPanelLayout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addComponent(owner2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 1, Short.MAX_VALUE))
+                .addGap(0, 4, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -2276,6 +2287,37 @@ public class UITerminal extends JFrame{
         addIcon.setMaximumSize(new java.awt.Dimension(32767, 32767));
         addIcon.setMinimumSize(new java.awt.Dimension(36, 40));
         addIcon.setPreferredSize(new java.awt.Dimension(36, 40));
+        addIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e){
+                addIcon.setIcon(new ImageIcon(getClass().getResource("/images/plusGreen-24.png")));
+            }
+            @Override
+            public void mouseExited(MouseEvent e){
+                if(!clickFlag)
+                    addIcon.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
+            }
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(meetingName != null){
+                    AddActionForm addAction;
+                    try {
+                        clickFlag = true;
+                        addIcon.setIcon(new ImageIcon(getClass().getResource("/images/plusGreen-24.png")));
+                        addAction = new AddActionForm(getJFrame(),Aps.getTerminal(),meetingName);
+                        addAction.setLocationRelativeTo(getJFrame());
+                    } catch (Exception ex) {
+                        Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                else{
+                    JOptionPane.showMessageDialog(getJFrame(),
+                            "<html><center>No Meeting has been selected. Select one first.</html>",
+                            "Validation",JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }); 
         buttonsPanel.add(addIcon);
 
         editIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -2285,6 +2327,31 @@ public class UITerminal extends JFrame{
         editIcon.setMaximumSize(new java.awt.Dimension(32767, 32767));
         editIcon.setMinimumSize(new java.awt.Dimension(35, 40));
         editIcon.setPreferredSize(new java.awt.Dimension(35, 40));
+        editIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e){}
+            @Override
+            public void mouseExited(MouseEvent e){}
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(meetingName == null){
+                    JOptionPane.showMessageDialog(getJFrame(),
+                            "<html><center>No Meeting has been selected. Select one first.</html>",
+                            "Validation",JOptionPane.ERROR_MESSAGE);
+                }
+                else if(jTable1.getSelectedRowCount() == 0){
+                    JOptionPane.showMessageDialog(getJFrame(),
+                            "<html><center>No Action has been selected. Select one first.</html>",
+                            "Validation",JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    EditActionForm editAction = new EditActionForm(getJFrame(),
+                            Aps.getTerminal(),meetingName, getSelectedRowData());
+                    editAction.setLocationRelativeTo(getJFrame());
+                    jTable1.getSelectionModel().clearSelection();
+                }
+            }
+        }); 
         buttonsPanel.add(editIcon);
 
         deleteIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -2294,6 +2361,46 @@ public class UITerminal extends JFrame{
         deleteIcon.setMaximumSize(new java.awt.Dimension(32767, 32767));
         deleteIcon.setMinimumSize(new java.awt.Dimension(35, 40));
         deleteIcon.setPreferredSize(new java.awt.Dimension(35, 40));
+        deleteIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e){}
+            @Override
+            public void mouseExited(MouseEvent e){}
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(meetingName == null){
+                    JOptionPane.showMessageDialog(getJFrame(),
+                            "<html><center>No Meeting has been selected. Select one first.</html>",
+                            "Validation",JOptionPane.ERROR_MESSAGE);
+                }
+                else if(jTable1.getSelectedRowCount() == 0){
+                    JOptionPane.showMessageDialog(getJFrame(),
+                            "<html><center>No Action has been selected. Select one first.</html>",
+                            "Validation",JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    Object[] options = { "Yes", "No" };
+                    if(JOptionPane.showOptionDialog(getJFrame(),
+                        "<html><center>Are you sure to delete the selected Action?",
+                        "Delete Action",JOptionPane.DEFAULT_OPTION, 
+                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == 0){
+                        int row_index = jTable1.getSelectedRow();
+                        TableModel model = jTable1.getModel();
+                        try {
+                            boolean is_deleted = Aps.getTerminal().deleteAction(
+                                    String.valueOf(model.getValueAt(row_index, 0)),meetingName);
+                            if(is_deleted)
+                                updateJTable();
+                        } catch (Exception ex) {
+                            Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                    }
+                    else{
+                    }
+                }
+            }
+        });
         buttonsPanel.add(deleteIcon);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

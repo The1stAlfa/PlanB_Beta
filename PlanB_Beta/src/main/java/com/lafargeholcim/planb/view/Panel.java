@@ -6,6 +6,9 @@
 package com.lafargeholcim.planb.view;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -33,6 +36,9 @@ public class Panel extends javax.swing.JFrame {
     private void initComponents() {//GEN-BEGIN:initComponents
         java.awt.GridBagConstraints gridBagConstraints;
 
+        meetingPopupMenu = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         apInformationPanel = new javax.swing.JPanel();
         apPanel = new javax.swing.JPanel();
         actionLabel = new javax.swing.JLabel();
@@ -93,6 +99,15 @@ public class Panel extends javax.swing.JFrame {
         editIcon = new javax.swing.JLabel();
         deleteIcon = new javax.swing.JLabel();
 
+        meetingPopupMenu.setAutoscrolls(true);
+
+        jMenuItem1.setText("Indicadores");
+        meetingPopupMenu.add(jMenuItem1);
+
+        jMenuItem2.setText("Alternative and Raw M");
+        jMenuItem2.setMinimumSize(new java.awt.Dimension(50, 20));
+        meetingPopupMenu.add(jMenuItem2);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setMaximumSize(new java.awt.Dimension(2147483647, 400));
@@ -128,7 +143,7 @@ public class Panel extends javax.swing.JFrame {
                 .addGroup(apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(actionLabel)
                     .addComponent(planLabel))
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(131, Short.MAX_VALUE))
         );
         apPanelLayout.setVerticalGroup(
             apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,7 +152,7 @@ public class Panel extends javax.swing.JFrame {
                 .addComponent(actionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(planLabel)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -172,6 +187,11 @@ public class Panel extends javax.swing.JFrame {
         dotMenuLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dotsMenu-24.png"))); // NOI18N
         dotMenuLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         dotMenuLabel.setIconTextGap(0);
+        dotMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dotMenuLabelMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout meetingNamePanelLayout = new javax.swing.GroupLayout(meetingNamePanel);
         meetingNamePanel.setLayout(meetingNamePanelLayout);
@@ -186,7 +206,7 @@ public class Panel extends javax.swing.JFrame {
                         .addComponent(meetingLabel))
                     .addGroup(meetingNamePanelLayout.createSequentialGroup()
                         .addGap(39, 39, 39)
-                        .addComponent(title2Label, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                        .addComponent(title2Label, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
                         .addGap(10, 10, 10)
                         .addComponent(dotMenuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -197,7 +217,7 @@ public class Panel extends javax.swing.JFrame {
                 .addGroup(meetingNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(meetingNamePanelLayout.createSequentialGroup()
                         .addGap(4, 4, 4)
-                        .addComponent(title1Label, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                        .addComponent(title1Label, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
                     .addComponent(meetingLabel))
                 .addGap(2, 2, 2)
                 .addGroup(meetingNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -206,7 +226,7 @@ public class Panel extends javax.swing.JFrame {
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
-        title2Label.getAccessibleContext().setAccessibleName("Indicadores");
+        title2Label.getAccessibleContext().setAccessibleName("");
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -248,7 +268,7 @@ public class Panel extends javax.swing.JFrame {
                         .addComponent(ownerLabel))
                     .addGroup(ownerNamePanelLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(surnameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)))
+                        .addComponent(surnameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         ownerNamePanelLayout.setVerticalGroup(
@@ -258,8 +278,8 @@ public class Panel extends javax.swing.JFrame {
                 .addGap(4, 4, 4)
                 .addComponent(firstNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
-                .addComponent(surnameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addComponent(surnameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -307,7 +327,7 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(participantsPanelLayout.createSequentialGroup()
                 .addGap(4, 4, 4)
                 .addGroup(participantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollParticipants, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                    .addComponent(scrollParticipants, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, participantsPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(participantsLabel)))
@@ -318,7 +338,7 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(participantsPanelLayout.createSequentialGroup()
                 .addComponent(participantsLabel)
                 .addGap(4, 4, 4)
-                .addComponent(scrollParticipants, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                .addComponent(scrollParticipants, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -356,7 +376,7 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, totalActionsPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(actionsLabel))
-                    .addComponent(actionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
+                    .addComponent(actionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
                 .addContainerGap())
         );
         totalActionsPanelLayout.setVerticalGroup(
@@ -364,7 +384,7 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(totalActionsPanelLayout.createSequentialGroup()
                 .addComponent(actionsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(actionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addComponent(actionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -404,7 +424,7 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, completedActionPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(completedLabel))
-                    .addComponent(completedValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
+                    .addComponent(completedValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
                 .addContainerGap())
         );
         completedActionPanelLayout.setVerticalGroup(
@@ -412,7 +432,7 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(completedActionPanelLayout.createSequentialGroup()
                 .addComponent(completedLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(completedValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                .addComponent(completedValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -451,7 +471,7 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(appActionPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(appLabel))
-                    .addComponent(appValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE))
+                    .addComponent(appValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE))
                 .addContainerGap())
         );
         appActionPanelLayout.setVerticalGroup(
@@ -459,7 +479,7 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(appActionPanelLayout.createSequentialGroup()
                 .addComponent(appLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(appValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addComponent(appValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -493,7 +513,7 @@ public class Panel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(overdueActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, overdueActionPanelLayout.createSequentialGroup()
-                        .addGap(0, 144, Short.MAX_VALUE)
+                        .addGap(0, 85, Short.MAX_VALUE)
                         .addComponent(overdueLabel))
                     .addComponent(overdueValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -503,7 +523,7 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(overdueActionPanelLayout.createSequentialGroup()
                 .addComponent(overdueLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(overdueValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                .addComponent(overdueValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -540,7 +560,7 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(teamPerformancePanelLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(performanceLabel))
-                    .addComponent(performanceValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                    .addComponent(performanceValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))
                 .addContainerGap())
         );
         teamPerformancePanelLayout.setVerticalGroup(
@@ -548,7 +568,7 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(teamPerformancePanelLayout.createSequentialGroup()
                 .addComponent(performanceLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(performanceValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addComponent(performanceValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -583,7 +603,7 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, planExecutionPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(executionLabel))
-                    .addComponent(executionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
+                    .addComponent(executionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
                 .addContainerGap())
         );
         planExecutionPanelLayout.setVerticalGroup(
@@ -591,7 +611,7 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(planExecutionPanelLayout.createSequentialGroup()
                 .addComponent(executionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(executionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addComponent(executionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -628,7 +648,7 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(datePanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(dateLabel))
-                    .addComponent(dateValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
+                    .addComponent(dateValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
                 .addContainerGap())
         );
         datePanelLayout.setVerticalGroup(
@@ -636,7 +656,7 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(datePanelLayout.createSequentialGroup()
                 .addComponent(dateLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dateValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                .addComponent(dateValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -833,7 +853,7 @@ public class Panel extends javax.swing.JFrame {
                     .addComponent(contentRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
                 .addComponent(hintTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         statusPanelLayout.setVerticalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -850,24 +870,24 @@ public class Panel extends javax.swing.JFrame {
                 .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(statusPanelLayout.createSequentialGroup()
                         .addComponent(owner2Label)
-                        .addGap(2, 2, 2)
+                        .addGap(1, 1, 1)
                         .addComponent(ownerRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(statusPanelLayout.createSequentialGroup()
                         .addComponent(content2Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
+                        .addGap(1, 1, 1)
                         .addComponent(contentRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(statusPanelLayout.createSequentialGroup()
                         .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(status2Label)
                             .addComponent(date2Label))
-                        .addGap(2, 2, 2)
+                        .addGap(1, 1, 1)
                         .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(dateRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, Short.MAX_VALUE)
                             .addComponent(statusRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                     .addGroup(statusPanelLayout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addComponent(owner2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 1, Short.MAX_VALUE))
+                .addGap(0, 4, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -955,6 +975,11 @@ public class Panel extends javax.swing.JFrame {
         filterLabel.setBackground(Color.decode("#E6E7EA"));
     }//GEN-LAST:event_filterLabelMouseExited
 
+    private void dotMenuLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dotMenuLabelMouseClicked
+        int xPos = meetingPopupMenu.getPreferredSize().width - 3;
+        meetingPopupMenu.show(dotMenuLabel, -xPos, -5);
+    }//GEN-LAST:event_dotMenuLabelMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1027,8 +1052,11 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JPanel filterLabelPanel;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JTextField hintTextField;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JLabel meetingLabel;
     private javax.swing.JPanel meetingNamePanel;
+    private javax.swing.JPopupMenu meetingPopupMenu;
     private javax.swing.JPanel overdueActionPanel;
     private javax.swing.JLabel overdueLabel;
     private javax.swing.JLabel overdueValueLabel;

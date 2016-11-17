@@ -310,8 +310,8 @@ public class Terminal{
         return list;
     }
     
-    public Object[] getMeetingsNames(){
-        return org.getFacility("01","id").getMeetingsNames().toArray();
+    public ArrayList<String> getMeetingsNames(){
+        return org.getFacility("01","id").getMeetingsNames();
     }
     
     public String getNewActionId(String meetingName) 
@@ -619,18 +619,23 @@ public class Terminal{
                 .setFormattedValue(startDate));  // Value for startDate
         values.add(getCellData(Time.getSerialNumberDate(dueDate, false))
                 .setFormattedValue(dueDate));  // Value for dueDate
-        values.add(getCellData("", false));  // Value for finishDate
+        values.add(getCellData("", false));  // Value for endDate
         values.add(getCellData(
                 Time.getSerialNumberDate(
                 Time.getNow(), true)));  // Value for DateCreated
         values.add(getCellData("", false));  // Value for DateModified
-        values.add(getCellData((double)statusValue));  // Value for status
+        String statusFormula = "=if(INDIRECT(\"$I\"&ROW())=\"\";IF(INDIRECT"
+                + "(\"$O\"&ROW())<0;5;IF(INDIRECT(\"$O\"&ROW())>3;3;4));"
+                + "IF(INDIRECT(\"$O\"&ROW())>0;1;2))";
+        values.add(getCellData(statusFormula, true));  // Value for status
         values.add(getCellData((double)progress));  // Value for progress
         values.add(getCellData((double)0));  // Value for isDeleted
-        /*
-        String q = "=IF(ISERROR(QUERY(action!$B$2:$N;\"SELECT COUNT(B) WHERE l = 6 AND C = \"&$C2&\" AND N=0 LABEL COUNT(B) ''\"));0;QUERY(action!$B$2:$N;\"SELECT COUNT(B) WHERE L = 6 AND C = \"&$C2&\" AND N=0 LABEL COUNT(B) ''\"))";
-        values.add();
-        */
+        String diffFormula = "=IF(ISERR(DATEVALUE(INDIRECT(\"$I\"&ROW()))-"
+                + "DATEVALUE(INDIRECT(\"$H\"&ROW())));DATEVALUE(INDIRECT(\"$H\""
+                + "&ROW()))-DATEVALUE(TODAY());DATEVALUE(INDIRECT(\"$I\"&ROW()))"
+                + "-DATEVALUE(INDIRECT(\"$H\"&ROW())))";
+        values.add(getCellData(diffFormula, true)); // Value for the difference between dates
+
         while(isDuplicatedActionId(temporalActionId)){
             temporalActionId = getNewActionId(meeting.getName());
             if(!temporalActionId.equals(actionId)){
@@ -677,6 +682,12 @@ public class Terminal{
                     if(columnIndex == 11 || columnIndex == 12 
                             || (columnIndex>= 6 && columnIndex<=8))
                         values.add(getCellData((Double)list.get(c)));
+                    else if(columnIndex == 11){
+                        String statusFormula = "=if(INDIRECT(\"$I\"&ROW())=\"\";IF(INDIRECT"
+                            + "(\"$O\"&ROW())<0;5;IF(INDIRECT(\"$O\"&ROW())>3;3;4));"
+                            + "IF(INDIRECT(\"$O\"&ROW())>0;1;2))";
+                        values.add(getCellData(statusFormula, true));
+                    }
                     else
                         values.add(getCellData(list.get(c).toString(), false));
                     requests.add(gPlanB.getRequest("action", values, rowIndex, 
