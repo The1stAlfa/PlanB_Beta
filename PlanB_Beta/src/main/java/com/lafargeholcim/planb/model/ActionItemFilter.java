@@ -12,10 +12,19 @@ package com.lafargeholcim.planb.model;
  */
 public enum ActionItemFilter {
     ALL,
-    BY_DATE,
-    BY_OWNER,
-    BY_STATE,
-    BY_FUNTIONAL_AREA,
-    BY_DURATION,
-    BY_ID;
+    S_DATE,
+    D_DATE,
+    E_DATE,
+    OWNER,
+    STATUS,
+    CONTENT,
+    STATUS_S_DATE,
+    STATUS_D_DATE,
+    STATUS_E_DATE,
+    STATUS_S_DATE_OWNER,
+    STATUS_D_DATE_OWNER,
+    STATUS_E_DATE_OWNER,
+    S_DATE_OWNER,
+    D_DATE_OWNER,
+    E_DATE_OWNER;
 }

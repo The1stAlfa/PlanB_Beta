@@ -5,6 +5,7 @@
  */
 package com.lafargeholcim.planb.view;
 
+import com.lafargeholcim.planb.model.ActionItemFilter;
 import com.lafargeholcim.planb.sys.Month;
 import com.lafargeholcim.planb.sys.Terminal;
 import com.lafargeholcim.planb.util.Time;
@@ -17,6 +18,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -78,6 +80,8 @@ public class AddActionForm extends JDialog{
     private JTextField tfId;
     private JComboBox responsibleComboBox;
     private JSlider progressSlider;
+    private ActionItemFilter filter;
+    private ArrayList<Object> filterValues;
     // End of variables declaration
     /**
      * Creates new form Ingreso
@@ -191,7 +195,7 @@ public class AddActionForm extends JDialog{
                                     jTextArea2.getText(),startDate,dueDate,
                                     status_comboBox.getSelectedItem().toString(),
                                     (byte)progressSlider.getValue(),duration,meetingName);
-                            ((UITerminal)parent).updateJTable();
+                            ((UITerminal)parent).updateJTable(filter, filterValues);
                             parent.setEnabled(true);
                             JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
                             label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));

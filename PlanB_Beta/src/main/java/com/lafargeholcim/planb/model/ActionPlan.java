@@ -122,14 +122,6 @@ public class ActionPlan {
         return true;
     }
     
-    //Overload Method
-    public ArrayList<Action> searchAction(ActionItemFilter filter, int key){
-        if(filter.equals(ActionItemFilter.BY_DURATION)){
-            
-        }
-        return null;
-    }
-    
     public Boolean deleteAction(String action_id){
         for(Action action:actionList){
             if(action.getID().equalsIgnoreCase(action_id)){

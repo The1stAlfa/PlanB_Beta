@@ -5,6 +5,7 @@
  */
 package com.lafargeholcim.planb.view;
 
+import com.lafargeholcim.planb.model.ActionItemFilter;
 import com.lafargeholcim.planb.sys.Month;
 import com.lafargeholcim.planb.sys.Terminal;
 import com.lafargeholcim.planb.util.Time;
@@ -19,6 +20,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -73,6 +75,8 @@ public class EditActionForm extends JDialog {
     private JTextField tfDuration;
     private JTextField idTextField;
     private JComboBox responsibleComboBox;
+    private ActionItemFilter filter;
+    private ArrayList<Object> filterValues;
     
     /**
      * Creates new form Ingreso
@@ -146,13 +150,13 @@ public class EditActionForm extends JDialog {
         jLabel6.setForeground(Color.decode("#C9CDD1"));
         jLabel7.setText("Comments");
         jLabel7.setForeground(Color.decode("#C9CDD1"));
-        jLabel8.setText("<html>Planned<br>Start Date</html>");
+        jLabel8.setText("Start Date");
         jLabel8.setForeground(Color.decode("#C9CDD1"));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel9.setText("<html>Planned<br> End Date</html>");
+        jLabel9.setText("Due Date");
         jLabel9.setForeground(Color.decode("#C9CDD1"));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);   
-        jLabel10.setText("<html>Real  <br> End Date</html>");
+        jLabel10.setText("End Date");
         jLabel10.setForeground(Color.decode("#C9CDD1"));
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel11.setText("Progress %");
@@ -182,7 +186,7 @@ public class EditActionForm extends JDialog {
                         if(detectActionDataModification()){
                             terminal.modifyAction(rowDataModified,meetingName);
                             parent.setEnabled(true);
-                            ((UITerminal)parent).updateJTable();
+                            ((UITerminal)parent).updateJTable(filter, filterValues);
                             getJDialog().dispose();
                         }
                     } catch (Exception ex) {
