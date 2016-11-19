@@ -112,19 +112,10 @@ public class UITerminal extends JFrame{
     private JPanel dashboardPanel, actionPlanPanel, meetingPanel;
     private JLabel apsLogoLabel, resizeLabel, minimizeLabel, closeLabel;
     private JLabel initImageLabel;
-    private String meetingName;
-    private JLabel apLabel, owLabel, parLabel, meetLabel, actLabel, compLabel, 
-                compAppLabel, overAppLabel, actContentLabel, owContentLabel,
-                compContentLabel, compAppContentLabel, overAppContentLabel, 
-                performanceLabel, exeLabel, performanceContentLabel;
-    private JPanel filterPanel, apInformationPanel, actionListPanel, 
-            gapPanel1,gapPanel2,pagePanel;
-    private JLabel addActionLabel, modifyActionLabel, deleteActionLabel;
-    private JComboBox filterContentComboBox,filterCombobox,meetComboBox;
+    private String meetingName; 
+    private JPanel gapPanel1,gapPanel2,pagePanel;
     private JTable jTable1; 
-    private JProgressBar exeContentLabel;
     private JScrollPane jScrollPane1, jScrollPane2;
-    private JTextArea parTextArea;
     private JPanel h1,h2,h3,h4,h5,h6,h7;
     private boolean menuFlag = false, resizeFlag = false, clickFlag = false;
     
@@ -134,14 +125,14 @@ public class UITerminal extends JFrame{
             dotMenuLabel, editIcon, executionLabel, executionValueLabel, 
             filterLabel, firstNameLabel, meetingLabel, overdueLabel, 
             overdueValueLabel, owner2Label, ownerLabel, participantsLabel, 
-            performanceValueLabel, planLabel, surnameLabel, status2Label, 
+            performanceLabel, performanceValueLabel, planLabel, surnameLabel, status2Label, 
             title1Label, title2Label;
-    private JPanel apPanel, appActionPanel, buttonsPanel, completedActionPanel, 
-            datePanel, filterLabelPanel, meetingNamePanel, overdueActionPanel, 
-            ownerNamePanel, participantsPanel, planExecutionPanel, statusPanel, 
-            teamPerformancePanel, totalActionsPanel;
+    private JPanel actionListPanel,apInformationPanel, apPanel, appActionPanel,
+            buttonsPanel, completedActionPanel, datePanel, filterLabelPanel, meetingNamePanel, 
+            overdueActionPanel, ownerNamePanel, participantsPanel, 
+            planExecutionPanel, statusPanel, teamPerformancePanel, totalActionsPanel;
     private JRadioButton contentRadioButton, dateRadioButton, ownerRadioButton, statusRadioButton;
-    private javax.swing.JComboBox<String> dateComboBox, statusComboBox;
+    private JComboBox<String> dateComboBox, statusComboBox;
     private JTextField endLabel, hintTextField, owner2TextField, startLabel;
     private JPopupMenu meetingPopupMenu;
     private JTextArea participantsTextArea;
@@ -562,6 +553,14 @@ public class UITerminal extends JFrame{
                 ArrayList<Object> value = new ArrayList<>();
                 value.add(Status.OVERDUE);
                 updateJTable(ActionItemFilter.STATUS, value);
+                statusRadioButton.setSelected(true);
+                dateRadioButton.setSelected(false);
+                dateComboBox.setSelectedIndex(0);
+                contentRadioButton.setSelected(false);
+                hintTextField.setText("hint");
+                startLabel.setText("yyyy-mm-dd");
+                endLabel.setText("yyyy-mm-dd");
+                statusComboBox.setSelectedIndex(3);
             }
         });
         meetingPopupMenu.add(item);
@@ -603,11 +602,7 @@ public class UITerminal extends JFrame{
     }
     
     private void createActionPlanPanel() throws Exception{
-        GridBagConstraints gbc = new GridBagConstraints();
-        meetComboBox = new JComboBox();
         jTable1 = new JTable();
-        parTextArea = new JTextArea();
-        
         
         actionPlanPanel = new JPanel();
         actionPlanPanel.setLayout(new BorderLayout());
@@ -619,252 +614,6 @@ public class UITerminal extends JFrame{
         actionListPanel.setPreferredSize(new Dimension(300,300));
         actionListPanel.setBackground(Color.decode("#FCFEFC"));
         /*
-        apInformationPanel = new JPanel();
-        apInformationPanel.setLayout(new GridBagLayout());
-        apInformationPanel.setBackground(Color.decode("#3C3E41"));
-        
-        //**********************************************************************
-        //  ActionPlan Information Panel Components
-        //**********************************************************************
-        apLabel = new JLabel("Action Plan");
-        apLabel.setFont(new Font("Dialog", 1, 24)); // NOI18N
-        apLabel.setForeground(Color.decode("#FCFEFC"));
-        apLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        apLabel.setVerticalTextPosition(SwingConstants.TOP);
-        
-        gbc.gridx = 7;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.ipadx = 2;
-        gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-        gbc.insets = new Insets(0, 5, 0, 5);
-        apInformationPanel.add(apLabel, gbc);
-        
-        owLabel = new JLabel("Owner");
-        owLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
-        owLabel.setForeground(Color.decode("#FCFEFC"));
-        owLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        owLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
-        owLabel.setMaximumSize(new Dimension(45, 16));
-        owLabel.setMinimumSize(new Dimension(45, 16));
-        owLabel.setPreferredSize(new Dimension(45, 16));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.ipadx = 2;
-        gbc.ipady = 2;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.insets = new Insets(0, 2, 2, 3);
-        apInformationPanel.add(owLabel, gbc);
-
-        parLabel = new JLabel("Participants");
-        parLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
-        parLabel.setForeground(Color.decode("#FCFEFC"));
-        parLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        parLabel.setVerticalAlignment(SwingConstants.TOP);
-        parLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
-        parLabel.setPreferredSize(new Dimension(82, 16));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.ipadx = 2;
-        gbc.ipady = 2;
-        gbc.anchor = GridBagConstraints.NORTHEAST;
-        gbc.insets = new Insets(0, 4, 2, 3);
-        apInformationPanel.add(parLabel, gbc);
-        
-        meetLabel = new JLabel("Meeting");
-        meetLabel.setForeground(Color.decode("#FCFEFC"));
-        meetLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
-        meetLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        meetLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.ipadx = 2;
-        gbc.ipady = 2;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.insets = new Insets(0, 2, 2, 3);
-        apInformationPanel.add(meetLabel, gbc);
-        
-        meetComboBox.setModel(new DefaultComboBoxModel<>(Aps.getTerminal().getMeetingsNames()));
-        meetComboBox.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, new Color(204, 204, 204), null, null));
-        meetComboBox.setMaximumSize(new Dimension(170, 24));
-        meetComboBox.setPreferredSize(new Dimension(170, 24));
-        meetComboBox.setSelectedIndex(-1);
-        meetComboBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent event) {
-                meetingSelected(event);
-                updateJTable();
-            }
-        });
-
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.ipadx = 2;
-        gbc.ipady = 2;
-        gbc.insets = new Insets(0, 2, 2, 2);
-        apInformationPanel.add(meetComboBox, gbc);
-        
-        actLabel = new JLabel("Actions");
-        actLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
-        actLabel.setForeground(Color.decode("#FCFEFC"));
-        actLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        gbc =  new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.ipadx = 2;
-        gbc.ipady = 2;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.insets = new Insets(0, 2, 2, 2);
-        apInformationPanel.add(actLabel, gbc);
-
-        compLabel = new JLabel("Completed");
-        compLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
-        compLabel.setForeground(Color.decode("#FCFEFC"));
-        compLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.ipadx = 2;
-        gbc.ipady = 2;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.insets = new Insets(0, 2, 2, 2);
-        apInformationPanel.add(compLabel, gbc);
-        
-        compAppLabel = new JLabel("Completed APP");
-        compAppLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
-        compAppLabel.setForeground(Color.decode("#FCFEFC"));
-        compAppLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        compAppLabel.setVerticalAlignment(SwingConstants.TOP);
-        compAppLabel.setPreferredSize(new Dimension(105, 24));
-        compAppLabel.setVerticalTextPosition(SwingConstants.TOP);
-        compAppLabel.setForeground(Color.decode("#FCFEFC"));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 3;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.ipadx = 2;
-        gbc.ipady = 2;
-        gbc.anchor = GridBagConstraints.NORTHEAST;
-        gbc.insets = new Insets(0, 4, 2, 2);
-        apInformationPanel.add(compAppLabel, gbc);
-        
-        overAppLabel = new JLabel("OverDue APP");
-        overAppLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
-        overAppLabel.setForeground(Color.decode("#FCFEFC"));
-        overAppLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 4;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.ipadx = 2;
-        gbc.ipady = 2;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.insets = new Insets(0, 2, 2, 2);
-        apInformationPanel.add(overAppLabel, gbc);
-
-        actContentLabel = new JLabel();
-        actContentLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        actContentLabel.setPreferredSize(new Dimension(40, 16));
-        actContentLabel.setForeground(Color.decode("#FCFEFC"));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        apInformationPanel.add(actContentLabel, gbc);
-
-        owContentLabel = new JLabel();
-        owContentLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        owContentLabel.setLabelFor(owLabel);
-        owContentLabel.setHorizontalTextPosition(SwingConstants.LEFT);
-        owContentLabel.setPreferredSize(new Dimension(150, 24));
-        owContentLabel.setForeground(Color.decode("#FCFEFC"));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.ipadx = 2;
-        gbc.ipady = 2;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(0, 4, 3, 2);
-        apInformationPanel.add(owContentLabel, gbc);
-        
-        compContentLabel = new JLabel();
-        compContentLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        compContentLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        compContentLabel.setForeground(Color.decode("#FCFEFC"));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new java.awt.Insets(0, 2, 2, 2);
-        apInformationPanel.add(compContentLabel, gbc);
-
-        compAppContentLabel = new JLabel();
-        compAppContentLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        compAppContentLabel.setVerticalAlignment(SwingConstants.TOP);
-        compAppContentLabel.setHorizontalTextPosition(SwingConstants.LEADING);
-        compAppContentLabel.setVerticalTextPosition(SwingConstants.TOP);
-        compAppContentLabel.setForeground(Color.decode("#FCFEFC"));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 3;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.NORTHEAST;
-        apInformationPanel.add(compAppContentLabel, gbc);
-
-        overAppContentLabel = new JLabel();
-        overAppContentLabel.setForeground(Color.decode("#FCFEFC"));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 4;
-        apInformationPanel.add(overAppContentLabel, gbc);
-
-        performanceLabel = new JLabel("Team Preformance APP");
-        performanceLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
-        performanceLabel.setForeground(Color.decode("#FCFEFC"));
-        performanceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        performanceLabel.setPreferredSize(new Dimension(164, 16));
-        gbc = new java.awt.GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 1;
-        gbc.gridwidth = 3;
-        gbc.gridheight = 2;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
-        gbc.insets = new Insets(0, 12, 2, 2);
-        apInformationPanel.add(performanceLabel, gbc);
-        
-        jScrollPane1 = new JScrollPane();
-        jScrollPane1.setBackground(Color.decode("#3C3E41"));
-        jScrollPane1.setBorder(BorderFactory.createEmptyBorder(0, 2, 2, 2));
-        jScrollPane1.setPreferredSize(new Dimension(170, 25));
-
-        parTextArea.setText("");
-        parTextArea.setBackground(Color.decode("#3C3E41"));
-        parTextArea.setFont(new Font("Dialog", 1, 12));
-        parTextArea.setForeground(Color.decode("#FCFEFC"));
-        parTextArea.setEditable(false);
-        parTextArea.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-        parTextArea.setLineWrap(true);
-        parTextArea.setWrapStyleWord(true);
-        parTextArea.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        jScrollPane1.setViewportView(parTextArea);
-
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        gbc.gridheight = 2;
-        gbc.fill = GridBagConstraints.BOTH;
-        apInformationPanel.add(jScrollPane1, gbc);
 
         exeLabel = new JLabel("Overall Execution");
         exeLabel.setFont(new Font("Dialog", 1, 14));
@@ -1053,149 +802,6 @@ public class UITerminal extends JFrame{
         meetingName = event.getItem().toString();
     }
     
-    private void setAPSumary(ActionPlan plan){
-        
-    }
-    
-    private void createFilterPanel(){
-        filterPanel = new JPanel();//1160AE
-        filterPanel.setBackground(Color.decode("#004276"));
-        filterPanel.setBorder(BorderFactory.createMatteBorder(7,0,0,0,Color.decode("#FCFEFC")));
-        filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.LINE_AXIS));
-        filterPanel.setPreferredSize(new Dimension(actionPlanPanel.getMaximumSize().height, 50));
-        JLabel filterLabel = new JLabel("Filter by");
-        filterLabel.setHorizontalAlignment(JLabel.CENTER);
-        filterLabel.setPreferredSize(new Dimension(60,filterPanel.getPreferredSize().height));
-        filterCombobox = new JComboBox();
-        filterCombobox.setMaximumSize(new Dimension(140,26));
-        filterCombobox.setModel(new DefaultComboBoxModel<>(new Object[]
-            {"DATE", "RESPONSIBLE","STATUS"}
-        ));
-
-        filterPanel.add(filterLabel);
-        filterPanel.add(filterCombobox);
-        filterPanel.add(Box.createRigidArea(new Dimension(20,26)));
-        filterContentComboBox = new JComboBox();
-        filterContentComboBox.setMaximumSize(new Dimension(140,26));
-        filterPanel.add(filterContentComboBox);
-        filterPanel.add(Box.createHorizontalGlue());
-        
-        addActionLabel = new JLabel();
-        addActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/plus-24.png")));
-        addActionLabel.setPreferredSize(new Dimension(35,filterPanel.getPreferredSize().height));
-        addActionLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e){
-                addActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/plusGreen-24.png")));
-            }
-            @Override
-            public void mouseExited(MouseEvent e){
-                if(!clickFlag)
-                    addActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/plus-24.png")));
-            }
-            @Override
-            public void mouseClicked(MouseEvent e){
-                if(meetComboBox.getSelectedIndex() != -1){
-                    AddActionForm add_action;
-                    try {
-                        clickFlag = true;
-                        addActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/plusGreen-24.png")));
-                        add_action = new AddActionForm(getJFrame(),Aps.getTerminal(),meetingName);
-                        add_action.setLocationRelativeTo(getJFrame());
-                    } catch (Exception ex) {
-                        Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                }
-                else{
-                    JOptionPane.showMessageDialog(getJFrame(),
-                            "<html><center>No Meeting has been selected. Select one first.</html>",
-                            "Validation",JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }); 
-
-        modifyActionLabel = new JLabel();
-        modifyActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/edit-24.png")));
-        modifyActionLabel.setPreferredSize(new Dimension(35,filterPanel.getPreferredSize().height));
-        modifyActionLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e){}
-            @Override
-            public void mouseExited(MouseEvent e){}
-            @Override
-            public void mouseClicked(MouseEvent e){
-                if(meetComboBox.getSelectedIndex() == -1){
-                    JOptionPane.showMessageDialog(getJFrame(),
-                            "<html><center>No Meeting has been selected. Select one first.</html>",
-                            "Validation",JOptionPane.ERROR_MESSAGE);
-                }
-                else if(jTable1.getSelectedRowCount() == 0){
-                    JOptionPane.showMessageDialog(getJFrame(),
-                            "<html><center>No Action has been selected. Select one first.</html>",
-                            "Validation",JOptionPane.ERROR_MESSAGE);
-                }
-                else{
-                    EditActionForm editAction = new EditActionForm(getJFrame(),
-                            Aps.getTerminal(),meetingName, getSelectedRowData());
-                    editAction.setLocationRelativeTo(getJFrame());
-                    jTable1.getSelectionModel().clearSelection();
-                }
-            }
-        }); 
-        
-        deleteActionLabel = new JLabel();
-        deleteActionLabel.setIcon(new ImageIcon(getClass().getResource("/images/delete-24.png")));
-        deleteActionLabel.setPreferredSize(new Dimension(35, filterPanel.getPreferredSize().height));
-        deleteActionLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e){}
-            @Override
-            public void mouseExited(MouseEvent e){}
-            @Override
-            public void mouseClicked(MouseEvent e){
-                if(meetComboBox.getSelectedIndex() == -1){
-                    JOptionPane.showMessageDialog(getJFrame(),
-                            "<html><center>No Meeting has been selected. Select one first.</html>",
-                            "Validation",JOptionPane.ERROR_MESSAGE);
-                }
-                else if(jTable1.getSelectedRowCount() == 0){
-                    JOptionPane.showMessageDialog(getJFrame(),
-                            "<html><center>No Action has been selected. Select one first.</html>",
-                            "Validation",JOptionPane.ERROR_MESSAGE);
-                }
-                else{
-                    Object[] options = { "Yes", "No" };
-                    if(JOptionPane.showOptionDialog(getJFrame(),
-                        "<html><center>Are you sure to delete the selected Action?",
-                        "Delete Action",JOptionPane.DEFAULT_OPTION, 
-                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == 0){
-                        int row_index = jTable1.getSelectedRow();
-                        TableModel model = jTable1.getModel();
-                        try {
-                            boolean is_deleted = Aps.getTerminal().deleteAction(
-                                    String.valueOf(model.getValueAt(row_index, 0)),meetingName);
-                            if(is_deleted){
-                                ((DefaultTableModel)model).removeRow(row_index);
-                                jTable1.getSelectionModel().clearSelection();
-                                jTable1.repaint();
-                            }
-                        } catch (Exception ex) {
-                            Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        
-                    }
-                    else{
-                    }
-                }
-            }
-        });
-        filterPanel.add(addActionLabel);
-        filterPanel.add(modifyActionLabel);
-        filterPanel.add(deleteActionLabel);
-        
-    }
-    
     private void centerColumnContent(){
         for(int i=0; i<10;i++){
             jTable1.getColumnModel().getColumn(i).setCellRenderer(new TableCellRenderer(){
@@ -1360,7 +966,7 @@ public class UITerminal extends JFrame{
     
     protected void updateJTable(ActionItemFilter filter, ArrayList<Object> values){
         try {
-            Object[] object = Aps.getTerminal().getTableContent(filter, meetingName);
+            Object[] object = Aps.getTerminal().getTableContent(filter,values, meetingName);
             Meeting meeting = (Meeting)object[0];
             jTable1.setModel((TableModel)object[1]);                
             setColumnWidth();
@@ -2087,12 +1693,25 @@ public class UITerminal extends JFrame{
         filterLabel.setMinimumSize(new java.awt.Dimension(80, 24));
         filterLabel.setOpaque(true);
         filterLabel.setPreferredSize(new java.awt.Dimension(100, 24));
-        filterLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+        filterLabel.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
                 filterLabel.setBackground(Color.decode("#D9DADC"));
             }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+            public void mouseExited(MouseEvent evt) {
                 filterLabel.setBackground(Color.decode("#E6E7EA"));
+            }
+            public void mouseClicked(MouseEvent evt){
+                if(dateRadioButton.isSelected()){
+                    ArrayList<Object> values = new ArrayList();
+                    values.add(endLabel.getText());
+                    values.add(startLabel.getText());
+                    if(dateComboBox.getSelectedIndex() == 1)
+                        updateJTable(ActionItemFilter.S_DATE, values);
+                    else if(dateComboBox.getSelectedIndex() == 2)
+                        updateJTable(ActionItemFilter.D_DATE, values);                    
+                    else
+                        updateJTable(ActionItemFilter.E_DATE, values);
+                }
             }
         });
         filterLabelPanel.add(filterLabel, java.awt.BorderLayout.CENTER);

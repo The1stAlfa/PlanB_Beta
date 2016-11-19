@@ -387,9 +387,11 @@ public class Terminal{
         return null;
     }
     
-    public Object[] getTableContent(ActionItemFilter filter, String meetingName) throws Exception{
+    public Object[] getTableContent(ActionItemFilter filter, 
+            ArrayList<Object> filterValues, String meetingName) throws Exception{
+        
         String actionID, responsible, detail, comments,
-                date, progress, status, query;
+                date, progress, status, query = null;
         ActionPlan plan;
         Table result;
         List<Cell> cells;
@@ -402,7 +404,6 @@ public class Terminal{
         }
         else
             plan = new ActionPlan();
-        ArrayList<Action> list = new ArrayList();
         DefaultTableModel dm = new DefaultTableModel(null, new String [] {
                 "ID","Resp.", "Detail", "Comments", 
                 "StartDate", "DueDate", "EndDate",
@@ -414,62 +415,44 @@ public class Terminal{
                 }
             };
         
-        if(filter.equals(ActionItemFilter.ALL)){
-            query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+plan.getId()+
-                    "+AND+N+CONTAINS+0+LABEL+DATEDIFF(H,G)+%27duration%27";
-            result = gPlanB.selectQuery(query, "action");
-            if(result != null){
-                for(Row row:result.getRows()){
-                    if(row != null){
-                        cells = row.getC();
-                        Action action = new Action();
-                        Vector jTableRow = new Vector();
-                        actionID = getCellValue(cells.get(0),false);
-                        jTableRow.add(actionID);
-                        action.setID(actionID);
-                        responsible = facility.searchCollaborator(
-                                Integer.parseInt(getCellValue(cells.get(1),true)))
-                                .getAcronymName();
-                        jTableRow.add(responsible);
-                        action.setResponsible(
-                                getCollaborator(facility.getId(),responsible));
-                        detail = getCellValue(cells.get(2),false);
-                        jTableRow.add(detail);
-                        action.setDetail(detail);
-                        comments = getCellValue(cells.get(3),false);
-                        jTableRow.add(comments);
-                        action.setComments(comments);
-                        date = getCellValue(cells.get(4),true);
-                        jTableRow.add(date);
-                        action.setStartDate(Time.parseDate(date));
-                        date = getCellValue(cells.get(5),true);
-                        jTableRow.add(date);
-                        action.setDueDate(Time.parseDate(date));
-                        date = getCellValue(cells.get(6),true);
-                        jTableRow.add(date);
-                        action.setEndDate(Time.parseDate(date));
-                        progress = getCellValue(cells.get(8),true);
-                        jTableRow.add(progress);
-                        action.setProgress(Byte.parseByte(progress));
-                        status = getStatusName(
-                                Integer.parseInt(getCellValue(cells.get(7),true))); 
-                        jTableRow.add(status);
-                        action.setStatus(Status.valueOf(status));
-                        if(getCellValue(cells.get(9),false) != null){
-                            double duration = 
-                                    Double.parseDouble(
-                                            getCellValue(cells.get(9),false));
-                            jTableRow.add(String.valueOf((int)duration));
-                            action.setDuration((int) duration);
-                        }
-                        else
-                            action.setDuration((byte)0);    
-                        dm.addRow(jTableRow);
-                        list.add(action);
+        
+        result = gPlanB.selectQuery(getQueryString(filter, filterValues,
+                (int) plan.getId()), "action");
+        if(result != null){
+            for(Row row:result.getRows()){
+                if(row != null){
+                    cells = row.getC();
+                    Vector jTableRow = new Vector();
+                    actionID = getCellValue(cells.get(0),false);
+                    jTableRow.add(actionID);
+                    responsible = facility.searchCollaborator(
+                            Integer.parseInt(getCellValue(cells.get(1),true)))
+                            .getAcronymName();
+                    jTableRow.add(responsible);
+                    detail = getCellValue(cells.get(2),false);
+                    jTableRow.add(detail);
+                    comments = getCellValue(cells.get(3),false);
+                    jTableRow.add(comments);
+                    date = getCellValue(cells.get(4),true);
+                    jTableRow.add(date);
+                    date = getCellValue(cells.get(5),true);
+                    jTableRow.add(date);
+                    date = getCellValue(cells.get(6),true);
+                    jTableRow.add(date);
+                    progress = getCellValue(cells.get(8),true);
+                    jTableRow.add(progress);
+                    status = getStatusName(
+                            Integer.parseInt(getCellValue(cells.get(7),true))); 
+                    jTableRow.add(status);
+                    if(getCellValue(cells.get(9),false) != null){
+                        double duration = 
+                                Double.parseDouble(
+                                        getCellValue(cells.get(9),false));
+                        jTableRow.add(String.valueOf((int)duration));
                     }
-                }  
-                plan.setActionList(list);
-            }
+                    dm.addRow(jTableRow);
+                }
+            }  
         }
         return new Object[]{meeting,dm};
     }
@@ -715,16 +698,43 @@ public class Terminal{
         return false;
     }
     
-    private boolean isDuplicatedActionId(String actionId) throws IOException{
-        String query = 
-                "SELECT+COUNT(B)+WHERE+B+CONTAINS+%27"+actionId+"%27";
-        Table result = gPlanB.selectQuery(query, "action");
+    private String getQueryString(ActionItemFilter filter, ArrayList<Object> filterValues, int actionPlanId) throws IOException{
+        String query = null;
         
-        if(result != null){
-            if(result.getRows().size() == 1 &&
-                    result.getUniqueCellValueOfUniqueRow(false).equals("1.0"))
-                return true;
+        if(filter.equals(ActionItemFilter.ALL)){
+            query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
+                    "+AND+N+CONTAINS+0+LABEL+DATEDIFF(H,G)+%27duration%27";
         }
-        return false;
+        else if (filter.equals(ActionItemFilter.STATUS)){
+            int statusValue = ((Status)filterValues.get(0)).getValue();
+            query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
+                    "+AND+N+CONTAINS+0+AND+L+CONTAINS+"+statusValue+"+LABEL+"
+                    + "DATEDIFF(H,G)+%27duration%27";
+        }
+        else if(filter.equals(ActionItemFilter.S_DATE)){
+            String endDate = filterValues.get(0).toString();
+            String startDate = filterValues.get(1).toString();
+            
+            query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
+                    "+AND+N+CONTAINS+0+AND+G%3C=DATE+%27"+endDate+"%27+AND+G%3E=DATE+%27"
+                    +startDate+"%27+LABEL+DATEDIFF(H,G)+%27duration%27";
+        }
+        else if(filter.equals(ActionItemFilter.D_DATE)){
+            String endDate = filterValues.get(0).toString();
+            String startDate = filterValues.get(1).toString();
+            
+            query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
+                    "+AND+N+CONTAINS+0+AND+H3C=DATE+%27"+endDate+"%27+AND+H%3E=DATE+%27"
+                    +startDate+"%27+LABEL+DATEDIFF(H,G)+%27duration%27";
+        }
+        else if(filter.equals(ActionItemFilter.E_DATE)){
+            String endDate = filterValues.get(0).toString();
+            String startDate = filterValues.get(1).toString();
+            
+            query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
+                    "+AND+N+CONTAINS+0+AND+I3C=DATE+%27"+endDate+"%27+AND+I%3E=DATE+%27"
+                    +startDate+"%27+LABEL+DATEDIFF(H,G)+%27duration%27";
+        }
+        return query;
     }
 }
