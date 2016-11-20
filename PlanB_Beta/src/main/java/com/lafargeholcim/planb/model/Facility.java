@@ -103,15 +103,15 @@ public class Facility {
     }
     
     public Collaborator searchCollaborator(String hint, byte type){
-        if(type == 1){
+        if(type == 1){ //FULL NAME
             for(Collaborator collaborator: this.collaboratorList.values()){
-                String collaborator_names = collaborator.getFirstName()
+                String collaboratorNames = collaborator.getFirstName()
                         +" "+ collaborator.getLastName();
-                if(collaborator_names.equalsIgnoreCase(hint))
+                if(collaboratorNames.equalsIgnoreCase(hint))
                     return collaborator;
             }
         }
-        else if(type == 2){
+        else if(type == 2){ // ACRONYM
             for(Collaborator collaborator : this.getCollaboratorList().values()) {
                 if(collaborator.getAcronymName().equalsIgnoreCase(hint))
                     return collaborator;

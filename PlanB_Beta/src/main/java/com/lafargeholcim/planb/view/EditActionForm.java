@@ -85,11 +85,15 @@ public class EditActionForm extends JDialog {
      * @param meeting_name
      * @param row_data
      */
-    public EditActionForm(JFrame parent, Terminal terminal, String meetingName, Object[] rowData) {
+    public EditActionForm(JFrame parent, Terminal terminal, 
+            String meetingName, Object[] rowData, ActionItemFilter filter, 
+            ArrayList<Object> filterValues){
         this.parent = parent;
         this.terminal = terminal;
         this.meetingName = meetingName;
         this.rowData = rowData;
+        this.filter = filter;
+        this.filterValues = filterValues;
         initComponents();
     }
 

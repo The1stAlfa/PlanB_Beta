@@ -414,10 +414,9 @@ public class Terminal{
                     return false;
                 }
             };
-        
-        
+       
         result = gPlanB.selectQuery(getQueryString(filter, filterValues,
-                (int) plan.getId()), "action");
+                (int) plan.getId(), facility), "action");
         if(result != null){
             for(Row row:result.getRows()){
                 if(row != null){
@@ -510,10 +509,6 @@ public class Terminal{
     }
     
     public void modifyAction(Object[] rowDataModified, String meetingName) throws SQLException, Exception{
-        Facility facility = org.getFacility(meetingName,"meetingName");
-        Meeting meeting = facility.searchMeeting(meetingName);
-        ActionPlan plan = meeting.getActionPlan();
-        Action action;
         byte progress = -1;
         String itemId, actionDetail=null,actionComments=null,startDate=null,
                 dueDate=null,endDate=null;
@@ -537,46 +532,36 @@ public class Terminal{
         if(rowDataModified[8] != null)
             status = Status.valueOf(String.valueOf(rowDataModified[8]));
         
-        action = plan.searchAction(itemId);
-        if(action != null){
-            if(actionDetail != null){
-                action.setDetail(actionDetail);
-                columnsIndex.add(4);
-                list.add(rowDataModified[2]);
-            }
-            if(actionComments != null){
-                action.setComments(actionComments);
-                columnsIndex.add(5);  
-                list.add(rowDataModified[3]);
-            }
-            if(startDate != null){
-                action.setStartDate(Time.parseDate(startDate));
-                columnsIndex.add(6);
-                list.add(Time.getSerialNumberDate(startDate, false));
-            }
-            if(dueDate != null){
-                action.setDueDate(Time.parseDate(dueDate));
-                columnsIndex.add(7);
-                list.add(Time.getSerialNumberDate(dueDate, false));
-            }
-            if(endDate != null){
-                action.setEndDate(Time.parseDate(endDate));
-                columnsIndex.add(8);
-                list.add(Time.getSerialNumberDate(endDate, false));
-            }
-            if(progress != -1){
-                action.setProgress(progress);
-                columnsIndex.add(12);
-                list.add(Double.parseDouble(rowDataModified[7].toString()));
-            }
-            if(status != null){
-                action.setStatus(status);
-                columnsIndex.add(11);
-                list.add((double)status.getValue());
-            }
-           updateActionToDatabase(itemId,columnsIndex,list);
-           //Aps.getUI().modifiedTableContent(rowDataModified);
+        if(actionDetail != null){
+            columnsIndex.add(4);
+            list.add(rowDataModified[2]);
         }
+        if(actionComments != null){
+            columnsIndex.add(5);  
+            list.add(rowDataModified[3]);
+        }
+        if(startDate != null){
+            columnsIndex.add(6);
+            list.add(Time.getSerialNumberDate(startDate, false));
+        }
+        if(dueDate != null){
+            columnsIndex.add(7);
+            list.add(Time.getSerialNumberDate(dueDate, false));
+        }
+        if(endDate != null){
+            columnsIndex.add(8);
+            list.add(Time.getSerialNumberDate(endDate, false));
+        }
+        if(progress != -1){
+            columnsIndex.add(12);
+            list.add(Double.parseDouble(rowDataModified[7].toString()));
+        }
+        if(status != null){
+            columnsIndex.add(11);
+            list.add((double)status.getValue());
+        }
+        updateActionToDatabase(itemId,columnsIndex,list);
+           //Aps.getUI().modifiedTableContent(rowDataModified);
     }
     
     private void saveActionToDatabase(short actionplanId, int collaboratorId, 
@@ -698,7 +683,7 @@ public class Terminal{
         return false;
     }
     
-    private String getQueryString(ActionItemFilter filter, ArrayList<Object> filterValues, int actionPlanId) throws IOException{
+    private String getQueryString(ActionItemFilter filter, ArrayList<Object> filterValues, int actionPlanId, Facility facility) throws IOException{
         String query = null;
         
         if(filter.equals(ActionItemFilter.ALL)){
@@ -734,6 +719,20 @@ public class Terminal{
             query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
                     "+AND+N+CONTAINS+0+AND+I3C=DATE+%27"+endDate+"%27+AND+I%3E=DATE+%27"
                     +startDate+"%27+LABEL+DATEDIFF(H,G)+%27duration%27";
+        }
+        else if(filter.equals(ActionItemFilter.CONTENT)){
+            String content = filterValues.get(0).toString();
+            query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
+                    "+AND+N+CONTAINS+0+AND+E+CONTAINS+%27"+content+"%27+OR+F+CONTAINS+%27"
+                    +content+"%27+LABEL+DATEDIFF(H,G)+%27duration%27";
+        }
+        else if(filter.equals(ActionItemFilter.OWNER)){
+            String content = filterValues.get(0).toString();
+            int collaboratorId = facility.searchCollaborator(content, (byte)2)
+                    .getCollaboratorId();
+            query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
+                    "+AND+N+CONTAINS+0+AND+D+CONTAINS+"+collaboratorId+"+LABEL+"
+                    + "DATEDIFF(H,G)+%27duration%27";
         }
         return query;
     }

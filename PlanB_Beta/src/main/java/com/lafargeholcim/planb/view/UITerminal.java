@@ -137,7 +137,7 @@ public class UITerminal extends JFrame{
     private JPopupMenu meetingPopupMenu;
     private JTextArea participantsTextArea;
     private JScrollPane scrollParticipants;
-    private ActionItemFilter globlalFilter;
+    private ActionItemFilter globalFilter;
     private ArrayList<Object> filterValues;
 
        
@@ -550,9 +550,10 @@ public class UITerminal extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 meetingName = ((JMenuItem)e.getSource()).getText();
-                ArrayList<Object> value = new ArrayList<>();
-                value.add(Status.OVERDUE);
-                updateJTable(ActionItemFilter.STATUS, value);
+                filterValues = new ArrayList<>();
+                filterValues.add(Status.OVERDUE);
+                globalFilter = ActionItemFilter.STATUS;
+                updateJTable(globalFilter, filterValues);
                 statusRadioButton.setSelected(true);
                 dateRadioButton.setSelected(false);
                 dateComboBox.setSelectedIndex(0);
@@ -696,7 +697,8 @@ public class UITerminal extends JFrame{
                 if (e.getClickCount() == 2) {
                     if(row != -1){
                         EditActionForm editAction = new EditActionForm(getJFrame(),
-                            Aps.getTerminal(),meetingName, getSelectedRowData());
+                            Aps.getTerminal(),meetingName, getSelectedRowData(), 
+                                globalFilter, filterValues);
                         editAction.setLocationRelativeTo(getJFrame());
                     }
                 }
@@ -1673,26 +1675,26 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(datePanel, gridBagConstraints);
 
-        filterLabelPanel.setBackground(new java.awt.Color(230, 231, 234));
-        filterLabelPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 4, 2, new java.awt.Color(252, 254, 252)));
-        filterLabelPanel.setMaximumSize(new java.awt.Dimension(164, 50));
-        filterLabelPanel.setMinimumSize(new java.awt.Dimension(100, 50));
-        filterLabelPanel.setPreferredSize(new java.awt.Dimension(164, 50));
-        filterLabelPanel.setLayout(new java.awt.BorderLayout());
+        filterLabelPanel.setBackground(new Color(230, 231, 234));
+        filterLabelPanel.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 2, new Color(252, 254, 252)));
+        filterLabelPanel.setMaximumSize(new Dimension(164, 50));
+        filterLabelPanel.setMinimumSize(new Dimension(100, 50));
+        filterLabelPanel.setPreferredSize(new Dimension(164, 50));
+        filterLabelPanel.setLayout(new BorderLayout());
 
-        filterLabel.setBackground(new java.awt.Color(230, 231, 234));
-        filterLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        filterLabel.setForeground(new java.awt.Color(122, 120, 123));
+        filterLabel.setBackground(new Color(230, 231, 234));
+        filterLabel.setFont(new Font("Dialog", 1, 18)); // NOI18N
+        filterLabel.setForeground(new Color(122, 120, 123));
         filterLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         filterLabel.setText("Filter by");
         filterLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         filterLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         filterLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         filterLabel.setIconTextGap(0);
-        filterLabel.setMaximumSize(new java.awt.Dimension(164, 24));
-        filterLabel.setMinimumSize(new java.awt.Dimension(80, 24));
+        filterLabel.setMaximumSize(new Dimension(164, 24));
+        filterLabel.setMinimumSize(new Dimension(80, 24));
         filterLabel.setOpaque(true);
-        filterLabel.setPreferredSize(new java.awt.Dimension(100, 24));
+        filterLabel.setPreferredSize(new Dimension(100, 24));
         filterLabel.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
                 filterLabel.setBackground(Color.decode("#D9DADC"));
@@ -1701,16 +1703,57 @@ public class UITerminal extends JFrame{
                 filterLabel.setBackground(Color.decode("#E6E7EA"));
             }
             public void mouseClicked(MouseEvent evt){
-                if(dateRadioButton.isSelected()){
-                    ArrayList<Object> values = new ArrayList();
-                    values.add(endLabel.getText());
-                    values.add(startLabel.getText());
+                filterValues = new ArrayList();
+                if(statusRadioButton.isSelected() && dateRadioButton.isSelected()
+                        && ownerRadioButton.isSelected()){
+                    globalFilter = ActionItemFilter.STATUS_S_DATE_OWNER; 
+                    updateJTable(globalFilter, filterValues);
+                    updateJTable(ActionItemFilter.STATUS_D_DATE_OWNER, filterValues);
+                    updateJTable(ActionItemFilter.STATUS_E_DATE_OWNER, filterValues);
+                }
+                else if(statusRadioButton.isSelected() && dateRadioButton.isSelected()){
+                    updateJTable(ActionItemFilter.STATUS_S_DATE, filterValues);
+                    updateJTable(ActionItemFilter.STATUS_D_DATE, filterValues);
+                    updateJTable(ActionItemFilter.STATUS_E_DATE, filterValues);
+                }
+                else if(dateRadioButton.isSelected() && ownerRadioButton.isSelected()){
+                    updateJTable(ActionItemFilter.D_DATE_OWNER, filterValues);
+                    updateJTable(ActionItemFilter.D_DATE_OWNER, filterValues);
+                }
+                else if(statusRadioButton.isSelected()){
+                    String statusValue = statusComboBox.getSelectedItem().toString();
+                    if(statusValue.equalsIgnoreCase("ALL"))
+                        updateJTable(ActionItemFilter.ALL, null);
+                    else if(statusComboBox.getSelectedIndex() != 0){
+                        globalFilter = ActionItemFilter.STATUS;
+                        filterValues.add(Status.valueOf(statusValue));
+                        Status.valueOf(statusComboBox.getSelectedItem().toString());
+                        updateJTable(globalFilter, filterValues);
+                    }
+                }
+                else if(dateRadioButton.isSelected()){
+                    filterValues.add(endLabel.getText());
+                    filterValues.add(startLabel.getText());
                     if(dateComboBox.getSelectedIndex() == 1)
-                        updateJTable(ActionItemFilter.S_DATE, values);
-                    else if(dateComboBox.getSelectedIndex() == 2)
-                        updateJTable(ActionItemFilter.D_DATE, values);                    
-                    else
-                        updateJTable(ActionItemFilter.E_DATE, values);
+                        updateJTable(ActionItemFilter.S_DATE, filterValues);
+                    else if(dateComboBox.getSelectedIndex() == 2){
+                        globalFilter = ActionItemFilter.D_DATE;
+                        updateJTable(globalFilter, filterValues);
+                    }                    
+                    else{
+                        globalFilter = ActionItemFilter.E_DATE;
+                        updateJTable(globalFilter, filterValues);
+                    }
+                }
+                else if(ownerRadioButton.isSelected()){
+                    globalFilter = ActionItemFilter.OWNER;
+                    filterValues.add(owner2TextField.getText());
+                    updateJTable(globalFilter, filterValues);
+                }
+                else{
+                    globalFilter = ActionItemFilter.CONTENT; 
+                    filterValues.add(hintTextField.getText());
+                    updateJTable(globalFilter, filterValues);
                 }
             }
         });
@@ -1745,8 +1788,8 @@ public class UITerminal extends JFrame{
         statusComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         statusComboBox.setForeground(new java.awt.Color(48, 49, 50));
         statusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] 
-        { "  --- Select ---", "ALL", "Completed", "Overdue",
-            "In Process", "Completed APP", "Near to Due Date", "Waiting to Start" }));
+        { "  --- Select ---", "ALL", "COMPLETED", "OVERDUE",
+            "IN_PROCESS", "COMPLETED_APP", "NEAR_TO_DUE_DATE", "WAITING_TO_START" }));
         statusComboBox.setBorder(null);
         statusComboBox.setMaximumSize(new java.awt.Dimension(149, 29));
         statusComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -1989,7 +2032,7 @@ public class UITerminal extends JFrame{
                 }
                 else{
                     EditActionForm editAction = new EditActionForm(getJFrame(),
-                            Aps.getTerminal(),meetingName, getSelectedRowData());
+                            Aps.getTerminal(),meetingName, getSelectedRowData(), globalFilter, filterValues);
                     editAction.setLocationRelativeTo(getJFrame());
                     jTable1.getSelectionModel().clearSelection();
                 }
@@ -2033,7 +2076,7 @@ public class UITerminal extends JFrame{
                             boolean is_deleted = Aps.getTerminal().deleteAction(
                                     String.valueOf(model.getValueAt(row_index, 0)),meetingName);
                             if(is_deleted)
-                                updateJTable(globlalFilter, filterValues);
+                                updateJTable(globalFilter, filterValues);
                         } catch (Exception ex) {
                             Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
                         }
