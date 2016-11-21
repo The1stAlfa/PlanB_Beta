@@ -76,8 +76,7 @@ public class Collaborator {
     private void setAcronymName(){
         acronymName = firstName.substring(0,1);
         String[] names = lastName.split(" ");
-        for(String name:names)
-            acronymName = acronymName+name.substring(0,1).toUpperCase();
+        acronymName = acronymName+names[0].substring(0,2).toUpperCase();
     }
     
     public void setAcronymName(String acronym){

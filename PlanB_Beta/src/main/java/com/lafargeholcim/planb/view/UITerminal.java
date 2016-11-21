@@ -1706,15 +1706,59 @@ public class UITerminal extends JFrame{
                 filterValues = new ArrayList();
                 if(statusRadioButton.isSelected() && dateRadioButton.isSelected()
                         && ownerRadioButton.isSelected()){
-                    globalFilter = ActionItemFilter.STATUS_S_DATE_OWNER; 
-                    updateJTable(globalFilter, filterValues);
-                    updateJTable(ActionItemFilter.STATUS_D_DATE_OWNER, filterValues);
-                    updateJTable(ActionItemFilter.STATUS_E_DATE_OWNER, filterValues);
+                    String statusValue = statusComboBox.getSelectedItem().toString();;
+                    if(statusValue.equalsIgnoreCase("ALL")){
+                        filterValues.add(owner2TextField.getText());
+                        filterValues.add(endLabel.getText());
+                        filterValues.add(startLabel.getText());
+                        if(dateComboBox.getSelectedIndex() == 1)
+                            globalFilter = ActionItemFilter.S_DATE_OWNER;
+                        else if(dateComboBox.getSelectedIndex() == 2)
+                            globalFilter = ActionItemFilter.D_DATE_OWNER;
+                        else if (dateComboBox.getSelectedIndex() == 3)
+                            globalFilter = ActionItemFilter.E_DATE_OWNER;
+                        updateJTable(globalFilter, filterValues);
+                    }
+                    else if(statusComboBox.getSelectedIndex() != 0){
+                        filterValues.add(Status.valueOf(statusValue));
+                        filterValues.add(owner2TextField.getText());
+                        filterValues.add(endLabel.getText());
+                        filterValues.add(startLabel.getText());
+                        if(dateComboBox.getSelectedIndex() == 1)
+                            globalFilter = ActionItemFilter.STATUS_S_DATE_OWNER;
+                        else if(dateComboBox.getSelectedIndex() == 2)
+                            globalFilter = ActionItemFilter.STATUS_D_DATE_OWNER;
+                        else if (dateComboBox.getSelectedIndex() == 3)
+                            globalFilter = ActionItemFilter.STATUS_E_DATE_OWNER;
+                        updateJTable(globalFilter, filterValues);
+                    }
                 }
-                else if(statusRadioButton.isSelected() && dateRadioButton.isSelected()){
-                    updateJTable(ActionItemFilter.STATUS_S_DATE, filterValues);
-                    updateJTable(ActionItemFilter.STATUS_D_DATE, filterValues);
-                    updateJTable(ActionItemFilter.STATUS_E_DATE, filterValues);
+                else if(statusRadioButton.isSelected() && dateRadioButton.isSelected()){                    
+                    String statusValue = statusComboBox.getSelectedItem().toString();
+                    if(statusValue.equalsIgnoreCase("ALL")){
+                        filterValues.add(endLabel.getText());
+                        filterValues.add(startLabel.getText());
+                        if(dateComboBox.getSelectedIndex() == 1)
+                            globalFilter = ActionItemFilter.S_DATE;
+                        else if(dateComboBox.getSelectedIndex() == 2)
+                            globalFilter = ActionItemFilter.D_DATE;
+                        else if (dateComboBox.getSelectedIndex() == 3)
+                            globalFilter = ActionItemFilter.E_DATE;
+                        updateJTable(globalFilter, filterValues);
+                        
+                    }
+                    else if(statusComboBox.getSelectedIndex() != 0){
+                        filterValues.add(Status.valueOf(statusValue));
+                        filterValues.add(endLabel.getText());
+                        filterValues.add(startLabel.getText());
+                        if(dateComboBox.getSelectedIndex() == 1)
+                            globalFilter = ActionItemFilter.STATUS_S_DATE;
+                        else if(dateComboBox.getSelectedIndex() == 2)
+                            globalFilter = ActionItemFilter.STATUS_D_DATE;
+                        else if (dateComboBox.getSelectedIndex() == 3)
+                            globalFilter = ActionItemFilter.STATUS_E_DATE;
+                        updateJTable(globalFilter, filterValues);
+                    }
                 }
                 else if(dateRadioButton.isSelected() && ownerRadioButton.isSelected()){
                     updateJTable(ActionItemFilter.D_DATE_OWNER, filterValues);
@@ -1722,8 +1766,10 @@ public class UITerminal extends JFrame{
                 }
                 else if(statusRadioButton.isSelected()){
                     String statusValue = statusComboBox.getSelectedItem().toString();
-                    if(statusValue.equalsIgnoreCase("ALL"))
-                        updateJTable(ActionItemFilter.ALL, null);
+                    if(statusValue.equalsIgnoreCase("ALL")){
+                        globalFilter = ActionItemFilter.ALL;
+                        updateJTable(globalFilter, null);
+                    }
                     else if(statusComboBox.getSelectedIndex() != 0){
                         globalFilter = ActionItemFilter.STATUS;
                         filterValues.add(Status.valueOf(statusValue));
@@ -1735,15 +1781,13 @@ public class UITerminal extends JFrame{
                     filterValues.add(endLabel.getText());
                     filterValues.add(startLabel.getText());
                     if(dateComboBox.getSelectedIndex() == 1)
-                        updateJTable(ActionItemFilter.S_DATE, filterValues);
-                    else if(dateComboBox.getSelectedIndex() == 2){
+                        globalFilter = ActionItemFilter.S_DATE;
+                    else if(dateComboBox.getSelectedIndex() == 2)
                         globalFilter = ActionItemFilter.D_DATE;
-                        updateJTable(globalFilter, filterValues);
-                    }                    
-                    else{
+                    else if (dateComboBox.getSelectedIndex() == 3)
                         globalFilter = ActionItemFilter.E_DATE;
-                        updateJTable(globalFilter, filterValues);
-                    }
+
+                    updateJTable(globalFilter, filterValues);
                 }
                 else if(ownerRadioButton.isSelected()){
                     globalFilter = ActionItemFilter.OWNER;
@@ -1766,19 +1810,19 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(filterLabelPanel, gridBagConstraints);
 
-        statusPanel.setBackground(new java.awt.Color(0, 66, 118));
-        statusPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 2, 4, 0, new java.awt.Color(252, 254, 252)));
-        statusPanel.setMaximumSize(new java.awt.Dimension(32767, 50));
-        statusPanel.setMinimumSize(new java.awt.Dimension(710, 50));
-        statusPanel.setPreferredSize(new java.awt.Dimension(710, 50));
+        statusPanel.setBackground(new Color(0, 66, 118));
+        statusPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 2, 4, 0, new Color(252, 254, 252)));
+        statusPanel.setMaximumSize(new Dimension(32767, 50));
+        statusPanel.setMinimumSize(new Dimension(710, 50));
+        statusPanel.setPreferredSize(new Dimension(710, 50));
 
-        statusRadioButton.setBackground(new java.awt.Color(0, 66, 118));
-        statusRadioButton.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
-        statusRadioButton.setForeground(new java.awt.Color(252, 254, 252));
+        statusRadioButton.setBackground(new Color(0, 66, 118));
+        statusRadioButton.setFont(new Font("Dialog", 1, 20)); // NOI18N
+        statusRadioButton.setForeground(new Color(252, 254, 252));
         statusRadioButton.setSelected(true);
         statusRadioButton.setIconTextGap(0);
-        statusRadioButton.setMargin(new java.awt.Insets(0, 2, 0, 2));
-        statusRadioButton.addActionListener(new java.awt.event.ActionListener() {
+        statusRadioButton.setMargin(new Insets(0, 2, 0, 2));
+        statusRadioButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 contentRadioButton.setSelected(false);
             }
@@ -1816,7 +1860,8 @@ public class UITerminal extends JFrame{
         dateComboBox.setBackground(new java.awt.Color(252, 254, 252));
         dateComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         dateComboBox.setForeground(new java.awt.Color(48, 49, 50));
-        dateComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Select --", "start Date", "due Date", "end Date" }));
+        dateComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] 
+        { "-- Select --", "start Date", "due Date", "end Date" }));
         dateComboBox.setBorder(null);
         dateComboBox.setMaximumSize(new java.awt.Dimension(106, 29));
         dateComboBox.setMinimumSize(new java.awt.Dimension(90, 29));
