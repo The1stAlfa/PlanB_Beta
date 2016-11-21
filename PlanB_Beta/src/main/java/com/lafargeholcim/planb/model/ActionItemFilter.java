@@ -18,6 +18,7 @@ public enum ActionItemFilter {
     OWNER,
     STATUS,
     CONTENT,
+    STATUS_OWNER,
     STATUS_S_DATE,
     STATUS_D_DATE,
     STATUS_E_DATE,

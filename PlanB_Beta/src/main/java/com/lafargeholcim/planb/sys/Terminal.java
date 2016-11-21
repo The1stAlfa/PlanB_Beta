@@ -742,13 +742,52 @@ public class Terminal{
                     + "DATEDIFF(H,G)+%27duration%27";
         }
         else if(filter.equals(ActionItemFilter.S_DATE_OWNER)){
-            
+            String content = filterValues.get(0).toString();
+            int collaboratorId;
+            try{
+                collaboratorId = Integer.parseInt(content);
+            }
+            catch(Exception e){
+                collaboratorId = facility.searchCollaborator(content, (byte)2)
+                    .getCollaboratorId();
+            }
+            String endDate = filterValues.get(1).toString();
+            String startDate = filterValues.get(2).toString();
+            query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
+                    "+AND+N+CONTAINS+0+AND+G%3C=DATE+%27"+endDate+"%27+AND+G%3E=DATE+%27"
+                    +startDate+"%27+AND+D+CONTAINS+"+collaboratorId+"+LABEL+DATEDIFF(H,G)+%27duration%27";
         }
         else if(filter.equals(ActionItemFilter.D_DATE_OWNER)){
-            
+            String content = filterValues.get(0).toString();
+            int collaboratorId;
+            try{
+                collaboratorId = Integer.parseInt(content);
+            }
+            catch(Exception e){
+                collaboratorId = facility.searchCollaborator(content, (byte)2)
+                    .getCollaboratorId();
+            }
+            String endDate = filterValues.get(1).toString();
+            String startDate = filterValues.get(2).toString();
+            query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
+                    "+AND+N+CONTAINS+0+AND+H%3C=DATE+%27"+endDate+"%27+AND+H%3E=DATE+%27"
+                    +startDate+"%27+AND+D+CONTAINS+"+collaboratorId+"+LABEL+DATEDIFF(H,G)+%27duration%27";
         }
         else if(filter.equals(ActionItemFilter.E_DATE_OWNER)){
-            
+            String content = filterValues.get(0).toString();
+            int collaboratorId;
+            try{
+                collaboratorId = Integer.parseInt(content);
+            }
+            catch(Exception e){
+                collaboratorId = facility.searchCollaborator(content, (byte)2)
+                    .getCollaboratorId();
+            }
+            String endDate = filterValues.get(1).toString();
+            String startDate = filterValues.get(2).toString();
+            query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
+                    "+AND+N+CONTAINS+0+AND+I%3C=DATE+%27"+endDate+"%27+AND+I%3E=DATE+%27"
+                    +startDate+"%27+AND+D+CONTAINS+"+collaboratorId+"+LABEL+DATEDIFF(H,G)+%27duration%27";
         }
         else if(filter.equals(ActionItemFilter.STATUS_S_DATE)){
             int statusValue = ((Status)filterValues.get(0)).getValue();
@@ -773,6 +812,21 @@ public class Terminal{
             query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
                     "+AND+N+CONTAINS+0+AND+I%3C=DATE+%27"+endDate+"%27+AND+I%3E=DATE+%27"
                     +startDate+"%27+AND+L+CONTAINS+"+statusValue+"+LABEL+DATEDIFF(H,G)+%27duration%27";
+        }
+        else if(filter.equals(ActionItemFilter.STATUS_OWNER)){
+            int statusValue = ((Status)filterValues.get(0)).getValue();
+            String content = filterValues.get(1).toString();
+            int collaboratorId;
+            try{
+                collaboratorId = Integer.parseInt(content);
+            }
+            catch(Exception e){
+                collaboratorId = facility.searchCollaborator(content, (byte)2)
+                    .getCollaboratorId();
+            }
+            query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
+                    "+AND+N+CONTAINS+0+AND+L+CONTAINS+"+statusValue+"AND+D+CONTAINS+"+collaboratorId+
+                    "+LABEL+DATEDIFF(H,G)+%27duration%27";
         }
         else if(filter.equals(ActionItemFilter.STATUS_S_DATE_OWNER)){
             int statusValue = ((Status)filterValues.get(0)).getValue();
