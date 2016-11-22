@@ -181,7 +181,7 @@ public class UITerminal extends JFrame{
                             c.setForeground(Color.decode("#FCFEFC"));                            
                         }
                         else if(value.toString().equalsIgnoreCase("COMPLETED")){
-                            c.setBackground(Color.decode("#64D610"));
+                            c.setBackground(Color.decode("#F2D345"));
                             c.setForeground(Color.decode("#FCFEFC"));
                         }
                         else{
@@ -328,7 +328,7 @@ public class UITerminal extends JFrame{
 
         title1Label.setFont(new java.awt.Font("Dialog", 1, 28)); // NOI18N
         title1Label.setForeground(new java.awt.Color(252, 254, 252));
-        title1Label.setText("Hola ");
+        title1Label.setText("SELECT");
         title1Label.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         title1Label.setIconTextGap(0);
         title1Label.setMaximumSize(new java.awt.Dimension(175, 34));
@@ -337,7 +337,7 @@ public class UITerminal extends JFrame{
 
         title2Label.setFont(new java.awt.Font("Dialog", 1, 28)); // NOI18N
         title2Label.setForeground(new java.awt.Color(252, 254, 252));
-        title2Label.setText("tecnico tencdafoo");
+        title2Label.setText("MEETING");
         title2Label.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         title2Label.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         title2Label.setIconTextGap(0);
@@ -407,7 +407,6 @@ public class UITerminal extends JFrame{
 
         firstNameLabel.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
         firstNameLabel.setForeground(new java.awt.Color(252, 254, 252));
-        firstNameLabel.setText("SERGIO");
         firstNameLabel.setIconTextGap(0);
         firstNameLabel.setMaximumSize(new java.awt.Dimension(90, 23));
         firstNameLabel.setMinimumSize(new java.awt.Dimension(90, 23));
@@ -415,7 +414,6 @@ public class UITerminal extends JFrame{
 
         surnameLabel.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
         surnameLabel.setForeground(new java.awt.Color(252, 254, 252));
-        surnameLabel.setText("ORJUELA");
         surnameLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         surnameLabel.setIconTextGap(0);
         surnameLabel.setMaximumSize(new java.awt.Dimension(90, 23));
@@ -1408,9 +1406,7 @@ public class UITerminal extends JFrame{
         gapPanel2.setOpaque(false);
         pagePanel = new JPanel();
         pagePanel.setPreferredSize(new Dimension(Short.MAX_VALUE,15));
-        JOptionPane.showMessageDialog(this, "aki toy3", "umm", JOptionPane.ERROR_MESSAGE);
         actionPlanPanel.add(apInformationPanel, BorderLayout.NORTH);
-        JOptionPane.showMessageDialog(this, "aki toy4", "umm", JOptionPane.ERROR_MESSAGE);
         actionPlanPanel.add(actionListPanel, BorderLayout.CENTER);
         actionPlanPanel.add(gapPanel1, BorderLayout.WEST);
         actionPlanPanel.add(gapPanel2, BorderLayout.EAST);
@@ -1475,20 +1471,20 @@ public class UITerminal extends JFrame{
         mainMenu.setPreferredSize(new Dimension(40,600));
         mainMenu.setMinimumSize(new Dimension(40,50));
         mainMenu.setBackground(Color.decode("#EDEBEB"));
-        
+
         mainMenu.add(createMainMenuItem(menuItem, "menuBlack.png"));
         mainMenu.add(createMainMenuItem(dashboardMenu, "dashboardL.png"));
         mainMenu.add(createMainMenuItem(meetingMenu, "meetingL.png"));
-        mainMenu.add(createMainMenuItem(actionPlanMenu, "actionplanL.png"));
+        mainMenu.add(createMainMenuItem(actionPlanMenu, "actionPlanL.png"));
         mainMenu.add(createMainMenuItem(teamMenu, "teamL.png"));
         mainMenu.add(createMainMenuItem(profileMenu, "userL.png"));
         mainMenu.add(Box.createVerticalGlue());
         mainMenu.add(createMainMenuItem(settingsMenu, "settingsL.png"));
-        
+
         mainMenuEvents(menuItem, "menuBlue.png", "menuBlack.png");
         mainMenuEvents(dashboardMenu, "dashboardLB.png", "dashboardL.png");
         mainMenuEvents(meetingMenu, "meetingLB.png", "meetingL.png");
-        mainMenuEvents(actionPlanMenu, "actionplanLB.png", "actionplanL.png");
+        mainMenuEvents(actionPlanMenu, "actionPlanLB.png", "actionPlanL.png");
         mainMenuEvents(teamMenu, "teamLB.png", "teamL.png");
         mainMenuEvents(profileMenu, "userLB.png", "userL.png");
         mainMenuEvents(settingsMenu, "settingsLB.png", "settingsL.png");        
@@ -1497,7 +1493,7 @@ public class UITerminal extends JFrame{
     
     private JMenuItem createMainMenuItem(JMenuItem item, String iconName){
         item.setBackground(Color.decode("#EDEBEB"));
-        item.setFont(new Font("Roboto-Regular", Font.PLAIN, 14));
+        //item.setFont(new Font("Roboto-Regular", Font.PLAIN, 14));
         item.setForeground(Color.decode("#000000"));
         item.setIconTextGap(5);
         item.setMaximumSize(new Dimension(Integer.MAX_VALUE,65));
@@ -1583,7 +1579,7 @@ public class UITerminal extends JFrame{
         
         apsLogoLabel.setForeground(Color.decode("#707070"));
         apsLogoLabel.setHorizontalAlignment(JLabel.CENTER);
-        apsLogoLabel.setFont(new Font("Roboto-Thin",Font.BOLD,12));
+        //apsLogoLabel.setFont(new Font("Roboto-Thin",Font.BOLD,12));
         apsLogoLabel.setHorizontalTextPosition(JLabel.RIGHT);
         
         resizeLabel.setOpaque(true);
@@ -1916,7 +1912,7 @@ public class UITerminal extends JFrame{
                     if(!settingsMenu.equals(item))
                         settingsMenu.setIcon(new ImageIcon(getClass().getResource("/images/settingsL.png")));
                     if(!actionPlanMenu.equals(item))
-                        actionPlanMenu.setIcon(new ImageIcon(getClass().getResource("/images/actionplanL.png")));
+                        actionPlanMenu.setIcon(new ImageIcon(getClass().getResource("/images/actionPlanL.png")));
                 }
             }
         }); 
