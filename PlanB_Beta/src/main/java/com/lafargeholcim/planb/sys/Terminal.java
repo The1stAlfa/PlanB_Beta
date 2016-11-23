@@ -391,7 +391,7 @@ public class Terminal{
             ArrayList<Object> filterValues, String meetingName) throws Exception{
         
         String actionID, responsible, detail, comments,
-                date, progress, status, query = null;
+                date, progress, status;
         ActionPlan plan;
         Table result;
         List<Cell> cells;

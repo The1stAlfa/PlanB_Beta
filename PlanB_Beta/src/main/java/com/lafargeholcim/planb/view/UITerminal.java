@@ -189,6 +189,10 @@ public class UITerminal extends JFrame{
                             c.setForeground(Color.decode("#000000"));
                         }
                     }
+                    else if(column == 5){
+                        c.setBackground(new Color(120, 120, 123));
+                        c.setForeground(new Color(255,255,255));
+                    }
                     else
                         c.setBackground(row%2==0 ? Color.WHITE : Color.decode("#EDEDED"));
                     return c;
@@ -327,8 +331,8 @@ public class UITerminal extends JFrame{
         meetingLabel.setText("meeting");
 
         title1Label.setFont(new java.awt.Font("Dialog", 1, 28)); // NOI18N
-        title1Label.setForeground(new java.awt.Color(252, 254, 252));
-        title1Label.setText("SELECT");
+        title1Label.setForeground(new java.awt.Color(230, 231, 234));
+        title1Label.setText("Select");
         title1Label.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         title1Label.setIconTextGap(0);
         title1Label.setMaximumSize(new java.awt.Dimension(175, 34));
@@ -336,8 +340,8 @@ public class UITerminal extends JFrame{
         title1Label.setPreferredSize(new java.awt.Dimension(175, 34));
 
         title2Label.setFont(new java.awt.Font("Dialog", 1, 28)); // NOI18N
-        title2Label.setForeground(new java.awt.Color(252, 254, 252));
-        title2Label.setText("MEETING");
+        title2Label.setForeground(new java.awt.Color(230, 231, 234));
+        title2Label.setText("Meeting");
         title2Label.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         title2Label.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         title2Label.setIconTextGap(0);
@@ -1057,18 +1061,40 @@ public class UITerminal extends JFrame{
 
         startLabel.setBackground(new java.awt.Color(252, 254, 252));
         startLabel.setText("start");
-        startLabel.setForeground(new Color(230, 231, 234));
+        startLabel.setForeground(new Color(120, 120, 123));
         startLabel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 3, 1, 1, new java.awt.Color(252, 254, 252)));
         startLabel.setMinimumSize(new java.awt.Dimension(34, 27));
         startLabel.setPreferredSize(new java.awt.Dimension(27, 27));
+        startLabel.addFocusListener(new FocusListener(){
+            @Override
+            public void focusLost(FocusEvent arg0) {
+
+            }
+            @Override
+            public void focusGained(FocusEvent arg0) {
+                startLabel.setText("");
+                startLabel.setForeground(Color.decode("#303132"));
+            }
+        });
 
         endLabel.setBackground(new java.awt.Color(252, 254, 252));
         endLabel.setText("end");
-        endLabel.setForeground(new Color(230, 231, 234));
+        endLabel.setForeground(new Color(120, 120, 123));
         endLabel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 3, 1, 1, new java.awt.Color(252, 254, 252)));
         endLabel.setMinimumSize(new java.awt.Dimension(34, 27));
         endLabel.setPreferredSize(new java.awt.Dimension(25, 27));
+        endLabel.addFocusListener(new FocusListener(){
+            @Override
+            public void focusLost(FocusEvent arg0) {
 
+            }
+            @Override
+            public void focusGained(FocusEvent arg0) {
+                endLabel.setText("");
+                endLabel.setForeground(Color.decode("#303132"));
+            }
+        });
+        
         ownerRadioButton.setBackground(new java.awt.Color(6, 66, 118));
         ownerRadioButton.setIconTextGap(0);
         ownerRadioButton.setMargin(new java.awt.Insets(0, 2, 0, 0));
@@ -1084,10 +1110,21 @@ public class UITerminal extends JFrame{
 
         owner2TextField.setBackground(new java.awt.Color(252, 254, 252));
         owner2TextField.setText("acronym");
-        owner2TextField.setForeground(new Color(230, 231, 234));
+        owner2TextField.setForeground(new Color(120, 120, 123));
         owner2TextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 3, 1, 1, new java.awt.Color(252, 254, 252)));
         owner2TextField.setMinimumSize(new java.awt.Dimension(4, 27));
         owner2TextField.setPreferredSize(new java.awt.Dimension(54, 27));
+        owner2TextField.addFocusListener(new FocusListener(){
+            @Override
+            public void focusLost(FocusEvent arg0) {
+
+            }
+            @Override
+            public void focusGained(FocusEvent arg0) {
+                owner2TextField.setText("");
+                owner2TextField.setForeground(Color.decode("#303132"));
+            }
+        });
 
         contentRadioButton.setBackground(new java.awt.Color(0, 66, 118));
         contentRadioButton.setIconTextGap(0);
@@ -1105,13 +1142,35 @@ public class UITerminal extends JFrame{
         content2Label.setForeground(new java.awt.Color(252, 254, 252));
         content2Label.setText("content");
         content2Label.setMinimumSize(new java.awt.Dimension(0, 15));
+        content2Label.addFocusListener(new FocusListener(){
+            @Override
+            public void focusLost(FocusEvent arg0) {
 
+            }
+            @Override
+            public void focusGained(FocusEvent arg0) {
+                content2Label.setText("");
+                content2Label.setForeground(Color.decode("#303132"));
+            }
+        });
+        
         hintTextField.setBackground(new java.awt.Color(252, 254, 252));
         hintTextField.setText("hint");
-        hintTextField.setForeground(new Color(230, 231, 234));
+        hintTextField.setForeground(new Color(120, 120, 123));
         hintTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 3, 1, 1, new java.awt.Color(252, 254, 252)));
         hintTextField.setMinimumSize(new java.awt.Dimension(0, 27));
         hintTextField.setPreferredSize(new java.awt.Dimension(35, 27));
+        hintTextField.addFocusListener(new FocusListener(){
+            @Override
+            public void focusLost(FocusEvent arg0) {
+
+            }
+            @Override
+            public void focusGained(FocusEvent arg0) {
+                hintTextField.setText("");
+                hintTextField.setForeground(Color.decode("#303132"));
+            }
+        });
 
         javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
         statusPanel.setLayout(statusPanelLayout);
@@ -2073,12 +2132,14 @@ public class UITerminal extends JFrame{
                 String[] nameSplitted = meetingName.split(" ");
                 if(nameSplitted.length > 1){
                     String namePortion = "";
+                    title1Label.setForeground(new Color(252,254,252));
                     for(int i=0; i < nameSplitted.length; i++){
                         if(i == 0)
                             title1Label.setText(nameSplitted[i]);
                         else
                             namePortion += nameSplitted[i]+" ";
                     }
+                    title2Label.setForeground(new Color(252, 254, 252));
                     title2Label.setText(namePortion);
                 }
                 else{
@@ -2094,20 +2155,20 @@ public class UITerminal extends JFrame{
                 appValueLabel.setText(String.valueOf(summary.getActionsCompletedApp()));
                 overdueValueLabel.setText(String.valueOf(summary.getActionsOverdue()));
                 participantsTextArea.setText(getParticipantsAcronyms(meeting.getTeam(),meeting.getAditionalParticipants()));
-                int team_performance = 100;
+                int teamPerformance = 100;
                 if(summary.getActionsOverdue() == 0 && summary.getActionsCompletedApp() > 0)
-                    performanceValueLabel.setText(String.valueOf(team_performance)+"%");
+                    performanceValueLabel.setText(String.valueOf(teamPerformance)+"%");
                 else{
-                    team_performance = (int)Math.round(((float)summary.getActionsCompletedApp()/
+                    teamPerformance = (int)Math.round(((float)summary.getActionsCompletedApp()/
                             ((float)summary.getActions()))*100);
-                    performanceValueLabel.setText(String.valueOf(team_performance)+"%");
+                    performanceValueLabel.setText(String.valueOf(teamPerformance)+"%");
                 }
                 executionValueLabel.setText(String.valueOf(plan.getExecution())+"%");
-                if(team_performance <= 70){
+                if(teamPerformance <= 70){
                     teamPerformancePanel.setBackground(Color.decode("#E80C0C"));
                     performanceValueLabel.setForeground(Color.decode("#FCFEFC"));
                 }
-                else if(team_performance > 70 && team_performance < 90){
+                else if(teamPerformance > 70 && teamPerformance < 90){
                     teamPerformancePanel.setBackground(Color.decode("#F2D345")); // Yellow Color
                     performanceValueLabel.setForeground(Color.decode("#303132"));
                 }
