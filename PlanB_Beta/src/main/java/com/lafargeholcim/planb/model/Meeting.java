@@ -187,4 +187,34 @@ public class Meeting {
     public void setMeetingId(int meetingId) {
         this.meetingId = meetingId;
     }
+    
+    public Collaborator searchParticipant(String hint, byte type){
+        ArrayList<Collaborator> list = (ArrayList<Collaborator>)adtParticipants.clone();
+        list.addAll(team.getMembers());
+        if(type == 1){ //FULL NAME
+            for(Collaborator collaborator: list){
+                String collaboratorNames = collaborator.getFirstName()
+                        +" "+ collaborator.getLastName();
+                if(collaboratorNames.equalsIgnoreCase(hint))
+                    return collaborator;
+            }
+        }
+        else if(type == 2){ // ACRONYM
+            for(Collaborator collaborator : list) {
+                if(collaborator.getAcronymName().equalsIgnoreCase(hint))
+                    return collaborator;
+            }
+        }
+        return null;
+    }
+    
+    public Collaborator searchParticipant(int collaboratorId){
+        ArrayList<Collaborator> list = (ArrayList<Collaborator>)adtParticipants.clone();
+        list.addAll(team.getMembers());
+        for(Collaborator collaborator : list) {
+            if(collaborator.getCollaboratorId() == collaboratorId)
+                return collaborator;
+        }
+        return null;
+    }
 }

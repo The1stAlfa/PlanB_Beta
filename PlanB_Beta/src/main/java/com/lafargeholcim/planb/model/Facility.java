@@ -15,7 +15,7 @@ import java.util.Iterator;
  */
 public class Facility {
     //aps Class Variables 
-    private static HashMap<Integer, Collaborator> collaboratorList;
+    private static ArrayList<Collaborator> collaboratorsList;
     private static ArrayList<FuntionalArea> funtionalAreas;
     private ArrayList<Meeting> meetings;
     //************************************************************************
@@ -31,8 +31,8 @@ public class Facility {
         
     }
 
-    public HashMap<Integer, Collaborator> getCollaboratorList() {
-        return collaboratorList;
+    public ArrayList<Collaborator> getCollaboratorList() {
+        return collaboratorsList;
     }
 
     public ArrayList<FuntionalArea> getFuntional_areas() {
@@ -66,8 +66,8 @@ public class Facility {
         return s;
     }
 
-    public void setCollaboratorList(HashMap<Integer, Collaborator> collaboratorList) {
-        this.collaboratorList = collaboratorList;
+    public void setCollaboratorList(ArrayList<Collaborator> collaboratorList) {
+        this.collaboratorsList = collaboratorList;
     }
 
     public void setFuntionalAreas(ArrayList<FuntionalArea> funtionalAreas) {
@@ -104,7 +104,7 @@ public class Facility {
     
     public Collaborator searchCollaborator(String hint, byte type){
         if(type == 1){ //FULL NAME
-            for(Collaborator collaborator: this.collaboratorList.values()){
+            for(Collaborator collaborator: this.collaboratorsList){
                 String collaboratorNames = collaborator.getFirstName()
                         +" "+ collaborator.getLastName();
                 if(collaboratorNames.equalsIgnoreCase(hint))
@@ -112,7 +112,7 @@ public class Facility {
             }
         }
         else if(type == 2){ // ACRONYM
-            for(Collaborator collaborator : this.getCollaboratorList().values()) {
+            for(Collaborator collaborator : this.collaboratorsList) {
                 if(collaborator.getAcronymName().equalsIgnoreCase(hint))
                     return collaborator;
             }
@@ -120,8 +120,12 @@ public class Facility {
         return null;
     }
     
-    public Collaborator searchCollaborator(int employeeID){
-        return collaboratorList.get(employeeID);
+    public Collaborator searchCollaborator(int collaboratorId){
+        for(Collaborator collaborator : this.collaboratorsList) {
+            if(collaborator.getCollaboratorId() == collaboratorId)
+                return collaborator;
+        }
+        return null;
     }
     
     public int getIntegerId(){

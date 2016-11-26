@@ -35,8 +35,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
@@ -73,6 +71,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellRenderer;
+import com.toedter.calendar.JDateChooser;
 
 /**
  * @palette
@@ -137,6 +136,7 @@ public class UITerminal extends JFrame{
     private JScrollPane alTableScrollPane, participantsScrollPane;
     private ActionItemFilter globalFilter;
     private ArrayList<Object> filterValues;
+    private JDateChooser startDateChooser, endDateChooser;
 
        
     public UITerminal() throws IOException, FontFormatException, Exception{
@@ -264,6 +264,8 @@ public class UITerminal extends JFrame{
         addIcon = new JLabel();
         editIcon = new JLabel();
         deleteIcon = new JLabel();
+        startDateChooser = new JDateChooser();
+        endDateChooser = new JDateChooser();
         
         meetingPopupMenu.setAutoscrolls(true);
         for(String name:Aps.getTerminal().getMeetingsNames())
@@ -274,7 +276,7 @@ public class UITerminal extends JFrame{
         apInformationPanel.setMinimumSize(new java.awt.Dimension(950, 250));
         apInformationPanel.setPreferredSize(new java.awt.Dimension(700, 250));
         apInformationPanel.setLayout(new java.awt.GridBagLayout());
-        
+                
         apPanel.setBackground(new java.awt.Color(0, 66, 118));
         apPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 4, 2, new java.awt.Color(252, 254, 252)));
         apPanel.setMaximumSize(new java.awt.Dimension(164, 200));
@@ -332,7 +334,6 @@ public class UITerminal extends JFrame{
 
         title1Label.setFont(new java.awt.Font("Dialog", 1, 28)); // NOI18N
         title1Label.setForeground(new java.awt.Color(230, 231, 234));
-        title1Label.setText("Select");
         title1Label.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         title1Label.setIconTextGap(0);
         title1Label.setMaximumSize(new java.awt.Dimension(175, 34));
@@ -340,8 +341,8 @@ public class UITerminal extends JFrame{
         title1Label.setPreferredSize(new java.awt.Dimension(175, 34));
 
         title2Label.setFont(new java.awt.Font("Dialog", 1, 28)); // NOI18N
-        title2Label.setForeground(new java.awt.Color(230, 231, 234));
-        title2Label.setText("Meeting");
+        title2Label.setForeground(new Color(230, 231, 234));
+        title2Label.setText("--Select Meeting--");
         title2Label.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         title2Label.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         title2Label.setIconTextGap(0);
@@ -867,129 +868,7 @@ public class UITerminal extends JFrame{
                 filterLabel.setBackground(Color.decode("#E6E7EA"));
             }
             public void mouseClicked(MouseEvent evt){
-                filterValues = new ArrayList();
-                if(statusRadioButton.isSelected() && dateRadioButton.isSelected()
-                        && ownerRadioButton.isSelected()){
-                    String statusValue = statusComboBox.getSelectedItem().toString();;
-                    if(statusValue.equalsIgnoreCase("ALL")){
-                        filterValues.add(owner2TextField.getText());
-                        filterValues.add(endLabel.getText());
-                        filterValues.add(startLabel.getText());
-                        if(dateComboBox.getSelectedIndex() == 1)
-                            globalFilter = ActionItemFilter.S_DATE_OWNER;
-                        else if(dateComboBox.getSelectedIndex() == 2)
-                            globalFilter = ActionItemFilter.D_DATE_OWNER;
-                        else if (dateComboBox.getSelectedIndex() == 3)
-                            globalFilter = ActionItemFilter.E_DATE_OWNER;
-                        updateJTable(globalFilter, filterValues);
-                    }
-                    else if(statusComboBox.getSelectedIndex() != 0){
-                        filterValues.add(Status.valueOf(statusValue));
-                        filterValues.add(owner2TextField.getText());
-                        filterValues.add(endLabel.getText());
-                        filterValues.add(startLabel.getText());
-                        if(dateComboBox.getSelectedIndex() == 1)
-                            globalFilter = ActionItemFilter.STATUS_S_DATE_OWNER;
-                        else if(dateComboBox.getSelectedIndex() == 2)
-                            globalFilter = ActionItemFilter.STATUS_D_DATE_OWNER;
-                        else if (dateComboBox.getSelectedIndex() == 3)
-                            globalFilter = ActionItemFilter.STATUS_E_DATE_OWNER;
-                        updateJTable(globalFilter, filterValues);
-                    }
-                }
-                else if(statusRadioButton.isSelected() && dateRadioButton.isSelected()){                    
-                    String statusValue = statusComboBox.getSelectedItem().toString();
-                    if(statusValue.equalsIgnoreCase("ALL")){
-                        filterValues.add(endLabel.getText());
-                        filterValues.add(startLabel.getText());
-                        if(dateComboBox.getSelectedIndex() == 1)
-                            globalFilter = ActionItemFilter.S_DATE;
-                        else if(dateComboBox.getSelectedIndex() == 2)
-                            globalFilter = ActionItemFilter.D_DATE;
-                        else if (dateComboBox.getSelectedIndex() == 3)
-                            globalFilter = ActionItemFilter.E_DATE;
-                        updateJTable(globalFilter, filterValues);
-                        
-                    }
-                    else if(statusComboBox.getSelectedIndex() != 0){
-                        filterValues.add(Status.valueOf(statusValue));
-                        filterValues.add(endLabel.getText());
-                        filterValues.add(startLabel.getText());
-                        if(dateComboBox.getSelectedIndex() == 1)
-                            globalFilter = ActionItemFilter.STATUS_S_DATE;
-                        else if(dateComboBox.getSelectedIndex() == 2)
-                            globalFilter = ActionItemFilter.STATUS_D_DATE;
-                        else if (dateComboBox.getSelectedIndex() == 3)
-                            globalFilter = ActionItemFilter.STATUS_E_DATE;
-                        updateJTable(globalFilter, filterValues);
-                    }
-                }
-                else if(dateRadioButton.isSelected() && ownerRadioButton.isSelected()){
-                    filterValues.add(owner2TextField.getText());
-                    filterValues.add(endLabel.getText());
-                    filterValues.add(startLabel.getText());
-                    if(dateComboBox.getSelectedIndex() == 1)
-                        globalFilter = ActionItemFilter.S_DATE_OWNER;
-                    else if(dateComboBox.getSelectedIndex() == 2)
-                        globalFilter = ActionItemFilter.D_DATE_OWNER;
-                    else if (dateComboBox.getSelectedIndex() == 3)
-                        globalFilter = ActionItemFilter.E_DATE_OWNER;
-                    updateJTable(globalFilter, filterValues);
-                }
-                else if(statusRadioButton.isSelected() && ownerRadioButton.isSelected()){
-                    String statusValue = statusComboBox.getSelectedItem().toString();
-                    if(statusValue.equalsIgnoreCase("ALL")){
-                        filterValues.add(owner2TextField.getText());
-                        globalFilter = ActionItemFilter.OWNER;
-                        updateJTable(globalFilter, filterValues);
-                    }
-                    else{
-                        filterValues.add(Status.valueOf(statusValue));
-                        filterValues.add(owner2TextField.getText());
-                        globalFilter = ActionItemFilter.STATUS_OWNER;
-                        updateJTable(globalFilter, filterValues);
-                    }
-                }
-                else if(statusRadioButton.isSelected()){
-                    String statusValue = statusComboBox.getSelectedItem().toString();
-                    if(statusValue.equalsIgnoreCase("ALL")){
-                        globalFilter = ActionItemFilter.ALL;
-                        updateJTable(globalFilter, null);
-                    }
-                    else if(statusComboBox.getSelectedIndex() != 0){
-                        globalFilter = ActionItemFilter.STATUS;
-                        filterValues.add(Status.valueOf(statusValue));
-                        Status.valueOf(statusComboBox.getSelectedItem().toString());
-                        updateJTable(globalFilter, filterValues);
-                    }
-                }
-                else if(dateRadioButton.isSelected()){
-                    filterValues.add(endLabel.getText());
-                    filterValues.add(startLabel.getText());
-                    if(dateComboBox.getSelectedIndex() == 1)
-                        globalFilter = ActionItemFilter.S_DATE;
-                    else if(dateComboBox.getSelectedIndex() == 2)
-                        globalFilter = ActionItemFilter.D_DATE;
-                    else if (dateComboBox.getSelectedIndex() == 3)
-                        globalFilter = ActionItemFilter.E_DATE;
-
-                    updateJTable(globalFilter, filterValues);
-                }
-                else if(ownerRadioButton.isSelected()){
-                    globalFilter = ActionItemFilter.OWNER;
-                    filterValues.add(owner2TextField.getText());
-                    updateJTable(globalFilter, filterValues);
-                }
-                else{
-                    globalFilter = ActionItemFilter.CONTENT; 
-                    filterValues.add(hintTextField.getText());
-                    updateJTable(globalFilter, filterValues);
-                }
-                if(actionListTable.getRowCount() == 0){
-                    JOptionPane.showMessageDialog(new JOptionPane(),
-                        "There's not action with the specified criteria",
-                        "Information",JOptionPane.INFORMATION_MESSAGE);
-                }
+                filterLabelAction();
             }
         });
         filterLabelPanel.add(filterLabel, java.awt.BorderLayout.CENTER);
@@ -1023,7 +902,7 @@ public class UITerminal extends JFrame{
         statusComboBox.setForeground(new java.awt.Color(48, 49, 50));
         statusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] 
         { "  --- Select ---", "ALL", "COMPLETED", "OVERDUE",
-            "IN_PROCESS", "COMPLETED_APP", "NEAR_TO_DUE_DATE", "WAITING_TO_START" }));
+            "IN_PROCESS", "COMPLETED_APP", "NEAR_DUE_DATE", "WAITING_TO_START" }));
         statusComboBox.setBorder(null);
         statusComboBox.setMaximumSize(new java.awt.Dimension(149, 29));
         statusComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -1058,42 +937,6 @@ public class UITerminal extends JFrame{
         date2Label.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         date2Label.setForeground(new java.awt.Color(252, 254, 252));
         date2Label.setText("date");
-
-        startLabel.setBackground(new java.awt.Color(252, 254, 252));
-        startLabel.setText("start");
-        startLabel.setForeground(new Color(120, 120, 123));
-        startLabel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 3, 1, 1, new java.awt.Color(252, 254, 252)));
-        startLabel.setMinimumSize(new java.awt.Dimension(34, 27));
-        startLabel.setPreferredSize(new java.awt.Dimension(27, 27));
-        startLabel.addFocusListener(new FocusListener(){
-            @Override
-            public void focusLost(FocusEvent arg0) {
-
-            }
-            @Override
-            public void focusGained(FocusEvent arg0) {
-                startLabel.setText("");
-                startLabel.setForeground(Color.decode("#303132"));
-            }
-        });
-
-        endLabel.setBackground(new java.awt.Color(252, 254, 252));
-        endLabel.setText("end");
-        endLabel.setForeground(new Color(120, 120, 123));
-        endLabel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 3, 1, 1, new java.awt.Color(252, 254, 252)));
-        endLabel.setMinimumSize(new java.awt.Dimension(34, 27));
-        endLabel.setPreferredSize(new java.awt.Dimension(25, 27));
-        endLabel.addFocusListener(new FocusListener(){
-            @Override
-            public void focusLost(FocusEvent arg0) {
-
-            }
-            @Override
-            public void focusGained(FocusEvent arg0) {
-                endLabel.setText("");
-                endLabel.setForeground(Color.decode("#303132"));
-            }
-        });
         
         ownerRadioButton.setBackground(new java.awt.Color(6, 66, 118));
         ownerRadioButton.setIconTextGap(0);
@@ -1171,7 +1014,14 @@ public class UITerminal extends JFrame{
                 hintTextField.setForeground(Color.decode("#303132"));
             }
         });
+        
+        
+        startDateChooser.setDateFormatString("yyyy-MM-dd");
+        startDateChooser.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
 
+        endDateChooser.setDateFormatString("yyyy-MM-dd");
+        endDateChooser.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        
         javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
         statusPanel.setLayout(statusPanelLayout);
         statusPanelLayout.setHorizontalGroup(
@@ -1182,17 +1032,17 @@ public class UITerminal extends JFrame{
                     .addComponent(status2Label)
                     .addComponent(statusRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
-                .addComponent(statusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(statusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(date2Label)
                     .addComponent(dateRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
-                .addComponent(dateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
-                .addComponent(startLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(startDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
-                .addComponent(endLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(endDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(owner2Label)
@@ -1209,15 +1059,6 @@ public class UITerminal extends JFrame{
         );
         statusPanelLayout.setVerticalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(statusPanelLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(statusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(dateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(startLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(endLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(hintTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(statusPanelLayout.createSequentialGroup()
@@ -1238,7 +1079,13 @@ public class UITerminal extends JFrame{
                             .addComponent(statusRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                     .addGroup(statusPanelLayout.createSequentialGroup()
                         .addGap(5, 5, 5)
-                        .addComponent(owner2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(statusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(hintTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(owner2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(startDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(endDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 4, Short.MAX_VALUE))
         );
 
@@ -1399,6 +1246,7 @@ public class UITerminal extends JFrame{
         actionPlanPanel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
         actionPlanPanel.setBackground(Color.decode("#FCFEFC"));
         createActionPlanInformationPanel();
+
         actionListPanel = new JPanel();
         actionListPanel.setLayout(new BorderLayout());
         actionListPanel.setPreferredSize(new Dimension(300,300));
@@ -1478,7 +1326,7 @@ public class UITerminal extends JFrame{
         dashboardPanel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
         dashboardPanel.setBackground(Color.decode("#FCFEFC"));
         
-        initImageLabel = new JLabel(new ImageIcon(getClass().getResource("/images/planta.jpg")), JLabel.CENTER);
+        initImageLabel = new JLabel(new ImageIcon(getClass().getResource("/images/plantAtNight2.jpg")), JLabel.CENTER);
         initImageLabel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
         initImageLabel.setPreferredSize(new Dimension(500,328));
         initImageLabel.setBackground(Color.decode("#FCFEFC"));
@@ -1539,15 +1387,15 @@ public class UITerminal extends JFrame{
         mainMenu.add(createMainMenuItem(profileMenu, "userL.png"));
         mainMenu.add(Box.createVerticalGlue());
         mainMenu.add(createMainMenuItem(settingsMenu, "settingsL.png"));
-
+        
         mainMenuEvents(menuItem, "menuBlue.png", "menuBlack.png");
         mainMenuEvents(dashboardMenu, "dashboardLB.png", "dashboardL.png");
         mainMenuEvents(meetingMenu, "meetingLB.png", "meetingL.png");
         mainMenuEvents(actionPlanMenu, "actionPlanLB.png", "actionPlanL.png");
         mainMenuEvents(teamMenu, "teamLB.png", "teamL.png");
         mainMenuEvents(profileMenu, "userLB.png", "userL.png");
-        mainMenuEvents(settingsMenu, "settingsLB.png", "settingsL.png");        
-        
+        mainMenuEvents(settingsMenu, "settingsLB.png", "settingsL.png");
+
     }
     
     private JMenuItem createMainMenuItem(JMenuItem item, String iconName){
@@ -1605,7 +1453,6 @@ public class UITerminal extends JFrame{
         
         createDashboardPanel();
         createActionPlanPanel();
-        
         initImageLabel = new JLabel(new ImageIcon(getClass().getResource("/images/holcim-logo.png")));
         initImageLabel.setPreferredSize(new Dimension(500,328));
         initImageLabel.setSize(initImageLabel.getPreferredSize());
@@ -2122,7 +1969,13 @@ public class UITerminal extends JFrame{
         try {
             Object[] object = Aps.getTerminal().getTableContent(filter,values, meetingName);
             Meeting meeting = (Meeting)object[0];
-            actionListTable.setModel((TableModel)object[1]);                
+            if(((TableModel)object[1]).getRowCount() != 0)
+                actionListTable.setModel((TableModel)object[1]); 
+            else if(meetingName != null){
+                JOptionPane.showMessageDialog(new JOptionPane(),
+                "There's not Action with the specified criteria",
+                "Information",JOptionPane.INFORMATION_MESSAGE);
+            }            
             setColumnWidth();
             centerColumnContent();
 
@@ -2182,6 +2035,251 @@ public class UITerminal extends JFrame{
         }
         catch (Exception ex) {
             Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void filterLabelAction(){
+        filterValues = new ArrayList();
+        if(statusRadioButton.isSelected() && dateRadioButton.isSelected()
+                && ownerRadioButton.isSelected()){
+            String statusValue = statusComboBox.getSelectedItem().toString();;
+            if(statusValue.equalsIgnoreCase("ALL")){
+                try{
+                    Collaborator collaborator = Aps.getTerminal()
+                        .getParticipant(meetingName, owner2TextField.getText());
+                    filterValues.add(collaborator.getCollaboratorId());
+                    filterValues.add(Time.getDate(endDateChooser.getCalendar()));
+                    filterValues.add(Time.getDate(startDateChooser.getCalendar()));
+                    if(dateComboBox.getSelectedIndex() == 1)
+                        globalFilter = ActionItemFilter.S_DATE_OWNER;
+                    else if(dateComboBox.getSelectedIndex() == 2)
+                        globalFilter = ActionItemFilter.D_DATE_OWNER;
+                    else if (dateComboBox.getSelectedIndex() == 3)
+                        globalFilter = ActionItemFilter.E_DATE_OWNER;
+                    updateJTable(globalFilter, filterValues);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(this, 
+                        "Values of Dates or Owner Invalid", "Data Input Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            else if(statusComboBox.getSelectedIndex() == 0){
+                JOptionPane.showMessageDialog(this, 
+                        "Select an Action status", "Status Selection", 
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                try{
+                    Collaborator collaborator = Aps.getTerminal()
+                        .getParticipant(meetingName, owner2TextField.getText());
+                    filterValues.add(Status.valueOf(statusValue));
+                    filterValues.add(collaborator.getCollaboratorId());
+                    filterValues.add(Time.getDate(endDateChooser.getCalendar()));
+                    filterValues.add(Time.getDate(startDateChooser.getCalendar()));
+                    if(dateComboBox.getSelectedIndex() == 1)
+                        globalFilter = ActionItemFilter.STATUS_S_DATE_OWNER;
+                    else if(dateComboBox.getSelectedIndex() == 2)
+                        globalFilter = ActionItemFilter.STATUS_D_DATE_OWNER;
+                    else if (dateComboBox.getSelectedIndex() == 3)
+                        globalFilter = ActionItemFilter.STATUS_E_DATE_OWNER;
+                    updateJTable(globalFilter, filterValues);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(this, 
+                        "Values of Dates or Owner Invalid", "Data Input Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        else if(statusRadioButton.isSelected() && dateRadioButton.isSelected()){                    
+            String statusValue = statusComboBox.getSelectedItem().toString();
+            if(statusValue.equalsIgnoreCase("ALL")){
+                try{
+                    filterValues.add(Time.getDate(endDateChooser.getCalendar()));
+                    filterValues.add(Time.getDate(startDateChooser.getCalendar()));
+                    if(dateComboBox.getSelectedIndex() == 1)
+                        globalFilter = ActionItemFilter.S_DATE;
+                    else if(dateComboBox.getSelectedIndex() == 2)
+                        globalFilter = ActionItemFilter.D_DATE;
+                    else if (dateComboBox.getSelectedIndex() == 3)
+                        globalFilter = ActionItemFilter.E_DATE;
+                    updateJTable(globalFilter, filterValues);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(this, 
+                        "Null date or wrong date format", "Date Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            else if(statusComboBox.getSelectedIndex() == 0){
+                JOptionPane.showMessageDialog(this, 
+                        "Select an Action status", "Status Selection", 
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                try{
+                    filterValues.add(Status.valueOf(statusValue));
+                    filterValues.add(Time.getDate(endDateChooser.getCalendar()));
+                    filterValues.add(Time.getDate(startDateChooser.getCalendar()));
+                    if(dateComboBox.getSelectedIndex() == 1)
+                        globalFilter = ActionItemFilter.STATUS_S_DATE;
+                    else if(dateComboBox.getSelectedIndex() == 2)
+                        globalFilter = ActionItemFilter.STATUS_D_DATE;
+                    else if (dateComboBox.getSelectedIndex() == 3)
+                        globalFilter = ActionItemFilter.STATUS_E_DATE;
+                    updateJTable(globalFilter, filterValues);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(this, 
+                        "Null date or wrong date format", "Date Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        else if(dateRadioButton.isSelected() && ownerRadioButton.isSelected()){
+            try{
+                Collaborator collaborator = Aps.getTerminal()
+                    .getParticipant(meetingName, owner2TextField.getText());
+                filterValues.add(collaborator.getCollaboratorId());
+                filterValues.add(Time.getDate(endDateChooser.getCalendar()));
+                filterValues.add(Time.getDate(startDateChooser.getCalendar()));
+                if(dateComboBox.getSelectedIndex() == 1)
+                    globalFilter = ActionItemFilter.S_DATE_OWNER;
+                else if(dateComboBox.getSelectedIndex() == 2)
+                    globalFilter = ActionItemFilter.D_DATE_OWNER;
+                else if (dateComboBox.getSelectedIndex() == 3)
+                    globalFilter = ActionItemFilter.E_DATE_OWNER;
+                updateJTable(globalFilter, filterValues);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this, 
+                        "Null date or wrong date format", "Date Error", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else if(statusRadioButton.isSelected() && ownerRadioButton.isSelected()){
+            String statusValue = statusComboBox.getSelectedItem().toString();
+            if(statusValue.equalsIgnoreCase("ALL")){                
+                Collaborator collaborator = Aps.getTerminal()
+                    .getParticipant(meetingName, owner2TextField.getText());
+                if(collaborator != null){
+                    filterValues.add(collaborator.getCollaboratorId());
+                    globalFilter = ActionItemFilter.OWNER;
+                    updateJTable(globalFilter, filterValues);
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, 
+                        "Data invalid\nOwner doesn't exist or not belong to this meeting ",
+                        "Data Input Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            else if(statusComboBox.getSelectedIndex() == 0){
+                JOptionPane.showMessageDialog(this, 
+                        "Select an Action status", "Status Selection", 
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                Collaborator collaborator = Aps.getTerminal()
+                    .getParticipant(meetingName, owner2TextField.getText());
+                if(collaborator != null){
+                    filterValues.add(Status.valueOf(statusValue));
+                    filterValues.add(collaborator.getCollaboratorId());
+                    globalFilter = ActionItemFilter.STATUS_OWNER;
+                    updateJTable(globalFilter, filterValues);
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, 
+                        "Data invalid\nOwner doesn't exist or not belong to this meeting ",
+                        "Data Input Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        else if(statusRadioButton.isSelected()){
+            String statusValue = statusComboBox.getSelectedItem().toString();
+            if(statusValue.equalsIgnoreCase("ALL")){
+                globalFilter = ActionItemFilter.ALL;
+                updateJTable(globalFilter, null);
+            }
+            else if(statusComboBox.getSelectedIndex() == 0){
+                JOptionPane.showMessageDialog(this, 
+                        "Select an Action status", "Status Selection", 
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                globalFilter = ActionItemFilter.STATUS;
+                filterValues.add(Status.valueOf(statusValue));
+                Status.valueOf(statusComboBox.getSelectedItem().toString());
+                updateJTable(globalFilter, filterValues);
+            }
+        }
+        else if(dateRadioButton.isSelected()){
+            try{
+                filterValues.add(Time.getDate(endDateChooser.getCalendar()));
+                filterValues.add(Time.getDate(startDateChooser.getCalendar()));
+                if(dateComboBox.getSelectedIndex() == 1)
+                    globalFilter = ActionItemFilter.S_DATE;
+                else if(dateComboBox.getSelectedIndex() == 2)
+                    globalFilter = ActionItemFilter.D_DATE;
+                else if (dateComboBox.getSelectedIndex() == 3)
+                    globalFilter = ActionItemFilter.E_DATE;
+                else{
+                    JOptionPane.showMessageDialog(this, 
+                        "Select a Date criteria for filtering", "Date Selection", 
+                        JOptionPane.INFORMATION_MESSAGE);
+                }
+                updateJTable(globalFilter, filterValues);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this, 
+                        "Null date or wrong date format", "Date Error", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            
+        }
+        else if(ownerRadioButton.isSelected()){
+            if(owner2TextField.getText() != ""){
+                Collaborator collaborator = Aps.getTerminal()
+                        .getParticipant(meetingName, owner2TextField.getText());
+                if(collaborator != null){
+                    globalFilter = ActionItemFilter.OWNER;
+                    filterValues.add(collaborator.getCollaboratorId());
+                    updateJTable(globalFilter, filterValues);
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, 
+                        "Data invalid\nOwner doesn't exist or not belong to this meeting ",
+                        "Data Input Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(this, 
+                    "Enter an Owner acronym or ID for filtering ",
+                    "Data Input", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(contentRadioButton.isSelected()){
+            globalFilter = ActionItemFilter.CONTENT;
+            if(hintTextField.getText() != ""){
+                filterValues.add(hintTextField.getText());
+                updateJTable(globalFilter, filterValues);
+            }
+            else{
+                JOptionPane.showMessageDialog(this, 
+                    "Enter a content hint for filtering ",
+                    "Data Input", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, 
+                    "Select a criteria for filtering ",
+                    "Selection", 
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

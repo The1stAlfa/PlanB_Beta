@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class WorkTeam {
     //aps Class Variables
-    private ArrayList<Collaborator> members;
+    private ArrayList<Collaborator> membersList;
     private ArrayList<ActionPlan> plansIdList;
     //************************************************************************
     private short id;
@@ -31,9 +31,9 @@ public class WorkTeam {
      * @param members
      * @param plansID_list
      */
-    public WorkTeam(ArrayList<Collaborator> members, ArrayList<ActionPlan> plansIdList) {
+    public WorkTeam(ArrayList<Collaborator> membersList, ArrayList<ActionPlan> plansIdList) {
         setId((short)2);
-        this.members = members;
+        this.membersList = membersList;
         this.plansIdList = plansIdList;
     }
 
@@ -42,7 +42,7 @@ public class WorkTeam {
      * @return
      */
     public ArrayList<Collaborator> getMembers() {
-        return members;
+        return membersList;
     }
 
     /**
@@ -73,8 +73,8 @@ public class WorkTeam {
      *
      * @param members
      */
-    public void setMembers(ArrayList<Collaborator> members) {
-        this.members = members;
+    public void setMembers(ArrayList<Collaborator> membersList) {
+        this.membersList = membersList;
     }
 
     /**
@@ -99,5 +99,31 @@ public class WorkTeam {
      */
     public void setPerformance(byte performance) {
         this.performance = performance;
+    }
+    
+    public Collaborator searchMember(String hint, byte type){
+        if(type == 1){ //FULL NAME
+            for(Collaborator collaborator: this.membersList){
+                String collaboratorNames = collaborator.getFirstName()
+                        +" "+ collaborator.getLastName();
+                if(collaboratorNames.equalsIgnoreCase(hint))
+                    return collaborator;
+            }
+        }
+        else if(type == 2){ // ACRONYM
+            for(Collaborator collaborator : this.membersList) {
+                if(collaborator.getAcronymName().equalsIgnoreCase(hint))
+                    return collaborator;
+            }
+        }
+        return null;
+    }
+    
+    public Collaborator searchMember(int collaboratorId){
+        for(Collaborator collaborator : this.membersList) {
+            if(collaborator.getCollaboratorId() == collaboratorId)
+                return collaborator;
+        }
+        return null;
     }
 }

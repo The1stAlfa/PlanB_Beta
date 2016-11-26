@@ -10,6 +10,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -86,4 +90,51 @@ public class Time {
            serialNumber = (double)getDaysBetweenDates(EPOCH_DATE, dateTime)+1;
         return serialNumber;
     }
+    
+    public static String getDate(Calendar calendar){
+        int day, month, year;
+        String date;
+        
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH) + 1;
+        year = calendar.get(Calendar.YEAR);
+        
+        if(month > 9)
+            if(day > 9)
+                date = year+"-"+month+"-"+day;
+            else
+                date = year+"-"+month+"-"+0+day;
+        else{
+            if(day > 9)
+                date = year+"-"+0+month+"-"+day;
+            else
+                date = year+"-"+0+month+"-"+0+day;
+        }
+        
+        return date;
+    }
+
+    public boolean isThisDateValid(String dateToValidate, String dateFromat){
+
+        if(dateToValidate == null)
+            return false;
+
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFromat);
+        sdf.setLenient(false);
+
+        try {
+
+            //if not valid, it will throw ParseException
+            Date date = sdf.parse(dateToValidate);
+
+        } catch (ParseException e) {
+
+                e.printStackTrace();
+                return false;
+        }
+
+        return true;
+	}
+
+
 }

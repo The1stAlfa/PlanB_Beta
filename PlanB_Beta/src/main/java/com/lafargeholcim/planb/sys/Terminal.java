@@ -242,11 +242,11 @@ public class Terminal{
         return facility.searchCollaborator(collaboratorAcronym,(byte) 2);
     }
     
-    private HashMap<Integer, Collaborator> getCollaborators(int facilityID) 
+    private ArrayList<Collaborator> getCollaborators(int facilityID) 
             throws SQLException, IOException{
         String query;
         List<Cell> cells;
-        HashMap<Integer, Collaborator> list = new HashMap();
+        ArrayList<Collaborator> list = new ArrayList();
         Table result;
         
         query = "SELECT+B,D,E,F,G,H+WHERE+C+CONTAINS+"+facilityID;
@@ -256,15 +256,14 @@ public class Terminal{
                 cells = row.getC();
                 if(cells != null){
                     Collaborator collaborator = new Collaborator();
-                    int collaboratorID = Integer.parseInt(
-                            getCellValue(cells.get(0),true));
-                    collaborator.setCollaboratorId(collaboratorID);
+                    collaborator.setCollaboratorId(Integer.parseInt(
+                            getCellValue(cells.get(0),true)));
                     collaborator.setFirstName(getCellValue(cells.get(1),false));
                     collaborator.setMiddleName(getCellValue(cells.get(2),false));
                     collaborator.setLastName(getCellValue(cells.get(3),false));
                     collaborator.setAcronymName(getCellValue(cells.get(4),false));
                     collaborator.setCharge(getCellValue(cells.get(5),false));
-                    list.put(collaboratorID, collaborator);
+                    list.add(collaborator);
                 }
             }
         }
@@ -311,30 +310,7 @@ public class Terminal{
     public ArrayList<String> getMeetingsNames(){
         return org.getFacility("01","id").getMeetingsNames();
     }
-/*    
-    public String getNewActionId(String meetingName) 
-            throws Exception{
-        short number;
-        String query;
-        Facility facility = org.getFacility(meetingName,"meetingName"); 
-        String id = facility.getId();
-        Table result;
-        Meeting meeting = facility.searchMeeting(meetingName); 
-        String acronym = meeting.getAcronym();
-        ActionPlan ap = meeting.getActionPlan();
-        
-        query = "SELECT+COUNT(B)+WHERE+C+CONTAINS+"+ap.getId();
-        result = gPlanB.selectQuery(query, "action");
-        if(result != null){
-            float value = Float.parseFloat(
-                    result.getUniqueCellValueOfUniqueRow(false));
-            number = (short)value;
-            return com.lafargeholcim.planb.model.
-                    Action.generateId(id, acronym, number, ap.getZeros());
-        }
-        return null;
-    }
-*/    
+
     public String getOwnerAcronym(String actionID, Facility facility) 
             throws Exception{
         String query = "SELECT+B+WHERE+C+CONTAINS+%27"+actionID+"%27";
@@ -601,8 +577,9 @@ public class Terminal{
                 + "DATEVALUE(INDIRECT(\"$H\"&ROW())));DATEVALUE(INDIRECT(\"$H\""
                 + "&ROW()))-DATEVALUE(TODAY());DATEVALUE(INDIRECT(\"$I\"&ROW()))"
                 + "-DATEVALUE(INDIRECT(\"$H\"&ROW())))";
+        
         values.add(getCellData(diffFormula, true)); // Value for the difference between dates
-
+        values.add(getCellData((double)collaboratorId));
         gPlanB.insert("action", values);
     }
     
@@ -709,7 +686,7 @@ public class Terminal{
             String startDate = filterValues.get(1).toString();
             
             query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
-                    "+AND+N+CONTAINS+0+AND+H3C=DATE+%27"+endDate+"%27+AND+H%3E=DATE+%27"
+                    "+AND+N+CONTAINS+0+AND+H%3C=DATE+%27"+endDate+"%27+AND+H%3E=DATE+%27"
                     +startDate+"%27+LABEL+DATEDIFF(H,G)+%27duration%27";
         }
         else if(filter.equals(ActionItemFilter.E_DATE)){
@@ -717,7 +694,7 @@ public class Terminal{
             String startDate = filterValues.get(1).toString();
             
             query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
-                    "+AND+N+CONTAINS+0+AND+I3C=DATE+%27"+endDate+"%27+AND+I%3E=DATE+%27"
+                    "+AND+N+CONTAINS+0+AND+I%3C=DATE+%27"+endDate+"%27+AND+I%3E=DATE+%27"
                     +startDate+"%27+LABEL+DATEDIFF(H,G)+%27duration%27";
         }
         else if(filter.equals(ActionItemFilter.CONTENT)){
@@ -727,30 +704,13 @@ public class Terminal{
                     +content+"%27+LABEL+DATEDIFF(H,G)+%27duration%27";
         }
         else if(filter.equals(ActionItemFilter.OWNER)){
-            String content = filterValues.get(0).toString();
-            int collaboratorId;
-            try{
-                collaboratorId = Integer.parseInt(content);
-            }
-            catch(Exception e){
-                collaboratorId = facility.searchCollaborator(content, (byte)2)
-                    .getCollaboratorId();
-            }
-            
+            String collaboratorId = filterValues.get(0).toString();
             query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
                     "+AND+N+CONTAINS+0+AND+D+CONTAINS+"+collaboratorId+"+LABEL+"
                     + "DATEDIFF(H,G)+%27duration%27";
         }
         else if(filter.equals(ActionItemFilter.S_DATE_OWNER)){
-            String content = filterValues.get(0).toString();
-            int collaboratorId;
-            try{
-                collaboratorId = Integer.parseInt(content);
-            }
-            catch(Exception e){
-                collaboratorId = facility.searchCollaborator(content, (byte)2)
-                    .getCollaboratorId();
-            }
+            String collaboratorId = filterValues.get(0).toString();
             String endDate = filterValues.get(1).toString();
             String startDate = filterValues.get(2).toString();
             query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
@@ -758,15 +718,7 @@ public class Terminal{
                     +startDate+"%27+AND+D+CONTAINS+"+collaboratorId+"+LABEL+DATEDIFF(H,G)+%27duration%27";
         }
         else if(filter.equals(ActionItemFilter.D_DATE_OWNER)){
-            String content = filterValues.get(0).toString();
-            int collaboratorId;
-            try{
-                collaboratorId = Integer.parseInt(content);
-            }
-            catch(Exception e){
-                collaboratorId = facility.searchCollaborator(content, (byte)2)
-                    .getCollaboratorId();
-            }
+            String collaboratorId = filterValues.get(0).toString();
             String endDate = filterValues.get(1).toString();
             String startDate = filterValues.get(2).toString();
             query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
@@ -774,15 +726,7 @@ public class Terminal{
                     +startDate+"%27+AND+D+CONTAINS+"+collaboratorId+"+LABEL+DATEDIFF(H,G)+%27duration%27";
         }
         else if(filter.equals(ActionItemFilter.E_DATE_OWNER)){
-            String content = filterValues.get(0).toString();
-            int collaboratorId;
-            try{
-                collaboratorId = Integer.parseInt(content);
-            }
-            catch(Exception e){
-                collaboratorId = facility.searchCollaborator(content, (byte)2)
-                    .getCollaboratorId();
-            }
+            String collaboratorId = filterValues.get(0).toString();
             String endDate = filterValues.get(1).toString();
             String startDate = filterValues.get(2).toString();
             query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
@@ -830,15 +774,7 @@ public class Terminal{
         }
         else if(filter.equals(ActionItemFilter.STATUS_S_DATE_OWNER)){
             int statusValue = ((Status)filterValues.get(0)).getValue();
-            String content = filterValues.get(1).toString();
-            int collaboratorId;
-            try{
-                collaboratorId = Integer.parseInt(content);
-            }
-            catch(Exception e){
-                collaboratorId = facility.searchCollaborator(content, (byte)2)
-                    .getCollaboratorId();
-            }
+            String collaboratorId = filterValues.get(1).toString();
             String endDate = filterValues.get(2).toString();
             String startDate = filterValues.get(3).toString();
             query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
@@ -848,15 +784,7 @@ public class Terminal{
         }
         else if(filter.equals(ActionItemFilter.STATUS_D_DATE_OWNER)){
             int statusValue = ((Status)filterValues.get(0)).getValue();
-            String content = filterValues.get(1).toString();
-            int collaboratorId;
-            try{
-                collaboratorId = Integer.parseInt(content);
-            }
-            catch(Exception e){
-                collaboratorId = facility.searchCollaborator(content, (byte)2)
-                    .getCollaboratorId();
-            }
+            String collaboratorId = filterValues.get(1).toString();
             String endDate = filterValues.get(2).toString();
             String startDate = filterValues.get(3).toString();
             query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
@@ -866,15 +794,7 @@ public class Terminal{
         }
         else{
             int statusValue = ((Status)filterValues.get(0)).getValue();
-            String content = filterValues.get(1).toString();
-            int collaboratorId;
-            try{
-                collaboratorId = Integer.parseInt(content);
-            }
-            catch(Exception e){
-                collaboratorId = facility.searchCollaborator(content, (byte)2)
-                    .getCollaboratorId();
-            }
+            String collaboratorId = filterValues.get(1).toString();
             String endDate = filterValues.get(2).toString();
             String startDate = filterValues.get(3).toString();
             query = "SELECT+B,D,E,F,G,H,I,L,M,DATEDIFF(H,G)+WHERE+C+CONTAINS+"+actionPlanId+
@@ -883,5 +803,18 @@ public class Terminal{
                     "+LABEL+DATEDIFF(H,G)+%27duration%27";
         }
         return query;
+    }
+    
+    public Collaborator getParticipant(String meetingName, String hint){
+        Facility facility = org.getFacility(meetingName, "meetingName");
+        Meeting meeting = facility.searchMeeting(meetingName);
+        int collaboratorId;
+        try{
+            collaboratorId = Integer.parseInt(hint.toString());
+            return meeting.searchParticipant(collaboratorId);
+        }
+        catch(Exception e){
+            return meeting.searchParticipant(hint, (byte)2);
+        }   
     }
 }
