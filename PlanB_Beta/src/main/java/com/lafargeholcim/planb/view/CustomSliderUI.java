@@ -36,7 +36,7 @@ public class CustomSliderUI extends MetalSliderUI{
           // draw border
           if (slider.isEnabled())
             BasicGraphicsUtils.drawEtchedRect(g, trackX, trackY, trackW, trackH, 
-                darkShadowColor, shadowColor, darkShadowColor, highlightColor);
+                darkShadowColor, shadowColor, darkShadowColor, Color.decode("#3C3F41"));
           else
             {
               g.setColor(MetalLookAndFeel.getControlShadow());
@@ -52,16 +52,13 @@ public class CustomSliderUI extends MetalSliderUI{
                  int x = slider.getInverted() ? xPos : trackRect.x;
                  int w = slider.getInverted() ? trackX + trackW - xPos 
                                               : xPos - trackRect.x;
-                 g.setColor(MetalLookAndFeel.getWhite());
+                 g.setColor(Color.decode("#1160AE"));
                  g.drawLine(x + 1, trackY + 1, x + w - 3, trackY + 1);
-                 g.setColor(Color.decode("#75fe10"));
-                 //g.setColor(UIManager.getColor("Slider.altTrackColor"));
+                 g.setColor(Color.decode("#1160AE"));
                  g.drawLine(x + 1, trackY + 2, x + w - 3, trackY + 2);
-                 g.setColor(Color.decode("#75fe10"));
-                 //g.setColor(MetalLookAndFeel.getControlShadow());
+                 g.setColor(Color.decode("#1160AE"));
                  g.drawLine(x + 1, trackY + 3, x + w - 3, trackY + 3);
-                 g.setColor(Color.decode("#75fe10"));
-                 //g.setColor(MetalLookAndFeel.getPrimaryControlShadow());
+                 g.setColor(Color.decode("#1160AE"));
                  g.drawLine(x + 1, trackY + 4, x + w - 3, trackY + 4);
                }
            }

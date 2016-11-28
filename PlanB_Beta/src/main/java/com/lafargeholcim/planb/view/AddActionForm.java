@@ -7,7 +7,7 @@ package com.lafargeholcim.planb.view;
 
 import com.lafargeholcim.planb.model.ActionItemFilter;
 import com.lafargeholcim.planb.model.Status;
-import com.lafargeholcim.planb.sys.Month;
+import com.lafargeholcim.planb.util.Month;
 import com.lafargeholcim.planb.sys.Terminal;
 import com.lafargeholcim.planb.util.Time;
 import java.awt.Color;

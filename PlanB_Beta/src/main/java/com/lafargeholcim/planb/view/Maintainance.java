@@ -73,7 +73,7 @@ public class Maintainance extends javax.swing.JFrame {
         detailTextArea.setLineWrap(true);
         detailTextArea.setRows(5);
         detailTextArea.setTabSize(0);
-        detailTextArea.setText("uo tengo que decir lo que pienso ");
+        detailTextArea.setText("uo tengo que ");
         detailTextArea.setWrapStyleWord(true);
         detailScrollPane.setViewportView(detailTextArea);
 

@@ -72,6 +72,7 @@ import javax.swing.table.TableModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellRenderer;
 import com.toedter.calendar.JDateChooser;
+import java.sql.Date;
 
 /**
  * @palette
@@ -1018,9 +1019,11 @@ public class UITerminal extends JFrame{
         
         startDateChooser.setDateFormatString("yyyy-MM-dd");
         startDateChooser.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        startDateChooser.setDate(Date.valueOf(Time.nowDate()));
 
         endDateChooser.setDateFormatString("yyyy-MM-dd");
         endDateChooser.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        endDateChooser.setDate(Date.valueOf(Time.nowDate().plusDays(1)));
         
         javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
         statusPanel.setLayout(statusPanelLayout);
@@ -1106,7 +1109,7 @@ public class UITerminal extends JFrame{
         buttonsPanel.setLayout(new javax.swing.BoxLayout(buttonsPanel, javax.swing.BoxLayout.LINE_AXIS));
 
         addIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        addIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plusWhite24.png"))); // NOI18N
+        addIcon.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png"))); // NOI18N
         addIcon.setToolTipText("Add Action");
         addIcon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         addIcon.setIconTextGap(0);
@@ -1126,12 +1129,13 @@ public class UITerminal extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e){
                 if(meetingName != null){
-                    AddActionForm addAction;
+                    AddAction addAction;
                     try {
                         clickFlag = true;
                         addIcon.setIcon(new ImageIcon(getClass().getResource("/images/plusGreen-24.png")));
-                        addAction = new AddActionForm(getJFrame(),Aps.getTerminal(),meetingName);
+                        addAction = new AddAction(getJFrame(),Aps.getTerminal(),meetingName);
                         addAction.setLocationRelativeTo(getJFrame());
+                        addAction.setVisible(true);
                     } catch (Exception ex) {
                         Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
                     }

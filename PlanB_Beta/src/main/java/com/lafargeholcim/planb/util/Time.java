@@ -115,7 +115,6 @@ public class Time {
     }
 
     public boolean isThisDateValid(String dateToValidate, String dateFromat){
-
         if(dateToValidate == null)
             return false;
 
@@ -123,18 +122,13 @@ public class Time {
         sdf.setLenient(false);
 
         try {
-
             //if not valid, it will throw ParseException
             Date date = sdf.parse(dateToValidate);
 
         } catch (ParseException e) {
-
                 e.printStackTrace();
                 return false;
         }
-
         return true;
-	}
-
-
+    }
 }

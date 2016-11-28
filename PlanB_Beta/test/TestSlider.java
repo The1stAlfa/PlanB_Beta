@@ -61,7 +61,7 @@ public class TestSlider extends MetalSliderUI{
                  int w = slider.getInverted() ? trackX + trackW - xPos 
                                               : xPos - trackRect.x;
                  //g.setColor(Color.decode("#999999"));
-                 g.setColor(MetalLookAndFeel.getWhite());
+                 g.setColor(MetalLookAndFeel.getBlack());
                  g.drawLine(x + 1, trackY + 1, x + w - 3, trackY + 1);
                  g.setColor(Color.decode("#75fe10"));
                  //g.setColor(UIManager.getColor("Slider.altTrackColor"));
@@ -159,9 +159,9 @@ public class TestSlider extends MetalSliderUI{
 
         Icon i = null;
         try {
-                //UIManager.setLookAndFeel("com.sun.java.swing.plaf.metal.MetaLookAndFeel");
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.metal.MetaLookAndFeel");
                 //i = UIManager.getIcon("Slider.horizontalThumbIcon");
-                UIManager.setLookAndFeel("com.bulenkov.darcula.DarculaLaf");
+                //UIManager.setLookAndFeel("com.bulenkov.darcula.DarculaLaf");
                 
         } catch (Exception ex) {
                 System.out.println("MALito");

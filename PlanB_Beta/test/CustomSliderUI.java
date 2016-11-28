@@ -85,7 +85,7 @@ public class CustomSliderUI extends BasicSliderUI {
         slider.setMajorTickSpacing(25);
         UIManager.put("Slider.altTrackColor",Color.decode("#1160AE"));
         UIManager.put("Slider.foreground", Color.decode("#75fe10"));
-        //slider.setUI(new CustomSliderUI(slider));
+        slider.setUI(new CustomSliderUI(slider));
         frame.add(slider);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();

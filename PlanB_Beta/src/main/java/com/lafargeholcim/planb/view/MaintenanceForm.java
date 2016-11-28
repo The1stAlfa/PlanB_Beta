@@ -5,35 +5,48 @@
  */
 package com.lafargeholcim.planb.view;
 
+import com.lafargeholcim.planb.util.Time;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.sql.Date;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 
 /**
  *
  * @author AI-Saac
  */
 public class MaintenanceForm extends JDialog{
-    private JButton addButton, cancellButton;
-    private JLabel commentsLabel, daysLabel, detailLabel, dueDateLabel, 
+    protected JButton actionButton, cancellButton;
+    protected JLabel commentsLabel, daysLabel, detailLabel, dueDateLabel, 
             durationLabel, durationValueLabel, endDateLabel, idLabel, 
             progressLabel, progressValueLabel, responsibleLabel, startDateLabel, statusLabel;
     private JScrollPane commentsScrollPane, detailScrollPane;
-    private JTextArea commentsTextArea, detailTextArea;
-    private JDateChooser dueDateChooser, endDateChooser, startDateChooser;
-    private JTextField idValueTextField, statusTextField;
-    private JComboBox<String> ownerComboBox;
-    private JSlider progressSlider;
+    protected JTextArea commentsTextArea, detailTextArea;
+    protected JDateChooser dueDateChooser, endDateChooser, startDateChooser;
+    protected JTextField idValueTextField, statusTextField;
+    protected JComboBox<String> ownerComboBox;
+    protected JSlider progressSlider;
     
-    public MaintenanceForm(){
-        
+    public MaintenanceForm(String title){
+        setTitle(title);
     }
     
     public void initComponents(){
@@ -53,7 +66,7 @@ public class MaintenanceForm extends JDialog{
         dueDateChooser = new com.toedter.calendar.JDateChooser();
         endDateLabel = new javax.swing.JLabel();
         endDateChooser = new com.toedter.calendar.JDateChooser();
-        addButton = new javax.swing.JButton();
+        actionButton = new javax.swing.JButton();
         cancellButton = new javax.swing.JButton();
         statusLabel = new javax.swing.JLabel();
         progressLabel = new javax.swing.JLabel();
@@ -82,8 +95,13 @@ public class MaintenanceForm extends JDialog{
         commentsLabel.setText("Comments");
         commentsLabel.setForeground(Color.decode("#BBBBBB"));
 
-        idValueTextField.setText("Auto-Generated");
-
+        idValueTextField.setText(" Auto-Generated");
+        idValueTextField.setBackground(Color.decode("#45494A"));
+        idValueTextField.setForeground(Color.decode("#BBBBBB"));
+        idValueTextField.setEditable(false);
+        idValueTextField.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
+                Color.decode("#6B7375")));
+        
         detailTextArea.setColumns(20);
         detailTextArea.setLineWrap(true);
         detailTextArea.setRows(5);
@@ -92,6 +110,8 @@ public class MaintenanceForm extends JDialog{
         detailTextArea.setForeground(Color.decode("#BBBBBB"));
         detailTextArea.setBackground(Color.decode("#45494A"));
         detailScrollPane.setViewportView(detailTextArea);
+        detailScrollPane.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
+                Color.decode("#6B7375")));
 
         commentsTextArea.setColumns(20);
         commentsTextArea.setLineWrap(true);
@@ -101,35 +121,96 @@ public class MaintenanceForm extends JDialog{
         commentsTextArea.setForeground(Color.decode("#BBBBBB"));
         commentsTextArea.setBackground(Color.decode("#45494A"));
         commentsScrollPane.setViewportView(commentsTextArea);
+        commentsScrollPane.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
+                Color.decode("#6B7375")));
 
         responsibleLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         responsibleLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         responsibleLabel.setText("Responsible");
         responsibleLabel.setForeground(Color.decode("#BBBBBB"));
 
-        ownerComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SERGIO ORJUELA R", "Item 2", "Item 3", "Item 4" }));
-
+        ownerComboBox.setBackground(Color.decode("#45494A"));
+        ownerComboBox.setForeground(Color.decode("#BBBBBB"));
+        ownerComboBox.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
+                Color.decode("#6B7375")));
+        
         startDateLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         startDateLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         startDateLabel.setText("Start Date");
         startDateLabel.setForeground(Color.decode("#BBBBBB"));
-        
         startDateChooser.setDateFormatString("yyyy-MM-dd");
+        startDateChooser.getCalendarButton().setBackground(Color.decode("#3C3F41"));
+        startDateChooser.getCalendarButton().setIcon(new ImageIcon(getClass()
+                .getResource("/images/JDateChooserIcon2.gif")));
+        startDateChooser.getCalendarButton().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
+                Color.decode("#6B7375")));
+        startDateChooser.getDateEditor().addPropertyChangeListener(
+            new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent e) {
+                if ("date".equals(e.getPropertyName())) {
+                    try{
+                        String startDate = Time.getDate(startDateChooser.getCalendar());
+                        String dueDate = Time.getDate(dueDateChooser.getCalendar());
+                        String duration = String.valueOf(Time.getDaysBetweenDates(startDate, dueDate));
+                        durationValueLabel.setText(duration);
+                    }
+                    catch(Exception ex){}
+                }
+            }
+        });
 
         dueDateLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         dueDateLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         dueDateLabel.setText("Due  Date");
         dueDateLabel.setForeground(Color.decode("#BBBBBB"));
+        dueDateChooser.setDateFormatString("yyyy-MM-dd");
+        dueDateChooser.getCalendarButton().setBackground(Color.decode("#3C3F41"));
+        dueDateChooser.getCalendarButton().setIcon(new ImageIcon(getClass()
+                .getResource("/images/JDateChooserIcon2.gif")));
+        dueDateChooser.getCalendarButton().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
+                Color.decode("#6B7375")));
+        dueDateChooser.getDateEditor().addPropertyChangeListener(
+            new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent e) {
+                if ("date".equals(e.getPropertyName())) {
+                    try{
+                        String startDate = Time.getDate(startDateChooser.getCalendar());
+                        String dueDate = Time.getDate(dueDateChooser.getCalendar());
+                        String duration = String.valueOf(Time.getDaysBetweenDates(startDate, dueDate));
+                        durationValueLabel.setText(duration);
+                    }
+                    catch(Exception ex){}
+                }
+            }
+        });
         
         endDateLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         endDateLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         endDateLabel.setText("End  Date");
         endDateLabel.setForeground(Color.decode("#BBBBBB"));
+        endDateChooser.setDateFormatString("yyyy-MM-dd");
+        endDateChooser.getCalendarButton().setBackground(Color.decode("#3C3F41"));
+        endDateChooser.getCalendarButton().setIcon(new ImageIcon(getClass()
+                .getResource("/images/JDateChooserIcon2.gif")));
+        endDateChooser.getCalendarButton().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
+                Color.decode("#6B7375")));
         
-        addButton.setText("ADD");
-
+        actionButton.setText("ADD");
+        actionButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
+                Color.decode("#6B7375")));
+        actionButton.setBackground(Color.decode("#4B5053"));
+        actionButton.setForeground(Color.decode("#BBBBBB"));
+        actionButton.setFocusPainted(false);
+        
         cancellButton.setText("CANCELL");
-
+        cancellButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+                Color.decode("#6B7375")));
+        cancellButton.setBackground(Color.decode("#45494A"));
+        cancellButton.setForeground(Color.decode("#BBBBBB"));
+        cancellButton.setFocusPainted(false);
+        
         statusLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         statusLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         statusLabel.setText("Status");
@@ -141,15 +222,29 @@ public class MaintenanceForm extends JDialog{
         progressLabel.setForeground(Color.decode("#BBBBBB"));
         
         progressValueLabel.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
-        progressValueLabel.setForeground(new java.awt.Color(0, 51, 255));
+        progressValueLabel.setForeground(Color.decode("#1160AE"));
         progressValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        progressValueLabel.setText("100%");
-        progressValueLabel.setOpaque(true);
+        progressValueLabel.setText("  0%");
+        progressValueLabel.setOpaque(false);
         
         progressSlider.setValue(0);
+        progressSlider.setUI(new CustomSliderUI());
+        progressSlider.setBackground(Color.decode("#3C3F41"));
+        progressSlider.addChangeListener(new ChangeListener(){
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                progressValueLabel.setText(progressSlider.getValue()+"%");
+            }            
+        });
 
-        statusTextField.setText("IN_PROCESS");
-
+        statusTextField.setText("");
+        statusTextField.setBackground(Color.decode("#3C3F41"));
+        statusTextField.setEditable(false);
+        statusTextField.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+                Color.decode("#6B7375")));
+        statusTextField.setForeground(Color.decode("#BBBBBB"));
+        
+        
         durationLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         durationLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         durationLabel.setText("Duration");
@@ -158,6 +253,7 @@ public class MaintenanceForm extends JDialog{
         durationValueLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         durationValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         durationValueLabel.setText("100");
+        durationValueLabel.setForeground(Color.decode("#BBBBBB"));
 
         daysLabel.setText("days");
         daysLabel.setForeground(Color.decode("#BBBBBB"));
@@ -168,7 +264,7 @@ public class MaintenanceForm extends JDialog{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(actionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(cancellButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(153, 153, 153))
@@ -272,11 +368,33 @@ public class MaintenanceForm extends JDialog{
                         .addComponent(durationLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(actionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cancellButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(10, Short.MAX_VALUE))
         );
-
         pack();
+    }
+    
+    protected JDialog getJDialog(){
+        return this;
+    }
+    
+    protected void setParticipantsNames(String[] model){
+        ownerComboBox.setModel(new DefaultComboBoxModel(model));        
+    }
+    
+    public static void main(String[] args){
+        JFrame p = new JFrame();
+        JButton b = new JButton("button");
+        p.getContentPane().add(b);
+        b.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MaintenanceForm m = new MaintenanceForm(""); 
+                m.setVisible(true);
+            }
+            
+        });
+        p.setVisible(true);
     }
 }
