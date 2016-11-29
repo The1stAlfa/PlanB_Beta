@@ -9,6 +9,8 @@ import com.lafargeholcim.planb.model.ActionItemFilter;
 import com.lafargeholcim.planb.model.Status;
 import com.lafargeholcim.planb.sys.Terminal;
 import com.lafargeholcim.planb.util.Time;
+import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.Color;
 import static java.awt.Frame.ICONIFIED;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -80,14 +82,21 @@ public class AddAction extends MaintenanceForm{
         parent.setEnabled(false);
         addWindowListener();
         setDates();
+        statusTextField.setText("IN_PROCESS");
+        ((JTextFieldDateEditor)startDateChooser.getDateEditor())
+        .setForeground(Color.decode("#BBBBBB"));
+        ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
+        .setForeground(Color.decode("#BBBBBB"));
+        ((JTextFieldDateEditor)endDateChooser.getDateEditor())
+        .setForeground(Color.decode("#BBBBBB"));
         endDateChooser.setVisible(false);
         endDateLabel.setVisible(false);
         actionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    String startDate = Time.getDate(startDateChooser.getCalendar());
-                    String dueDate = Time.getDate(dueDateChooser.getCalendar());
+                    startDate = Time.getDate(startDateChooser.getCalendar());
+                    dueDate = Time.getDate(dueDateChooser.getCalendar());
                     int duration = Time.getDaysBetweenDates(startDate, dueDate);
                     if(duration <= 0){
                         JOptionPane.showMessageDialog(getJDialog(),

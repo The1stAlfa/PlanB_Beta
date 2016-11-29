@@ -8,11 +8,14 @@ package com.lafargeholcim.planb.view;
 import com.lafargeholcim.planb.model.ActionItemFilter;
 import com.lafargeholcim.planb.sys.Terminal;
 import com.lafargeholcim.planb.util.Time;
+import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.Color;
 import static java.awt.Frame.ICONIFIED;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -74,12 +77,26 @@ public class EditAction extends MaintenanceForm{
         super.initComponents();
         parent.setEnabled(false);
         addWindowListener();
+        setRowData();
+        setParticipantsNames(terminal.getParticipantsNames(meetingName));
+        ((JTextFieldDateEditor)startDateChooser.getDateEditor())
+        .setEditable(false);
+        startDateChooser.getCalendarButton().setEnabled(false);
+        ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
+        .setEditable(false);
+        ((JTextFieldDateEditor)startDateChooser.getDateEditor())
+            .setForeground(Color.decode("#1160AE"));
+        ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
+            .setForeground(Color.decode("#1160AE"));
+        ((JTextFieldDateEditor)endDateChooser.getDateEditor())
+            .setForeground(Color.decode("#BBBBBB"));
+        dueDateChooser.getCalendarButton().setEnabled(false);
         actionButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
                 try{
-                    String startDate = Time.getDate(startDateChooser.getCalendar());
-                    String dueDate = Time.getDate(dueDateChooser.getCalendar());
+                    startDate = Time.getDate(startDateChooser.getCalendar());
+                    dueDate = Time.getDate(dueDateChooser.getCalendar());
                     int duration = Time.getDaysBetweenDates(startDate, dueDate);
                     if(duration <= 0)
                         JOptionPane.showMessageDialog(getJDialog(),
@@ -148,29 +165,33 @@ public class EditAction extends MaintenanceForm{
         else
             row_data_modified[5] = null;
         */
-        /*
+        
         if(rowData[6] == null){
-            if(cbYearReal.getSelectedIndex()!= -1 
-                    && cbMonthReal.getSelectedIndex() != -1 
-                    && cbDayReal.getSelectedIndex() != -1){
-                String date = cbYearReal.getSelectedItem().toString()+"-"
-                        +getMonthValue(cbMonthReal.getSelectedItem().toString())+"-"
-                        +cbDayReal.getSelectedItem().toString();
-                rowDataModified[6] = date;
+            try{
+                String endDate = Time.getDate(endDateChooser.getCalendar());
+                rowDataModified[6] = endDate;
                 detection += 1;
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(this, "Null date or wrong date format",
+                        "Date Error", JOptionPane.ERROR_MESSAGE);
+                return false;
             }
         }
         else{
-            String date = cbYearReal.getSelectedItem().toString()+"-"
-                        +getMonthValue(cbMonthReal.getSelectedItem().toString())+"-"
-                        +cbDayReal.getSelectedItem().toString();
-            if(!String.valueOf(rowData[6]).equalsIgnoreCase(date)){
-                rowDataModified[6] = date;
-                detection += 1;
+            try{
+                String endDate = Time.getDate(endDateChooser.getCalendar());
+                if(!String.valueOf(rowData[6]).equalsIgnoreCase(endDate)){
+                    rowDataModified[6] = endDate;
+                    detection += 1;
+                }
+                else
+                    rowDataModified[6] = null;
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(this, "Null date or wrong date format",
+                        "Date Error", JOptionPane.ERROR_MESSAGE);
+                return false;
             }
-            else
-                rowDataModified[6] = null;
-        }*/
+        }
         if(Integer.parseInt(String.valueOf(rowData[7])) != progressSlider.getValue()){
             rowDataModified[7] = progressSlider.getValue();
             detection += 1;
@@ -210,5 +231,19 @@ public class EditAction extends MaintenanceForm{
                 return index;
         }
         return -1;
+    }
+    
+    private void setRowData(){
+        idValueTextField.setText(String.valueOf(rowData[0]));
+        ownerComboBox.setSelectedIndex(getResponsibleIndex(rowData[1]));
+        detailTextArea.setText(String.valueOf(rowData[2]));
+        commentsTextArea.setText(String.valueOf(rowData[3]));
+        startDateChooser.setDate(Date.valueOf(Time.parseDate(rowData[4].toString())));
+        dueDateChooser.setDate(Date.valueOf(Time.parseDate(rowData[5].toString())));
+        if(rowData[6] != null)
+            endDateChooser.setDate(Date.valueOf(Time.parseDate(rowData[6].toString())));
+        progressSlider.setValue(Integer.parseInt(String.valueOf(rowData[7])));
+        statusTextField.setText(rowData[8].toString());
+        durationValueLabel.setText(String.valueOf(rowData[9]));
     }
 }

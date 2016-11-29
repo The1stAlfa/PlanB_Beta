@@ -11,7 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -25,6 +27,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -44,6 +47,7 @@ public class MaintenanceForm extends JDialog{
     protected JTextField idValueTextField, statusTextField;
     protected JComboBox<String> ownerComboBox;
     protected JSlider progressSlider;
+    protected String startDate, dueDate;
     
     public MaintenanceForm(String title){
         setTitle(title);
@@ -95,7 +99,7 @@ public class MaintenanceForm extends JDialog{
         commentsLabel.setText("Comments");
         commentsLabel.setForeground(Color.decode("#BBBBBB"));
 
-        idValueTextField.setText(" Auto-Generated");
+        idValueTextField.setText(" AUTO-GENERATED");
         idValueTextField.setBackground(Color.decode("#45494A"));
         idValueTextField.setForeground(Color.decode("#BBBBBB"));
         idValueTextField.setEditable(false);
@@ -112,7 +116,7 @@ public class MaintenanceForm extends JDialog{
         detailScrollPane.setViewportView(detailTextArea);
         detailScrollPane.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
                 Color.decode("#6B7375")));
-
+        
         commentsTextArea.setColumns(20);
         commentsTextArea.setLineWrap(true);
         commentsTextArea.setRows(5);
@@ -123,7 +127,7 @@ public class MaintenanceForm extends JDialog{
         commentsScrollPane.setViewportView(commentsTextArea);
         commentsScrollPane.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
                 Color.decode("#6B7375")));
-
+        
         responsibleLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         responsibleLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         responsibleLabel.setText("Responsible");
@@ -139,19 +143,25 @@ public class MaintenanceForm extends JDialog{
         startDateLabel.setText("Start Date");
         startDateLabel.setForeground(Color.decode("#BBBBBB"));
         startDateChooser.setDateFormatString("yyyy-MM-dd");
+        ((JTextFieldDateEditor)startDateChooser.getDateEditor())
+        .setBackground(Color.decode("#45494A"));
+        ((JTextFieldDateEditor)startDateChooser.getDateEditor())
+        .setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#6B7375")));
+        ((JTextFieldDateEditor)startDateChooser.getDateEditor())
+        .setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#6B7375")));
         startDateChooser.getCalendarButton().setBackground(Color.decode("#3C3F41"));
         startDateChooser.getCalendarButton().setIcon(new ImageIcon(getClass()
                 .getResource("/images/JDateChooserIcon2.gif")));
-        startDateChooser.getCalendarButton().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
-                Color.decode("#6B7375")));
+        startDateChooser.getCalendarButton().setBorder(
+                BorderFactory.createEmptyBorder(0, 2, 0, 0));
         startDateChooser.getDateEditor().addPropertyChangeListener(
             new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent e) {
                 if ("date".equals(e.getPropertyName())) {
                     try{
-                        String startDate = Time.getDate(startDateChooser.getCalendar());
-                        String dueDate = Time.getDate(dueDateChooser.getCalendar());
+                        startDate = Time.getDate(startDateChooser.getCalendar());
+                        dueDate = Time.getDate(dueDateChooser.getCalendar());
                         String duration = String.valueOf(Time.getDaysBetweenDates(startDate, dueDate));
                         durationValueLabel.setText(duration);
                     }
@@ -165,19 +175,24 @@ public class MaintenanceForm extends JDialog{
         dueDateLabel.setText("Due  Date");
         dueDateLabel.setForeground(Color.decode("#BBBBBB"));
         dueDateChooser.setDateFormatString("yyyy-MM-dd");
+        dueDateChooser.setForeground(Color.decode("#BBBBBB"));
+        ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
+        .setBackground(Color.decode("#45494A"));
+        ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
+        .setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#6B7375")));
         dueDateChooser.getCalendarButton().setBackground(Color.decode("#3C3F41"));
         dueDateChooser.getCalendarButton().setIcon(new ImageIcon(getClass()
                 .getResource("/images/JDateChooserIcon2.gif")));
-        dueDateChooser.getCalendarButton().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
-                Color.decode("#6B7375")));
+        dueDateChooser.getCalendarButton().setBorder(
+                BorderFactory.createEmptyBorder(0, 2, 0, 0));
         dueDateChooser.getDateEditor().addPropertyChangeListener(
             new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent e) {
                 if ("date".equals(e.getPropertyName())) {
                     try{
-                        String startDate = Time.getDate(startDateChooser.getCalendar());
-                        String dueDate = Time.getDate(dueDateChooser.getCalendar());
+                        startDate = Time.getDate(startDateChooser.getCalendar());
+                        dueDate = Time.getDate(dueDateChooser.getCalendar());
                         String duration = String.valueOf(Time.getDaysBetweenDates(startDate, dueDate));
                         durationValueLabel.setText(duration);
                     }
@@ -191,11 +206,15 @@ public class MaintenanceForm extends JDialog{
         endDateLabel.setText("End  Date");
         endDateLabel.setForeground(Color.decode("#BBBBBB"));
         endDateChooser.setDateFormatString("yyyy-MM-dd");
+        ((JTextFieldDateEditor)endDateChooser.getDateEditor())
+        .setBackground(Color.decode("#45494A"));
+        ((JTextFieldDateEditor)endDateChooser.getDateEditor())
+        .setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#6B7375")));
         endDateChooser.getCalendarButton().setBackground(Color.decode("#3C3F41"));
         endDateChooser.getCalendarButton().setIcon(new ImageIcon(getClass()
                 .getResource("/images/JDateChooserIcon2.gif")));
-        endDateChooser.getCalendarButton().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
-                Color.decode("#6B7375")));
+        endDateChooser.getCalendarButton().setBorder(
+                BorderFactory.createEmptyBorder(0, 2, 0, 0));
         
         actionButton.setText("ADD");
         actionButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
@@ -207,7 +226,7 @@ public class MaintenanceForm extends JDialog{
         cancellButton.setText("CANCELL");
         cancellButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
                 Color.decode("#6B7375")));
-        cancellButton.setBackground(Color.decode("#45494A"));
+        cancellButton.setBackground(Color.decode("#4B5053"));
         cancellButton.setForeground(Color.decode("#BBBBBB"));
         cancellButton.setFocusPainted(false);
         
@@ -283,7 +302,7 @@ public class MaintenanceForm extends JDialog{
                                 .addComponent(responsibleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(ownerComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(detailScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(detailScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(endDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -292,7 +311,7 @@ public class MaintenanceForm extends JDialog{
                             .addComponent(commentsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(commentsScrollPane)
+                            .addComponent(commentsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(startDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
@@ -319,7 +338,7 @@ public class MaintenanceForm extends JDialog{
                                                 .addGap(6, 6, 6)
                                                 .addComponent(progressValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(0, 0, Short.MAX_VALUE)))))))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -343,14 +362,14 @@ public class MaintenanceForm extends JDialog{
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(startDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(startDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(startDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(statusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(dueDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dueDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dueDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(progressSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(progressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -362,7 +381,7 @@ public class MaintenanceForm extends JDialog{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(daysLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(endDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(endDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(endDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(durationValueLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(durationLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)))

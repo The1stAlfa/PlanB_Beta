@@ -1175,9 +1175,10 @@ public class UITerminal extends JFrame{
                             "Validation",JOptionPane.ERROR_MESSAGE);
                 }
                 else{
-                    EditActionForm editAction = new EditActionForm(getJFrame(),
+                    EditAction editAction = new EditAction(getJFrame(),
                             Aps.getTerminal(),meetingName, getSelectedRowData(), globalFilter, filterValues);
                     editAction.setLocationRelativeTo(getJFrame());
+                    editAction.setVisible(true);
                     actionListTable.getSelectionModel().clearSelection();
                 }
             }
@@ -1283,10 +1284,11 @@ public class UITerminal extends JFrame{
                 int row = table.rowAtPoint(p);
                 if (e.getClickCount() == 2) {
                     if(row != -1){
-                        EditActionForm editAction = new EditActionForm(getJFrame(),
+                        EditAction editAction = new EditAction(getJFrame(),
                             Aps.getTerminal(),meetingName, getSelectedRowData(), 
                                 globalFilter, filterValues);
                         editAction.setLocationRelativeTo(getJFrame());
+                        editAction.setVisible(true);
                     }
                 }
             }
