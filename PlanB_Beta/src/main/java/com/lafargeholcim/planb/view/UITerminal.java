@@ -174,7 +174,7 @@ public class UITerminal extends JFrame{
                         DEFAULT_RENDERER.setHorizontalAlignment(SwingConstants.CENTER);
                     if(column == 8){
                         if(value.toString().equalsIgnoreCase("OVERDUE")){
-                            c.setBackground(Color.decode("#E80C0C"));
+                            c.setBackground(Color.decode("#FE4344")); // E80C0C
                             c.setForeground(Color.decode("#FCFEFC"));
                         }
                         else if(value.toString().equalsIgnoreCase("COMPLETED_APP")){
@@ -708,7 +708,7 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(overdueActionPanel, gridBagConstraints);
 
-        teamPerformancePanel.setBackground(new java.awt.Color(254, 67, 68));
+        teamPerformancePanel.setBackground(Color.decode("#FE4344"));
         teamPerformancePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 2, 2, 2, new java.awt.Color(252, 254, 252)));
         teamPerformancePanel.setMinimumSize(new java.awt.Dimension(110, 100));
         teamPerformancePanel.setPreferredSize(new java.awt.Dimension(110, 100));
@@ -2024,7 +2024,7 @@ public class UITerminal extends JFrame{
                 }
                 executionValueLabel.setText(String.valueOf(plan.getExecution())+"%");
                 if(teamPerformance <= 70){
-                    teamPerformancePanel.setBackground(Color.decode("#E80C0C"));
+                    teamPerformancePanel.setBackground(Color.decode("#FE4344"));
                     performanceValueLabel.setForeground(Color.decode("#FCFEFC"));
                 }
                 else if(teamPerformance > 70 && teamPerformance < 90){

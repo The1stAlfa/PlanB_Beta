@@ -52,13 +52,13 @@ public class CustomSliderUI extends MetalSliderUI{
                  int x = slider.getInverted() ? xPos : trackRect.x;
                  int w = slider.getInverted() ? trackX + trackW - xPos 
                                               : xPos - trackRect.x;
-                 g.setColor(Color.decode("#4B6EAE"));
+                 g.setColor(Color.decode("#75FE10"));
                  g.drawLine(x + 1, trackY + 1, x + w - 3, trackY + 1);
-                 g.setColor(Color.decode("#4B6EAE"));
+                 g.setColor(Color.decode("#75FE10"));
                  g.drawLine(x + 1, trackY + 2, x + w - 3, trackY + 2);
-                 g.setColor(Color.decode("#4B6EAE"));
+                 g.setColor(Color.decode("#75FE10"));
                  g.drawLine(x + 1, trackY + 3, x + w - 3, trackY + 3);
-                 g.setColor(Color.decode("#4B6EAE"));
+                 g.setColor(Color.decode("#75FE10"));
                  g.drawLine(x + 1, trackY + 4, x + w - 3, trackY + 4);
                }
            }
@@ -68,12 +68,12 @@ public class CustomSliderUI extends MetalSliderUI{
              int x = slider.getInverted() ? xPos : trackRect.x;
              int w = slider.getInverted() ? trackX + trackW - xPos 
                                          : xPos - trackRect.x;
-             g.setColor(Color.decode("#4B6EAE"));
+             g.setColor(Color.decode("#75FE10"));
              //g.setColor(MetalLookAndFeel.getControlShadow());
              g.fillRect(x + 1, trackY + 1, w - 3, getTrackWidth() - 3);
              if (slider.isEnabled())
                {
-                   g.setColor(Color.decode("#4B6EAE"));
+                   g.setColor(Color.decode("#75FE10"));
                  //g.setColor(MetalLookAndFeel.getControl());
                  g.drawLine(x + 1, trackY + 1, x + w - 3, trackY + 1);
                  g.drawLine(x + 1, trackY + 1, x + 1, 
@@ -110,7 +110,6 @@ public class CustomSliderUI extends MetalSliderUI{
                   g.drawLine(trackX + 1, y + 1, trackX + 1, y + h - 3);
                   g.setColor(UIManager.getColor("Slider.altTrackColor"));
                   g.drawLine(trackX + 2, y + 1, trackX + 2, y + h - 3);
-                  //g.setColor(Color.decode("#11160AE"));
                   g.setColor(MetalLookAndFeel.getControlShadow());
                   g.drawLine(trackX + 3, y + 1, trackX + 3, y + h - 3);
                   g.setColor(MetalLookAndFeel.getPrimaryControlShadow());

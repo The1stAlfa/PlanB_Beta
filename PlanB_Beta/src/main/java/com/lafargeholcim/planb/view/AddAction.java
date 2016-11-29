@@ -83,12 +83,6 @@ public class AddAction extends MaintenanceForm{
         addWindowListener();
         setDates();
         statusTextField.setText("IN_PROCESS");
-        ((JTextFieldDateEditor)startDateChooser.getDateEditor())
-        .setForeground(Color.decode("#BBBBBB"));
-        ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
-        .setForeground(Color.decode("#BBBBBB"));
-        ((JTextFieldDateEditor)endDateChooser.getDateEditor())
-        .setForeground(Color.decode("#BBBBBB"));
         endDateChooser.setVisible(false);
         endDateLabel.setVisible(false);
         actionButton.addActionListener(new ActionListener() {

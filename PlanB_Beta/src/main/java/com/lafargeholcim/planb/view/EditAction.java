@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -77,20 +79,15 @@ public class EditAction extends MaintenanceForm{
         super.initComponents();
         parent.setEnabled(false);
         addWindowListener();
-        setRowData();
         setParticipantsNames(terminal.getParticipantsNames(meetingName));
+        setRowData();
         ((JTextFieldDateEditor)startDateChooser.getDateEditor())
         .setEditable(false);
         startDateChooser.getCalendarButton().setEnabled(false);
         ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
         .setEditable(false);
-        ((JTextFieldDateEditor)startDateChooser.getDateEditor())
-            .setForeground(Color.decode("#4B6EAE"));
-        ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
-            .setForeground(Color.decode("#4B6EAE"));
-        ((JTextFieldDateEditor)endDateChooser.getDateEditor())
-            .setForeground(Color.decode("#BBBBBB"));
         dueDateChooser.getCalendarButton().setEnabled(false);
+        actionButton.setText("SAVE");
         actionButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
@@ -100,13 +97,20 @@ public class EditAction extends MaintenanceForm{
                     int duration = Time.getDaysBetweenDates(startDate, dueDate);
                     if(duration <= 0)
                         JOptionPane.showMessageDialog(getJDialog(),
-                                "Inconsistent Dates.","Error",JOptionPane.ERROR_MESSAGE);
+                                "Inconsistent Dates","Error",JOptionPane.ERROR_MESSAGE);
                     else{
                         try {
                             if(detectActionDataModification()){
                                 terminal.modifyAction(rowDataModified,meetingName);
                                 parent.setEnabled(true);
                                 ((UITerminal)parent).updateJTable(filter, filterValues);
+                                getJDialog().dispose();
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(getJDialog(),
+                                "There's NO change to apply","No Change",
+                                JOptionPane.INFORMATION_MESSAGE);
+                                parent.setEnabled(true);
                                 getJDialog().dispose();
                             }
                         } catch (Exception ex) {
@@ -153,17 +157,70 @@ public class EditAction extends MaintenanceForm{
         else
             rowDataModified[3] = null;
         /*
-        if(){
-            
+        if(rowData[4] == null){
+            try{
+                String endDate = Time.getDate(endDateChooser.getCalendar());
+                rowDataModified[4] = endDate;
+                detection += 1;
+            }catch(Exception ex){
+                Object[] options = { "Yes", "No" };
+                if(JOptionPane.showOptionDialog(this,
+                    "<html><center>Null end Date or wrong date format<br>Do you want to continue saving?",
+                    "Delete Action",JOptionPane.DEFAULT_OPTION, 
+                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == 1)
+                    return false;
+            }
         }
-        else
-            row_data_modified[4] = null;
-        
-        if(){
-            
+        else{
+            try{
+                String endDate = Time.getDate(endDateChooser.getCalendar());
+                if(!String.valueOf(rowData[4]).equalsIgnoreCase(endDate)){
+                    rowDataModified[4] = endDate;
+                    detection += 1;
+                }
+                else
+                    rowDataModified[4] = null;
+            }catch(Exception ex){
+                Object[] options = { "Yes", "No" };
+                if(JOptionPane.showOptionDialog(this,
+                    "<html><center>Null end Date or wrong date format<br>Do you want to continue saving?",
+                    "Delete Action",JOptionPane.DEFAULT_OPTION, 
+                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == 1)
+                    return false;
+            }
         }
-        else
-            row_data_modified[5] = null;
+        if(rowData[5] == null){
+            try{
+                String endDate = Time.getDate(endDateChooser.getCalendar());
+                rowDataModified[5] = endDate;
+                detection += 1;
+            }catch(Exception ex){
+                Object[] options = { "Yes", "No" };
+                if(JOptionPane.showOptionDialog(this,
+                    "<html><center>Null end Date or wrong date format<br>Do you want to continue saving?",
+                    "Delete Action",JOptionPane.DEFAULT_OPTION, 
+                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == 1)
+                    return false;
+            }
+        }
+        else{
+            try{
+                String endDate = Time.getDate(endDateChooser.getCalendar());
+                if(!String.valueOf(rowData[5]).equalsIgnoreCase(endDate)){
+                    rowDataModified[5] = endDate;
+                    detection += 1;
+                }
+                else
+                    rowDataModified[5] = null;
+            }catch(Exception ex){
+                Object[] options = { "Yes", "No" };
+                if(JOptionPane.showOptionDialog(this,
+                    "<html><center>Null end Date or wrong date format<br>Do you want to continue saving?",
+                    "Delete Action",JOptionPane.DEFAULT_OPTION, 
+                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == 1)
+                    return false;
+            }
+        }
         */
         
         if(rowData[6] == null){
@@ -172,9 +229,12 @@ public class EditAction extends MaintenanceForm{
                 rowDataModified[6] = endDate;
                 detection += 1;
             }catch(Exception ex){
-                JOptionPane.showMessageDialog(this, "Null date or wrong date format",
-                        "Date Error", JOptionPane.ERROR_MESSAGE);
-                return false;
+                Object[] options = { "Yes", "No" };
+                if(JOptionPane.showOptionDialog(this,
+                    "<html><center>Null end Date or wrong date format<br>Do you want to continue saving?",
+                    "Delete Action",JOptionPane.DEFAULT_OPTION, 
+                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == 1)
+                    return false;
             }
         }
         else{
@@ -214,20 +274,20 @@ public class EditAction extends MaintenanceForm{
         return false;
     }
     
-    private String getAcronymName(String responsible_names){
-        String[] names = responsible_names.split(" ");
-        String acronym_name = "";
+    private String getAcronymName(String responsibleNames){
+        String[] names = responsibleNames.split(" ");
+        String acronymName = "";
         for(String name:names)
-            acronym_name = acronym_name+name.substring(0,1).toUpperCase();
-        return acronym_name;
+            acronymName = acronymName+name.substring(0,1).toUpperCase();
+        return acronymName;
     }
     
-    private int getResponsibleIndex(Object row_data){
-        String responsible_acronym = row_data.toString();
+    private int getResponsibleIndex(Object data){
+        String responsibleAcronym = data.toString();
         int length = ownerComboBox.getItemCount();
         for(int index=0;index<length;index++){
             String acronym = getAcronymName(ownerComboBox.getItemAt(index).toString());
-            if(acronym.equalsIgnoreCase(responsible_acronym))
+            if(acronym.equalsIgnoreCase(responsibleAcronym))
                 return index;
         }
         return -1;

@@ -27,7 +27,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -99,7 +98,7 @@ public class MaintenanceForm extends JDialog{
         commentsLabel.setText("Comments");
         commentsLabel.setForeground(Color.decode("#BBBBBB"));
 
-        idValueTextField.setText(" AUTO-GENERATED");
+        idValueTextField.setText(" Auto-Generated");
         idValueTextField.setBackground(Color.decode("#45494A"));
         idValueTextField.setForeground(Color.decode("#BBBBBB"));
         idValueTextField.setEditable(false);
@@ -144,7 +143,9 @@ public class MaintenanceForm extends JDialog{
         startDateLabel.setForeground(Color.decode("#BBBBBB"));
         startDateChooser.setDateFormatString("yyyy-MM-dd");
         ((JTextFieldDateEditor)startDateChooser.getDateEditor())
-        .setBackground(Color.decode("#45494A"));
+        .setBackground(Color.decode("#FCFEFC"));
+        ((JTextFieldDateEditor)startDateChooser.getDateEditor())
+        .setFont(new java.awt.Font("Dialog", 0, 14));
         ((JTextFieldDateEditor)startDateChooser.getDateEditor())
         .setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#6B7375")));
         ((JTextFieldDateEditor)startDateChooser.getDateEditor())
@@ -153,7 +154,7 @@ public class MaintenanceForm extends JDialog{
         startDateChooser.getCalendarButton().setIcon(new ImageIcon(getClass()
                 .getResource("/images/JDateChooserIcon2.gif")));
         startDateChooser.getCalendarButton().setBorder(
-                BorderFactory.createEmptyBorder(0, 2, 0, 0));
+                BorderFactory.createEmptyBorder(0, 3, 0, 0));
         startDateChooser.getDateEditor().addPropertyChangeListener(
             new PropertyChangeListener() {
             @Override
@@ -177,7 +178,9 @@ public class MaintenanceForm extends JDialog{
         dueDateChooser.setDateFormatString("yyyy-MM-dd");
         dueDateChooser.setForeground(Color.decode("#BBBBBB"));
         ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
-        .setBackground(Color.decode("#45494A"));
+        .setBackground(Color.decode("#FCFEFC"));
+        ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
+        .setFont(new java.awt.Font("Dialog", 0, 14));
         ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
         .setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#6B7375")));
         dueDateChooser.getCalendarButton().setBackground(Color.decode("#3C3F41"));
@@ -195,8 +198,6 @@ public class MaintenanceForm extends JDialog{
                         dueDate = Time.getDate(dueDateChooser.getCalendar());
                         String duration = String.valueOf(Time.getDaysBetweenDates(startDate, dueDate));
                         durationValueLabel.setText(duration);
-                        ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
-                            .setForeground(Color.decode("#6897BB"));
                     }
                     catch(Exception ex){}
                 }
@@ -209,7 +210,9 @@ public class MaintenanceForm extends JDialog{
         endDateLabel.setForeground(Color.decode("#BBBBBB"));
         endDateChooser.setDateFormatString("yyyy-MM-dd");
         ((JTextFieldDateEditor)endDateChooser.getDateEditor())
-        .setBackground(Color.decode("#45494A"));
+        .setFont(new java.awt.Font("Dialog", 0, 14));
+        ((JTextFieldDateEditor)endDateChooser.getDateEditor())
+        .setBackground(Color.decode("#FCFEFC"));
         ((JTextFieldDateEditor)endDateChooser.getDateEditor())
         .setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#6B7375")));
         endDateChooser.getCalendarButton().setBackground(Color.decode("#3C3F41"));
@@ -243,7 +246,7 @@ public class MaintenanceForm extends JDialog{
         progressLabel.setForeground(Color.decode("#BBBBBB"));
         
         progressValueLabel.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
-        progressValueLabel.setForeground(Color.decode("#4B6EAE"));
+        progressValueLabel.setForeground(Color.decode("#75FE10")); //4B6EAE
         progressValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         progressValueLabel.setText("  0%");
         progressValueLabel.setOpaque(false);

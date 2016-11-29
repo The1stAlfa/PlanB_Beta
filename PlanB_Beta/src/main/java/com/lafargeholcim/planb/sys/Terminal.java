@@ -109,8 +109,8 @@ public class Terminal{
         String saltedPassword = SALT + password;
         String hashedPassword = generateHash(saltedPassword);
         
-        String query = "SELECT+C,D,G+WHERE+B+CONTAINS+%27"+username
-                +"%27AND+E+CONTAINS+%27"+hashedPassword+"%27";
+        String query = "SELECT+C,D,G+WHERE+B=%27"+username
+                +"%27AND+E=%27"+hashedPassword+"%27";
         Table result = gPlanB.selectQuery(query,"user");
         if(result != null){
             if(result.getRows().size() == 1){
@@ -148,7 +148,7 @@ public class Terminal{
         List<Cell> cells;
         ActionPlan actionPlan = new ActionPlan();
         
-        query = "SELECT+B,D,E,F,G+WHERE+C+CONTAINS+"+meetingID;
+        query = "SELECT+B,D,E,F,G+WHERE+C="+meetingID;
         result = gPlanB.selectQuery(query, "actionplan");
         if(result != null){
             cells = result.getRows().get(0).getC();
@@ -163,7 +163,7 @@ public class Terminal{
             actionPlan.setExecution(
                     Byte.parseByte(execution.substring(0, execution.length()-1)));
             actionPlan.setCurrentDate(Time.nowDateTime());
-            query = "SELECT+B,D,E,F,G,H,I,J,K+WHERE+C+CONTAINS+"+actionPlan.getId();
+            query = "SELECT+B,D,E,F,G,H,I,J,K+WHERE+C="+actionPlan.getId();
             result = gPlanB.selectQuery(query,"apsummary");
             if(result != null){
                 cells = result.getRows().get(0).getC();
@@ -196,7 +196,7 @@ public class Terminal{
     private ArrayList getAdtParticipants(int meetingID, Facility facility) 
             throws SQLException, IOException{
         
-        String query = "SELECT+B+WHERE+C+CONTAINS+"+meetingID;
+        String query = "SELECT+B+WHERE+C="+meetingID;
         Table result = gPlanB.selectQuery(query, "adtparticipants_meeting");
         ArrayList<Collaborator> list = new ArrayList();
                 
@@ -249,7 +249,7 @@ public class Terminal{
         ArrayList<Collaborator> list = new ArrayList();
         Table result;
         
-        query = "SELECT+B,D,E,F,G,H+WHERE+C+CONTAINS+"+facilityID;
+        query = "SELECT+B,D,E,F,G,H+WHERE+C="+facilityID;
         result = gPlanB.selectQuery(query, "collaborator");
         if(result != null){
             for(Row row:result.getRows()){
@@ -281,7 +281,7 @@ public class Terminal{
         List<Cell> cells;
         ArrayList<Meeting> list = new ArrayList<>();
             
-        query = "SELECT+B,D,E,F,G+WHERE+C+CONTAINS+"+facility.getIntegerId();
+        query = "SELECT+B,D,E,F,G+WHERE+C="+facility.getIntegerId();
         result = gPlanB.selectQuery(query, "meeting");
         if(result != null){
             for(Row row:result.getRows()){
@@ -313,7 +313,7 @@ public class Terminal{
 
     public String getOwnerAcronym(String actionID, Facility facility) 
             throws Exception{
-        String query = "SELECT+B+WHERE+C+CONTAINS+%27"+actionID+"%27";
+        String query = "SELECT+B+WHERE+C=%27"+actionID+"%27";
         Table result = gPlanB.selectQuery(query,"collaborator_action");
         if(result != null){
             int collaboratorID = Integer.parseInt(result.getUniqueCellValueOfUniqueRow(true));
@@ -439,12 +439,12 @@ public class Terminal{
         Table result;
         ArrayList<Collaborator> list = new ArrayList();
         
-        query = "SELECT+B,D+WHERE+C+CONTAINS+"+meetingID;
+        query = "SELECT+B,D+WHERE+C="+meetingID;
         result = gPlanB.selectQuery(query, "workteam");
         if(result != null){
             workteamID = Short.parseShort(result.getRows().get(0).getCellValue(0,true));
             performance = Byte.parseByte(result.getRows().get(0).getCellValue(1,true));
-            query = "SELECT+C+WHERE+B+CONTAINS+"+workteamID;
+            query = "SELECT+C+WHERE+B="+workteamID;
             result = gPlanB.selectQuery(query,"workteam_collaborator");
             if(result != null){
                 WorkTeam workTeam= new WorkTeam();
@@ -493,10 +493,14 @@ public class Terminal{
         ArrayList<Object> list = new ArrayList();
         
         itemId = String.valueOf(rowDataModified[0]);
-        if(rowDataModified[2] != null)
-            actionDetail = String.valueOf(rowDataModified[2]);
-        if(rowDataModified[3] != null)
-            actionComments = String.valueOf(rowDataModified[3]);
+        if(rowDataModified[2] != null){
+            columnsIndex.add(4);
+            list.add(rowDataModified[2]);
+        }
+        if(rowDataModified[3] != null){
+            columnsIndex.add(5);  
+            list.add(rowDataModified[3]);
+        }
         if(rowDataModified[4] != null)
             startDate = String.valueOf(rowDataModified[4]);
         if(rowDataModified[5] != null)
@@ -508,17 +512,8 @@ public class Terminal{
         if(rowDataModified[8] != null)
             status = Status.valueOf(String.valueOf(rowDataModified[8]));
         
-        if(actionDetail != null){
-            columnsIndex.add(4);
-            list.add(rowDataModified[2]);
-        }
-        if(actionComments != null){
-            columnsIndex.add(5);  
-            list.add(rowDataModified[3]);
-        }
         if(startDate != null){
-            columnsIndex.add(6);
-            list.add(Time.getSerialNumberDate(startDate, false));
+            
         }
         if(dueDate != null){
             columnsIndex.add(7);
@@ -604,7 +599,7 @@ public class Terminal{
         
         int rowIndex, columnIndex;
         List<Request> requests = new ArrayList();
-        String query = "SELECT+A+WHERE+B+CONTAINS+%27"+actionID+"%27";
+        String query = "SELECT+A+WHERE+B=%27"+actionID+"%27";
         Table result = gPlanB.selectQuery(query, "action");
         
         if(result != null){
