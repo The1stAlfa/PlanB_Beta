@@ -85,9 +85,9 @@ public class EditAction extends MaintenanceForm{
         ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
         .setEditable(false);
         ((JTextFieldDateEditor)startDateChooser.getDateEditor())
-            .setForeground(Color.decode("#1160AE"));
+            .setForeground(Color.decode("#4B6EAE"));
         ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
-            .setForeground(Color.decode("#1160AE"));
+            .setForeground(Color.decode("#4B6EAE"));
         ((JTextFieldDateEditor)endDateChooser.getDateEditor())
             .setForeground(Color.decode("#BBBBBB"));
         dueDateChooser.getCalendarButton().setEnabled(false);

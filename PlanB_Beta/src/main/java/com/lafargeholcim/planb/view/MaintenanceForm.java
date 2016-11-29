@@ -195,6 +195,8 @@ public class MaintenanceForm extends JDialog{
                         dueDate = Time.getDate(dueDateChooser.getCalendar());
                         String duration = String.valueOf(Time.getDaysBetweenDates(startDate, dueDate));
                         durationValueLabel.setText(duration);
+                        ((JTextFieldDateEditor)dueDateChooser.getDateEditor())
+                            .setForeground(Color.decode("#6897BB"));
                     }
                     catch(Exception ex){}
                 }
@@ -241,7 +243,7 @@ public class MaintenanceForm extends JDialog{
         progressLabel.setForeground(Color.decode("#BBBBBB"));
         
         progressValueLabel.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
-        progressValueLabel.setForeground(Color.decode("#1160AE"));
+        progressValueLabel.setForeground(Color.decode("#4B6EAE"));
         progressValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         progressValueLabel.setText("  0%");
         progressValueLabel.setOpaque(false);
