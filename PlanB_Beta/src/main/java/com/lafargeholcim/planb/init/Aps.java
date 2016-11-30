@@ -49,18 +49,9 @@ public class Aps {
         javax.swing.SwingUtilities.invokeLater(() -> {
             LoginForm login = new LoginForm();
             try {
-                UIManager.setLookAndFeel(
-                          UIManager.getCrossPlatformLookAndFeelClassName());
-                //UIManager.setLookAndFeel("com.bulenkov.darcula.DarculaLaf");
-                //UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+                    UIManager.setLookAndFeel(
+                        UIManager.getCrossPlatformLookAndFeelClassName());
                 login.setVisible(true);
-               /*
-                for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                    if ("Nimbus".equals(info.getName())) {
-                        UIManager.setLookAndFeel(info.getClassName());
-                        break;
-                    }
-                }*/
             } catch (Exception ex) {
                 System.out.println("MALito");
             }

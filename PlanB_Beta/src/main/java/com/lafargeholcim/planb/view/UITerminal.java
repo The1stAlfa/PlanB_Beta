@@ -1285,7 +1285,8 @@ public class UITerminal extends JFrame{
         actionListTable.setGridColor(Color.decode("#FCFEFC"));
         actionListTable.setFillsViewportHeight(true);
         actionListTable.setFocusable(false);
-        actionListTable.setSelectionBackground(Color.decode("#1160AE"));
+        actionListTable.setBackground(Color.decode("#3C3F41"));
+        actionListTable.setSelectionBackground(Color.decode("#ffffff"));
         actionListTable.setSelectionForeground(Color.decode("#1160AE"));
         actionListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setColumnWidth();
@@ -1319,7 +1320,7 @@ public class UITerminal extends JFrame{
         });
         alTableScrollPane = new JScrollPane();
         alTableScrollPane.setViewportView(actionListTable);
-        alTableScrollPane.getViewport().setBackground(Color.decode("#FCFEFC"));
+        alTableScrollPane.getViewport().setBackground(Color.decode("#3C3F41"));
         alTableScrollPane.setBorder(BorderFactory.createEmptyBorder());
         actionListPanel.add(alTableScrollPane, BorderLayout.CENTER);
         gapPanel1 = new JPanel();
@@ -1444,6 +1445,7 @@ public class UITerminal extends JFrame{
                 filterValues = new ArrayList<>();
                 filterValues.add(Status.OVERDUE);
                 globalFilter = ActionItemFilter.STATUS;
+                actionListTable.setModel(new DefaultTableModel());
                 updateJTable(globalFilter, filterValues);
                 statusRadioButton.setSelected(true);
                 dateRadioButton.setSelected(false);
