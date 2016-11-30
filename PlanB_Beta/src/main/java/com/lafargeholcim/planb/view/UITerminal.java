@@ -72,6 +72,7 @@ import javax.swing.table.TableModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellRenderer;
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 import java.sql.Date;
 
 /**
@@ -1020,10 +1021,22 @@ public class UITerminal extends JFrame{
         startDateChooser.setDateFormatString("yyyy-MM-dd");
         startDateChooser.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         startDateChooser.setDate(Date.valueOf(Time.nowDate()));
-
+        startDateChooser.getCalendarButton().setBackground(new Color(0, 66, 118));
+        startDateChooser.getCalendarButton().setIcon(new ImageIcon(getClass()
+                .getResource("/images/JDateChooserIcon2.gif")));
+        ((JTextFieldDateEditor)startDateChooser.getDateEditor())
+        .setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#FCFEFC")));
+        startDateChooser.getCalendarButton().setBorder(null);
+        
         endDateChooser.setDateFormatString("yyyy-MM-dd");
         endDateChooser.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         endDateChooser.setDate(Date.valueOf(Time.nowDate().plusDays(1)));
+        endDateChooser.getCalendarButton().setBackground(new Color(0, 66, 118));
+        endDateChooser.getCalendarButton().setIcon(new ImageIcon(getClass()
+                .getResource("/images/JDateChooserIcon2.gif")));
+        ((JTextFieldDateEditor)endDateChooser.getDateEditor())
+        .setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#FCFEFC")));
+        endDateChooser.getCalendarButton().setBorder(null);
         
         javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
         statusPanel.setLayout(statusPanelLayout);
@@ -1625,7 +1638,7 @@ public class UITerminal extends JFrame{
     }
     
     private void initComponents() throws FontFormatException, Exception{
-        setUndecorated(true);
+        //setUndecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setWindowListener();
         nativeScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -1662,7 +1675,7 @@ public class UITerminal extends JFrame{
         contentPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#F8FAF8")));
         contentPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
         contentPanel.setLayout(new BorderLayout());
-        contentPanel.add(titleBarPanel, BorderLayout.NORTH);
+        //contentPanel.add(titleBarPanel, BorderLayout.NORTH);
         contentPanel.add(highlightPanel, BorderLayout.WEST);
         contentPanel.add(mainPanel, BorderLayout.CENTER);
         mainPanel.add(optionsContentPanel,BorderLayout.CENTER);

@@ -18,7 +18,6 @@ import com.lafargeholcim.planb.model.Facility;
 import com.lafargeholcim.planb.model.Meeting;
 import com.lafargeholcim.planb.model.Organization;
 import com.lafargeholcim.planb.model.Status;
-import com.lafargeholcim.planb.model.Action;
 import com.lafargeholcim.planb.model.WorkTeam;
 import com.lafargeholcim.planb.init.Aps;
 import com.lafargeholcim.planb.database.google.spreadsheets.GDataBase;
@@ -27,7 +26,6 @@ import com.lafargeholcim.planb.database.google.spreadsheets.json.model.Row;
 import com.lafargeholcim.planb.database.google.spreadsheets.json.model.Table;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.CellData;
-import com.google.api.services.sheets.v4.model.CellFormat;
 import com.google.api.services.sheets.v4.model.ExtendedValue;
 import com.google.api.services.sheets.v4.model.Request;
 import java.security.MessageDigest;
@@ -38,11 +36,8 @@ import java.util.List;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import java.io.IOException;
-import java.util.HashMap;
 import com.lafargeholcim.planb.util.Time;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 
 public class Terminal{
     private byte id;
@@ -56,6 +51,23 @@ public class Terminal{
         org = Aps.getOrganization();
         gPlanB = new GDataBase();
         
+    }
+    
+    public void addAction(String responsible, String detail, String comments, 
+            String startDate, String dueDate, String statusName, byte progress,
+            int duration, String meetingName) throws Exception{
+        
+        short actionplanId;
+        Collaborator collaborator;
+        Facility facility = org.getFacility(meetingName,"meetingName"); 
+        Meeting meeting = facility.searchMeeting(meetingName);
+        String facilityId = facility.getId();
+        
+        actionplanId = meeting.getActionPlan().getId();
+        collaborator = facility.searchCollaborator(responsible,(byte)1);
+        saveActionToDatabase(
+                actionplanId, collaborator.getCollaboratorId(),detail,
+                comments, startDate, dueDate, progress, meeting, facilityId);
     }
     
     public ArrayList defineAccessList(String accesses){
@@ -72,6 +84,30 @@ public class Terminal{
         return list;
     }
    
+    public boolean deleteAction(String actionID, String meetingName) 
+            throws Exception{
+        int rowIndex = 0, columnIndex = 13;
+        List<Request> requests = new ArrayList();
+        String query = "SELECT+A+WHERE+B+CONTAINS+%27"+actionID+"%27";
+        Table result = gPlanB.selectQuery(query, "action");
+        
+        if(result != null){
+            if(result.getRows().size() == 1){
+                rowIndex = Integer.parseInt(
+                        result.getUniqueCellValueOfUniqueRow(true))-1;
+                List<CellData> values = new ArrayList<>();
+                values.add(new CellData()
+                            .setUserEnteredValue(new ExtendedValue()
+                            .setNumberValue((double)1)));
+                requests.add(gPlanB.getRequest("action", values, rowIndex, 
+                            columnIndex));
+                gPlanB.update(requests);
+                return true;
+            }
+        }
+        return false;
+    }
+        
     public void loadBusinessInformation() throws Exception{
         String query;
         Facility facility = new Facility();
@@ -322,6 +358,19 @@ public class Terminal{
         return null;
     }
     
+    public Collaborator getParticipant(String meetingName, String hint){
+        Facility facility = org.getFacility(meetingName, "meetingName");
+        Meeting meeting = facility.searchMeeting(meetingName);
+        int collaboratorId;
+        try{
+            collaboratorId = Integer.parseInt(hint.toString());
+            return meeting.searchParticipant(collaboratorId);
+        }
+        catch(Exception e){
+            return meeting.searchParticipant(hint, (byte)2);
+        }   
+    }
+    
     public String[] getParticipantsNames(String meetingName){
         Facility facility = org.getFacility(meetingName,"meetingName");
         Meeting meeting = facility.searchMeeting(meetingName);
@@ -345,317 +394,8 @@ public class Terminal{
         return null;
     }
     
-    private Role getRole(int roleValue){
-        Role roles[] = Role.values();
-        for(Role role:roles){
-            if(role.getValue() == roleValue)
-                return role;
-        }
-        return null;
-    }
-    
-    public String getStatusName(int status){
-        Status st[] = Status.values();
-        for(Status s:st){
-            if(s.getValue()==status)
-                return s.toString();
-        }
-        return null;
-    }
-    
-    public Object[] getTableContent(ActionItemFilter filter, 
-            ArrayList<Object> filterValues, String meetingName) throws Exception{
-        
-        String actionID, responsible, detail, comments,
-                date, progress, status;
-        ActionPlan plan;
-        Table result;
-        List<Cell> cells;
-        Facility facility = org.getFacility(meetingName,"meetingName");
-        Meeting meeting = facility.searchMeeting(meetingName);
-        
-        if(meeting!= null){
-            plan = getActionPlan(meeting.getMeetingId(), facility);
-            meeting.setActionPlan(plan);
-        }
-        else
-            plan = new ActionPlan();
-        DefaultTableModel dm = new DefaultTableModel(null, new String [] {
-                "ID","Resp.", "Detail", "Comments", 
-                "StartDate", "DueDate", "EndDate",
-                "Prog. %", "Status", "Dur."
-            }){
-                @Override
-                public boolean isCellEditable(int row, int column){
-                    return false;
-                }
-            };
-       
-        result = gPlanB.selectQuery(getQueryString(filter, filterValues,
-                (int) plan.getId(), facility), "action");
-        if(result != null){
-            for(Row row:result.getRows()){
-                if(row != null){
-                    cells = row.getC();
-                    Vector jTableRow = new Vector();
-                    actionID = getCellValue(cells.get(0),false);
-                    jTableRow.add(actionID);
-                    responsible = facility.searchCollaborator(
-                            Integer.parseInt(getCellValue(cells.get(1),true)))
-                            .getAcronymName();
-                    jTableRow.add(responsible);
-                    detail = getCellValue(cells.get(2),false);
-                    jTableRow.add(detail);
-                    comments = getCellValue(cells.get(3),false);
-                    jTableRow.add(comments);
-                    date = getCellValue(cells.get(4),true);
-                    jTableRow.add(date);
-                    date = getCellValue(cells.get(5),true);
-                    jTableRow.add(date);
-                    date = getCellValue(cells.get(6),true);
-                    jTableRow.add(date);
-                    progress = getCellValue(cells.get(8),true);
-                    jTableRow.add(progress);
-                    status = getStatusName(
-                            Integer.parseInt(getCellValue(cells.get(7),true))); 
-                    jTableRow.add(status);
-                    if(getCellValue(cells.get(9),false) != null){
-                        double duration = 
-                                Double.parseDouble(
-                                        getCellValue(cells.get(9),false));
-                        jTableRow.add(String.valueOf((int)duration));
-                    }
-                    dm.addRow(jTableRow);
-                }
-            }  
-        }
-        return new Object[]{meeting,dm};
-    }
-    
-    private WorkTeam getTeam(int meetingID, Facility facility) throws SQLException, IOException{
-        short workteamID;
-        byte performance;
-        String query;
-        Table result;
-        ArrayList<Collaborator> list = new ArrayList();
-        
-        query = "SELECT+B,D+WHERE+C="+meetingID;
-        result = gPlanB.selectQuery(query, "workteam");
-        if(result != null){
-            workteamID = Short.parseShort(result.getRows().get(0).getCellValue(0,true));
-            performance = Byte.parseByte(result.getRows().get(0).getCellValue(1,true));
-            query = "SELECT+C+WHERE+B="+workteamID;
-            result = gPlanB.selectQuery(query,"workteam_collaborator");
-            if(result != null){
-                WorkTeam workTeam= new WorkTeam();
-                workTeam.setId(workteamID);
-                workTeam.setPerformance(performance);
-                for(Row row: result.getRows()){
-                    if(row != null){
-                        list.add(facility.searchCollaborator(
-                                Integer.parseInt(row.getC().get(0).getF())));
-                    }
-                }
-                workTeam.setMembers(list);
-                return workTeam;
-            }
-        }
-        return null;
-    }
-    
-    public User getUser() {
-        return user;
-    }
-    
-    public void addAction(String responsible, String detail, String comments, 
-            String startDate, String dueDate, String statusName, byte progress,
-            int duration, String meetingName) throws Exception{
-        
-        short actionplanId;
-        Collaborator collaborator;
-        Facility facility = org.getFacility(meetingName,"meetingName"); 
-        Meeting meeting = facility.searchMeeting(meetingName);
-        String facilityId = facility.getId();
-        
-        actionplanId = meeting.getActionPlan().getId();
-        collaborator = facility.searchCollaborator(responsible,(byte)1);
-        saveActionToDatabase(
-                actionplanId, collaborator.getCollaboratorId(),detail,
-                comments, startDate, dueDate, progress, meeting, facilityId);
-    }
-    
-    public void modifyAction(Object[] rowDataModified, String meetingName) throws SQLException, Exception{
-        byte progress = -1;
-        String itemId, actionDetail=null,actionComments=null,startDate=null,
-                dueDate=null,endDate=null;
-        Status status = null;
-        ArrayList<Integer> columnsIndex = new ArrayList();
-        ArrayList<Object> list = new ArrayList();
-        
-        itemId = String.valueOf(rowDataModified[0]);
-        if(rowDataModified[2] != null){
-            columnsIndex.add(4);
-            list.add(rowDataModified[2]);
-        }
-        if(rowDataModified[3] != null){
-            columnsIndex.add(5);  
-            list.add(rowDataModified[3]);
-        }
-        if(rowDataModified[4] != null)
-            startDate = String.valueOf(rowDataModified[4]);
-        if(rowDataModified[5] != null)
-            dueDate = String.valueOf(rowDataModified[5]);
-        if(rowDataModified[6] != null)
-            endDate = String.valueOf(rowDataModified[6]);
-        if(rowDataModified[7] != null)
-            progress = (byte) Integer.parseInt(rowDataModified[7].toString());
-        if(rowDataModified[8] != null)
-            status = Status.valueOf(String.valueOf(rowDataModified[8]));
-        
-        if(startDate != null){
-            
-        }
-        if(dueDate != null){
-            columnsIndex.add(7);
-            list.add(Time.getSerialNumberDate(dueDate, false));
-        }
-        if(endDate != null){
-            columnsIndex.add(8);
-            list.add(Time.getSerialNumberDate(endDate, false));
-        }
-        if(progress != -1){
-            columnsIndex.add(12);
-            list.add(Double.parseDouble(rowDataModified[7].toString()));
-        }
-        if(status != null){
-            columnsIndex.add(11);
-            list.add((double)status.getValue());
-        }
-        updateActionToDatabase(itemId,columnsIndex,list);
-           //Aps.getUI().modifiedTableContent(rowDataModified);
-    }
-    
-    private void saveActionToDatabase(short actionplanId, int collaboratorId, 
-            String detail, String comments, String startDate, String dueDate, 
-            byte progress, Meeting meeting, String facilityId) throws SQLException, Exception{
-        
-        List<CellData> values = new ArrayList<>();
-        String acronym = meeting.getAcronym();
-        
-        values.add(getCellData("=row()", true)); // Value for the index
-        String id = "=CONCAT(\""+facilityId+acronym+"\";IF(ROW()=2;1;IF(ISNA"
-                + "(QUERY(INDIRECT(\"action!$A$2:$C\"&ROW()-1);\"SELECT COUNT(A)"
-                + " WHERE C = "+actionplanId+" LABEL COUNT(A) ''\")+1);1;QUERY"
-                + "(INDIRECT(\"action!$A$2:$C\"&ROW()-1);\"SELECT COUNT(A) "
-                + "WHERE C = "+actionplanId+" LABEL COUNT(A) ''\")+1)))";
-        values.add(getCellData(id, true));  // Value for actionId
-        values.add(getCellData((double)actionplanId));  // Value for actionplanId
-        values.add(getCellData((double)collaboratorId));  // Value for collaboratorId
-        values.add(getCellData(detail, false));  // Value for detail
-        values.add(getCellData(comments, false));  // Value for comments
-        values.add(getCellData(Time.getSerialNumberDate(startDate, false))
-                .setFormattedValue(startDate));  // Value for startDate
-        values.add(getCellData(Time.getSerialNumberDate(dueDate, false))
-                .setFormattedValue(dueDate));  // Value for dueDate
-        values.add(getCellData("", false));  // Value for endDate
-        values.add(getCellData(
-                Time.getSerialNumberDate(
-                Time.getNow(), true)));  // Value for DateCreated
-        values.add(getCellData("", false));  // Value for DateModified
-        String statusFormula = "=if(INDIRECT(\"$I\"&ROW())=\"\";IF(INDIRECT"
-                + "(\"$O\"&ROW())<0;5;IF(INDIRECT(\"$O\"&ROW())>3;3;4));"
-                + "IF(INDIRECT(\"$O\"&ROW())>0;1;2))";
-        values.add(getCellData(statusFormula, true));  // Value for status
-        values.add(getCellData((double)progress));  // Value for progress
-        values.add(getCellData((double)0));  // Value for isDeleted
-        String diffFormula = "=IF(ISERR(DATEVALUE(INDIRECT(\"$I\"&ROW()))-"
-                + "DATEVALUE(INDIRECT(\"$H\"&ROW())));DATEVALUE(INDIRECT(\"$H\""
-                + "&ROW()))-DATEVALUE(TODAY());DATEVALUE(INDIRECT(\"$I\"&ROW()))"
-                + "-DATEVALUE(INDIRECT(\"$H\"&ROW())))";
-        
-        values.add(getCellData(diffFormula, true)); // Value for the difference between dates
-        values.add(getCellData((double)collaboratorId));
-        gPlanB.insert("action", values);
-    }
-    
-    public void setId(byte id) {
-        this.id = id;
-    }
-    
-    public void setUser(User user) {
-        this.user = user;
-    }
-    
-    public boolean signup(String username, String password) throws NoSuchAlgorithmException{
-        String saltedPassword = SALT + password;
-        String hashedPassword = generateHash(saltedPassword);
-        System.out.println(hashedPassword);
-        return false;
-    }
-    
-    private boolean updateActionToDatabase(String actionID, 
-            ArrayList<Integer> columnsIndex, ArrayList<Object> list)
-            throws SQLException, Exception{
-        
-        int rowIndex, columnIndex;
-        List<Request> requests = new ArrayList();
-        String query = "SELECT+A+WHERE+B=%27"+actionID+"%27";
-        Table result = gPlanB.selectQuery(query, "action");
-        
-        if(result != null){
-            if(result.getRows().size() == 1){
-                rowIndex = Integer.parseInt(
-                        result.getUniqueCellValueOfUniqueRow(true))-1;
-                for(int c=0; c<columnsIndex.size(); c++){
-                    List<CellData> values = new ArrayList<>();
-                    columnIndex = columnsIndex.get(c);
-                    if(columnIndex == 11 || columnIndex == 12 
-                            || (columnIndex>= 6 && columnIndex<=8))
-                        values.add(getCellData((Double)list.get(c)));
-                    else if(columnIndex == 11){
-                        String statusFormula = "=if(INDIRECT(\"$I\"&ROW())=\"\";IF(INDIRECT"
-                            + "(\"$O\"&ROW())<0;5;IF(INDIRECT(\"$O\"&ROW())>3;3;4));"
-                            + "IF(INDIRECT(\"$O\"&ROW())>0;1;2))";
-                        values.add(getCellData(statusFormula, true));
-                    }
-                    else
-                        values.add(getCellData(list.get(c).toString(), false));
-                    requests.add(gPlanB.getRequest("action", values, rowIndex, 
-                            columnIndex));
-                }
-                gPlanB.update(requests);
-            }
-        }
-        
-
-        
-        return true;
-    }
-    
-    public boolean deleteAction(String actionID, String meetingName) throws Exception{
-        int rowIndex = 0, columnIndex = 13;
-        List<Request> requests = new ArrayList();
-        String query = "SELECT+A+WHERE+B+CONTAINS+%27"+actionID+"%27";
-        Table result = gPlanB.selectQuery(query, "action");
-        
-        if(result != null){
-            if(result.getRows().size() == 1){
-                rowIndex = Integer.parseInt(
-                        result.getUniqueCellValueOfUniqueRow(true))-1;
-                List<CellData> values = new ArrayList<>();
-                values.add(new CellData()
-                            .setUserEnteredValue(new ExtendedValue()
-                            .setNumberValue((double)1)));
-                requests.add(gPlanB.getRequest("action", values, rowIndex, 
-                            columnIndex));
-                gPlanB.update(requests);
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    private String getQueryString(ActionItemFilter filter, ArrayList<Object> filterValues, int actionPlanId, Facility facility) throws IOException{
+    private String getQueryString(ActionItemFilter filter, ArrayList<Object> filterValues, 
+            int actionPlanId, Facility facility) throws IOException{
         String query = null;
         
         if(filter.equals(ActionItemFilter.ALL)){
@@ -800,16 +540,244 @@ public class Terminal{
         return query;
     }
     
-    public Collaborator getParticipant(String meetingName, String hint){
-        Facility facility = org.getFacility(meetingName, "meetingName");
-        Meeting meeting = facility.searchMeeting(meetingName);
-        int collaboratorId;
-        try{
-            collaboratorId = Integer.parseInt(hint.toString());
-            return meeting.searchParticipant(collaboratorId);
+    private Role getRole(int roleValue){
+        Role roles[] = Role.values();
+        for(Role role:roles){
+            if(role.getValue() == roleValue)
+                return role;
         }
-        catch(Exception e){
-            return meeting.searchParticipant(hint, (byte)2);
-        }   
+        return null;
+    }
+    
+    public String getStatusName(int status){
+        Status st[] = Status.values();
+        for(Status s:st){
+            if(s.getValue()==status)
+                return s.toString();
+        }
+        return null;
+    }
+    
+    public Object[] getTableContent(ActionItemFilter filter, 
+            ArrayList<Object> filterValues, String meetingName) throws Exception{
+        
+        String actionID, responsible, detail, comments,
+                date, progress, status;
+        ActionPlan plan;
+        Table result;
+        List<Cell> cells;
+        Facility facility = org.getFacility(meetingName,"meetingName");
+        Meeting meeting = facility.searchMeeting(meetingName);
+        
+        if(meeting!= null){
+            plan = getActionPlan(meeting.getMeetingId(), facility);
+            meeting.setActionPlan(plan);
+        }
+        else
+            plan = new ActionPlan();
+        DefaultTableModel dm = new DefaultTableModel(null, new String [] {
+                "ID","Resp.", "Detail", "Comments", 
+                "StartDate", "DueDate", "EndDate",
+                "Prog. %", "Status", "Dur."
+            }){
+                @Override
+                public boolean isCellEditable(int row, int column){
+                    return false;
+                }
+            };
+       
+        result = gPlanB.selectQuery(getQueryString(filter, filterValues,
+                (int) plan.getId(), facility), "action");
+        if(result != null){
+            for(Row row:result.getRows()){
+                if(row != null){
+                    cells = row.getC();
+                    Vector jTableRow = new Vector();
+                    actionID = getCellValue(cells.get(0),false);
+                    jTableRow.add(actionID);
+                    responsible = facility.searchCollaborator(
+                            Integer.parseInt(getCellValue(cells.get(1),true)))
+                            .getAcronymName();
+                    jTableRow.add(responsible);
+                    detail = getCellValue(cells.get(2),false);
+                    jTableRow.add(detail);
+                    comments = getCellValue(cells.get(3),false);
+                    jTableRow.add(comments);
+                    date = getCellValue(cells.get(4),true);
+                    jTableRow.add(date);
+                    date = getCellValue(cells.get(5),true);
+                    jTableRow.add(date);
+                    date = getCellValue(cells.get(6),true);
+                    jTableRow.add(date);
+                    progress = getCellValue(cells.get(8),true);
+                    jTableRow.add(progress);
+                    status = getStatusName(
+                            Integer.parseInt(getCellValue(cells.get(7),true))); 
+                    jTableRow.add(status);
+                    if(getCellValue(cells.get(9),false) != null){
+                        double duration = 
+                                Double.parseDouble(
+                                        getCellValue(cells.get(9),false));
+                        jTableRow.add(String.valueOf((int)duration));
+                    }
+                    dm.addRow(jTableRow);
+                }
+            }  
+        }
+        return new Object[]{meeting,dm};
+    }
+    
+    private WorkTeam getTeam(int meetingID, Facility facility) 
+            throws SQLException, IOException{
+        short workteamID;
+        byte performance;
+        String query;
+        Table result;
+        ArrayList<Collaborator> list = new ArrayList();
+        
+        query = "SELECT+B,D+WHERE+C="+meetingID;
+        result = gPlanB.selectQuery(query, "workteam");
+        if(result != null){
+            workteamID = Short.parseShort(result.getRows().get(0).getCellValue(0,true));
+            performance = Byte.parseByte(result.getRows().get(0).getCellValue(1,true));
+            query = "SELECT+C+WHERE+B="+workteamID;
+            result = gPlanB.selectQuery(query,"workteam_collaborator");
+            if(result != null){
+                WorkTeam workTeam= new WorkTeam();
+                workTeam.setId(workteamID);
+                workTeam.setPerformance(performance);
+                for(Row row: result.getRows()){
+                    if(row != null){
+                        list.add(facility.searchCollaborator(
+                                Integer.parseInt(row.getC().get(0).getF())));
+                    }
+                }
+                workTeam.setMembers(list);
+                return workTeam;
+            }
+        }
+        return null;
+    }
+    
+    public User getUser() {
+        return user;
+    }
+    
+    public void modifyAction(Object[] rowDataModified, String meetingName) 
+            throws SQLException, Exception{
+        String actionId;
+        List<Request> requests = new ArrayList();
+
+        actionId = String.valueOf(rowDataModified[0]);
+        String query = "SELECT+A+WHERE+B=%27"+actionId+"%27";
+        Table result = gPlanB.selectQuery(query, "action");
+        
+        if(result != null){
+            if(result.getRows().size() == 1){
+                int rowIndex = Integer.parseInt(
+                                result.getUniqueCellValueOfUniqueRow(true))-1;
+                if(rowDataModified[2] != null){
+                    List<CellData> values = new ArrayList();
+                    values.add(getCellData(rowDataModified[2].toString(), false));
+                    requests.add(gPlanB.getRequest("action", values, rowIndex, 4));
+                }
+                if(rowDataModified[3] != null){
+                    List<CellData> values = new ArrayList();
+                    values.add(getCellData(rowDataModified[2].toString(), false));
+                    requests.add(gPlanB.getRequest("action", values, rowIndex, 5));
+                }
+                if(rowDataModified[4] != null){
+                    List<CellData> values = new ArrayList();
+                    values.add(getCellData(Double.parseDouble(
+                            rowDataModified[4].toString())));
+                    requests.add(gPlanB.getRequest("action", values, rowIndex, 6));
+                }
+                if(rowDataModified[5] != null){
+                    List<CellData> values = new ArrayList();
+                    values.add(getCellData(Double.parseDouble(
+                            rowDataModified[5].toString())));
+                    requests.add(gPlanB.getRequest("action", values, rowIndex, 7));
+                }
+                if(rowDataModified[6] != null){
+                    List<CellData> values = new ArrayList();
+                    values.add(getCellData((Double.parseDouble(
+                            rowDataModified[6].toString()))));
+                    requests.add(gPlanB.getRequest("action", values, rowIndex, 8));
+                }
+                if(rowDataModified[7] != null){
+                    List<CellData> values = new ArrayList();
+                    values.add(getCellData(Double.parseDouble(
+                            rowDataModified[7].toString())));
+                    requests.add(gPlanB.getRequest("action", values, rowIndex, 12));
+                }
+                gPlanB.update(requests);
+            }
+            else{
+                JOptionPane.showMessageDialog(new JOptionPane(),
+                        "Database Error. The action was not modify", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+
+    }
+    
+    private void saveActionToDatabase(short actionplanId, int collaboratorId, 
+            String detail, String comments, String startDate, String dueDate, 
+            byte progress, Meeting meeting, String facilityId) throws SQLException, Exception{
+        
+        List<CellData> values = new ArrayList<>();
+        String acronym = meeting.getAcronym();
+        
+        values.add(getCellData("=row()", true)); // Value for the index
+        String id = "=CONCAT(\""+facilityId+acronym+"\";IF(ROW()=2;1;IF(ISNA"
+                + "(QUERY(INDIRECT(\"action!$A$2:$C\"&ROW()-1);\"SELECT COUNT(A)"
+                + " WHERE C = "+actionplanId+" LABEL COUNT(A) ''\")+1);1;QUERY"
+                + "(INDIRECT(\"action!$A$2:$C\"&ROW()-1);\"SELECT COUNT(A) "
+                + "WHERE C = "+actionplanId+" LABEL COUNT(A) ''\")+1)))";
+        values.add(getCellData(id, true));  // Value for actionId
+        values.add(getCellData((double)actionplanId));  // Value for actionplanId
+        values.add(getCellData((double)collaboratorId));  // Value for collaboratorId
+        values.add(getCellData(detail, false));  // Value for detail
+        values.add(getCellData(comments, false));  // Value for comments
+        values.add(getCellData(Time.getSerialNumberDate(startDate, false))
+                .setFormattedValue(startDate));  // Value for startDate
+        values.add(getCellData(Time.getSerialNumberDate(dueDate, false))
+                .setFormattedValue(dueDate));  // Value for dueDate
+        values.add(getCellData("", false));  // Value for endDate
+        values.add(getCellData(
+                Time.getSerialNumberDate(
+                Time.getNow(), true)));  // Value for DateCreated
+        values.add(getCellData("", false));  // Value for DateModified
+        String statusFormula = "=if(INDIRECT(\"$I\"&ROW())=\"\";IF(INDIRECT"
+                + "(\"$O\"&ROW())<0;5;IF(INDIRECT(\"$O\"&ROW())>3;3;4));"
+                + "IF(INDIRECT(\"$O\"&ROW())>0;1;2))";
+        values.add(getCellData(statusFormula, true));  // Value for status
+        values.add(getCellData((double)progress));  // Value for progress
+        values.add(getCellData((double)0));  // Value for isDeleted
+        String diffFormula = "=IF(ISERR(DATEVALUE(INDIRECT(\"$I\"&ROW()))-"
+                + "DATEVALUE(INDIRECT(\"$H\"&ROW())));DATEVALUE(INDIRECT(\"$H\""
+                + "&ROW()))-DATEVALUE(TODAY());DATEVALUE(INDIRECT(\"$I\"&ROW()))"
+                + "-DATEVALUE(INDIRECT(\"$H\"&ROW())))";
+        
+        values.add(getCellData(diffFormula, true)); // Value for the difference between dates
+        values.add(getCellData((double)collaboratorId));
+        gPlanB.insert("action", values);
+    }
+    
+    public void setId(byte id) {
+        this.id = id;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+    public boolean signup(String username, String password) 
+            throws NoSuchAlgorithmException{
+        String saltedPassword = SALT + password;
+        String hashedPassword = generateHash(saltedPassword);
+        System.out.println(hashedPassword);
+        return false;
     }
 }

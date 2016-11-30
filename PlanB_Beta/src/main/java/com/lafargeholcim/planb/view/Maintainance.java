@@ -37,11 +37,8 @@ public class Maintainance extends javax.swing.JFrame {
         responsibleLabel = new javax.swing.JLabel();
         ownerComboBox = new javax.swing.JComboBox<>();
         startDateLabel = new javax.swing.JLabel();
-        startDateChooser = new com.toedter.calendar.JDateChooser();
         dueDateLabel = new javax.swing.JLabel();
-        dueDateChooser = new com.toedter.calendar.JDateChooser();
         endDateLabel = new javax.swing.JLabel();
-        endDateChooser = new com.toedter.calendar.JDateChooser();
         addButton = new javax.swing.JButton();
         cancellButton = new javax.swing.JButton();
         statusLabel = new javax.swing.JLabel();
@@ -58,16 +55,22 @@ public class Maintainance extends javax.swing.JFrame {
         idLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         idLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         idLabel.setText("ID");
+        getContentPane().add(idLabel);
 
         detailLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         detailLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         detailLabel.setText("Detail");
+        getContentPane().add(detailLabel);
 
         commentsLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         commentsLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         commentsLabel.setText("Comments");
+        getContentPane().add(commentsLabel);
 
         idValueTextField.setText("Auto-Generated");
+        getContentPane().add(idValueTextField);
+
+        detailScrollPane.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
 
         detailTextArea.setColumns(20);
         detailTextArea.setLineWrap(true);
@@ -77,176 +80,78 @@ public class Maintainance extends javax.swing.JFrame {
         detailTextArea.setWrapStyleWord(true);
         detailScrollPane.setViewportView(detailTextArea);
 
+        getContentPane().add(detailScrollPane);
+
         commentsTextArea.setColumns(20);
         commentsTextArea.setRows(5);
         commentsScrollPane.setViewportView(commentsTextArea);
 
+        getContentPane().add(commentsScrollPane);
+
         responsibleLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         responsibleLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         responsibleLabel.setText("Responsible");
+        getContentPane().add(responsibleLabel);
 
         ownerComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SERGIO ORJUELA R", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(ownerComboBox);
 
         startDateLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         startDateLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         startDateLabel.setText("Start Date");
-
-        startDateChooser.setDateFormatString("yyyy-MM-dd");
+        getContentPane().add(startDateLabel);
 
         dueDateLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         dueDateLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         dueDateLabel.setText("Due  Date");
+        getContentPane().add(dueDateLabel);
 
         endDateLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         endDateLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         endDateLabel.setText("End  Date");
+        getContentPane().add(endDateLabel);
 
         addButton.setText("ADD");
+        getContentPane().add(addButton);
 
         cancellButton.setText("CANCELL");
+        getContentPane().add(cancellButton);
 
         statusLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         statusLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         statusLabel.setText("Status");
+        getContentPane().add(statusLabel);
 
         progressLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         progressLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         progressLabel.setText("Progress");
+        getContentPane().add(progressLabel);
 
         progressValueLabel.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         progressValueLabel.setForeground(new java.awt.Color(0, 51, 255));
         progressValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         progressValueLabel.setText("100%");
         progressValueLabel.setOpaque(true);
+        getContentPane().add(progressValueLabel);
 
         progressSlider.setValue(0);
+        getContentPane().add(progressSlider);
 
         statusTextField.setText("IN_PROCESS");
+        getContentPane().add(statusTextField);
 
         durationLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         durationLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         durationLabel.setText("Duration");
+        getContentPane().add(durationLabel);
 
         durationValueLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         durationValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         durationValueLabel.setText("100");
+        getContentPane().add(durationValueLabel);
 
         daysLabel.setText("days");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(cancellButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(153, 153, 153))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(detailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(idLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(idValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(responsibleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ownerComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(detailScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(endDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dueDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(startDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(commentsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(commentsScrollPane)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(startDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-                                    .addComponent(dueDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(endDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(12, 12, 12)
-                                        .addComponent(statusTextField))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(durationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(progressLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(12, 12, 12)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(durationValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(daysLabel))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(progressSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(6, 6, 6)
-                                                .addComponent(progressValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(0, 0, Short.MAX_VALUE)))))))
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(idLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(idValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(responsibleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ownerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(detailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(detailScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(commentsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(commentsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(startDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(startDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(statusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dueDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dueDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(progressSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(progressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(12, 12, 12))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(progressValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(daysLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(endDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(endDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(durationValueLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(durationLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)))
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cancellButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(10, Short.MAX_VALUE))
-        );
+        getContentPane().add(daysLabel);
 
         pack();
     }//GEN-END:initComponents
@@ -297,11 +202,9 @@ public class Maintainance extends javax.swing.JFrame {
     private javax.swing.JLabel detailLabel;
     private javax.swing.JScrollPane detailScrollPane;
     private javax.swing.JTextArea detailTextArea;
-    private com.toedter.calendar.JDateChooser dueDateChooser;
     private javax.swing.JLabel dueDateLabel;
     private javax.swing.JLabel durationLabel;
     private javax.swing.JLabel durationValueLabel;
-    private com.toedter.calendar.JDateChooser endDateChooser;
     private javax.swing.JLabel endDateLabel;
     private javax.swing.JLabel idLabel;
     private javax.swing.JTextField idValueTextField;
@@ -310,7 +213,6 @@ public class Maintainance extends javax.swing.JFrame {
     private javax.swing.JSlider progressSlider;
     private javax.swing.JLabel progressValueLabel;
     private javax.swing.JLabel responsibleLabel;
-    private com.toedter.calendar.JDateChooser startDateChooser;
     private javax.swing.JLabel startDateLabel;
     private javax.swing.JLabel statusLabel;
     private javax.swing.JTextField statusTextField;

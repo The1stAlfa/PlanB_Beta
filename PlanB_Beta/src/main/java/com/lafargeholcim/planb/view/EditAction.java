@@ -19,7 +19,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.Date;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,9 +29,6 @@ import javax.swing.JOptionPane;
  * @author AI-Saac
  */
 public class EditAction extends MaintenanceForm{
-    private final JFrame parent;
-    private final Terminal terminal;
-    private final String meetingName;
     private final Object[] rowData;
     private Object[] rowDataModified;
     private ActionItemFilter filter;
@@ -38,47 +37,19 @@ public class EditAction extends MaintenanceForm{
     public EditAction(JFrame parent, Terminal terminal, 
             String meetingName, Object[] rowData, ActionItemFilter filter, 
             ArrayList<Object> filterValues){
-        super("Edit Action");
-        this.parent = parent;
-        this.terminal = terminal;
-        this.meetingName = meetingName;
+        super(parent, "Edit Action", false);
+        super.parent = parent;
+        super.terminal = terminal;
+        super.meetingName = meetingName;
         this.rowData = rowData;
         this.filter = filter;
         this.filterValues = filterValues;
         initComponents();
     }
     
-    private void addWindowListener(){
-        this.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e){}
-
-            @Override
-            public void windowClosing(WindowEvent e){
-                parent.setEnabled(true);
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e){}
-
-            @Override
-            public void windowIconified(WindowEvent e){}
-
-            @Override
-            public void windowDeiconified(WindowEvent e){}
-
-            @Override
-            public void windowActivated(WindowEvent e){}
-
-            @Override
-            public void windowDeactivated(WindowEvent e){}
-        });
-    }
-    
     public void initComponents(){
         super.initComponents();
-        parent.setEnabled(false);
-        addWindowListener();
+        super.addWindowListener();
         setParticipantsNames(terminal.getParticipantsNames(meetingName));
         setRowData();
         ((JTextFieldDateEditor)startDateChooser.getDateEditor())
@@ -156,11 +127,10 @@ public class EditAction extends MaintenanceForm{
         }
         else
             rowDataModified[3] = null;
-        /*
         if(rowData[4] == null){
             try{
-                String endDate = Time.getDate(endDateChooser.getCalendar());
-                rowDataModified[4] = endDate;
+                String startDate = Time.getDate(startDateChooser.getCalendar());
+                rowDataModified[4] = startDate;
                 detection += 1;
             }catch(Exception ex){
                 Object[] options = { "Yes", "No" };
@@ -173,9 +143,9 @@ public class EditAction extends MaintenanceForm{
         }
         else{
             try{
-                String endDate = Time.getDate(endDateChooser.getCalendar());
-                if(!String.valueOf(rowData[4]).equalsIgnoreCase(endDate)){
-                    rowDataModified[4] = endDate;
+                String startDate = Time.getDate(startDateChooser.getCalendar());
+                if(!String.valueOf(rowData[4]).equalsIgnoreCase(startDate)){
+                    rowDataModified[4] = startDate;
                     detection += 1;
                 }
                 else
@@ -191,8 +161,8 @@ public class EditAction extends MaintenanceForm{
         }
         if(rowData[5] == null){
             try{
-                String endDate = Time.getDate(endDateChooser.getCalendar());
-                rowDataModified[5] = endDate;
+                String dueDate = Time.getDate(dueDateChooser.getCalendar());
+                rowDataModified[5] = dueDate;
                 detection += 1;
             }catch(Exception ex){
                 Object[] options = { "Yes", "No" };
@@ -205,9 +175,9 @@ public class EditAction extends MaintenanceForm{
         }
         else{
             try{
-                String endDate = Time.getDate(endDateChooser.getCalendar());
-                if(!String.valueOf(rowData[5]).equalsIgnoreCase(endDate)){
-                    rowDataModified[5] = endDate;
+                String dueDate = Time.getDate(dueDateChooser.getCalendar());
+                if(!String.valueOf(rowData[5]).equalsIgnoreCase(dueDate)){
+                    rowDataModified[5] = dueDate;
                     detection += 1;
                 }
                 else
@@ -221,8 +191,6 @@ public class EditAction extends MaintenanceForm{
                     return false;
             }
         }
-        */
-        
         if(rowData[6] == null){
             try{
                 String endDate = Time.getDate(endDateChooser.getCalendar());
@@ -231,7 +199,7 @@ public class EditAction extends MaintenanceForm{
             }catch(Exception ex){
                 Object[] options = { "Yes", "No" };
                 if(JOptionPane.showOptionDialog(this,
-                    "<html><center>Null end Date or wrong date format<br>Do you want to continue saving?",
+                    "<html><center>Null End Date or wrong date format<br>Do you want to continue saving?",
                     "Delete Action",JOptionPane.DEFAULT_OPTION, 
                         JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == 1)
                     return false;
@@ -266,8 +234,6 @@ public class EditAction extends MaintenanceForm{
         }
         else
             rowDataModified[8] = null;
-        rowDataModified[4] = null;
-        rowDataModified[5] = null;
         rowDataModified[9] = null;
         if(detection != 0)
             return true;

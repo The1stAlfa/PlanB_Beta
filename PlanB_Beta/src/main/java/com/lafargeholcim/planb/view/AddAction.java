@@ -30,57 +30,19 @@ import javax.swing.JOptionPane;
  * @author AI-Saac
  */
 public class AddAction extends MaintenanceForm{
-    private final String meetingName;
-    private final Terminal terminal;
-    private final JFrame parent;
-    
+
     public AddAction(JFrame parent, Terminal terminal, String meetingName){
-        super("Add Action");
-        this.meetingName = meetingName;
-        this.parent = parent;
-        this.terminal = terminal;
+        super(parent, "Add Action", false);
+        super.meetingName = meetingName;
+        super.parent = parent;
+        super.terminal = terminal;
         initComponents();
-    }
-    
-    private void addWindowListener(){
-        this.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e){}
-
-            @Override
-            public void windowClosing(WindowEvent e){
-                parent.setEnabled(true);
-                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
-                label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
-                ((UITerminal)parent).setFlag(false);
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e){}
-
-            @Override
-            public void windowIconified(WindowEvent e){
-                ((UITerminal)parent).setState(ICONIFIED);
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e){
-                //((UITerminal)parent).setState();
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e){}
-
-            @Override
-            public void windowDeactivated(WindowEvent e){}
-        });
     }
     
     public void initComponents(){
         super.initComponents();
         super.setParticipantsNames(terminal.getParticipantsNames(meetingName));
-        parent.setEnabled(false);
-        addWindowListener();
+        super.addWindowListener();
         setDates();
         statusTextField.setText("IN_PROCESS");
         endDateChooser.setVisible(false);
@@ -114,6 +76,7 @@ public class AddAction extends MaintenanceForm{
                                 "<html><center>Are you sure you want to add the Action?",
                                 "Confirmation",JOptionPane.DEFAULT_OPTION, 
                                 JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == 0){
+                                CursorToolkit.startWaitCursor(getJDialog().getRootPane());;
                                 terminal.addAction(ownerComboBox.getSelectedItem().toString(),
                                         detailTextArea.getText(),
                                         commentsTextArea.getText(),startDate,dueDate,
@@ -122,7 +85,6 @@ public class AddAction extends MaintenanceForm{
                                 ArrayList <Object> filterValues = new ArrayList();
                                 filterValues.add(Status.IN_PROCESS);
                                 ((UITerminal)parent).updateJTable(ActionItemFilter.STATUS, filterValues);
-                                parent.setEnabled(true);
                                 JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
                                 label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
                                 ((UITerminal)parent).setFlag(false);

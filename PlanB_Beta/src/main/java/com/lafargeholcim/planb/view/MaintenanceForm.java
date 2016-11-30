@@ -5,6 +5,7 @@
  */
 package com.lafargeholcim.planb.view;
 
+import com.lafargeholcim.planb.sys.Terminal;
 import com.lafargeholcim.planb.util.Time;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,6 +17,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.Date;
@@ -47,9 +50,49 @@ public class MaintenanceForm extends JDialog{
     protected JComboBox<String> ownerComboBox;
     protected JSlider progressSlider;
     protected String startDate, dueDate;
+    protected String meetingName;
+    protected Terminal terminal;
+    protected JFrame parent;
     
-    public MaintenanceForm(String title){
-        setTitle(title);
+    public MaintenanceForm(JFrame owner, String title, Boolean flag){
+        super(owner, title, flag);
+    }
+    
+    protected void addWindowListener(){
+        this.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e){
+                CursorToolkit.startWaitCursor(parent.getRootPane());
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e){
+                CursorToolkit.stopWaitCursor(parent.getRootPane());
+                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
+                label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
+                ((UITerminal)parent).setFlag(false);
+            }
+            
+            @Override
+            public void windowClosed(WindowEvent e){
+                CursorToolkit.stopWaitCursor(parent.getRootPane());
+                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
+                label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
+                ((UITerminal)parent).setFlag(false);
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e){}
+
+            @Override
+            public void windowDeiconified(WindowEvent e){}
+
+            @Override
+            public void windowActivated(WindowEvent e){}
+
+            @Override
+            public void windowDeactivated(WindowEvent e){}
+        });
     }
     
     public void initComponents(){
@@ -154,7 +197,7 @@ public class MaintenanceForm extends JDialog{
         startDateChooser.getCalendarButton().setIcon(new ImageIcon(getClass()
                 .getResource("/images/JDateChooserIcon2.gif")));
         startDateChooser.getCalendarButton().setBorder(
-                BorderFactory.createEmptyBorder(0, 3, 0, 0));
+                BorderFactory.createEmptyBorder(0, 5, 0, 0));
         startDateChooser.getDateEditor().addPropertyChangeListener(
             new PropertyChangeListener() {
             @Override
@@ -187,7 +230,7 @@ public class MaintenanceForm extends JDialog{
         dueDateChooser.getCalendarButton().setIcon(new ImageIcon(getClass()
                 .getResource("/images/JDateChooserIcon2.gif")));
         dueDateChooser.getCalendarButton().setBorder(
-                BorderFactory.createEmptyBorder(0, 2, 0, 0));
+                BorderFactory.createEmptyBorder(0, 5, 0, 0));
         dueDateChooser.getDateEditor().addPropertyChangeListener(
             new PropertyChangeListener() {
             @Override
@@ -219,7 +262,7 @@ public class MaintenanceForm extends JDialog{
         endDateChooser.getCalendarButton().setIcon(new ImageIcon(getClass()
                 .getResource("/images/JDateChooserIcon2.gif")));
         endDateChooser.getCalendarButton().setBorder(
-                BorderFactory.createEmptyBorder(0, 2, 0, 0));
+                BorderFactory.createEmptyBorder(0, 5, 0, 0));
         
         actionButton.setText("ADD");
         actionButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 
@@ -405,20 +448,5 @@ public class MaintenanceForm extends JDialog{
     
     protected void setParticipantsNames(String[] model){
         ownerComboBox.setModel(new DefaultComboBoxModel(model));        
-    }
-    
-    public static void main(String[] args){
-        JFrame p = new JFrame();
-        JButton b = new JButton("button");
-        p.getContentPane().add(b);
-        b.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                MaintenanceForm m = new MaintenanceForm(""); 
-                m.setVisible(true);
-            }
-            
-        });
-        p.setVisible(true);
     }
 }
