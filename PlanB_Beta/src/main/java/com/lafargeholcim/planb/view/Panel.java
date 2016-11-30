@@ -92,8 +92,6 @@ public class Panel extends javax.swing.JFrame {
         contentRadioButton = new javax.swing.JRadioButton();
         content2Label = new javax.swing.JLabel();
         hintTextField = new javax.swing.JTextField();
-        startDateChooseer = new com.toedter.calendar.JDateChooser();
-        endDateChooser = new com.toedter.calendar.JDateChooser();
         buttonsPanel = new javax.swing.JPanel();
         addIcon = new javax.swing.JLabel();
         editIcon = new javax.swing.JLabel();
@@ -742,6 +740,7 @@ public class Panel extends javax.swing.JFrame {
                 statusRadioButtonActionPerformed(evt);
             }
         });
+        statusPanel.add(statusRadioButton);
 
         statusComboBox.setBackground(new java.awt.Color(252, 254, 252));
         statusComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
@@ -754,10 +753,12 @@ public class Panel extends javax.swing.JFrame {
                 statusComboBoxActionPerformed(evt);
             }
         });
+        statusPanel.add(statusComboBox);
 
         status2Label.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         status2Label.setForeground(new java.awt.Color(252, 254, 252));
         status2Label.setText("status");
+        statusPanel.add(status2Label);
 
         dateRadioButton.setBackground(new java.awt.Color(0, 66, 118));
         dateRadioButton.setForeground(new java.awt.Color(252, 254, 252));
@@ -769,6 +770,7 @@ public class Panel extends javax.swing.JFrame {
                 dateRadioButtonActionPerformed(evt);
             }
         });
+        statusPanel.add(dateRadioButton);
 
         dateComboBox.setBackground(new java.awt.Color(252, 254, 252));
         dateComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
@@ -777,10 +779,12 @@ public class Panel extends javax.swing.JFrame {
         dateComboBox.setBorder(null);
         dateComboBox.setMaximumSize(new java.awt.Dimension(106, 29));
         dateComboBox.setMinimumSize(new java.awt.Dimension(90, 29));
+        statusPanel.add(dateComboBox);
 
         date2Label.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         date2Label.setForeground(new java.awt.Color(252, 254, 252));
         date2Label.setText("date");
+        statusPanel.add(date2Label);
 
         ownerRadioButton.setBackground(new java.awt.Color(6, 66, 118));
         ownerRadioButton.setIconTextGap(0);
@@ -790,16 +794,19 @@ public class Panel extends javax.swing.JFrame {
                 ownerRadioButtonActionPerformed(evt);
             }
         });
+        statusPanel.add(ownerRadioButton);
 
         owner2Label.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         owner2Label.setForeground(new java.awt.Color(252, 254, 252));
         owner2Label.setText("owner");
+        statusPanel.add(owner2Label);
 
         owner2TextField.setBackground(new java.awt.Color(252, 254, 252));
         owner2TextField.setText("acronym");
         owner2TextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 3, 1, 1, new java.awt.Color(252, 254, 252)));
         owner2TextField.setMinimumSize(new java.awt.Dimension(4, 27));
         owner2TextField.setPreferredSize(new java.awt.Dimension(54, 27));
+        statusPanel.add(owner2TextField);
 
         contentRadioButton.setBackground(new java.awt.Color(0, 66, 118));
         contentRadioButton.setIconTextGap(0);
@@ -810,89 +817,20 @@ public class Panel extends javax.swing.JFrame {
                 contentRadioButtonActionPerformed(evt);
             }
         });
+        statusPanel.add(contentRadioButton);
 
         content2Label.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         content2Label.setForeground(new java.awt.Color(252, 254, 252));
         content2Label.setText("content");
         content2Label.setMinimumSize(new java.awt.Dimension(0, 15));
+        statusPanel.add(content2Label);
 
         hintTextField.setBackground(new java.awt.Color(252, 254, 252));
         hintTextField.setText("hint");
         hintTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 3, 1, 1, new java.awt.Color(252, 254, 252)));
         hintTextField.setMinimumSize(new java.awt.Dimension(0, 27));
         hintTextField.setPreferredSize(new java.awt.Dimension(35, 27));
-
-        startDateChooseer.setBackground(new java.awt.Color(252, 254, 252));
-        startDateChooseer.setDateFormatString("yyyy-MM-dd");
-        startDateChooseer.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
-        startDateChooseer.setIcon(null);
-
-        javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
-        statusPanel.setLayout(statusPanelLayout);
-        statusPanelLayout.setHorizontalGroup(
-            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(statusPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(status2Label)
-                    .addComponent(statusRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
-                .addComponent(statusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(date2Label)
-                    .addComponent(dateRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
-                .addComponent(dateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
-                .addComponent(startDateChooseer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
-                .addComponent(endDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(owner2Label)
-                    .addComponent(ownerRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(owner2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(content2Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(contentRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
-                .addComponent(hintTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        statusPanelLayout.setVerticalGroup(
-            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(statusPanelLayout.createSequentialGroup()
-                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(statusPanelLayout.createSequentialGroup()
-                        .addComponent(owner2Label)
-                        .addGap(1, 1, 1)
-                        .addComponent(ownerRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(statusPanelLayout.createSequentialGroup()
-                        .addComponent(content2Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)
-                        .addComponent(contentRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(statusPanelLayout.createSequentialGroup()
-                        .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(status2Label)
-                            .addComponent(date2Label))
-                        .addGap(1, 1, 1)
-                        .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(dateRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, Short.MAX_VALUE)
-                            .addComponent(statusRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                    .addGroup(statusPanelLayout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(statusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(hintTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(owner2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(startDateChooseer, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(endDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 4, Short.MAX_VALUE))
-        );
+        statusPanel.add(hintTextField);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -949,6 +887,7 @@ public class Panel extends javax.swing.JFrame {
         getContentPane().add(apInformationPanel, java.awt.BorderLayout.CENTER);
 
         pack();
+        setLocationRelativeTo(null);
     }//GEN-END:initComponents
 
     private void statusComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusComboBoxActionPerformed
@@ -1049,7 +988,6 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JLabel deleteIcon;
     private javax.swing.JLabel dotMenuLabel;
     private javax.swing.JLabel editIcon;
-    private com.toedter.calendar.JDateChooser endDateChooser;
     private javax.swing.JLabel executionLabel;
     private javax.swing.JLabel executionValueLabel;
     private javax.swing.JLabel filterLabel;
@@ -1077,7 +1015,6 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JPanel planExecutionPanel;
     private javax.swing.JLabel planLabel;
     private javax.swing.JScrollPane scrollParticipants;
-    private com.toedter.calendar.JDateChooser startDateChooseer;
     private javax.swing.JLabel status2Label;
     private javax.swing.JComboBox<String> statusComboBox;
     private javax.swing.JPanel statusPanel;

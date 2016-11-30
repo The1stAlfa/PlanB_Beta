@@ -38,7 +38,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -1203,89 +1203,6 @@
               <GridBagConstraints gridX="1" gridY="2" gridWidth="6" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="1.0" weightY="1.0"/>
             </Constraint>
           </Constraints>
-
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="status2Label" min="-2" max="-2" attributes="0"/>
-                          <Component id="statusRadioButton" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                      <Component id="statusComboBox" min="-2" pref="112" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="date2Label" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="dateRadioButton" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                      <Component id="dateComboBox" min="-2" pref="86" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                      <Component id="startDateChooseer" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                      <Component id="endDateChooser" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="owner2Label" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="ownerRadioButton" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="owner2TextField" min="-2" pref="51" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="content2Label" min="-2" max="-2" attributes="0"/>
-                          <Component id="contentRadioButton" min="-2" pref="22" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                      <Component id="hintTextField" min="-2" pref="179" max="-2" attributes="0"/>
-                      <EmptySpace pref="-59" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="owner2Label" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                              <Component id="ownerRadioButton" min="-2" pref="22" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="content2Label" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                              <Component id="contentRadioButton" min="-2" pref="22" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="status2Label" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="date2Label" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="dateRadioButton" pref="22" max="32767" attributes="0"/>
-                                  <Component id="statusRadioButton" pref="0" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="statusComboBox" alignment="0" min="-2" pref="27" max="-2" attributes="0"/>
-                                  <Component id="dateComboBox" alignment="0" min="-2" pref="27" max="-2" attributes="0"/>
-                                  <Component id="hintTextField" alignment="0" min="-2" pref="27" max="-2" attributes="0"/>
-                                  <Component id="owner2TextField" alignment="0" min="-2" pref="27" max="-2" attributes="0"/>
-                                  <Component id="startDateChooseer" alignment="0" min="-2" pref="27" max="-2" attributes="0"/>
-                                  <Component id="endDateChooser" alignment="0" min="-2" pref="27" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
-                      <EmptySpace min="0" pref="4" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-          </Layout>
           <SubComponents>
             <Component class="javax.swing.JRadioButton" name="statusRadioButton">
               <Properties>
@@ -1514,22 +1431,6 @@
                   <Dimension value="[35, 27]"/>
                 </Property>
               </Properties>
-            </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="startDateChooseer">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="fc" green="fe" red="fc" type="rgb"/>
-                </Property>
-                <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="11" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.ImageIcon" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                  <ComponentRef name="null"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="endDateChooser">
             </Component>
           </SubComponents>
         </Container>

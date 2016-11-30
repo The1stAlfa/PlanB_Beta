@@ -72,6 +72,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellRenderer;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.sql.Date;
 
 /**
@@ -1523,13 +1525,30 @@ public class UITerminal extends JFrame{
     }
     
     private void initComponents() throws FontFormatException, Exception{
-        //setUndecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setWindowListener();
-        setPreferredSize(new Dimension(950, 700));
-        //setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        setPreferredSize(new Dimension(1000, 700));
         setMinimumSize(new Dimension(800,600));
         setResizable(true);
+        this.getRootPane().addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                // This is only called when the user releases the mouse button.
+                if(getJFrame().getExtendedState() != 6){
+                    mainMenu.setPreferredSize(new Dimension(40,600));
+                    mainPanel.repaint();
+                    mainPanel.revalidate();
+                    menuItem.setToolTipText("Maximize Navigation Bar");
+                    menuFlag = false;
+                }
+                else{
+                    mainMenu.setPreferredSize(new Dimension(140,600));
+                    mainPanel.repaint();
+                    mainPanel.revalidate();
+                    menuItem.setToolTipText("Minimize Navigation Bar");
+                    menuFlag = true;
+                }
+            }
+        });
         UIManager.put("ToolTip.background", Color.decode("#303132"));
         UIManager.put("ToolTip.foreground", Color.decode("#C9CDD1"));
         UIManager.put("ProgressBar.selectionForeground", Color.decode("#FCFEFC"));
@@ -1621,8 +1640,6 @@ public class UITerminal extends JFrame{
                 if(item.equals(menuItem)){
                     if(!menuFlag){
                         mainMenu.setPreferredSize(new Dimension(140,600));
-                        //menuItem.setToolTipText("<html><body style=\"background-color:#303132;color:#C9CDD1;border=0\">"
-                        //        + " Minimize Navigation Bar </body></ht‌​ml>");
                         mainPanel.revalidate();
                         menuItem.setToolTipText("Minimize Navigation Bar");
                         menuFlag = true;
