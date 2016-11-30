@@ -1343,12 +1343,12 @@ public class UITerminal extends JFrame{
         dashboardPanel = new JPanel();
         dashboardPanel.setLayout(new BorderLayout());
         dashboardPanel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
-        dashboardPanel.setBackground(Color.decode("#FCFEFC"));
+        dashboardPanel.setBackground(Color.decode("#3C3F41"));
         
         initImageLabel = new JLabel(new ImageIcon(getClass().getResource("/images/plantAtNight2.jpg")), JLabel.CENTER);
         initImageLabel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
         initImageLabel.setPreferredSize(new Dimension(500,328));
-        initImageLabel.setBackground(Color.decode("#FCFEFC"));
+        initImageLabel.setBackground(Color.decode("#313F41"));
         
         dashboardPanel.add(initImageLabel,BorderLayout.CENTER);
         
@@ -1356,32 +1356,32 @@ public class UITerminal extends JFrame{
     
     private void createMainMenu(){ 
         mainMenu = new JMenuBar();
-        dashboardMenu = new JMenuItem("  DashBoard"){ 
+        dashboardMenu = new JMenuItem("   DashBoard"){ 
             public Point getToolTipLocation(MouseEvent e) {
                 return new Point(5, -15);
             }
         };
-        meetingMenu = new JMenuItem("  Meeting"){ 
+        meetingMenu = new JMenuItem("   Meeting"){ 
             public Point getToolTipLocation(MouseEvent e) {
                 return new Point(5, -15);
             }
         };
-        actionPlanMenu = new JMenuItem("  Action Plan"){ 
+        actionPlanMenu = new JMenuItem("   Action Plan"){ 
             public Point getToolTipLocation(MouseEvent e) {
                 return new Point(5, -15);
             }
         };
-        teamMenu = new JMenuItem("  Team"){ 
+        teamMenu = new JMenuItem("   Team"){ 
             public Point getToolTipLocation(MouseEvent e) {
                 return new Point(5, -15);
             }
         };
-        profileMenu = new JMenuItem("  Profile"){ 
+        profileMenu = new JMenuItem("   Profile"){ 
             public Point getToolTipLocation(MouseEvent e) {
                 return new Point(5, -15);
             }
         };
-        settingsMenu = new JMenuItem("  Settings"){ 
+        settingsMenu = new JMenuItem("   Settings"){ 
             public Point getToolTipLocation(MouseEvent e) {
                 return new Point(5, -15);
             }
@@ -1396,31 +1396,32 @@ public class UITerminal extends JFrame{
         mainMenu.setMaximumSize(new Dimension(140,Integer.MAX_VALUE));
         mainMenu.setPreferredSize(new Dimension(40,600));
         mainMenu.setMinimumSize(new Dimension(40,50));
-        mainMenu.setBackground(Color.decode("#EDEBEB"));
+        mainMenu.setBackground(Color.decode("#3C3F41")); //EDEBEB
+        mainMenu.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.decode("#303132")));
 
-        mainMenu.add(createMainMenuItem(menuItem, "menuBlack.png"));
-        mainMenu.add(createMainMenuItem(dashboardMenu, "dashboardL.png"));
-        mainMenu.add(createMainMenuItem(meetingMenu, "meetingL.png"));
-        mainMenu.add(createMainMenuItem(actionPlanMenu, "actionPlanL.png"));
-        mainMenu.add(createMainMenuItem(teamMenu, "teamL.png"));
-        mainMenu.add(createMainMenuItem(profileMenu, "userL.png"));
+        mainMenu.add(createMainMenuItem(menuItem, "menu.png"));
+        mainMenu.add(createMainMenuItem(dashboardMenu, "dashboard.png"));
+        mainMenu.add(createMainMenuItem(meetingMenu, "meeting.png"));
+        mainMenu.add(createMainMenuItem(actionPlanMenu, "actionPlan.png"));
+        mainMenu.add(createMainMenuItem(teamMenu, "team.png"));
+        mainMenu.add(createMainMenuItem(profileMenu, "user.png"));
         mainMenu.add(Box.createVerticalGlue());
-        mainMenu.add(createMainMenuItem(settingsMenu, "settingsL.png"));
+        mainMenu.add(createMainMenuItem(settingsMenu, "settings.png"));
         
-        mainMenuEvents(menuItem, "menuBlue.png", "menuBlack.png");
-        mainMenuEvents(dashboardMenu, "dashboardLB.png", "dashboardL.png");
-        mainMenuEvents(meetingMenu, "meetingLB.png", "meetingL.png");
-        mainMenuEvents(actionPlanMenu, "actionPlanLB.png", "actionPlanL.png");
-        mainMenuEvents(teamMenu, "teamLB.png", "teamL.png");
-        mainMenuEvents(profileMenu, "userLB.png", "userL.png");
-        mainMenuEvents(settingsMenu, "settingsLB.png", "settingsL.png");
+        mainMenuEvents(menuItem);
+        mainMenuEvents(dashboardMenu);
+        mainMenuEvents(meetingMenu);
+        mainMenuEvents(actionPlanMenu);
+        mainMenuEvents(teamMenu);
+        mainMenuEvents(profileMenu);
+        mainMenuEvents(settingsMenu);
 
     }
     
     private JMenuItem createMainMenuItem(JMenuItem item, String iconName){
-        item.setBackground(Color.decode("#EDEBEB"));
+        item.setBackground(Color.decode("#3C3F41"));
         //item.setFont(new Font("Roboto-Regular", Font.PLAIN, 14));
-        item.setForeground(Color.decode("#000000"));
+        item.setForeground(Color.decode("#BBBBBB"));
         item.setIconTextGap(5);
         item.setMaximumSize(new Dimension(Integer.MAX_VALUE,65));
         item.setPreferredSize(new Dimension(140,45));
@@ -1464,18 +1465,17 @@ public class UITerminal extends JFrame{
     
     private void createOptionsContentPanel() throws Exception{
         optionsContentPanel = new JPanel();
-        optionsContentPanel.setBackground(Color.decode("#FCFEFC"));
+        optionsContentPanel.setBackground(Color.decode("#3C3F41"));
         optionsContentPanel.setMaximumSize(new Dimension(
                 Short.MAX_VALUE, Short.MAX_VALUE));
         optionsContentPanel.setPreferredSize(new Dimension(
                 Short.MAX_VALUE, Short.MAX_VALUE));
-        //optionsContentPanel.setSize(new Dimension(Short.MAX_VALUE, Short.MAX_VALUE));
         optionsContentPanel.setLayout(new BorderLayout());
         
         createDashboardPanel();
         createActionPlanPanel();
         initImageLabel = new JLabel(new ImageIcon(getClass()
-                .getResource("/images/holcim-logo.png")));
+                .getResource("/images/holcim-logo-390x166.png")));
         initImageLabel.setPreferredSize(new Dimension(500,328));
         initImageLabel.setSize(initImageLabel.getPreferredSize());
         optionsContentPanel.add(initImageLabel,BorderLayout.CENTER);
@@ -1567,7 +1567,7 @@ public class UITerminal extends JFrame{
         highlightPanel.setMaximumSize(new Dimension(4,Integer.MAX_VALUE));
         highlightPanel.setPreferredSize(new Dimension(4,600));
         highlightPanel.setMinimumSize(new Dimension(4,50));
-        highlightPanel.setBackground(Color.decode("#EDEBEB"));
+        highlightPanel.setBackground(Color.decode("#3C3F41"));
         setHighlightPanels();
         mainPanel.setLayout(new BorderLayout());
         contentPanel = new JPanel();
@@ -1578,7 +1578,7 @@ public class UITerminal extends JFrame{
         contentPanel.add(mainPanel, BorderLayout.CENTER);
         mainPanel.add(optionsContentPanel,BorderLayout.CENTER);
         mainPanel.add(mainMenu,BorderLayout.WEST);
-        getContentPane().setBackground(Color.decode("#000000"));
+        getContentPane().setBackground(Color.decode("#3C3F41"));
         addFonts();
         setContentPane(contentPanel);
         pack();
@@ -1586,52 +1586,47 @@ public class UITerminal extends JFrame{
         setVisible(true);
     }
 
-    private void mainMenuEvents(JMenuItem item, String iconName, String iconName2){
+    private void mainMenuEvents(JMenuItem item){
         item.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                item.setBackground(Color.decode("#CDCFCD"));
-                item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
+                item.setBackground(Color.decode("#4b6eae")); // CDCFCD
                 if(item.equals(menuItem))
-                    h1.setBackground(Color.decode("#CDCFCD"));
+                    h1.setBackground(Color.decode("#4b6eae"));
                 if(!item.equals(itemFlag)){    
                     if(item.equals(dashboardMenu))
-                        h2.setBackground(Color.decode("#CDCFCD"));
+                        h2.setBackground(Color.decode("#4b6eae"));
                     else if(item.equals(meetingMenu))
-                        h3.setBackground(Color.decode("#CDCFCD"));
+                        h3.setBackground(Color.decode("#4b6eae"));
                     else if(item.equals(actionPlanMenu))
-                        h4.setBackground(Color.decode("#CDCFCD"));
+                        h4.setBackground(Color.decode("#4b6eae"));
                     else if(item.equals(teamMenu))
-                        h5.setBackground(Color.decode("#CDCFCD"));
+                        h5.setBackground(Color.decode("#4b6eae"));
                     else if(item.equals(profileMenu))
-                        h6.setBackground(Color.decode("#CDCFCD"));
+                        h6.setBackground(Color.decode("#4b6eae"));
                     else if(item.equals(settingsMenu))
-                        h7.setBackground(Color.decode("#CDCFCD"));
+                        h7.setBackground(Color.decode("#4b6eae"));
                 }
                 item.repaint();
             }
             @Override
             public void mouseExited(MouseEvent e){
-                item.setBackground(Color.decode("#EDEBEB"));
+                item.setBackground(Color.decode("#3C3F41")); // EDEBEB
                 if(item.equals(menuItem))
-                    h1.setBackground(Color.decode("#EDEBEB"));
+                    h1.setBackground(Color.decode("#3C3F41"));
                 if(!item.equals(itemFlag)){    
                     if(item.equals(dashboardMenu))
-                        h2.setBackground(Color.decode("#EDEBEB"));
+                        h2.setBackground(Color.decode("#3C3F41"));
                     else if(item.equals(meetingMenu))
-                        h3.setBackground(Color.decode("#EDEBEB"));
+                        h3.setBackground(Color.decode("#3C3F41"));
                     else if(item.equals(actionPlanMenu))
-                        h4.setBackground(Color.decode("#EDEBEB"));
+                        h4.setBackground(Color.decode("#3C3F41"));
                     else if(item.equals(teamMenu))
-                        h5.setBackground(Color.decode("#EDEBEB"));
+                        h5.setBackground(Color.decode("#3C3F41"));
                     else if(item.equals(profileMenu))
-                        h6.setBackground(Color.decode("#EDEBEB"));
+                        h6.setBackground(Color.decode("#3C3F41"));
                     else if(item.equals(settingsMenu))
-                        h7.setBackground(Color.decode("#EDEBEB"));
-                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName2)));
-                }
-                else{
-                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
+                        h7.setBackground(Color.decode("#3C3F41"));
                 }
                 item.repaint();
             }
@@ -1654,85 +1649,64 @@ public class UITerminal extends JFrame{
                 else if(item.equals(dashboardMenu)){
                     optionsContentPanel.removeAll();
                     optionsContentPanel.add(dashboardPanel, BorderLayout.CENTER);
-                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
-                    h2.setBackground(Color.decode("#1160AE"));
-                    h3.setBackground(Color.decode("#EDEBEB"));
-                    h4.setBackground(Color.decode("#EDEBEB"));
-                    h5.setBackground(Color.decode("#EDEBEB"));
-                    h6.setBackground(Color.decode("#EDEBEB"));
-                    h7.setBackground(Color.decode("#EDEBEB"));
-                    itemFlag = dashboardMenu;
-                    
+                    h2.setBackground(Color.decode("#4b6eae"));
+                    h3.setBackground(Color.decode("#3C3F41"));
+                    h4.setBackground(Color.decode("#3C3F41"));
+                    h5.setBackground(Color.decode("#3C3F41"));
+                    h6.setBackground(Color.decode("#3C3F41"));
+                    h7.setBackground(Color.decode("#3C3F41"));
+                    itemFlag = dashboardMenu;                  
                     optionsContentPanel.repaint();
                     optionsContentPanel.revalidate();
                 }
                 else if(item.equals(meetingMenu)){
-                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
-                    h2.setBackground(Color.decode("#EDEBEB"));
-                    h3.setBackground(Color.decode("#1160AE"));
-                    h4.setBackground(Color.decode("#EDEBEB"));
-                    h5.setBackground(Color.decode("#EDEBEB"));
-                    h6.setBackground(Color.decode("#EDEBEB"));
-                    h7.setBackground(Color.decode("#EDEBEB"));
+                    h2.setBackground(Color.decode("#3C3F41"));
+                    h3.setBackground(Color.decode("#4b6eae"));
+                    h4.setBackground(Color.decode("#3C3F41"));
+                    h5.setBackground(Color.decode("#3C3F41"));
+                    h6.setBackground(Color.decode("#3C3F41"));
+                    h7.setBackground(Color.decode("#3C3F41"));
                     itemFlag = meetingMenu;
                 }
                 else if(item.equals(actionPlanMenu)){
-                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
                     optionsContentPanel.removeAll();
                     optionsContentPanel.add(actionPlanPanel, BorderLayout.CENTER);
-                    h2.setBackground(Color.decode("#EDEBEB"));
-                    h3.setBackground(Color.decode("#EDEBEB"));
-                    h4.setBackground(Color.decode("#1160AE"));
-                    h5.setBackground(Color.decode("#EDEBEB"));
-                    h6.setBackground(Color.decode("#EDEBEB"));
-                    h7.setBackground(Color.decode("#EDEBEB"));
+                    h2.setBackground(Color.decode("#3C3F41"));
+                    h3.setBackground(Color.decode("#3C3F41"));
+                    h4.setBackground(Color.decode("#4b6eae"));
+                    h5.setBackground(Color.decode("#3C3F41"));
+                    h6.setBackground(Color.decode("#3C3F41"));
+                    h7.setBackground(Color.decode("#3C3F41"));
                     itemFlag = actionPlanMenu;
                     optionsContentPanel.repaint();
                     optionsContentPanel.revalidate();
                 }
                 else if(item.equals(teamMenu)){
-                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
-                    h2.setBackground(Color.decode("#EDEBEB"));
-                    h3.setBackground(Color.decode("#EDEBEB"));
-                    h4.setBackground(Color.decode("#EDEBEB"));
-                    h5.setBackground(Color.decode("#1160AE"));
-                    h6.setBackground(Color.decode("#EDEBEB"));
-                    h7.setBackground(Color.decode("#EDEBEB"));
+                    h2.setBackground(Color.decode("#3C3F41"));
+                    h3.setBackground(Color.decode("#3C3F41"));
+                    h4.setBackground(Color.decode("#3C3F41"));
+                    h5.setBackground(Color.decode("#4b6eae"));
+                    h6.setBackground(Color.decode("#3C3F41"));
+                    h7.setBackground(Color.decode("#3C3F41"));
                     itemFlag = teamMenu;
                 }
                 else if(item.equals(profileMenu)){
-                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
-                    h2.setBackground(Color.decode("#EDEBEB"));
-                    h3.setBackground(Color.decode("#EDEBEB"));
-                    h4.setBackground(Color.decode("#EDEBEB"));
-                    h5.setBackground(Color.decode("#EDEBEB"));
-                    h6.setBackground(Color.decode("#1160AE"));
-                    h7.setBackground(Color.decode("#EDEBEB"));
+                    h2.setBackground(Color.decode("#3C3F41"));
+                    h3.setBackground(Color.decode("#3C3F41"));
+                    h4.setBackground(Color.decode("#3C3F41"));
+                    h5.setBackground(Color.decode("#3C3F41"));
+                    h6.setBackground(Color.decode("#4b6eae"));
+                    h7.setBackground(Color.decode("#3C3F41"));
                     itemFlag = profileMenu;
                 }
                 else if(item.equals(settingsMenu)){
-                    item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
-                    h2.setBackground(Color.decode("#EDEBEB"));
-                    h3.setBackground(Color.decode("#EDEBEB"));
-                    h4.setBackground(Color.decode("#EDEBEB"));
-                    h5.setBackground(Color.decode("#EDEBEB"));
-                    h6.setBackground(Color.decode("#EDEBEB"));
-                    h7.setBackground(Color.decode("#1160AE"));
+                    h2.setBackground(Color.decode("#3C3F41"));
+                    h3.setBackground(Color.decode("#3C3F41"));
+                    h4.setBackground(Color.decode("#3C3F41"));
+                    h5.setBackground(Color.decode("#3C3F41"));
+                    h6.setBackground(Color.decode("#3C3F41"));
+                    h7.setBackground(Color.decode("#4b6eae"));
                     itemFlag = settingsMenu;
-                }
-                if(!item.equals(menuItem)){
-                    if(!meetingMenu.equals(item))
-                        meetingMenu.setIcon(new ImageIcon(getClass().getResource("/images/meetingL.png")));
-                    if(!dashboardMenu.equals(item))
-                        dashboardMenu.setIcon(new ImageIcon(getClass().getResource("/images/dashboardL.png")));
-                    if(!teamMenu.equals(item))
-                        teamMenu.setIcon(new ImageIcon(getClass().getResource("/images/teamL.png")));
-                    if(!profileMenu.equals(item))
-                        profileMenu.setIcon(new ImageIcon(getClass().getResource("/images/userL.png")));
-                    if(!settingsMenu.equals(item))
-                        settingsMenu.setIcon(new ImageIcon(getClass().getResource("/images/settingsL.png")));
-                    if(!actionPlanMenu.equals(item))
-                        actionPlanMenu.setIcon(new ImageIcon(getClass().getResource("/images/actionPlanL.png")));
                 }
             }
         }); 
@@ -1777,13 +1751,13 @@ public class UITerminal extends JFrame{
         h6 = new JPanel();
         h7 = new JPanel();
         
-        h1.setBackground(Color.decode("#EDEBEB"));
-        h2.setBackground(Color.decode("#EDEBEB"));
-        h3.setBackground(Color.decode("#EDEBEB"));
-        h4.setBackground(Color.decode("#EDEBEB"));
-        h5.setBackground(Color.decode("#EDEBEB"));
-        h6.setBackground(Color.decode("#EDEBEB"));
-        h7.setBackground(Color.decode("#EDEBEB"));
+        h1.setBackground(Color.decode("#3C3F41"));
+        h2.setBackground(Color.decode("#3C3F41"));
+        h3.setBackground(Color.decode("#3C3F41"));
+        h4.setBackground(Color.decode("#3C3F41"));
+        h5.setBackground(Color.decode("#3C3F41"));
+        h6.setBackground(Color.decode("#3C3F41"));
+        h7.setBackground(Color.decode("#3C3F41"));
         
         h1.setMaximumSize(new Dimension(4,65));
         h1.setPreferredSize(new Dimension(4,45));
@@ -2092,18 +2066,23 @@ public class UITerminal extends JFrame{
             try{
                 filterValues.add(Time.getDate(endDateChooser.getCalendar()));
                 filterValues.add(Time.getDate(startDateChooser.getCalendar()));
-                if(dateComboBox.getSelectedIndex() == 1)
+                if(dateComboBox.getSelectedIndex() == 1){
                     globalFilter = ActionItemFilter.S_DATE;
-                else if(dateComboBox.getSelectedIndex() == 2)
+                    updateJTable(globalFilter, filterValues);
+                }
+                else if(dateComboBox.getSelectedIndex() == 2){
                     globalFilter = ActionItemFilter.D_DATE;
-                else if (dateComboBox.getSelectedIndex() == 3)
+                    updateJTable(globalFilter, filterValues);
+                }
+                else if (dateComboBox.getSelectedIndex() == 3){
                     globalFilter = ActionItemFilter.E_DATE;
+                    updateJTable(globalFilter, filterValues);
+                }
                 else{
                     JOptionPane.showMessageDialog(this, 
                         "Select a Date criteria for filtering", "Date Selection", 
                         JOptionPane.INFORMATION_MESSAGE);
                 }
-                updateJTable(globalFilter, filterValues);
             }
             catch(Exception e){
                 JOptionPane.showMessageDialog(this, 
