@@ -19,7 +19,6 @@ import com.lafargeholcim.planb.util.Time;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -111,7 +110,6 @@ public class UITerminal extends JFrame{
     private JPanel contentPanel, highlightPanel, titleBarPanel, optionsContentPanel,
             frameButtonsPanel, mainPanel;
     private JPanel dashboardPanel, actionPlanPanel, meetingPanel;
-    private JLabel apsLogoLabel, resizeLabel, minimizeLabel, closeLabel;
     private JLabel initImageLabel;
     private String meetingName; 
     private JPanel gapPanel1,gapPanel2,pagePanel;
@@ -275,8 +273,8 @@ public class UITerminal extends JFrame{
 
         apInformationPanel.setBackground(new Color(252, 254, 252));
         apInformationPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        apInformationPanel.setMinimumSize(new java.awt.Dimension(950, 250));
-        apInformationPanel.setPreferredSize(new java.awt.Dimension(700, 250));
+        //apInformationPanel.setMinimumSize(new java.awt.Dimension(950, 250));
+        apInformationPanel.setPreferredSize(new java.awt.Dimension(Short.MAX_VALUE, 250));
         apInformationPanel.setLayout(new java.awt.GridBagLayout());
                 
         apPanel.setBackground(new java.awt.Color(0, 66, 118));
@@ -324,7 +322,7 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(apPanel, gridBagConstraints);
 
-        meetingNamePanel.setBackground(new java.awt.Color(48, 49, 50));
+        meetingNamePanel.setBackground(Color.decode("#3C3F41"));
         meetingNamePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 2, 2, 2, new java.awt.Color(252, 254, 252)));
         meetingNamePanel.setMinimumSize(new java.awt.Dimension(242, 100));
         meetingNamePanel.setPreferredSize(new java.awt.Dimension(252, 100));
@@ -344,7 +342,7 @@ public class UITerminal extends JFrame{
 
         title2Label.setFont(new java.awt.Font("Dialog", 1, 28)); // NOI18N
         title2Label.setForeground(new Color(230, 231, 234));
-        title2Label.setText("--Select Meeting--");
+        title2Label.setText("-Select Meeting-");
         title2Label.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         title2Label.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         title2Label.setIconTextGap(0);
@@ -407,7 +405,7 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(meetingNamePanel, gridBagConstraints);
 
-        ownerNamePanel.setBackground(new java.awt.Color(48, 49, 50));
+        ownerNamePanel.setBackground(Color.decode("#3C3F41"));
         ownerNamePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 4, 2, new java.awt.Color(252, 254, 252)));
         ownerNamePanel.setMinimumSize(new java.awt.Dimension(121, 100));
         ownerNamePanel.setPreferredSize(new java.awt.Dimension(126, 100));
@@ -752,7 +750,7 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weightx = 1.0;
         apInformationPanel.add(teamPerformancePanel, gridBagConstraints);
 
-        planExecutionPanel.setBackground(new java.awt.Color(48, 49, 50));
+        planExecutionPanel.setBackground(Color.decode("#3C3F41"));
         planExecutionPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 2, 2, 4, new java.awt.Color(252, 254, 252)));
         planExecutionPanel.setMinimumSize(new java.awt.Dimension(110, 100));
         planExecutionPanel.setPreferredSize(new java.awt.Dimension(110, 100));
@@ -1254,6 +1252,7 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(buttonsPanel, gridBagConstraints);
+        pack();
     }
     
     private void createActionPlanPanel() throws Exception{
@@ -1279,7 +1278,6 @@ public class UITerminal extends JFrame{
                 "Prog. %", "Status", "Dur."
             }));
         actionListTable.setMinimumSize(new Dimension(300, 200));
-        //actionListTable.setBackground(Color.decode("#FCFEFC"));
         actionListTable.setAutoCreateRowSorter(true);
         actionListTable.setRowHeight(30);
         actionListTable.setGridColor(Color.decode("#FCFEFC"));
@@ -1465,133 +1463,20 @@ public class UITerminal extends JFrame{
     private void createOptionsContentPanel() throws Exception{
         optionsContentPanel = new JPanel();
         optionsContentPanel.setBackground(Color.decode("#FCFEFC"));
-        optionsContentPanel.setMaximumSize(new Dimension(Short.MAX_VALUE, Short.MAX_VALUE));
-        optionsContentPanel.setPreferredSize(new Dimension(1002,600));
-        optionsContentPanel.setSize(optionsContentPanel.getPreferredSize());
+        optionsContentPanel.setMaximumSize(new Dimension(
+                Short.MAX_VALUE, Short.MAX_VALUE));
+        optionsContentPanel.setPreferredSize(new Dimension(
+                Short.MAX_VALUE, Short.MAX_VALUE));
+        //optionsContentPanel.setSize(new Dimension(Short.MAX_VALUE, Short.MAX_VALUE));
         optionsContentPanel.setLayout(new BorderLayout());
         
         createDashboardPanel();
         createActionPlanPanel();
-        initImageLabel = new JLabel(new ImageIcon(getClass().getResource("/images/holcim-logo.png")));
+        initImageLabel = new JLabel(new ImageIcon(getClass()
+                .getResource("/images/holcim-logo.png")));
         initImageLabel.setPreferredSize(new Dimension(500,328));
         initImageLabel.setSize(initImageLabel.getPreferredSize());
         optionsContentPanel.add(initImageLabel,BorderLayout.CENTER);
-        optionsContentPanel.add(titleBarPanel, BorderLayout.NORTH);
-        pack();
-                
-    }
-    
-    private void createTitleBarPanel(){
-        titleBarPanel = new JPanel();
-        titleBarPanel.setLayout(new BorderLayout());    
-        titleBarPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE,30));
-        titleBarPanel.setPreferredSize(new Dimension(867,30));
-        titleBarPanel.setBackground(Color.decode("#FFFFFF"));
-        titleBarPanel.addMouseListener(new MouseAdapter(){});
-        MoveMouseListener ml = new MoveMouseListener(titleBarPanel);
-        titleBarPanel.addMouseListener(ml);
-        titleBarPanel.addMouseMotionListener(ml);
-        
-        frameButtonsPanel = new JPanel();
-        apsLogoLabel = new JLabel("PlanB System 1.0");
-        apsLogoLabel.setIcon(new ImageIcon(getClass().getResource("/images/planB-18x21.png")));
-        apsLogoLabel.setIconTextGap(3);
-        Border border = BorderFactory.createEmptyBorder(0,4,0,0);
-        apsLogoLabel.setBorder(border);
-        resizeLabel = new JLabel(new ImageIcon(getClass().getResource("/images/tabB.png")), JLabel.CENTER);
-        minimizeLabel = new JLabel(new ImageIcon(getClass().getResource("/images/minusB.png")), JLabel.CENTER);
-        closeLabel = new JLabel(new ImageIcon(getClass().getResource("/images/closeB.png")), JLabel.CENTER);
-        
-        apsLogoLabel.setForeground(Color.decode("#707070"));
-        apsLogoLabel.setHorizontalAlignment(JLabel.CENTER);
-        //apsLogoLabel.setFont(new Font("Roboto-Thin",Font.BOLD,12));
-        apsLogoLabel.setHorizontalTextPosition(JLabel.RIGHT);
-        
-        resizeLabel.setOpaque(true);
-        resizeLabel.setBackground(Color.decode("#FCFEFC"));
-        resizeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        resizeLabel.setMaximumSize(new Dimension(47,30));
-        resizeLabel.setPreferredSize(new Dimension(47,30));
-        resizeLabel.setToolTipText("Minimize:size");
-        resizeLabel.addMouseListener(new MouseAdapter(){
-            @Override
-            public void mouseEntered(MouseEvent e){
-                resizeLabel.setBackground(Color.decode("#E2E5E2"));
-                resizeLabel.repaint();
-                
-            }
-            @Override
-            public void mouseExited(MouseEvent e){
-                resizeLabel.setBackground(Color.decode("#FCFEFC"));
-                resizeLabel.repaint();
-            }
-            @Override
-            public void mouseClicked(MouseEvent e){
-                resizeWindow();
-            }  
-        });
-        
-        minimizeLabel.setOpaque(true);
-        minimizeLabel.setBackground(Color.decode("#FCFEFC"));
-        minimizeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        minimizeLabel.setMaximumSize(new Dimension(47,30));
-        minimizeLabel.setPreferredSize(new Dimension(47,30));
-        minimizeLabel.setToolTipText("Minimize");
-        minimizeLabel.addMouseListener(new MouseAdapter(){
-            @Override
-            public void mouseEntered(MouseEvent e){
-                minimizeLabel.setBackground(Color.decode("#E2E5E2"));
-                //minimizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/minusW.png"));
-                minimizeLabel.repaint();
-            }
-            @Override
-            public void mouseExited(MouseEvent e){
-                minimizeLabel.setBackground(Color.decode("#FCFEFC"));
-                minimizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/minusB.png")));
-                minimizeLabel.repaint();
-            }
-            @Override
-            public void mouseClicked(MouseEvent e){
-                minimizeWindow();
-            }  
-        });
-        
-        closeLabel.setOpaque(true);
-        closeLabel.setBackground(Color.decode("#FCFEFC"));
-        closeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        closeLabel.setMaximumSize(new Dimension(47,30));
-        closeLabel.setPreferredSize(new Dimension(47,30));
-        closeLabel.setToolTipText("Close");
-        closeLabel.addMouseListener(new MouseAdapter(){
-            @Override
-            public void mouseEntered(MouseEvent e){
-                closeLabel.setBackground(Color.decode("#FC4344"));
-                closeLabel.setIcon(new ImageIcon(getClass().getResource("/images/closeW.png")));
-                closeLabel.repaint();
-            }
-            @Override
-            public void mouseExited(MouseEvent e){
-                closeLabel.setBackground(Color.decode("#FCFEFC"));
-                closeLabel.setIcon(new ImageIcon(getClass().getResource("/images/closeB.png")));
-                closeLabel.repaint();
-            }
-            @Override
-            public void mouseClicked(MouseEvent e){
-                System.exit(0);
-            }  
-        });
-        
-        frameButtonsPanel.setLayout(new BoxLayout(frameButtonsPanel, BoxLayout.X_AXIS));
-        frameButtonsPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-        frameButtonsPanel.setPreferredSize(new Dimension(nativeScreenSize.width, 30));
-        frameButtonsPanel.setBackground(Color.decode("#FCFEFC"));
-        frameButtonsPanel.add(apsLogoLabel);
-        frameButtonsPanel.add(Box.createHorizontalGlue());
-        frameButtonsPanel.add(minimizeLabel);
-        frameButtonsPanel.add(resizeLabel);
-        frameButtonsPanel.add(closeLabel);
-        
-        titleBarPanel.add(frameButtonsPanel, BorderLayout.LINE_START);
     }
     
     public void disableFrame(){
@@ -1641,22 +1526,17 @@ public class UITerminal extends JFrame{
         //setUndecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setWindowListener();
-        nativeScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
-        setMinimumSize(new Dimension(1000,700));
-        this.setResizable(true);
+        setPreferredSize(new Dimension(950, 700));
+        //setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        setMinimumSize(new Dimension(800,600));
+        setResizable(true);
         UIManager.put("ToolTip.background", Color.decode("#303132"));
         UIManager.put("ToolTip.foreground", Color.decode("#C9CDD1"));
         UIManager.put("ProgressBar.selectionForeground", Color.decode("#FCFEFC"));
         UIManager.put("ProgressBar.selectionBackground", Color.decode("#FCFEFC"));
-        UIManager.put("JSlider.altTrackColor", Color.decode("#1160AE"));
-        //UIManager.put("Slider.focus", Color.decode("#1160AE"));
-        //UIManager.put("Slider.shadow", Color.decode("#1160AE"));
         Border border = BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#3B3C3D"));
         UIManager.put("ToolTip.border", border);
         setIconImage(new ImageIcon(getClass().getResource("/images/planB-27x32.png")).getImage());
-        createTitleBarPanel();      
         createMainMenu();
         createOptionsContentPanel();
         itemFlag = new JMenuItem();
@@ -1675,7 +1555,6 @@ public class UITerminal extends JFrame{
         contentPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#F8FAF8")));
         contentPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
         contentPanel.setLayout(new BorderLayout());
-        //contentPanel.add(titleBarPanel, BorderLayout.NORTH);
         contentPanel.add(highlightPanel, BorderLayout.WEST);
         contentPanel.add(mainPanel, BorderLayout.CENTER);
         mainPanel.add(optionsContentPanel,BorderLayout.CENTER);
@@ -1684,7 +1563,7 @@ public class UITerminal extends JFrame{
         addFonts();
         setContentPane(contentPanel);
         pack();
-        maximize(6);
+        setExtendedState(6);
         setVisible(true);
     }
 
@@ -1745,13 +1624,11 @@ public class UITerminal extends JFrame{
                         //menuItem.setToolTipText("<html><body style=\"background-color:#303132;color:#C9CDD1;border=0\">"
                         //        + " Minimize Navigation Bar </body></ht‌​ml>");
                         mainPanel.revalidate();
-                        //contentPanel.revalidate();
                         menuItem.setToolTipText("Minimize Navigation Bar");
                         menuFlag = true;
                     }
                     else{
                         mainMenu.setPreferredSize(new Dimension(40,600));
-                        //contentPanel.revalidate();
                         mainPanel.revalidate();
                         menuItem.setToolTipText("Maximize Navigation Bar");
                         menuFlag = false;
@@ -1768,8 +1645,9 @@ public class UITerminal extends JFrame{
                     h6.setBackground(Color.decode("#EDEBEB"));
                     h7.setBackground(Color.decode("#EDEBEB"));
                     itemFlag = dashboardMenu;
-                    pack();
+                    
                     optionsContentPanel.repaint();
+                    optionsContentPanel.revalidate();
                 }
                 else if(item.equals(meetingMenu)){
                     item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
@@ -1792,8 +1670,8 @@ public class UITerminal extends JFrame{
                     h6.setBackground(Color.decode("#EDEBEB"));
                     h7.setBackground(Color.decode("#EDEBEB"));
                     itemFlag = actionPlanMenu;
-                    pack();
                     optionsContentPanel.repaint();
+                    optionsContentPanel.revalidate();
                 }
                 else if(item.equals(teamMenu)){
                     item.setIcon(new ImageIcon(getClass().getResource("/images/"+iconName)));
@@ -1843,19 +1721,6 @@ public class UITerminal extends JFrame{
         }); 
     }
     
-    public synchronized void maximize(int state){
-        if ((state & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) { 
-            Insets screenInsets = getToolkit().getScreenInsets(getGraphicsConfiguration());
-            Rectangle screenSize = getGraphicsConfiguration().getBounds();
-            Rectangle maxBounds = new Rectangle(screenInsets.left + screenSize.x, 
-                    screenInsets.top + screenSize.y, 
-                    screenSize.x + screenSize.width - screenInsets.right - screenInsets.left,
-                    screenSize.y + screenSize.height - screenInsets.bottom - screenInsets.top); 
-            this.setMaximizedBounds(maxBounds); 
-        } 
-        this.setExtendedState(state);
-    }
-    
     public void modifiedTableContent(Object[] rowDataModified){
         DefaultTableModel dm = (DefaultTableModel) actionListTable.getModel();
         int rowIndex = actionListTable.getSelectedRow();
@@ -1867,35 +1732,6 @@ public class UITerminal extends JFrame{
                 dm.setValueAt(data, rowIndex, columnIndex);
         }
         actionListTable.repaint();
-    }
-    
-    private void minimizeWindow(){
-        this.setState(ICONIFIED);
-    }
-    
-    private void resizeWindow(){
-        if(!resizeFlag){
-            Dimension d = this.getMinimumSize();
-            this.setPreferredSize(this.getMinimumSize());
-            xPosition = (nativeScreenSize.width/2)-(d.width/2);
-            yPosition = (nativeScreenSize.height/2)-(d.height/2);
-            this.setLocation(xPosition,yPosition);
-            frameButtonsPanel.setPreferredSize(new Dimension(d.width,30));
-            resizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/resize.png")));
-            resizeLabel.setToolTipText("Maximize");
-            pack();
-            resizeFlag = true;
-        }
-        else{ // Restoring statements
-            this.setLocation(0,0);
-            this.setPreferredSize(nativeScreenSize);
-            frameButtonsPanel.setPreferredSize(new Dimension(nativeScreenSize.width,30));
-            resizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/tabB.png")));
-            resizeLabel.setToolTipText("Minimize:Size");
-            maximize(6);
-            revalidate();
-            resizeFlag = false;
-        }
     }
     
     private void setColumnWidth(){       
@@ -2058,6 +1894,7 @@ public class UITerminal extends JFrame{
     }
     
     private void filterLabelAction(){
+        CursorToolkit.startWaitCursor(getJFrame().getRootPane());
         filterValues = new ArrayList();
         if(statusRadioButton.isSelected() && dateRadioButton.isSelected()
                 && ownerRadioButton.isSelected()){
@@ -2300,5 +2137,6 @@ public class UITerminal extends JFrame{
                     "Selection", 
                     JOptionPane.INFORMATION_MESSAGE);
         }
+        CursorToolkit.stopWaitCursor(getJFrame().getRootPane());
     }
 }

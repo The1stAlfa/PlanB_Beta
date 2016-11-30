@@ -68,16 +68,20 @@ public class MaintenanceForm extends JDialog{
             @Override
             public void windowClosing(WindowEvent e){
                 CursorToolkit.stopWaitCursor(parent.getRootPane());
-                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
-                label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
+                JLabel label = (JLabel) ((UITerminal)parent)
+                        .getJComponent("addIcon");
+                label.setIcon(new ImageIcon(getClass()
+                        .getResource("/images/plusWhite24.png")));
                 ((UITerminal)parent).setFlag(false);
             }
             
             @Override
             public void windowClosed(WindowEvent e){
                 CursorToolkit.stopWaitCursor(parent.getRootPane());
-                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
-                label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
+                JLabel label = (JLabel) ((UITerminal)parent)
+                        .getJComponent("addIcon");
+                label.setIcon(new ImageIcon(getClass()
+                        .getResource("/images/plusWhite24.png")));
                 ((UITerminal)parent).setFlag(false);
             }
 

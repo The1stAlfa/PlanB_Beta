@@ -72,8 +72,8 @@ public class EditAction extends MaintenanceForm{
                     else{
                         try {
                             if(detectActionDataModification()){
+                                CursorToolkit.startWaitCursor(getJDialog().getRootPane());
                                 terminal.modifyAction(rowDataModified,meetingName);
-                                parent.setEnabled(true);
                                 ((UITerminal)parent).updateJTable(filter, filterValues);
                                 getJDialog().dispose();
                             }

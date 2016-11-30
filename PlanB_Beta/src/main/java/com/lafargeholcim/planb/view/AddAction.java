@@ -76,14 +76,17 @@ public class AddAction extends MaintenanceForm{
                                 "<html><center>Are you sure you want to add the Action?",
                                 "Confirmation",JOptionPane.DEFAULT_OPTION, 
                                 JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == 0){
-                                CursorToolkit.startWaitCursor(getJDialog().getRootPane());;
+                                CursorToolkit.startWaitCursor(getJDialog().getRootPane());
                                 terminal.addAction(ownerComboBox.getSelectedItem().toString(),
                                         detailTextArea.getText(),
                                         commentsTextArea.getText(),startDate,dueDate,
                                         statusTextField.getText(),
                                         (byte)progressSlider.getValue(),duration,meetingName);
                                 ArrayList <Object> filterValues = new ArrayList();
-                                filterValues.add(Status.IN_PROCESS);
+                                if(duration > 3)
+                                    filterValues.add(Status.IN_PROCESS);
+                                else
+                                    filterValues.add(Status.NEAR_DUE_DATE);
                                 ((UITerminal)parent).updateJTable(ActionItemFilter.STATUS, filterValues);
                                 JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
                                 label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
