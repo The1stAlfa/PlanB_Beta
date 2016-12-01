@@ -281,7 +281,7 @@ public class LoginForm extends JFrame {
 
         minimizeLabel.setVerticalAlignment(JLabel.CENTER);
         minimizeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        minimizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/MinusW2-16.png"))); // NOI18N
+        minimizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/minus-16.png"))); // NOI18N
         minimizeLabel.setOpaque(true);
         minimizeLabel.setBackground(Color.decode("#303132"));
         minimizeLabel.addMouseListener(new MouseAdapter(){
@@ -303,7 +303,7 @@ public class LoginForm extends JFrame {
         });
 
         closeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        closeLabel.setIcon(new ImageIcon(getClass().getResource("/images/close2-16.png"))); // NOI18N
+        closeLabel.setIcon(new ImageIcon(getClass().getResource("/images/close-16.png"))); // NOI18N
         closeLabel.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseEntered(MouseEvent e){
