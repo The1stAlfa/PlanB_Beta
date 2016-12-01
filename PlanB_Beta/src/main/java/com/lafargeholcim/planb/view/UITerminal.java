@@ -72,9 +72,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellRenderer;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.image.BufferedImage;
 import java.sql.Date;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
 
 /**
  * @palette
@@ -531,7 +535,7 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(participantsPanel, gridBagConstraints);
 
-        totalActionsPanel.setBackground(new java.awt.Color(230, 231, 234)); //91835C
+        totalActionsPanel.setBackground(new java.awt.Color(240, 235, 235)); //91835C
         totalActionsPanel.setBorder(BorderFactory
                 .createMatteBorder(4, 2, 2, 2, Color.decode("#3C3F41")));
         totalActionsPanel.setMinimumSize(new java.awt.Dimension(100, 100));
@@ -542,7 +546,7 @@ public class UITerminal extends JFrame{
         actionsLabel.setText("actions");
 
         actionValueLabel.setFont(new java.awt.Font("Dialog", 1, 42)); // NOI18N
-        actionValueLabel.setForeground(Color.decode("#FFFFFF"));
+        actionValueLabel.setForeground(new java.awt.Color(120, 120, 123));
         actionValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         actionValueLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         actionValueLabel.setIconTextGap(0);
@@ -584,11 +588,11 @@ public class UITerminal extends JFrame{
         completedActionPanel.setPreferredSize(new java.awt.Dimension(100, 100));
 
         completedLabel.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        completedLabel.setForeground(Color.decode("#FFFFFF"));
+        completedLabel.setForeground(new java.awt.Color(48, 49, 50));
         completedLabel.setText("completed");
 
         completedValueLabel.setFont(new java.awt.Font("Dialog", 1, 42)); // NOI18N
-        completedValueLabel.setForeground(Color.decode("#FFFFFF"));
+        completedValueLabel.setForeground(new java.awt.Color(120, 120, 123));
         completedValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         completedValueLabel.setMaximumSize(new java.awt.Dimension(69, 54));
         completedValueLabel.setMinimumSize(new java.awt.Dimension(69, 54));
@@ -670,9 +674,8 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(appActionPanel, gridBagConstraints);
-//setBackground(Color.decode("#303132"));
-        overdueActionPanel.setBackground(new java.awt.Color(230, 231, 234));
 
+        overdueActionPanel.setBackground(new java.awt.Color(230, 231, 234));
         overdueActionPanel.setBorder(BorderFactory
                 .createMatteBorder(2, 2, 4, 2, Color.decode("#3C3F41")));
         overdueActionPanel.setMinimumSize(new java.awt.Dimension(100, 100));
@@ -816,7 +819,7 @@ public class UITerminal extends JFrame{
         dateLabel.setText("date");
 
         dateValueLabel.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
-        dateValueLabel.setForeground(new java.awt.Color(120, 120, 123));
+        dateValueLabel.setForeground(Color.decode("#9876AA"));
         dateValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         dateValueLabel.setText(Time.nowDate().toString());
         dateValueLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -901,7 +904,7 @@ public class UITerminal extends JFrame{
         statusPanel.setMinimumSize(new Dimension(710, 50));
         statusPanel.setPreferredSize(new Dimension(710, 50));
 
-        statusRadioButton.setBackground(new Color(0, 66, 118));
+        dateRadioButton.setOpaque(false);
         statusRadioButton.setFont(new Font("Dialog", 1, 20)); // NOI18N
         statusRadioButton.setForeground(new Color(252, 254, 252));
         statusRadioButton.setIconTextGap(0);
@@ -917,7 +920,7 @@ public class UITerminal extends JFrame{
         statusComboBox.setForeground(new java.awt.Color(48, 49, 50));
         statusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] 
         { "  --- Select ---", "ALL", "COMPLETED", "OVERDUE",
-            "IN_PROCESS", "COMPLETED_APP", "NEAR_DUE_DATE", "WAITING_TO_START" }));
+            "IN_PROCESS", "COMPLETED_APP", "NEAR_DUE_DATE"}));
         statusComboBox.setBorder(null);
         statusComboBox.setMaximumSize(new java.awt.Dimension(149, 29));
         statusComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -930,7 +933,7 @@ public class UITerminal extends JFrame{
         status2Label.setForeground(new java.awt.Color(252, 254, 252));
         status2Label.setText("status");
 
-        dateRadioButton.setBackground(new Color(0, 66, 118));
+        dateRadioButton.setOpaque(false);//setBackground(new Color(0, 66, 118));
         dateRadioButton.setForeground(new Color(252, 254, 252));
         dateRadioButton.setIconTextGap(0);
         dateRadioButton.setMargin(new Insets(0, 2, 0, 2));
@@ -1370,11 +1373,21 @@ public class UITerminal extends JFrame{
         dashboardPanel.setLayout(new BorderLayout());
         dashboardPanel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
         dashboardPanel.setBackground(Color.decode("#3C3F41"));
-        
-        initImageLabel = new JLabel(new ImageIcon(getClass().getResource("/images/plantAtNight2.jpg")), JLabel.CENTER);
+        initImageLabel = new JLabel();
         initImageLabel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
         initImageLabel.setPreferredSize(new Dimension(500,328));
-        initImageLabel.setBackground(Color.decode("#313F41"));
+        //BufferedImage img = null;
+        //try {
+         //   img = ImageIO.read(getClass().getResource("/images/plantAtNight12.png"));
+        //} catch (IOException e) {
+            //e.printStackTrace();
+        //}
+        //Image dimg = img.getScaledInstance(200, 200,
+        //Image.SCALE_SMOOTH);
+        initImageLabel = new JLabel(new ImageIcon(new ImageIcon(
+              getClass().getResource("/images/plantAtNight12.png"))
+                .getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
+        //initImageLabel.setIcon(new ImageIcon(dimg));
         
         dashboardPanel.add(initImageLabel,BorderLayout.CENTER);
         
@@ -1501,10 +1514,9 @@ public class UITerminal extends JFrame{
         
         createDashboardPanel();
         createActionPlanPanel();
-        initImageLabel = new JLabel(new ImageIcon(getClass()
-                .getResource("/images/holcim-logo-390x166.png")));
+        initImageLabel = new JLabel();
         initImageLabel.setPreferredSize(new Dimension(500,328));
-        initImageLabel.setSize(initImageLabel.getPreferredSize());
+        //initImageLabel.setSize(initImageLabel.getPreferredSize());
         optionsContentPanel.add(initImageLabel,BorderLayout.CENTER);
     }
     
@@ -1557,25 +1569,7 @@ public class UITerminal extends JFrame{
         setPreferredSize(new Dimension(1000, 700));
         setMinimumSize(new Dimension(800,600));
         setResizable(true);
-        this.getRootPane().addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                // This is only called when the user releases the mouse button.
-                if(getJFrame().getExtendedState() != 6){
-                    mainMenu.setPreferredSize(new Dimension(40,600));
-                    mainPanel.repaint();
-                    mainPanel.revalidate();
-                    menuItem.setToolTipText("Maximize Navigation Bar");
-                    menuFlag = false;
-                }
-                else{
-                    mainMenu.setPreferredSize(new Dimension(140,600));
-                    mainPanel.repaint();
-                    mainPanel.revalidate();
-                    menuItem.setToolTipText("Minimize Navigation Bar");
-                    menuFlag = true;
-                }
-            }
-        });
+        
         UIManager.put("ToolTip.background", Color.decode("#303132"));
         UIManager.put("ToolTip.foreground", Color.decode("#C9CDD1"));
         UIManager.put("ProgressBar.selectionForeground", Color.decode("#FCFEFC"));
@@ -1608,9 +1602,47 @@ public class UITerminal extends JFrame{
         getContentPane().setBackground(Color.decode("#3C3F41"));
         addFonts();
         setContentPane(contentPanel);
+        this.getRootPane().addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                if(getJFrame().getExtendedState() != 6){
+                    mainMenu.setPreferredSize(new Dimension(40,600));
+                    mainPanel.repaint();
+                    mainPanel.revalidate();
+                    menuItem.setToolTipText("Maximize Navigation Bar");
+                    menuFlag = false;
+                    initImageLabel.setIcon(new ImageIcon(new ImageIcon(
+                        getClass().getResource("/images/plantAtNight12.png"))
+                        .getImage().getScaledInstance(optionsContentPanel.getSize().width,
+                                optionsContentPanel.getSize().height, Image.SCALE_SMOOTH)));
+                    mainPanel.repaint();
+                    mainPanel.revalidate();
+                    System.out.println(optionsContentPanel.getSize());
+                }
+                else{
+                    mainMenu.setPreferredSize(new Dimension(140,600));
+                    mainPanel.repaint();
+                    mainPanel.revalidate();
+                    menuItem.setToolTipText("Minimize Navigation Bar");
+                    menuFlag = true;
+                    initImageLabel.setIcon(new ImageIcon(new ImageIcon(
+                        getClass().getResource("/images/plantAtNight12.png"))
+                        .getImage().getScaledInstance(optionsContentPanel.getSize().width,
+                                optionsContentPanel.getSize().height, Image.SCALE_SMOOTH)));
+                    mainPanel.repaint();
+                    mainPanel.revalidate();
+                }
+            }
+        });
         pack();
         setExtendedState(6);
+        initImageLabel.setIcon(new ImageIcon(new ImageIcon(
+                        getClass().getResource("/images/plantAtNight12.png"))
+                        .getImage().getScaledInstance(optionsContentPanel.getSize().width,
+                                optionsContentPanel.getSize().height, Image.SCALE_DEFAULT)));
+        mainPanel.repaint();
+        mainPanel.revalidate();
         setVisible(true);
+        
     }
 
     private void mainMenuEvents(JMenuItem item){
@@ -1662,12 +1694,26 @@ public class UITerminal extends JFrame{
                 if(item.equals(menuItem)){
                     if(!menuFlag){
                         mainMenu.setPreferredSize(new Dimension(140,600));
+                        mainPanel.repaint();
+                        mainPanel.revalidate();
+                        initImageLabel.setIcon(new ImageIcon(new ImageIcon(
+                        getClass().getResource("/images/plantAtNight12.png"))
+                        .getImage().getScaledInstance(optionsContentPanel.getSize().width,
+                                optionsContentPanel.getSize().height, Image.SCALE_SMOOTH)));
+                        mainPanel.repaint();
                         mainPanel.revalidate();
                         menuItem.setToolTipText("Minimize Navigation Bar");
                         menuFlag = true;
                     }
                     else{
                         mainMenu.setPreferredSize(new Dimension(40,600));
+                        mainPanel.repaint();
+                        mainPanel.revalidate();
+                        initImageLabel.setIcon(new ImageIcon(new ImageIcon(
+                        getClass().getResource("/images/plantAtNight12.png"))
+                        .getImage().getScaledInstance(optionsContentPanel.getSize().width,
+                                optionsContentPanel.getSize().height, Image.SCALE_SMOOTH)));
+                        mainPanel.repaint();
                         mainPanel.revalidate();
                         menuItem.setToolTipText("Maximize Navigation Bar");
                         menuFlag = false;
