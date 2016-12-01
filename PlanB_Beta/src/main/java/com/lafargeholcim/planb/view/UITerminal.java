@@ -178,7 +178,11 @@ public class UITerminal extends JFrame{
                     if(!(column == 2 || column ==3) )
                         DEFAULT_RENDERER.setHorizontalAlignment(SwingConstants.CENTER);
                     if(isSelected)
-                        c.setBackground(Color.decode("#1160AE"));
+                        c.setBackground(Color.decode("#4B6EAF"));
+                    else if(column == 0){
+                       c.setForeground(Color.decode("#9876AA"));
+                       c.setBackground(row%2==0 ? Color.decode("#303132") : Color.decode("#3C3F41"));
+                    }
                     else if(column == 8){
                         if(value.toString().equalsIgnoreCase("OVERDUE")){
                             c.setBackground(Color.decode("#FE4344")); // E80C0C
@@ -332,7 +336,7 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(apPanel, gridBagConstraints);
 
-        meetingNamePanel.setBackground(Color.decode("#1160AE")); //CC7832
+        meetingNamePanel.setBackground(Color.decode("#4B6EAF")); //CC7832
         meetingNamePanel.setBorder(BorderFactory
                 .createMatteBorder(4, 2, 2, 2, Color.decode("#3C3F41")));
         meetingNamePanel.setMinimumSize(new java.awt.Dimension(242, 100));
@@ -414,7 +418,7 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(meetingNamePanel, gridBagConstraints);
 
-        ownerNamePanel.setBackground(Color.decode("#1160AE"));
+        ownerNamePanel.setBackground(Color.decode("#4B6EAF"));
         ownerNamePanel.setBorder(BorderFactory
                 .createMatteBorder(2, 2, 4, 2, Color.decode("#3C3F41")));
         ownerNamePanel.setMinimumSize(new java.awt.Dimension(121, 100));
@@ -475,7 +479,7 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(ownerNamePanel, gridBagConstraints);
 
-        participantsPanel.setBackground(Color.decode("#1160AE"));
+        participantsPanel.setBackground(Color.decode("#4B6EAF"));
         participantsPanel.setBorder(BorderFactory
                 .createMatteBorder(2, 2, 4, 2, Color.decode("#3C3F41")));
         participantsPanel.setMinimumSize(new java.awt.Dimension(126, 100));
@@ -535,7 +539,7 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(participantsPanel, gridBagConstraints);
 
-        totalActionsPanel.setBackground(new java.awt.Color(240, 235, 235)); //91835C
+        totalActionsPanel.setBackground(new java.awt.Color(230, 231, 234)); //91835C
         totalActionsPanel.setBorder(BorderFactory
                 .createMatteBorder(4, 2, 2, 2, Color.decode("#3C3F41")));
         totalActionsPanel.setMinimumSize(new java.awt.Dimension(100, 100));
@@ -763,7 +767,7 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weightx = 1.0;
         apInformationPanel.add(teamPerformancePanel, gridBagConstraints);
 
-        planExecutionPanel.setBackground(Color.decode("#303132"));
+        planExecutionPanel.setBackground(Color.decode("#45494A"));
         planExecutionPanel.setBorder(
                 BorderFactory.createMatteBorder(4, 2, 2, 4, Color.decode("#3C3F41")));
         planExecutionPanel.setMinimumSize(new java.awt.Dimension(110, 100));
@@ -808,18 +812,18 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(planExecutionPanel, gridBagConstraints);
 
-        datePanel.setBackground(Color.decode("#3C3F41"));
+        datePanel.setBackground(Color.decode("#45494A"));
         datePanel.setBorder(BorderFactory
                 .createMatteBorder(2, 2, 4, 4, Color.decode("#3C3F41")));
         datePanel.setMinimumSize(new java.awt.Dimension(220, 100));
         datePanel.setPreferredSize(new java.awt.Dimension(220, 100));
 
         dateLabel.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        dateLabel.setForeground(new java.awt.Color(122, 120, 123));
+        dateLabel.setForeground(Color.decode("#FCFEFC"));
         dateLabel.setText("date");
 
         dateValueLabel.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
-        dateValueLabel.setForeground(Color.decode("#9876AA"));
+        dateValueLabel.setForeground(Color.decode("#FCFEFC"));
         dateValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         dateValueLabel.setText(Time.nowDate().toString());
         dateValueLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -884,7 +888,15 @@ public class UITerminal extends JFrame{
                 filterLabel.setBackground(Color.decode("#E6E7EA"));
             }
             public void mouseClicked(MouseEvent evt){
-                filterLabelAction();
+                if(meetingName != null){
+                    filterLabelAction();
+                }
+                else{
+                    JOptionPane.showMessageDialog(getJFrame(),
+                            "<html><center>No Meeting has been selected. Select one first.</html>",
+                            "Validation",JOptionPane.ERROR_MESSAGE);
+                }
+                
             }
         });
         filterLabelPanel.add(filterLabel, java.awt.BorderLayout.CENTER);
@@ -896,7 +908,7 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(filterLabelPanel, gridBagConstraints);
 
-        statusPanel.setBackground(Color.decode("#1160AE"));
+        statusPanel.setBackground(Color.decode("#4B6EAF"));
                 //new Color(0, 66, 118));
         statusPanel.setBorder(BorderFactory
                 .createMatteBorder(4, 2, 4, 0, Color.decode("#3C3F41")));
@@ -904,7 +916,7 @@ public class UITerminal extends JFrame{
         statusPanel.setMinimumSize(new Dimension(710, 50));
         statusPanel.setPreferredSize(new Dimension(710, 50));
 
-        dateRadioButton.setOpaque(false);
+        statusRadioButton.setOpaque(false);
         statusRadioButton.setFont(new Font("Dialog", 1, 20)); // NOI18N
         statusRadioButton.setForeground(new Color(252, 254, 252));
         statusRadioButton.setIconTextGap(0);
@@ -956,7 +968,7 @@ public class UITerminal extends JFrame{
         date2Label.setForeground(new java.awt.Color(252, 254, 252));
         date2Label.setText("date");
         
-        ownerRadioButton.setBackground(new java.awt.Color(6, 66, 118));
+        ownerRadioButton.setOpaque(false);
         ownerRadioButton.setIconTextGap(0);
         ownerRadioButton.setMargin(new java.awt.Insets(0, 2, 0, 0));
         ownerRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -987,7 +999,7 @@ public class UITerminal extends JFrame{
             }
         });
 
-        contentRadioButton.setBackground(new java.awt.Color(0, 66, 118));
+        contentRadioButton.setOpaque(false);
         contentRadioButton.setIconTextGap(0);
         contentRadioButton.setMargin(new java.awt.Insets(0, 2, 0, 2));
         contentRadioButton.setMinimumSize(new java.awt.Dimension(0, 26));
@@ -1018,7 +1030,8 @@ public class UITerminal extends JFrame{
         hintTextField.setBackground(new java.awt.Color(252, 254, 252));
         hintTextField.setText("hint");
         hintTextField.setForeground(new Color(120, 120, 123));
-        hintTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 3, 1, 1, new java.awt.Color(252, 254, 252)));
+        hintTextField.setBorder(BorderFactory
+                .createMatteBorder(1, 3, 1, 1, new java.awt.Color(252, 254, 252)));
         hintTextField.setMinimumSize(new java.awt.Dimension(0, 27));
         hintTextField.setPreferredSize(new java.awt.Dimension(35, 27));
         hintTextField.addFocusListener(new FocusListener(){
@@ -1037,7 +1050,7 @@ public class UITerminal extends JFrame{
         startDateChooser.setDateFormatString("yyyy-MM-dd");
         startDateChooser.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         startDateChooser.setDate(Date.valueOf(Time.nowDate()));
-        startDateChooser.getCalendarButton().setBackground(new Color(0, 66, 118));
+        startDateChooser.getCalendarButton().setBackground(Color.decode("#4B6EAF"));
         startDateChooser.getCalendarButton().setIcon(new ImageIcon(getClass()
                 .getResource("/images/JDateChooserIcon2.gif")));
         ((JTextFieldDateEditor)startDateChooser.getDateEditor())
@@ -1047,7 +1060,7 @@ public class UITerminal extends JFrame{
         endDateChooser.setDateFormatString("yyyy-MM-dd");
         endDateChooser.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         endDateChooser.setDate(Date.valueOf(Time.nowDate().plusDays(1)));
-        endDateChooser.getCalendarButton().setBackground(new Color(0, 66, 118));
+        endDateChooser.getCalendarButton().setBackground(Color.decode("#4B6EAF"));
         endDateChooser.getCalendarButton().setIcon(new ImageIcon(getClass()
                 .getResource("/images/JDateChooserIcon2.gif")));
         ((JTextFieldDateEditor)endDateChooser.getDateEditor())
@@ -1130,7 +1143,7 @@ public class UITerminal extends JFrame{
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(statusPanel, gridBagConstraints);
 
-        buttonsPanel.setBackground(Color.decode("#1160AE"));
+        buttonsPanel.setBackground(Color.decode("#4B6EAF"));
         buttonsPanel.setBorder(BorderFactory
                 .createMatteBorder(4, 0, 4, 4, Color.decode("#3C3F41")));
         buttonsPanel.setMaximumSize(new java.awt.Dimension(122, 50));
@@ -1308,7 +1321,7 @@ public class UITerminal extends JFrame{
         actionListTable.setBackground(Color.decode("#3C3F41"));
         actionListTable.setForeground(Color.decode("#BBBBBB"));
         actionListTable.getTableHeader().setBackground(Color.decode("#3F4044"));
-        actionListTable.getTableHeader().setForeground(Color.decode("#BBBBBB"));
+        actionListTable.getTableHeader().setForeground(Color.decode("#E3E3E3"));
         actionListTable.getTableHeader().setBorder(BorderFactory
                 .createMatteBorder(1,1,1,1, Color.decode("#303132")));
         //actionListTable.setShowGrid(false);
@@ -1460,7 +1473,7 @@ public class UITerminal extends JFrame{
     private JMenuItem createMainMenuItem(JMenuItem item, String iconName){
         item.setBackground(Color.decode("#3C3F41"));
         //item.setFont(new Font("Roboto-Regular", Font.PLAIN, 14));
-        item.setForeground(Color.decode("#BBBBBB"));
+        item.setForeground(Color.decode("#E3E3E3"));
         item.setIconTextGap(5);
         item.setMaximumSize(new Dimension(Integer.MAX_VALUE,65));
         item.setPreferredSize(new Dimension(140,45));
@@ -1474,8 +1487,8 @@ public class UITerminal extends JFrame{
     
     private void createMenuItem(String option){
         JMenuItem item = new JMenuItem(option);
-        item.setBackground(Color.decode("#303132"));
-        item.setForeground(Color.decode("#FCFEFC"));
+        item.setBackground(Color.decode("#3C3F41"));
+        item.setForeground(Color.decode("#E3E3E3"));
         item.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1483,15 +1496,12 @@ public class UITerminal extends JFrame{
                 filterValues = new ArrayList<>();
                 filterValues.add(Status.OVERDUE);
                 globalFilter = ActionItemFilter.STATUS;
-                actionListTable.setModel(new DefaultTableModel());
                 updateJTable(globalFilter, filterValues);
                 statusRadioButton.setSelected(true);
                 dateRadioButton.setSelected(false);
                 dateComboBox.setSelectedIndex(0);
                 contentRadioButton.setSelected(false);
                 hintTextField.setText("hint");
-                startLabel.setText("yyyy-mm-dd");
-                endLabel.setText("yyyy-mm-dd");
                 statusComboBox.setSelectedIndex(3);
                 if(actionListTable.getRowCount() == 0){
                     JOptionPane.showMessageDialog(new JOptionPane(),
@@ -1511,12 +1521,31 @@ public class UITerminal extends JFrame{
         optionsContentPanel.setPreferredSize(new Dimension(
                 Short.MAX_VALUE, Short.MAX_VALUE));
         optionsContentPanel.setLayout(new BorderLayout());
-        
+        JPanel startPanel = new JPanel();
+        startPanel.setBackground(Color.decode("#45494A"));
+        startPanel.setPreferredSize(new Dimension(
+                Short.MAX_VALUE, 45));
+        startPanel.setMaximumSize(new Dimension(
+                Short.MAX_VALUE, 65));
+        startPanel.setLayout(new BoxLayout(startPanel, BoxLayout.LINE_AXIS));
+        String welcome = "  WELCOME, " + 
+                Aps.getTerminal().getUser().getUsername();
+        JLabel startLabel = new JLabel(welcome);
+        startLabel.setForeground(Color.decode("#FCFEFC"));
+        JLabel planbLabel = new JLabel("PlanB System  "); 
+        planbLabel.setForeground(Color.decode("#FCFEFC"));
+        startPanel.add(startLabel);
+        startPanel.add(Box.createHorizontalGlue());
+        startPanel.add(planbLabel);
+        startPanel.setBorder(BorderFactory
+                .createMatteBorder(8,8,4,8, Color.decode("#3C3F41")));
         createDashboardPanel();
         createActionPlanPanel();
         initImageLabel = new JLabel();
         initImageLabel.setPreferredSize(new Dimension(500,328));
-        //initImageLabel.setSize(initImageLabel.getPreferredSize());
+        initImageLabel.setBorder(BorderFactory
+                .createMatteBorder(4,8,4,8, Color.decode("#3C3F41")));
+        optionsContentPanel.add(startPanel, BorderLayout.NORTH);
         optionsContentPanel.add(initImageLabel,BorderLayout.CENTER);
     }
     
@@ -1612,11 +1641,10 @@ public class UITerminal extends JFrame{
                     menuFlag = false;
                     initImageLabel.setIcon(new ImageIcon(new ImageIcon(
                         getClass().getResource("/images/plantAtNight12.png"))
-                        .getImage().getScaledInstance(optionsContentPanel.getSize().width,
-                                optionsContentPanel.getSize().height, Image.SCALE_SMOOTH)));
+                        .getImage().getScaledInstance(optionsContentPanel.getSize().width + 100,
+                                optionsContentPanel.getSize().height - 45, Image.SCALE_SMOOTH)));
                     mainPanel.repaint();
                     mainPanel.revalidate();
-                    System.out.println(optionsContentPanel.getSize());
                 }
                 else{
                     mainMenu.setPreferredSize(new Dimension(140,600));
@@ -1626,8 +1654,8 @@ public class UITerminal extends JFrame{
                     menuFlag = true;
                     initImageLabel.setIcon(new ImageIcon(new ImageIcon(
                         getClass().getResource("/images/plantAtNight12.png"))
-                        .getImage().getScaledInstance(optionsContentPanel.getSize().width,
-                                optionsContentPanel.getSize().height, Image.SCALE_SMOOTH)));
+                        .getImage().getScaledInstance(optionsContentPanel.getSize().width - 100,
+                                optionsContentPanel.getSize().height - 65, Image.SCALE_SMOOTH)));
                     mainPanel.repaint();
                     mainPanel.revalidate();
                 }
@@ -1635,11 +1663,7 @@ public class UITerminal extends JFrame{
         });
         pack();
         setExtendedState(6);
-        initImageLabel.setIcon(new ImageIcon(new ImageIcon(
-                        getClass().getResource("/images/plantAtNight12.png"))
-                        .getImage().getScaledInstance(optionsContentPanel.getSize().width,
-                                optionsContentPanel.getSize().height, Image.SCALE_DEFAULT)));
-        mainPanel.repaint();
+        this.setTitle("PlanB v1.0");
         mainPanel.revalidate();
         setVisible(true);
         
@@ -1649,22 +1673,22 @@ public class UITerminal extends JFrame{
         item.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                item.setBackground(Color.decode("#4B6EAE")); // CDCFCD
+                item.setBackground(Color.decode("#4B6EAF")); // CDCFCD
                 if(item.equals(menuItem))
-                    h1.setBackground(Color.decode("#4B6EAE"));
+                    h1.setBackground(Color.decode("#4B6EAF"));
                 if(!item.equals(itemFlag)){    
                     if(item.equals(dashboardMenu))
-                        h2.setBackground(Color.decode("#4B6EAE"));
+                        h2.setBackground(Color.decode("#4B6EAF"));
                     else if(item.equals(meetingMenu))
-                        h3.setBackground(Color.decode("#4B6EAE"));
+                        h3.setBackground(Color.decode("#4B6EAF"));
                     else if(item.equals(actionPlanMenu))
-                        h4.setBackground(Color.decode("#4B6EAE"));
+                        h4.setBackground(Color.decode("#4B6EAF"));
                     else if(item.equals(teamMenu))
-                        h5.setBackground(Color.decode("#4B6EAE"));
+                        h5.setBackground(Color.decode("#4B6EAF"));
                     else if(item.equals(profileMenu))
-                        h6.setBackground(Color.decode("#4B6EAE"));
+                        h6.setBackground(Color.decode("#4B6EAF"));
                     else if(item.equals(settingsMenu))
-                        h7.setBackground(Color.decode("#4B6EAE"));
+                        h7.setBackground(Color.decode("#4B6EAF"));
                 }
                 item.repaint();
             }
@@ -1696,10 +1720,18 @@ public class UITerminal extends JFrame{
                         mainMenu.setPreferredSize(new Dimension(140,600));
                         mainPanel.repaint();
                         mainPanel.revalidate();
-                        initImageLabel.setIcon(new ImageIcon(new ImageIcon(
-                        getClass().getResource("/images/plantAtNight12.png"))
-                        .getImage().getScaledInstance(optionsContentPanel.getSize().width,
-                                optionsContentPanel.getSize().height, Image.SCALE_SMOOTH)));
+                        if(getJFrame().getExtendedState() != 6){
+                            initImageLabel.setIcon(new ImageIcon(new ImageIcon(
+                            getClass().getResource("/images/plantAtNight12.png"))
+                            .getImage().getScaledInstance(optionsContentPanel.getSize().width - 100,
+                                    optionsContentPanel.getSize().height - 45, Image.SCALE_SMOOTH)));
+                        }
+                        else{
+                            initImageLabel.setIcon(new ImageIcon(new ImageIcon(
+                            getClass().getResource("/images/plantAtNight12.png"))
+                            .getImage().getScaledInstance(optionsContentPanel.getSize().width - 100,
+                                    optionsContentPanel.getSize().height - 65, Image.SCALE_SMOOTH)));
+                        }
                         mainPanel.repaint();
                         mainPanel.revalidate();
                         menuItem.setToolTipText("Minimize Navigation Bar");
@@ -1709,10 +1741,18 @@ public class UITerminal extends JFrame{
                         mainMenu.setPreferredSize(new Dimension(40,600));
                         mainPanel.repaint();
                         mainPanel.revalidate();
-                        initImageLabel.setIcon(new ImageIcon(new ImageIcon(
-                        getClass().getResource("/images/plantAtNight12.png"))
-                        .getImage().getScaledInstance(optionsContentPanel.getSize().width,
-                                optionsContentPanel.getSize().height, Image.SCALE_SMOOTH)));
+                        if(getJFrame().getExtendedState() != 6){
+                            initImageLabel.setIcon(new ImageIcon(new ImageIcon(
+                            getClass().getResource("/images/plantAtNight12.png"))
+                            .getImage().getScaledInstance(optionsContentPanel.getSize().width + 100,
+                                    optionsContentPanel.getSize().height - 45, Image.SCALE_SMOOTH)));
+                        }
+                        else{
+                            initImageLabel.setIcon(new ImageIcon(new ImageIcon(
+                            getClass().getResource("/images/plantAtNight12.png"))
+                            .getImage().getScaledInstance(optionsContentPanel.getSize().width + 100,
+                                    optionsContentPanel.getSize().height - 65, Image.SCALE_SMOOTH)));
+                        }
                         mainPanel.repaint();
                         mainPanel.revalidate();
                         menuItem.setToolTipText("Maximize Navigation Bar");
@@ -1722,7 +1762,7 @@ public class UITerminal extends JFrame{
                 else if(item.equals(dashboardMenu)){
                     optionsContentPanel.removeAll();
                     optionsContentPanel.add(dashboardPanel, BorderLayout.CENTER);
-                    h2.setBackground(Color.decode("#4b6eae"));
+                    h2.setBackground(Color.decode("#4B6EAF"));
                     h3.setBackground(Color.decode("#3C3F41"));
                     h4.setBackground(Color.decode("#3C3F41"));
                     h5.setBackground(Color.decode("#3C3F41"));
@@ -1734,7 +1774,7 @@ public class UITerminal extends JFrame{
                 }
                 else if(item.equals(meetingMenu)){
                     h2.setBackground(Color.decode("#3C3F41"));
-                    h3.setBackground(Color.decode("#4b6eae"));
+                    h3.setBackground(Color.decode("#4B6EAF"));
                     h4.setBackground(Color.decode("#3C3F41"));
                     h5.setBackground(Color.decode("#3C3F41"));
                     h6.setBackground(Color.decode("#3C3F41"));
@@ -1746,7 +1786,7 @@ public class UITerminal extends JFrame{
                     optionsContentPanel.add(actionPlanPanel, BorderLayout.CENTER);
                     h2.setBackground(Color.decode("#3C3F41"));
                     h3.setBackground(Color.decode("#3C3F41"));
-                    h4.setBackground(Color.decode("#4b6eae"));
+                    h4.setBackground(Color.decode("#4B6EAF"));
                     h5.setBackground(Color.decode("#3C3F41"));
                     h6.setBackground(Color.decode("#3C3F41"));
                     h7.setBackground(Color.decode("#3C3F41"));
@@ -1758,7 +1798,7 @@ public class UITerminal extends JFrame{
                     h2.setBackground(Color.decode("#3C3F41"));
                     h3.setBackground(Color.decode("#3C3F41"));
                     h4.setBackground(Color.decode("#3C3F41"));
-                    h5.setBackground(Color.decode("#4b6eae"));
+                    h5.setBackground(Color.decode("#4B6EAF"));
                     h6.setBackground(Color.decode("#3C3F41"));
                     h7.setBackground(Color.decode("#3C3F41"));
                     itemFlag = teamMenu;
@@ -1768,7 +1808,7 @@ public class UITerminal extends JFrame{
                     h3.setBackground(Color.decode("#3C3F41"));
                     h4.setBackground(Color.decode("#3C3F41"));
                     h5.setBackground(Color.decode("#3C3F41"));
-                    h6.setBackground(Color.decode("#4b6eae"));
+                    h6.setBackground(Color.decode("#4B6EAF"));
                     h7.setBackground(Color.decode("#3C3F41"));
                     itemFlag = profileMenu;
                 }
@@ -1778,7 +1818,7 @@ public class UITerminal extends JFrame{
                     h4.setBackground(Color.decode("#3C3F41"));
                     h5.setBackground(Color.decode("#3C3F41"));
                     h6.setBackground(Color.decode("#3C3F41"));
-                    h7.setBackground(Color.decode("#4b6eae"));
+                    h7.setBackground(Color.decode("#4B6EAF"));
                     itemFlag = settingsMenu;
                 }
             }
@@ -1802,7 +1842,9 @@ public class UITerminal extends JFrame{
         actionListTable.getColumnModel().getColumn(0).setMaxWidth(77);  //ID
         actionListTable.getColumnModel().getColumn(0).setMinWidth(77);  //ID
         actionListTable.getColumnModel().getColumn(1).setMaxWidth(40);  //RESPONSIBLE
+        actionListTable.getColumnModel().getColumn(4).setMinWidth(70);  //START DATE
         actionListTable.getColumnModel().getColumn(4).setMaxWidth(73);  //START DATE
+        actionListTable.getColumnModel().getColumn(5).setMinWidth(70);  //DUE DATE
         actionListTable.getColumnModel().getColumn(5).setMaxWidth(73);  //DUE DATE
         actionListTable.getColumnModel().getColumn(6).setMaxWidth(73);  //END DATE
         actionListTable.getColumnModel().getColumn(7).setMaxWidth(50);  //PROGRESS
@@ -1887,19 +1929,7 @@ public class UITerminal extends JFrame{
     protected void updateJTable(ActionItemFilter filter, ArrayList<Object> values){
         try {
             Object[] object = Aps.getTerminal().getTableContent(filter,values, meetingName);
-            Meeting meeting = (Meeting)object[0];
-            if(((TableModel)object[1]).getRowCount() != 0){
-                actionListTable.setModel((TableModel)object[1]);
-                actionListTable.setShowGrid(false);
-                setColumnWidth();
-                centerColumnContent();
-                actionListTable.setShowGrid(false);
-            } 
-            else if(meetingName != null){
-                JOptionPane.showMessageDialog(new JOptionPane(),
-                "There's not Action with the specified criteria",
-                "Information",JOptionPane.INFORMATION_MESSAGE);
-            }            
+            Meeting meeting = (Meeting)object[0];            
             if(meeting != null){
                 ActionPlan plan = meeting.getActionPlan();
                 APSummary summary = plan.getSummary();
@@ -1951,6 +1981,16 @@ public class UITerminal extends JFrame{
                     teamPerformancePanel.setBackground(Color.decode("#64D610"));
                     performanceValueLabel.setForeground(Color.decode("#FCFEFC"));
                 }
+            }
+            if(((TableModel)object[1]).getRowCount() != 0){
+                actionListTable.setModel((TableModel)object[1]);
+                setColumnWidth();
+                centerColumnContent();
+            } 
+            else if(meetingName != null){
+                JOptionPane.showMessageDialog(new JOptionPane(),
+                "There's not Action with the specified criteria",
+                "Information",JOptionPane.INFORMATION_MESSAGE);
             }
             actionListTable.repaint();
         }
@@ -2026,7 +2066,6 @@ public class UITerminal extends JFrame{
                         "Select a Date criteria for filtering", "Date Selection", 
                         JOptionPane.INFORMATION_MESSAGE);
                     }
-                    updateJTable(globalFilter, filterValues);
                 }
                 catch(Exception e){
                     JOptionPane.showMessageDialog(this, 

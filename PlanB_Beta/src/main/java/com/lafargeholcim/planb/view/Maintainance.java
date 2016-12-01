@@ -71,7 +71,8 @@ public class Maintainance extends javax.swing.JFrame {
         commentsLabel.setText("Comments");
         getContentPane().add(commentsLabel, java.awt.BorderLayout.PAGE_END);
 
-        idValueTextField.setBackground(new java.awt.Color(230, 225, 225));
+        idValueTextField.setBackground(new java.awt.Color(60, 63, 65));
+        idValueTextField.setForeground(javax.swing.UIManager.getDefaults().getColor("Table.selectionBackground"));
         idValueTextField.setText("Auto-Generated");
         getContentPane().add(idValueTextField, java.awt.BorderLayout.LINE_END);
 
@@ -158,6 +159,7 @@ public class Maintainance extends javax.swing.JFrame {
         daysLabel.setText("days");
         getContentPane().add(daysLabel, java.awt.BorderLayout.CENTER);
 
+        jTable1.setForeground(java.awt.SystemColor.controlShadow);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
