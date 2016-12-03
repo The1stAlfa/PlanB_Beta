@@ -36,15 +36,15 @@ public class Meetings extends javax.swing.JFrame {
         addMeetingLabel = new javax.swing.JLabel();
         meetingsListLabel = new javax.swing.JLabel();
         editMeetingLabel = new javax.swing.JLabel();
-        meetinglistScrollPane1 = new javax.swing.JScrollPane();
-        meetingListTable1 = new javax.swing.JTable();
+        meetingListScrollPane = new javax.swing.JScrollPane();
+        meetingListTable = new javax.swing.JTable();
         removeMeetingLabel = new javax.swing.JLabel();
         meetingInfoPanel = new javax.swing.JPanel();
         identifierLabel = new javax.swing.JLabel();
         idTextField = new javax.swing.JTextField();
         meetingNameLabel = new javax.swing.JLabel();
         actionPlanIdLabel = new javax.swing.JLabel();
-        actionPlanTextFieldl = new javax.swing.JTextField();
+        actionPlanTextField = new javax.swing.JTextField();
         nameTextField = new javax.swing.JTextField();
         acronymLabel = new javax.swing.JLabel();
         acronymTextField = new javax.swing.JTextField();
@@ -59,8 +59,8 @@ public class Meetings extends javax.swing.JFrame {
         workTeamInformationPanel = new javax.swing.JPanel();
         workTeamIdLabel = new javax.swing.JLabel();
         workTeamIdTextField = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        workTeamIdTextField1 = new javax.swing.JTextField();
+        performanceTeamLabel = new javax.swing.JLabel();
+        performanceTeamTextField = new javax.swing.JTextField();
         totalTeamLabel = new javax.swing.JLabel();
         actionsTitleLabel = new javax.swing.JLabel();
         actionsSeparator = new javax.swing.JSeparator();
@@ -74,17 +74,18 @@ public class Meetings extends javax.swing.JFrame {
         teamListLabel = new javax.swing.JLabel();
         removeMemberLabel = new javax.swing.JLabel();
         addMemberLabel = new javax.swing.JLabel();
-        teamlistScrollPane = new javax.swing.JScrollPane();
+        teamListScrollPane = new javax.swing.JScrollPane();
         teamListTable = new javax.swing.JTable();
-        teamListLabel1 = new javax.swing.JLabel();
-        removeMemberLabel1 = new javax.swing.JLabel();
-        addMemberLabel1 = new javax.swing.JLabel();
+        participantListLabel = new javax.swing.JLabel();
+        removeParticipantLabel = new javax.swing.JLabel();
+        addParticipantLabel = new javax.swing.JLabel();
         adtParticipantsScrollPane = new javax.swing.JScrollPane();
         adtParticipantsTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(900, 700));
 
+        meetingsPanel.setBackground(new java.awt.Color(187, 187, 187));
         meetingsPanel.setLayout(new java.awt.BorderLayout());
 
         optionTitlePanel.setBackground(new java.awt.Color(69, 73, 74));
@@ -105,22 +106,29 @@ public class Meetings extends javax.swing.JFrame {
 
         meetingsPanel.add(optionTitlePanel, java.awt.BorderLayout.NORTH);
 
+        meetingContentPanel.setBackground(new java.awt.Color(187, 187, 187));
         meetingContentPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 8, 4, 8, new java.awt.Color(60, 63, 65)));
+        meetingContentPanel.setPreferredSize(new java.awt.Dimension(816, 600));
         meetingContentPanel.setLayout(new javax.swing.BoxLayout(meetingContentPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        leftPanel.setPreferredSize(new java.awt.Dimension(350, 500));
+        leftPanel.setBackground(new java.awt.Color(187, 187, 187));
+        leftPanel.setMaximumSize(new java.awt.Dimension(400, 32767));
+        leftPanel.setPreferredSize(new java.awt.Dimension(400, 500));
 
         addMeetingLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plusWhite24.png"))); // NOI18N
         addMeetingLabel.setIconTextGap(0);
 
         meetingsListLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        meetingsListLabel.setForeground(new java.awt.Color(252, 254, 252));
         meetingsListLabel.setText("Meetings List");
         meetingsListLabel.setIconTextGap(0);
 
         editMeetingLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editWhite24.png"))); // NOI18N
         editMeetingLabel.setIconTextGap(0);
 
-        meetingListTable1.setModel(new javax.swing.table.DefaultTableModel(
+        meetingListScrollPane.setPreferredSize(new java.awt.Dimension(352, 148));
+
+        meetingListTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -140,61 +148,82 @@ public class Meetings extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        meetingListTable1.setColumnSelectionAllowed(true);
-        meetingListTable1.setRowHeight(25);
-        meetingListTable1.setShowVerticalLines(false);
-        meetinglistScrollPane1.setViewportView(meetingListTable1);
-        meetingListTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (meetingListTable1.getColumnModel().getColumnCount() > 0) {
-            meetingListTable1.getColumnModel().getColumn(0).setMinWidth(65);
-            meetingListTable1.getColumnModel().getColumn(0).setPreferredWidth(65);
-            meetingListTable1.getColumnModel().getColumn(0).setMaxWidth(65);
+        meetingListTable.setColumnSelectionAllowed(true);
+        meetingListTable.setRowHeight(25);
+        meetingListTable.setShowVerticalLines(false);
+        meetingListScrollPane.setViewportView(meetingListTable);
+        meetingListTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (meetingListTable.getColumnModel().getColumnCount() > 0) {
+            meetingListTable.getColumnModel().getColumn(0).setMinWidth(65);
+            meetingListTable.getColumnModel().getColumn(0).setPreferredWidth(65);
+            meetingListTable.getColumnModel().getColumn(0).setMaxWidth(65);
         }
 
         removeMeetingLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deleteWhite24.png"))); // NOI18N
         removeMeetingLabel.setIconTextGap(0);
 
+        meetingInfoPanel.setBackground(new java.awt.Color(187, 187, 187));
         meetingInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Meeting Inforrmation", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-        meetingInfoPanel.setPreferredSize(new java.awt.Dimension(340, 291));
+        meetingInfoPanel.setPreferredSize(new java.awt.Dimension(360, 291));
 
         identifierLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         identifierLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         identifierLabel.setText("Identifier");
         identifierLabel.setIconTextGap(0);
+        identifierLabel.setPreferredSize(new java.awt.Dimension(68, 33));
 
         idTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         idTextField.setText(" 1");
+        idTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(187, 187, 187)));
+        idTextField.setPreferredSize(new java.awt.Dimension(52, 33));
 
         meetingNameLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         meetingNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         meetingNameLabel.setText("Name");
         meetingNameLabel.setIconTextGap(0);
+        meetingNameLabel.setPreferredSize(new java.awt.Dimension(63, 33));
 
         actionPlanIdLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         actionPlanIdLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         actionPlanIdLabel.setText("Action Plan ID");
         actionPlanIdLabel.setIconTextGap(0);
 
-        actionPlanTextFieldl.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        actionPlanTextFieldl.setText(" 1");
+        actionPlanTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        actionPlanTextField.setText(" 1");
+        actionPlanTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(187, 187, 187)));
+        actionPlanTextField.setMaximumSize(new java.awt.Dimension(52, 33));
+        actionPlanTextField.setPreferredSize(new java.awt.Dimension(52, 33));
 
         nameTextField.setText("Cómite Técnico Semanal");
+        nameTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(187, 187, 187)));
+        nameTextField.setMaximumSize(new java.awt.Dimension(257, 33));
+        nameTextField.setPreferredSize(new java.awt.Dimension(257, 33));
 
         acronymLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         acronymLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         acronymLabel.setText("Acronym");
+        acronymLabel.setPreferredSize(new java.awt.Dimension(68, 33));
 
         acronymTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         acronymTextField.setText("CTE");
+        acronymTextField.setPreferredSize(new java.awt.Dimension(52, 33));
 
         facilityLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         facilityLabel.setText("Facility");
 
         facilityTextField.setText("Planta Guayaquil");
+        facilityTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(187, 187, 187)));
+        facilityTextField.setMaximumSize(new java.awt.Dimension(128, 33));
+        facilityTextField.setPreferredSize(new java.awt.Dimension(128, 33));
 
         purposeLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         purposeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         purposeLabel.setText("Purpose");
+        purposeLabel.setIconTextGap(0);
+        purposeLabel.setPreferredSize(new java.awt.Dimension(68, 33));
+
+        purposeScrollPane.setMaximumSize(new java.awt.Dimension(257, 71));
+        purposeScrollPane.setPreferredSize(new java.awt.Dimension(257, 71));
 
         purposeTextArea.setEditable(false);
         purposeTextArea.setColumns(20);
@@ -202,70 +231,76 @@ public class Meetings extends javax.swing.JFrame {
         purposeTextArea.setRows(5);
         purposeTextArea.setText("El propósito será siempre el mismo\nustedes ya saben como son este tipo\nde cosas\n");
         purposeTextArea.setWrapStyleWord(true);
+        purposeTextArea.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(187, 187, 187)));
         purposeScrollPane.setViewportView(purposeTextArea);
 
         apOwnerLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        apOwnerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         apOwnerLabel.setText("Action Plan Owner");
         apOwnerLabel.setToolTipText("");
+        apOwnerLabel.setPreferredSize(new java.awt.Dimension(143, 33));
 
         apOwnerTextField.setText("SERGIO ORJUELA");
+        apOwnerTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(187, 187, 187)));
+        apOwnerTextField.setMaximumSize(new java.awt.Dimension(166, 33));
+        apOwnerTextField.setPreferredSize(new java.awt.Dimension(166, 33));
 
         javax.swing.GroupLayout meetingInfoPanelLayout = new javax.swing.GroupLayout(meetingInfoPanel);
         meetingInfoPanel.setLayout(meetingInfoPanelLayout);
         meetingInfoPanelLayout.setHorizontalGroup(
             meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(meetingInfoPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(meetingInfoPanelLayout.createSequentialGroup()
-                        .addComponent(apOwnerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(apOwnerTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(meetingInfoPanelLayout.createSequentialGroup()
                         .addGroup(meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(acronymLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(meetingNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(identifierLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE))
+                            .addComponent(acronymLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(identifierLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(meetingNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(meetingInfoPanelLayout.createSequentialGroup()
                                 .addComponent(acronymTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(facilityLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(facilityTextField))
+                                .addComponent(facilityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(meetingInfoPanelLayout.createSequentialGroup()
                                 .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(actionPlanIdLabel)
+                                .addComponent(actionPlanIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(actionPlanTextFieldl, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(nameTextField)))
+                                .addComponent(actionPlanTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(meetingInfoPanelLayout.createSequentialGroup()
-                        .addComponent(purposeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(apOwnerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(purposeScrollPane)))
-                .addGap(12, 12, 12))
+                        .addComponent(apOwnerTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(facilityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, meetingInfoPanelLayout.createSequentialGroup()
+                            .addComponent(purposeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(purposeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18))
         );
         meetingInfoPanelLayout.setVerticalGroup(
             meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(meetingInfoPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(identifierLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(actionPlanIdLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(meetingInfoPanelLayout.createSequentialGroup()
-                        .addGroup(meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(identifierLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(actionPlanTextFieldl, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(actionPlanIdLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(actionPlanTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(meetingNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(meetingNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(acronymLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(acronymLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(acronymTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(facilityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -276,9 +311,9 @@ public class Meetings extends javax.swing.JFrame {
                     .addComponent(purposeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(meetingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(apOwnerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(apOwnerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(apOwnerTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
@@ -286,68 +321,75 @@ public class Meetings extends javax.swing.JFrame {
         leftPanelLayout.setHorizontalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(leftPanelLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addGap(35, 35, 35)
                 .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(meetinglistScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(meetingInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(meetingListScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(leftPanelLayout.createSequentialGroup()
                         .addComponent(meetingsListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(150, 150, 150)
+                        .addGap(157, 157, 157)
                         .addComponent(addMeetingLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(editMeetingLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(removeMeetingLabel)))
-                .addGap(51, 51, 51))
-            .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(leftPanelLayout.createSequentialGroup()
-                    .addGap(14, 14, 14)
-                    .addComponent(meetingInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(51, Short.MAX_VALUE)))
+                .addGap(16, 16, 16))
         );
         leftPanelLayout.setVerticalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(leftPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(meetingsListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addMeetingLabel)
                     .addComponent(editMeetingLabel)
                     .addComponent(removeMeetingLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(meetinglistScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8))
-            .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftPanelLayout.createSequentialGroup()
-                    .addContainerGap(203, Short.MAX_VALUE)
-                    .addComponent(meetingInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(meetingListScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(meetingInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         meetingContentPanel.add(leftPanel);
 
-        rightPanel.setPreferredSize(new java.awt.Dimension(350, 500));
+        rightPanel.setBackground(new java.awt.Color(187, 187, 187));
+        rightPanel.setMinimumSize(new java.awt.Dimension(370, 500));
+        rightPanel.setPreferredSize(new java.awt.Dimension(400, 500));
 
+        workTeamInformationPanel.setBackground(new java.awt.Color(187, 187, 187));
         workTeamInformationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("WorkTeam Information"));
-        workTeamInformationPanel.setPreferredSize(new java.awt.Dimension(340, 211));
+        workTeamInformationPanel.setPreferredSize(new java.awt.Dimension(340, 195));
 
         workTeamIdLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         workTeamIdLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         workTeamIdLabel.setText("Identifier");
         workTeamIdLabel.setIconTextGap(0);
+        workTeamIdLabel.setPreferredSize(new java.awt.Dimension(80, 33));
 
         workTeamIdTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         workTeamIdTextField.setText(" 1");
+        workTeamIdTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(187, 187, 187)));
+        workTeamIdTextField.setEnabled(false);
+        workTeamIdTextField.setPreferredSize(new java.awt.Dimension(45, 33));
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel3.setText("Performance");
+        performanceTeamLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        performanceTeamLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        performanceTeamLabel.setText("Performance");
+        performanceTeamLabel.setPreferredSize(new java.awt.Dimension(107, 33));
 
-        workTeamIdTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        workTeamIdTextField1.setText(" 1");
+        performanceTeamTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        performanceTeamTextField.setText(" 1");
+        performanceTeamTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(187, 187, 187)));
+        performanceTeamTextField.setEnabled(false);
+        performanceTeamTextField.setPreferredSize(new java.awt.Dimension(45, 33));
 
         totalTeamLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         totalTeamLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         totalTeamLabel.setText("Total");
         totalTeamLabel.setIconTextGap(0);
+        totalTeamLabel.setPreferredSize(new java.awt.Dimension(80, 33));
+        totalTeamLabel.setRequestFocusEnabled(false);
 
         actionsTitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         actionsTitleLabel.setText("Actions");
@@ -358,28 +400,43 @@ public class Meetings extends javax.swing.JFrame {
         appTeamLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         appTeamLabel.setText("Completed APP");
         appTeamLabel.setIconTextGap(0);
+        appTeamLabel.setPreferredSize(new java.awt.Dimension(107, 33));
 
         totalTeamTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         totalTeamTextField.setText(" 1");
+        totalTeamTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(187, 187, 187)));
+        totalTeamTextField.setEnabled(false);
+        totalTeamTextField.setPreferredSize(new java.awt.Dimension(45, 33));
 
+        appTeamTextField.setBackground(new java.awt.Color(30, 31, 32));
         appTeamTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         appTeamTextField.setText(" 1");
+        appTeamTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(187, 187, 187)));
+        appTeamTextField.setEnabled(false);
+        appTeamTextField.setPreferredSize(new java.awt.Dimension(45, 33));
 
         completedTeamLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         completedTeamLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         completedTeamLabel.setText("Completed");
         completedTeamLabel.setIconTextGap(0);
+        completedTeamLabel.setPreferredSize(new java.awt.Dimension(80, 33));
 
         completedTeamTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         completedTeamTextField.setText(" 1");
+        completedTeamTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(187, 187, 187)));
+        completedTeamTextField.setEnabled(false);
+        completedTeamTextField.setPreferredSize(new java.awt.Dimension(45, 33));
 
         overdueTeamLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         overdueTeamLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         overdueTeamLabel.setText("Overdue");
         overdueTeamLabel.setIconTextGap(0);
+        overdueTeamLabel.setPreferredSize(new java.awt.Dimension(107, 33));
 
         overdueTeamTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         overdueTeamTextField.setText(" 1");
+        overdueTeamTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(187, 187, 187)));
+        overdueTeamTextField.setPreferredSize(new java.awt.Dimension(45, 33));
 
         javax.swing.GroupLayout workTeamInformationPanelLayout = new javax.swing.GroupLayout(workTeamInformationPanel);
         workTeamInformationPanel.setLayout(workTeamInformationPanelLayout);
@@ -388,42 +445,40 @@ public class Meetings extends javax.swing.JFrame {
             .addGroup(workTeamInformationPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(workTeamInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(workTeamInformationPanelLayout.createSequentialGroup()
-                        .addGroup(workTeamInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(workTeamInformationPanelLayout.createSequentialGroup()
-                                .addGroup(workTeamInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(workTeamIdLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                                    .addComponent(totalTeamLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(workTeamInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(workTeamInformationPanelLayout.createSequentialGroup()
-                                        .addGap(11, 11, 11)
-                                        .addComponent(workTeamIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(34, 34, 34)
-                                        .addComponent(jLabel3)
-                                        .addGap(12, 12, 12)
-                                        .addComponent(workTeamIdTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 1, Short.MAX_VALUE))
-                                    .addGroup(workTeamInformationPanelLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(totalTeamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(appTeamLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(appTeamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(workTeamInformationPanelLayout.createSequentialGroup()
-                                .addComponent(actionsTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(actionsSeparator)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(workTeamInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(workTeamInformationPanelLayout.createSequentialGroup()
+                            .addGroup(workTeamInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(workTeamIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(totalTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(workTeamInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(workTeamInformationPanelLayout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(workTeamIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(performanceTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(12, 12, 12)
+                                    .addComponent(performanceTeamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(workTeamInformationPanelLayout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(totalTeamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(appTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(12, 12, 12)
+                                    .addComponent(appTeamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(workTeamInformationPanelLayout.createSequentialGroup()
+                            .addComponent(actionsTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(actionsSeparator)))
                     .addGroup(workTeamInformationPanelLayout.createSequentialGroup()
                         .addComponent(completedTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(completedTeamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(overdueTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(12, 12, 12)
                         .addComponent(overdueTeamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         workTeamInformationPanelLayout.setVerticalGroup(
             workTeamInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -435,24 +490,24 @@ public class Meetings extends javax.swing.JFrame {
                             .addComponent(workTeamIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(workTeamInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(workTeamIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(workTeamIdTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(performanceTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(performanceTeamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(actionsTitleLabel))
                     .addComponent(actionsSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addGroup(workTeamInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(totalTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(totalTeamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(appTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(appTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(appTeamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addGroup(workTeamInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(completedTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(completedTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(completedTeamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(overdueTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(overdueTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(overdueTeamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         teamListLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -461,12 +516,16 @@ public class Meetings extends javax.swing.JFrame {
 
         removeMemberLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deleteWhite24.png"))); // NOI18N
         removeMemberLabel.setIconTextGap(0);
+        removeMemberLabel.setPreferredSize(new java.awt.Dimension(24, 30));
 
         addMemberLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plusWhite24.png"))); // NOI18N
         addMemberLabel.setIconTextGap(0);
+        addMemberLabel.setPreferredSize(new java.awt.Dimension(24, 30));
 
         teamListTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null},
+                {null, null},
                 {null, null},
                 {null, null},
                 {null, null},
@@ -484,9 +543,10 @@ public class Meetings extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        teamListTable.setColumnSelectionAllowed(true);
         teamListTable.setRowHeight(25);
         teamListTable.setShowVerticalLines(false);
-        teamlistScrollPane.setViewportView(teamListTable);
+        teamListScrollPane.setViewportView(teamListTable);
         teamListTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (teamListTable.getColumnModel().getColumnCount() > 0) {
             teamListTable.getColumnModel().getColumn(0).setMinWidth(65);
@@ -494,15 +554,17 @@ public class Meetings extends javax.swing.JFrame {
             teamListTable.getColumnModel().getColumn(0).setMaxWidth(65);
         }
 
-        teamListLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        teamListLabel1.setText("Aditional Participants List");
-        teamListLabel1.setIconTextGap(0);
+        participantListLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        participantListLabel.setText("Aditional Participants List");
+        participantListLabel.setIconTextGap(0);
 
-        removeMemberLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deleteWhite24.png"))); // NOI18N
-        removeMemberLabel1.setIconTextGap(0);
+        removeParticipantLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deleteWhite24.png"))); // NOI18N
+        removeParticipantLabel.setIconTextGap(0);
+        removeParticipantLabel.setPreferredSize(new java.awt.Dimension(24, 30));
 
-        addMemberLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plusWhite24.png"))); // NOI18N
-        addMemberLabel1.setIconTextGap(0);
+        addParticipantLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plusWhite24.png"))); // NOI18N
+        addParticipantLabel.setIconTextGap(0);
+        addParticipantLabel.setPreferredSize(new java.awt.Dimension(24, 30));
 
         adtParticipantsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -527,45 +589,46 @@ public class Meetings extends javax.swing.JFrame {
         rightPanelLayout.setHorizontalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightPanelLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addGap(50, 50, 50)
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(workTeamInformationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(rightPanelLayout.createSequentialGroup()
-                        .addComponent(teamListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addMemberLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeMemberLabel))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelLayout.createSequentialGroup()
-                        .addComponent(teamListLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addMemberLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeMemberLabel1))
-                    .addComponent(teamlistScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
-                    .addComponent(adtParticipantsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                    .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(rightPanelLayout.createSequentialGroup()
+                            .addComponent(teamListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(140, 140, 140)
+                            .addComponent(addMemberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(removeMemberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelLayout.createSequentialGroup()
+                            .addComponent(participantListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(100, 100, 100)
+                            .addComponent(addParticipantLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(removeParticipantLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(teamListScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(adtParticipantsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(workTeamInformationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
         rightPanelLayout.setVerticalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(workTeamInformationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(workTeamInformationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(teamListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addMemberLabel)
-                    .addComponent(removeMemberLabel))
+                    .addComponent(addMemberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeMemberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(teamlistScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(teamListScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(teamListLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addMemberLabel1)
-                    .addComponent(removeMemberLabel1))
+                    .addComponent(participantListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addParticipantLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeParticipantLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(adtParticipantsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         meetingContentPanel.add(rightPanel);
@@ -616,12 +679,12 @@ public class Meetings extends javax.swing.JFrame {
     private javax.swing.JLabel acronymLabel;
     private javax.swing.JTextField acronymTextField;
     private javax.swing.JLabel actionPlanIdLabel;
-    private javax.swing.JTextField actionPlanTextFieldl;
+    private javax.swing.JTextField actionPlanTextField;
     private javax.swing.JSeparator actionsSeparator;
     private javax.swing.JLabel actionsTitleLabel;
     private javax.swing.JLabel addMeetingLabel;
     private javax.swing.JLabel addMemberLabel;
-    private javax.swing.JLabel addMemberLabel1;
+    private javax.swing.JLabel addParticipantLabel;
     private javax.swing.JScrollPane adtParticipantsScrollPane;
     private javax.swing.JTable adtParticipantsTable;
     private javax.swing.JLabel apOwnerLabel;
@@ -636,13 +699,12 @@ public class Meetings extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler1;
     private javax.swing.JTextField idTextField;
     private javax.swing.JLabel identifierLabel;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JPanel meetingContentPanel;
     private javax.swing.JPanel meetingInfoPanel;
-    private javax.swing.JTable meetingListTable1;
+    private javax.swing.JScrollPane meetingListScrollPane;
+    private javax.swing.JTable meetingListTable;
     private javax.swing.JLabel meetingNameLabel;
-    private javax.swing.JScrollPane meetinglistScrollPane1;
     private javax.swing.JLabel meetingsListLabel;
     private javax.swing.JPanel meetingsPanel;
     private javax.swing.JTextField nameTextField;
@@ -650,23 +712,24 @@ public class Meetings extends javax.swing.JFrame {
     private javax.swing.JPanel optionTitlePanel;
     private javax.swing.JLabel overdueTeamLabel;
     private javax.swing.JTextField overdueTeamTextField;
+    private javax.swing.JLabel participantListLabel;
+    private javax.swing.JLabel performanceTeamLabel;
+    private javax.swing.JTextField performanceTeamTextField;
     private javax.swing.JLabel purposeLabel;
     private javax.swing.JScrollPane purposeScrollPane;
     private javax.swing.JTextArea purposeTextArea;
     private javax.swing.JLabel removeMeetingLabel;
     private javax.swing.JLabel removeMemberLabel;
-    private javax.swing.JLabel removeMemberLabel1;
+    private javax.swing.JLabel removeParticipantLabel;
     private javax.swing.JPanel rightPanel;
     private javax.swing.JLabel systemTitle;
     private javax.swing.JLabel teamListLabel;
-    private javax.swing.JLabel teamListLabel1;
+    private javax.swing.JScrollPane teamListScrollPane;
     private javax.swing.JTable teamListTable;
-    private javax.swing.JScrollPane teamlistScrollPane;
     private javax.swing.JLabel totalTeamLabel;
     private javax.swing.JTextField totalTeamTextField;
     private javax.swing.JLabel workTeamIdLabel;
     private javax.swing.JTextField workTeamIdTextField;
-    private javax.swing.JTextField workTeamIdTextField1;
     private javax.swing.JPanel workTeamInformationPanel;
     // End of variables declaration//GEN-END:variables
 }

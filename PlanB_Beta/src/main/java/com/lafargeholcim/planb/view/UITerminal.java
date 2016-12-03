@@ -113,9 +113,9 @@ public class UITerminal extends JFrame{
     private JMenuBar mainMenu;
     private JMenuItem dashboardMenu, meetingMenu, actionPlanMenu, teamMenu,
             profileMenu,settingsMenu,menuItem,itemFlag;
-    private JPanel contentPanel, highlightPanel, titleBarPanel, optionsContentPanel,
-            frameButtonsPanel, mainPanel;
-    private JPanel dashboardPanel, actionPlanPanel, meetingPanel;
+    private JPanel contentPanel, highlightPanel, optionsContentPanel, mainPanel;
+    private JPanel dashboardPanel, actionPlanPanel;
+    private MeetingPane meetingPanel;
     private JLabel initImageLabel;
     private String meetingName; 
     private JPanel gapPanel1,gapPanel2,pagePanel;
@@ -136,7 +136,7 @@ public class UITerminal extends JFrame{
             planExecutionPanel, statusPanel, teamPerformancePanel, totalActionsPanel;
     private JRadioButton contentRadioButton, dateRadioButton, ownerRadioButton, statusRadioButton;
     private JComboBox<String> dateComboBox, statusComboBox;
-    private JTextField endLabel, hintTextField, owner2TextField, startLabel;
+    private JTextField hintTextField, owner2TextField;
     private JPopupMenu meetingPopupMenu;
     private JTextArea participantsTextArea;
     private JScrollPane alTableScrollPane, participantsScrollPane;
@@ -265,8 +265,6 @@ public class UITerminal extends JFrame{
         dateRadioButton = new javax.swing.JRadioButton();
         dateComboBox = new JComboBox<>();
         date2Label = new JLabel();
-        startLabel = new JTextField();
-        endLabel = new JTextField();
         ownerRadioButton = new JRadioButton();
         owner2Label = new JLabel();
         owner2TextField = new JTextField();
@@ -489,13 +487,13 @@ public class UITerminal extends JFrame{
         participantsLabel.setForeground(Color.decode("#FFFFFF"));
         participantsLabel.setText("participants");
 
-        participantsScrollPane.setBackground(Color.decode("#1160AE"));
+        participantsScrollPane.setBackground(Color.decode("#4B6EAF"));
         participantsScrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 3, 0, 0));
         participantsScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         participantsScrollPane.setPreferredSize(new java.awt.Dimension(120, 48));
 
         participantsTextArea.setEditable(false);
-        participantsTextArea.setBackground(Color.decode("#1160AE"));
+        participantsTextArea.setBackground(Color.decode("#4B6EAF"));
         participantsTextArea.setColumns(16);
         participantsTextArea.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         participantsTextArea.setForeground(Color.decode("#FCFEFC"));
@@ -1485,6 +1483,12 @@ public class UITerminal extends JFrame{
         return item;
     }
     
+    private void createMeetingPanel(){
+        meetingPanel = new MeetingPane();
+        meetingPanel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
+        meetingPanel.setBackground(Color.decode("#3C3F41"));
+    }
+    
     private void createMenuItem(String option){
         JMenuItem item = new JMenuItem(option);
         item.setBackground(Color.decode("#3C3F41"));
@@ -1540,6 +1544,7 @@ public class UITerminal extends JFrame{
         startPanel.setBorder(BorderFactory
                 .createMatteBorder(8,8,4,8, Color.decode("#3C3F41")));
         createDashboardPanel();
+        createMeetingPanel();
         createActionPlanPanel();
         initImageLabel = new JLabel();
         initImageLabel.setPreferredSize(new Dimension(500,328));
@@ -1773,6 +1778,8 @@ public class UITerminal extends JFrame{
                     optionsContentPanel.revalidate();
                 }
                 else if(item.equals(meetingMenu)){
+                    optionsContentPanel.removeAll();
+                    optionsContentPanel.add(meetingPanel, BorderLayout.CENTER);
                     h2.setBackground(Color.decode("#3C3F41"));
                     h3.setBackground(Color.decode("#4B6EAF"));
                     h4.setBackground(Color.decode("#3C3F41"));
@@ -1780,6 +1787,8 @@ public class UITerminal extends JFrame{
                     h6.setBackground(Color.decode("#3C3F41"));
                     h7.setBackground(Color.decode("#3C3F41"));
                     itemFlag = meetingMenu;
+                    optionsContentPanel.repaint();
+                    optionsContentPanel.revalidate();
                 }
                 else if(item.equals(actionPlanMenu)){
                     optionsContentPanel.removeAll();

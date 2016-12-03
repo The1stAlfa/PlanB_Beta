@@ -293,7 +293,7 @@ public class LoginForm extends JFrame {
             }
             @Override
             public void mouseExited(MouseEvent e){
-                minimizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/MinusW2-16.png")));
+                minimizeLabel.setIcon(new ImageIcon(getClass().getResource("/images/minus-16.png")));
                 minimizeLabel.repaint();
             }
             @Override
@@ -312,7 +312,7 @@ public class LoginForm extends JFrame {
             }
             @Override
             public void mouseExited(MouseEvent e){
-                closeLabel.setIcon(new ImageIcon(getClass().getResource("/images/close2-16.png")));
+                closeLabel.setIcon(new ImageIcon(getClass().getResource("/images/close-16.png")));
                 closeLabel.repaint();
             }
             @Override

@@ -21,12 +21,17 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,41,0,0,3,13"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,-123,0,0,3,56"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="meetingsPanel">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="bb" green="bb" red="bb" type="rgb"/>
+        </Property>
+      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
           <BorderConstraints direction="First"/>
@@ -95,12 +100,18 @@
         </Container>
         <Container class="javax.swing.JPanel" name="meetingContentPanel">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="bb" green="bb" red="bb" type="rgb"/>
+            </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
                 <MatteColorBorder bottom="4" left="8" right="8" top="4">
                   <Color PropertyName="color" blue="41" green="3f" red="3c" type="rgb"/>
                 </MatteColorBorder>
               </Border>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[816, 600]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -113,8 +124,14 @@
           <SubComponents>
             <Container class="javax.swing.JPanel" name="leftPanel">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="bb" green="bb" red="bb" type="rgb"/>
+                </Property>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[400, 32767]"/>
+                </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 500]"/>
+                  <Dimension value="[400, 500]"/>
                 </Property>
               </Properties>
 
@@ -122,12 +139,13 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="meetinglistScrollPane1" min="-2" pref="342" max="-2" attributes="0"/>
+                              <Component id="meetingInfoPanel" min="-2" pref="361" max="-2" attributes="0"/>
+                              <Component id="meetingListScrollPane" min="-2" pref="352" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Component id="meetingsListLabel" min="-2" pref="106" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="150" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="157" max="-2" attributes="0"/>
                                   <Component id="addMeetingLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="editMeetingLabel" min="-2" max="-2" attributes="0"/>
@@ -135,21 +153,14 @@
                                   <Component id="removeMeetingLabel" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                              <Component id="meetingInfoPanel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="51" max="32767" attributes="0"/>
-                          </Group>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="meetingsListLabel" min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="addMeetingLabel" min="-2" max="-2" attributes="0"/>
@@ -157,15 +168,10 @@
                               <Component id="removeMeetingLabel" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="meetinglistScrollPane1" min="-2" pref="148" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="203" max="32767" attributes="0"/>
-                              <Component id="meetingInfoPanel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="meetingListScrollPane" min="-2" pref="148" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="meetingInfoPanel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -184,6 +190,9 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="14" style="1"/>
                     </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fc" green="fe" red="fc" type="rgb"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Meetings List"/>
                     <Property name="iconTextGap" type="int" value="0"/>
                   </Properties>
@@ -196,14 +205,19 @@
                     <Property name="iconTextGap" type="int" value="0"/>
                   </Properties>
                 </Component>
-                <Container class="javax.swing.JScrollPane" name="meetinglistScrollPane1">
+                <Container class="javax.swing.JScrollPane" name="meetingListScrollPane">
+                  <Properties>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[352, 148]"/>
+                    </Property>
+                  </Properties>
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="meetingListTable1">
+                    <Component class="javax.swing.JTable" name="meetingListTable">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                           <Table columnCount="2" rowCount="5">
@@ -245,13 +259,16 @@
                 </Component>
                 <Container class="javax.swing.JPanel" name="meetingInfoPanel">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="bb" green="bb" red="bb" type="rgb"/>
+                    </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder justification="1" title="Meeting Inforrmation"/>
                       </Border>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[340, 291]"/>
+                      <Dimension value="[360, 291]"/>
                     </Property>
                   </Properties>
 
@@ -259,45 +276,46 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="apOwnerLabel" max="32767" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="apOwnerTextField" min="-2" pref="170" max="-2" attributes="0"/>
-                                  </Group>
+                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="acronymLabel" max="32767" attributes="0"/>
-                                          <Component id="meetingNameLabel" max="32767" attributes="0"/>
-                                          <Component id="identifierLabel" pref="68" max="32767" attributes="0"/>
+                                          <Component id="acronymLabel" min="-2" pref="68" max="-2" attributes="0"/>
+                                          <Component id="identifierLabel" max="-2" attributes="0"/>
+                                          <Component id="meetingNameLabel" alignment="1" min="-2" pref="68" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Group type="102" attributes="0">
                                               <Component id="acronymTextField" min="-2" pref="52" max="-2" attributes="0"/>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="facilityLabel" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="facilityTextField" max="32767" attributes="0"/>
+                                              <Component id="facilityLabel" min="-2" pref="49" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" attributes="0">
                                               <Component id="idTextField" min="-2" pref="52" max="-2" attributes="0"/>
                                               <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="actionPlanIdLabel" min="-2" max="-2" attributes="0"/>
+                                              <Component id="actionPlanIdLabel" min="-2" pref="96" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="actionPlanTextFieldl" min="-2" pref="52" max="-2" attributes="0"/>
+                                              <Component id="actionPlanTextField" min="-2" pref="52" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="nameTextField" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="nameTextField" alignment="0" min="-2" pref="257" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="purposeLabel" min="-2" pref="68" max="-2" attributes="0"/>
+                                      <Component id="apOwnerLabel" min="-2" pref="159" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="purposeScrollPane" max="32767" attributes="0"/>
+                                      <Component id="apOwnerTextField" min="-2" pref="166" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                      <Component id="facilityTextField" alignment="1" min="-2" pref="128" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="purposeLabel" min="-2" pref="68" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="purposeScrollPane" min="-2" pref="257" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -306,24 +324,24 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="identifierLabel" max="32767" attributes="0"/>
+                                  <Component id="actionPlanIdLabel" alignment="1" min="-2" pref="33" max="-2" attributes="0"/>
                                   <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="identifierLabel" min="-2" pref="33" max="-2" attributes="0"/>
                                           <Component id="idTextField" min="-2" pref="33" max="-2" attributes="0"/>
-                                          <Component id="actionPlanTextFieldl" min="-2" pref="33" max="-2" attributes="0"/>
+                                          <Component id="actionPlanTextField" min="-2" pref="33" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="actionPlanIdLabel" alignment="1" min="-2" pref="33" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="meetingNameLabel" max="32767" attributes="0"/>
+                                  <Component id="meetingNameLabel" min="-2" pref="33" max="-2" attributes="0"/>
                                   <Component id="nameTextField" min="-2" pref="33" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="acronymLabel" max="32767" attributes="0"/>
+                                  <Component id="acronymLabel" min="-2" pref="33" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="acronymTextField" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                                       <Component id="facilityLabel" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
@@ -337,10 +355,10 @@
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="apOwnerLabel" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="apOwnerLabel" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                                   <Component id="apOwnerTextField" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                              <EmptySpace pref="9" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -354,12 +372,25 @@
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="Identifier"/>
                         <Property name="iconTextGap" type="int" value="0"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[68, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="idTextField">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value=" 1"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                            <MatteColorBorder>
+                              <Color PropertyName="color" blue="bb" green="bb" red="bb" type="rgb"/>
+                            </MatteColorBorder>
+                          </Border>
+                        </Property>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[52, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="meetingNameLabel">
@@ -370,6 +401,9 @@
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="Name"/>
                         <Property name="iconTextGap" type="int" value="0"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[63, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="actionPlanIdLabel">
@@ -382,15 +416,41 @@
                         <Property name="iconTextGap" type="int" value="0"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="actionPlanTextFieldl">
+                    <Component class="javax.swing.JTextField" name="actionPlanTextField">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value=" 1"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                            <MatteColorBorder>
+                              <Color PropertyName="color" blue="bb" green="bb" red="bb" type="rgb"/>
+                            </MatteColorBorder>
+                          </Border>
+                        </Property>
+                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[52, 33]"/>
+                        </Property>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[52, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="nameTextField">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="C&#xf3;mite T&#xe9;cnico Semanal"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                            <MatteColorBorder>
+                              <Color PropertyName="color" blue="bb" green="bb" red="bb" type="rgb"/>
+                            </MatteColorBorder>
+                          </Border>
+                        </Property>
+                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[257, 33]"/>
+                        </Property>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[257, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="acronymLabel">
@@ -400,12 +460,18 @@
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="Acronym"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[68, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="acronymTextField">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="CTE"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[52, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="facilityLabel">
@@ -419,6 +485,19 @@
                     <Component class="javax.swing.JTextField" name="facilityTextField">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Planta Guayaquil"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                            <MatteColorBorder>
+                              <Color PropertyName="color" blue="bb" green="bb" red="bb" type="rgb"/>
+                            </MatteColorBorder>
+                          </Border>
+                        </Property>
+                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[128, 33]"/>
+                        </Property>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[128, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="purposeLabel">
@@ -428,9 +507,21 @@
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="Purpose"/>
+                        <Property name="iconTextGap" type="int" value="0"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[68, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Container class="javax.swing.JScrollPane" name="purposeScrollPane">
+                      <Properties>
+                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[257, 71]"/>
+                        </Property>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[257, 71]"/>
+                        </Property>
+                      </Properties>
                       <AuxValues>
                         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                       </AuxValues>
@@ -445,6 +536,13 @@
                             <Property name="rows" type="int" value="5"/>
                             <Property name="text" type="java.lang.String" value="El prop&#xf3;sito ser&#xe1; siempre el mismo&#xa;ustedes ya saben como son este tipo&#xa;de cosas&#xa;"/>
                             <Property name="wrapStyleWord" type="boolean" value="true"/>
+                            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                              <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                                <MatteColorBorder>
+                                  <Color PropertyName="color" blue="bb" green="bb" red="bb" type="rgb"/>
+                                </MatteColorBorder>
+                              </Border>
+                            </Property>
                           </Properties>
                         </Component>
                       </SubComponents>
@@ -454,13 +552,30 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Dialog" size="14" style="1"/>
                         </Property>
+                        <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="Action Plan Owner"/>
                         <Property name="toolTipText" type="java.lang.String" value=""/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[143, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="apOwnerTextField">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="SERGIO ORJUELA"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                            <MatteColorBorder>
+                              <Color PropertyName="color" blue="bb" green="bb" red="bb" type="rgb"/>
+                            </MatteColorBorder>
+                          </Border>
+                        </Property>
+                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[166, 33]"/>
+                        </Property>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[166, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -469,8 +584,14 @@
             </Container>
             <Container class="javax.swing.JPanel" name="rightPanel">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="bb" green="bb" red="bb" type="rgb"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[370, 500]"/>
+                </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 500]"/>
+                  <Dimension value="[400, 500]"/>
                 </Property>
               </Properties>
 
@@ -478,27 +599,29 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="workTeamInformationPanel" min="-2" max="-2" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Component id="teamListLabel" min="-2" pref="150" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="addMemberLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="removeMemberLabel" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="teamListLabel" min="-2" pref="150" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
+                                      <Component id="addMemberLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="removeMemberLabel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="participantListLabel" min="-2" pref="192" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
+                                      <Component id="addParticipantLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="removeParticipantLabel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="teamListLabel1" min="-2" pref="192" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="addMemberLabel1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="removeMemberLabel1" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="teamlistScrollPane" alignment="0" pref="342" max="32767" attributes="0"/>
+                              <Component id="teamListScrollPane" pref="0" max="32767" attributes="0"/>
                               <Component id="adtParticipantsScrollPane" alignment="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="workTeamInformationPanel" alignment="0" pref="350" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="28" max="32767" attributes="0"/>
+                          <EmptySpace pref="8" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -506,24 +629,24 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="workTeamInformationPanel" min="-2" pref="187" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="workTeamInformationPanel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="teamListLabel" min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="addMemberLabel" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Component id="removeMemberLabel" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="teamlistScrollPane" min="-2" pref="123" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="teamListScrollPane" min="-2" pref="129" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="teamListLabel1" min="-2" pref="30" max="-2" attributes="0"/>
-                              <Component id="addMemberLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="removeMemberLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="participantListLabel" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="addParticipantLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="removeParticipantLabel" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="adtParticipantsScrollPane" min="-2" pref="72" max="-2" attributes="0"/>
-                          <EmptySpace pref="16" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -531,13 +654,16 @@
               <SubComponents>
                 <Container class="javax.swing.JPanel" name="workTeamInformationPanel">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="bb" green="bb" red="bb" type="rgb"/>
+                    </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="WorkTeam Information"/>
                       </Border>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[340, 211]"/>
+                      <Dimension value="[340, 195]"/>
                     </Property>
                   </Properties>
 
@@ -547,40 +673,37 @@
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="workTeamIdLabel" pref="80" max="32767" attributes="0"/>
-                                                  <Component id="totalTeamLabel" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="workTeamIdLabel" min="-2" pref="80" max="-2" attributes="0"/>
+                                              <Component id="totalTeamLabel" min="-2" pref="80" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" attributes="0">
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <Component id="workTeamIdTextField" min="-2" pref="45" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="performanceTeamLabel" min="-2" pref="107" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                                  <Component id="performanceTeamTextField" min="-2" pref="45" max="-2" attributes="0"/>
                                               </Group>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                                                      <Component id="workTeamIdTextField" min="-2" pref="45" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                                      <Component id="workTeamIdTextField1" min="-2" pref="45" max="-2" attributes="0"/>
-                                                      <EmptySpace min="0" pref="1" max="32767" attributes="0"/>
-                                                  </Group>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                      <Component id="totalTeamTextField" min="-2" pref="45" max="-2" attributes="0"/>
-                                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                      <Component id="appTeamLabel" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace max="32767" attributes="0"/>
-                                                      <Component id="appTeamTextField" min="-2" pref="45" max="-2" attributes="0"/>
-                                                  </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <Component id="totalTeamTextField" min="-2" pref="45" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="appTeamLabel" min="-2" pref="107" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                                  <Component id="appTeamTextField" min="-2" pref="45" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="actionsTitleLabel" min="-2" pref="63" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="actionsSeparator" max="32767" attributes="0"/>
-                                          </Group>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="actionsTitleLabel" min="-2" pref="63" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="actionsSeparator" max="32767" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Component id="completedTeamLabel" min="-2" pref="80" max="-2" attributes="0"/>
@@ -588,11 +711,11 @@
                                       <Component id="completedTeamTextField" min="-2" pref="45" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="overdueTeamLabel" min="-2" pref="107" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                       <Component id="overdueTeamTextField" min="-2" pref="45" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="15" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -606,8 +729,8 @@
                                           <Component id="workTeamIdLabel" min="-2" pref="33" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
                                               <Component id="workTeamIdTextField" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                                              <Component id="jLabel3" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                                              <Component id="workTeamIdTextField1" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                                              <Component id="performanceTeamLabel" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                                              <Component id="performanceTeamTextField" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -617,19 +740,19 @@
                               </Group>
                               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="totalTeamLabel" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="totalTeamLabel" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                                   <Component id="totalTeamTextField" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                                  <Component id="appTeamLabel" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="appTeamLabel" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                                   <Component id="appTeamTextField" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="completedTeamLabel" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="completedTeamLabel" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                                   <Component id="completedTeamTextField" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                                  <Component id="overdueTeamLabel" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="overdueTeamLabel" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                                   <Component id="overdueTeamTextField" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="12" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -643,26 +766,55 @@
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="Identifier"/>
                         <Property name="iconTextGap" type="int" value="0"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[80, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="workTeamIdTextField">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value=" 1"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                            <MatteColorBorder>
+                              <Color PropertyName="color" blue="bb" green="bb" red="bb" type="rgb"/>
+                            </MatteColorBorder>
+                          </Border>
+                        </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[45, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel3">
+                    <Component class="javax.swing.JLabel" name="performanceTeamLabel">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Dialog" size="14" style="1"/>
                         </Property>
+                        <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="Performance"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[107, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="workTeamIdTextField1">
+                    <Component class="javax.swing.JTextField" name="performanceTeamTextField">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value=" 1"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                            <MatteColorBorder>
+                              <Color PropertyName="color" blue="bb" green="bb" red="bb" type="rgb"/>
+                            </MatteColorBorder>
+                          </Border>
+                        </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[45, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="totalTeamLabel">
@@ -673,6 +825,10 @@
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="Total"/>
                         <Property name="iconTextGap" type="int" value="0"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[80, 33]"/>
+                        </Property>
+                        <Property name="requestFocusEnabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="actionsTitleLabel">
@@ -696,18 +852,46 @@
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="Completed APP"/>
                         <Property name="iconTextGap" type="int" value="0"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[107, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="totalTeamTextField">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value=" 1"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                            <MatteColorBorder>
+                              <Color PropertyName="color" blue="bb" green="bb" red="bb" type="rgb"/>
+                            </MatteColorBorder>
+                          </Border>
+                        </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[45, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="appTeamTextField">
                       <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="20" green="1f" red="1e" type="rgb"/>
+                        </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value=" 1"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                            <MatteColorBorder>
+                              <Color PropertyName="color" blue="bb" green="bb" red="bb" type="rgb"/>
+                            </MatteColorBorder>
+                          </Border>
+                        </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[45, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="completedTeamLabel">
@@ -718,12 +902,26 @@
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="Completed"/>
                         <Property name="iconTextGap" type="int" value="0"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[80, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="completedTeamTextField">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value=" 1"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                            <MatteColorBorder>
+                              <Color PropertyName="color" blue="bb" green="bb" red="bb" type="rgb"/>
+                            </MatteColorBorder>
+                          </Border>
+                        </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[45, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="overdueTeamLabel">
@@ -734,12 +932,25 @@
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="Overdue"/>
                         <Property name="iconTextGap" type="int" value="0"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[107, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="overdueTeamTextField">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value=" 1"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                            <MatteColorBorder>
+                              <Color PropertyName="color" blue="bb" green="bb" red="bb" type="rgb"/>
+                            </MatteColorBorder>
+                          </Border>
+                        </Property>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[45, 33]"/>
+                        </Property>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -759,6 +970,9 @@
                       <Image iconType="3" name="/images/deleteWhite24.png"/>
                     </Property>
                     <Property name="iconTextGap" type="int" value="0"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[24, 30]"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="addMemberLabel">
@@ -767,9 +981,12 @@
                       <Image iconType="3" name="/images/plusWhite24.png"/>
                     </Property>
                     <Property name="iconTextGap" type="int" value="0"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[24, 30]"/>
+                    </Property>
                   </Properties>
                 </Component>
-                <Container class="javax.swing.JScrollPane" name="teamlistScrollPane">
+                <Container class="javax.swing.JScrollPane" name="teamListScrollPane">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
@@ -779,7 +996,7 @@
                     <Component class="javax.swing.JTable" name="teamListTable">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="2" rowCount="4">
+                          <Table columnCount="2" rowCount="6">
                             <Column editable="false" title="ID" type="java.lang.Object"/>
                             <Column editable="false" title="Names" type="java.lang.Object"/>
                           </Table>
@@ -798,6 +1015,7 @@
                             </Column>
                           </TableColumnModel>
                         </Property>
+                        <Property name="columnSelectionAllowed" type="boolean" value="true"/>
                         <Property name="rowHeight" type="int" value="25"/>
                         <Property name="showVerticalLines" type="boolean" value="false"/>
                         <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
@@ -807,7 +1025,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JLabel" name="teamListLabel1">
+                <Component class="javax.swing.JLabel" name="participantListLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="14" style="1"/>
@@ -816,20 +1034,26 @@
                     <Property name="iconTextGap" type="int" value="0"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="removeMemberLabel1">
+                <Component class="javax.swing.JLabel" name="removeParticipantLabel">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/images/deleteWhite24.png"/>
                     </Property>
                     <Property name="iconTextGap" type="int" value="0"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[24, 30]"/>
+                    </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="addMemberLabel1">
+                <Component class="javax.swing.JLabel" name="addParticipantLabel">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/images/plusWhite24.png"/>
                     </Property>
                     <Property name="iconTextGap" type="int" value="0"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[24, 30]"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="adtParticipantsScrollPane">
