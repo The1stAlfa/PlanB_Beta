@@ -1,4 +1,4 @@
-package com.lafargeholcim.planb.view;
+package com.lafargeholcim.planb.util;
 
 import java.awt.*;
 

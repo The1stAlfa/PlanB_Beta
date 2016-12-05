@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lafargeholcim.planb.view;
+package com.lafargeholcim.planb.view.design;
 
+import com.lafargeholcim.planb.view.design.AddActionForm;
 import com.lafargeholcim.planb.model.ActionItemFilter;
 import com.lafargeholcim.planb.util.Month;
 import com.lafargeholcim.planb.sys.Terminal;
 import com.lafargeholcim.planb.util.Time;
+import com.lafargeholcim.planb.view.UITerminal;
 import javax.swing.GroupLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -190,7 +192,7 @@ public class EditActionForm extends JDialog {
                         if(detectActionDataModification()){
                             terminal.modifyAction(rowDataModified,meetingName);
                             parent.setEnabled(true);
-                            ((UITerminal)parent).updateJTable(filter, filterValues);
+//                            ((UITerminal)parent).updateJTable(filter, filterValues);
                             getJDialog().dispose();
                         }
                     } catch (Exception ex) {

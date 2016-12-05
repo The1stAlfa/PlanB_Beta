@@ -1,9 +1,11 @@
+package com.lafargeholcim.planb.view.design;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lafargeholcim.planb.view;
+
 
 /**
  *
@@ -83,7 +85,6 @@ public class Meetings extends javax.swing.JFrame {
         adtParticipantsTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(900, 700));
 
         meetingsPanel.setBackground(new java.awt.Color(187, 187, 187));
         meetingsPanel.setLayout(new java.awt.BorderLayout());

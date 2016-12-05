@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lafargeholcim.planb.view;
+package com.lafargeholcim.planb.view.design;
 
 import com.lafargeholcim.planb.model.ActionItemFilter;
 import com.lafargeholcim.planb.model.Status;
 import com.lafargeholcim.planb.util.Month;
 import com.lafargeholcim.planb.sys.Terminal;
 import com.lafargeholcim.planb.util.Time;
+import com.lafargeholcim.planb.view.UITerminal;
 import java.awt.Color;
 import static java.awt.Frame.ICONIFIED;
 import java.awt.event.ActionEvent;
@@ -197,11 +198,11 @@ public class AddActionForm extends JDialog{
                                     (byte)progressSlider.getValue(),duration,meetingName);
                             ArrayList <Object> filterValues = new ArrayList();
                             filterValues.add(Status.IN_PROCESS);
-                            ((UITerminal)parent).updateJTable(ActionItemFilter.STATUS, filterValues);
+                            //((UITerminal)parent).updateJTable(ActionItemFilter.STATUS, filterValues);
                             parent.setEnabled(true);
-                            JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
-                            label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
-                            ((UITerminal)parent).setFlag(false);
+//                            JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
+//                            label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
+                            //((UITerminal)parent).setFlag(false);
                             getJDialog().dispose();
                        }
                     } 
@@ -217,9 +218,9 @@ public class AddActionForm extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {
                 parent.setEnabled(true);
-                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
-                label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
-                ((UITerminal)parent).setFlag(false);
+//                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
+//                label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
+//                ((UITerminal)parent).setFlag(false);
                 getJDialog().dispose();
             }
         });
@@ -565,9 +566,9 @@ public class AddActionForm extends JDialog{
             @Override
             public void windowClosing(WindowEvent e){
                 parent.setEnabled(true);
-                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
-                label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
-                ((UITerminal)parent).setFlag(false);
+//                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
+//                label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
+//                ((UITerminal)parent).setFlag(false);
             }
 
             @Override

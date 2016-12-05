@@ -5,6 +5,7 @@
  */
 package com.lafargeholcim.planb.view;
 
+import com.lafargeholcim.planb.util.CursorToolkit;
 import com.lafargeholcim.planb.model.ActionItemFilter;
 import com.lafargeholcim.planb.sys.Terminal;
 import com.lafargeholcim.planb.util.Time;
@@ -24,6 +25,7 @@ import javax.swing.JOptionPane;
  * @author AI-Saac
  */
 public class EditAction extends MaintenanceForm{
+    private String endDate;
     private final Object[] rowData;
     private Object[] rowDataModified;
     private ActionItemFilter filter;
@@ -66,21 +68,43 @@ public class EditAction extends MaintenanceForm{
                                 "Inconsistent Dates","Error",JOptionPane.ERROR_MESSAGE);
                     else{
                         try {
+                            endDate = Time.getDate(endDateChooser.getCalendar());
+                            if(!commentsTextArea.getText().equals("")){
+                                if(detectActionDataModification()){
+                                    CursorToolkit.startWaitCursor(getJDialog().getRootPane());
+                                    terminal.modifyAction(rowDataModified,meetingName);
+                                    ((UITerminal)parent).actionPlanPanel
+                                            .updateJTable(filter, filterValues);
+                                    getJDialog().dispose();
+                                }
+                                else{
+                                    JOptionPane.showMessageDialog(getJDialog(),
+                                        "There's NO change to apply","No Change",
+                                        JOptionPane.INFORMATION_MESSAGE);
+                                    parent.setEnabled(true);
+                                    getJDialog().dispose();
+                                }
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(getJDialog(),
+                                        "Set Comments to close the Action","Validation",
+                                        JOptionPane.INFORMATION_MESSAGE);
+                            }
+                        } catch (Exception ex) {
                             if(detectActionDataModification()){
                                 CursorToolkit.startWaitCursor(getJDialog().getRootPane());
                                 terminal.modifyAction(rowDataModified,meetingName);
-                                ((UITerminal)parent).updateJTable(filter, filterValues);
+                                ((UITerminal)parent).actionPlanPanel
+                                        .updateJTable(filter, filterValues);
                                 getJDialog().dispose();
                             }
                             else{
                                 JOptionPane.showMessageDialog(getJDialog(),
-                                "There's NO change to apply","No Change",
-                                JOptionPane.INFORMATION_MESSAGE);
+                                    "There's NO change to apply","No Change",
+                                    JOptionPane.INFORMATION_MESSAGE);
                                 parent.setEnabled(true);
                                 getJDialog().dispose();
                             }
-                        } catch (Exception ex) {
-
                         }
                     }
                 }catch(Exception ex){

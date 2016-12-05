@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lafargeholcim.planb.view;
+package com.lafargeholcim.planb.view.design;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -108,7 +108,6 @@ public class Panel extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
-        setMaximumSize(new java.awt.Dimension(2147483647, 400));
         setUndecorated(true);
         setResizable(false);
 

@@ -5,6 +5,7 @@
  */
 package com.lafargeholcim.planb.view;
 
+import com.lafargeholcim.planb.util.CursorToolkit;
 import com.lafargeholcim.planb.sys.Terminal;
 import com.lafargeholcim.planb.util.Time;
 import javax.swing.JButton;
@@ -14,14 +15,10 @@ import javax.swing.JTextArea;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.sql.Date;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -68,21 +65,21 @@ public class MaintenanceForm extends JDialog{
             @Override
             public void windowClosing(WindowEvent e){
                 CursorToolkit.stopWaitCursor(parent.getRootPane());
-                JLabel label = (JLabel) ((UITerminal)parent)
-                        .getJComponent("addIcon");
+                JLabel label = (JLabel) ((UITerminal)parent).actionPlanPanel
+                        .getComponent("addIcon");
                 label.setIcon(new ImageIcon(getClass()
                         .getResource("/images/plusWhite24.png")));
-                ((UITerminal)parent).setFlag(false);
+                ((UITerminal)parent).actionPlanPanel.setFlag(false);
             }
             
             @Override
             public void windowClosed(WindowEvent e){
                 CursorToolkit.stopWaitCursor(parent.getRootPane());
-                JLabel label = (JLabel) ((UITerminal)parent)
-                        .getJComponent("addIcon");
+                JLabel label = (JLabel) ((UITerminal)parent).actionPlanPanel
+                        .getComponent("addIcon");
                 label.setIcon(new ImageIcon(getClass()
                         .getResource("/images/plusWhite24.png")));
-                ((UITerminal)parent).setFlag(false);
+                ((UITerminal)parent).actionPlanPanel.setFlag(false);
             }
 
             @Override
@@ -267,6 +264,20 @@ public class MaintenanceForm extends JDialog{
                 .getResource("/images/JDateChooserIcon2.gif")));
         endDateChooser.getCalendarButton().setBorder(
                 BorderFactory.createEmptyBorder(0, 5, 0, 0));
+        endDateChooser.getDateEditor().addPropertyChangeListener(
+            new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent e) {
+                if ("date".equals(e.getPropertyName())) {
+                    try{
+                        dueDate = Time.getDate(startDateChooser.getCalendar());
+                        progressSlider.setValue(100);
+                        progressValueLabel.setText("100%");
+                    }
+                    catch(Exception ex){}
+                }
+            }
+        });
         
         actionButton.setText("ADD");
         actionButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, 

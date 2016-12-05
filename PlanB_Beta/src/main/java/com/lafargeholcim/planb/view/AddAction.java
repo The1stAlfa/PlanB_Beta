@@ -5,21 +5,15 @@
  */
 package com.lafargeholcim.planb.view;
 
+import com.lafargeholcim.planb.util.CursorToolkit;
 import com.lafargeholcim.planb.model.ActionItemFilter;
 import com.lafargeholcim.planb.model.Status;
 import com.lafargeholcim.planb.sys.Terminal;
 import com.lafargeholcim.planb.util.Time;
-import com.toedter.calendar.JTextFieldDateEditor;
-import java.awt.Color;
-import static java.awt.Frame.ICONIFIED;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -87,10 +81,12 @@ public class AddAction extends MaintenanceForm{
                                     filterValues.add(Status.IN_PROCESS);
                                 else
                                     filterValues.add(Status.NEAR_DUE_DATE);
-                                ((UITerminal)parent).updateJTable(ActionItemFilter.STATUS, filterValues);
-                                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
+                                ((UITerminal)parent).actionPlanPanel
+                                        .updateJTable(ActionItemFilter.STATUS, filterValues);
+                                JLabel label = (JLabel) ((UITerminal)parent).actionPlanPanel
+                                        .getComponent("addIcon");
                                 label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
-                                ((UITerminal)parent).setFlag(false);
+                                ((UITerminal)parent).actionPlanPanel.setFlag(false);
                                 getJDialog().dispose();
                            }
                         } 
@@ -112,9 +108,10 @@ public class AddAction extends MaintenanceForm{
             @Override
             public void actionPerformed(ActionEvent e) {
                 parent.setEnabled(true);
-                JLabel label = (JLabel) ((UITerminal)parent).getJComponent("addIcon");
+                JLabel label = (JLabel) ((UITerminal)parent).actionPlanPanel
+                        .getComponent("addIcon");
                 label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
-                ((UITerminal)parent).setFlag(false);
+                ((UITerminal)parent).actionPlanPanel.setFlag(false);
                 getJDialog().dispose();
             }
         });

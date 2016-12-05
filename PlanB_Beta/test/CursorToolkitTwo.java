@@ -1,4 +1,4 @@
-import com.lafargeholcim.planb.view.Cursors;
+import com.lafargeholcim.planb.util.Cursors;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
