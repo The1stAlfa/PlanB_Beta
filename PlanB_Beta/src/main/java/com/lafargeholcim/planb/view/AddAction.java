@@ -17,15 +17,19 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JOptionPane;
+
 
 /**
  *
  * @author AI-Saac
  */
 public class AddAction extends MaintenanceForm{
-
-    public AddAction(JFrame parent, Terminal terminal, String meetingName){
+    private ActionPlansPane apPanel;
+    
+    public AddAction(UITerminal parent, Terminal terminal, ActionPlansPane apPanel,
+            String meetingName){
         super(parent, "Add Action", false);
         super.meetingName = meetingName;
         super.parent = parent;
@@ -81,12 +85,11 @@ public class AddAction extends MaintenanceForm{
                                     filterValues.add(Status.IN_PROCESS);
                                 else
                                     filterValues.add(Status.NEAR_DUE_DATE);
-                                ((UITerminal)parent).actionPlanPanel
-                                        .updateJTable(ActionItemFilter.STATUS, filterValues);
-                                JLabel label = (JLabel) ((UITerminal)parent).actionPlanPanel
-                                        .getComponent("addIcon");
+                                    apPanel.updateJTable(ActionItemFilter.STATUS, 
+                                                filterValues, meetingName);
+                                JLabel label = (JLabel) apPanel.getComponent("addIcon");
                                 label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
-                                ((UITerminal)parent).actionPlanPanel.setFlag(false);
+                                ((UITerminal)parent).getActionPlansPane().setFlag(false);
                                 getJDialog().dispose();
                            }
                         } 
@@ -108,10 +111,10 @@ public class AddAction extends MaintenanceForm{
             @Override
             public void actionPerformed(ActionEvent e) {
                 parent.setEnabled(true);
-                JLabel label = (JLabel) ((UITerminal)parent).actionPlanPanel
+                JLabel label = (JLabel) parent.getActionPlansPane()
                         .getComponent("addIcon");
                 label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
-                ((UITerminal)parent).actionPlanPanel.setFlag(false);
+                parent.getActionPlansPane().setFlag(false);
                 getJDialog().dispose();
             }
         });

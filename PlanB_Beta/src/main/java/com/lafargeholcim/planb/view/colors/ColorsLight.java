@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lafargeholcim.planb.sys;
+package com.lafargeholcim.planb.view.colors;
 
 /**
  *
@@ -11,7 +11,7 @@ package com.lafargeholcim.planb.sys;
  */
 public enum ColorsLight {
     BLUE ("1160AE"),
-    HOLCIM_WHITE ("FCFEFC");
+    YELLOW_DRIVE ("#64D610");
     
     public String code;
     

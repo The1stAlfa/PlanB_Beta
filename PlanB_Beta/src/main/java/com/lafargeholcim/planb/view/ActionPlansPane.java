@@ -13,7 +13,7 @@ import com.lafargeholcim.planb.model.Collaborator;
 import com.lafargeholcim.planb.model.Meeting;
 import com.lafargeholcim.planb.model.Status;
 import com.lafargeholcim.planb.model.WorkTeam;
-import com.lafargeholcim.planb.sys.ColorsDarcula;
+import com.lafargeholcim.planb.view.colors.*;
 import com.lafargeholcim.planb.util.CursorToolkit;
 import com.lafargeholcim.planb.util.Time;
 import com.toedter.calendar.JDateChooser;
@@ -38,7 +38,6 @@ import java.util.logging.Logger;
 import java.sql.Date;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -67,7 +66,6 @@ public class ActionPlansPane extends JPanel{
     private boolean clickFlag = false;
     private String meetingName;
     private JDateChooser startDateChooser, endDateChooser;
-    private JFrame mainInterface;
     private JLabel actionLabel, actionValueLabel, actionsLabel, addIcon, 
             appLabel, appValueLabel, completedLabel, completedValueLabel, 
             content2Label, date2Label, dateLabel, dateValueLabel, deleteIcon, 
@@ -87,8 +85,9 @@ public class ActionPlansPane extends JPanel{
     private JTextArea participantsTextArea;
     private JTextField hintTextField, owner2TextField;
     private JComboBox<String> dateComboBox, statusComboBox;
+    private UITerminal mainInterface;
     
-    public ActionPlansPane(JFrame mainInterface){
+    public ActionPlansPane(UITerminal mainInterface){
         this.mainInterface = mainInterface;
         initComponents();
     }
@@ -104,28 +103,32 @@ public class ActionPlansPane extends JPanel{
                     if(!(column == 2 || column ==3) )
                         DEFAULT_RENDERER.setHorizontalAlignment(SwingConstants.CENTER);
                     if(isSelected)
-                        c.setBackground(Color.decode("#4B6EAF"));
+                        c.setBackground(Color.decode(ColorsDarcula.HIGHTLIGHT.code));
                     else if(column == 0){
-                       c.setForeground(Color.decode("#9876AA"));
-                       c.setBackground(row%2==0 ? Color.decode("#303132") : Color.decode("#3C3F41"));
+                       c.setForeground(Color.decode(ColorsDarcula.HIPERLINK.code));
+                       c.setBackground(row%2==0 ? Color.decode(ColorsDarcula.BLACK_DARK.code) : Color.decode(ColorsDarcula.BLACK.code));
                     }
                     else if(column == 8){
                         if(value.toString().equalsIgnoreCase("OVERDUE")){
-                            c.setBackground(Color.decode("#FE4344")); // E80C0C
-                            c.setForeground(Color.decode("#FCFEFC"));
+                            c.setBackground(Color.decode(ColorsHolcim.RED.code)); // E80C0C
+                            c.setForeground(Color.decode(ColorsHolcim.WHITE.code));
                         }
                         else if(value.toString().equalsIgnoreCase("COMPLETED_APP")){
-                            c.setBackground(Color.decode("#64D610"));
+                            c.setBackground(Color.decode(ColorsLight.YELLOW_DRIVE.code));
                             c.setForeground(Color.decode("#FCFEFC"));                            
                         }
                         else if(value.toString().equalsIgnoreCase("COMPLETED")){
                             c.setBackground(Color.decode("#F2D345"));
                             c.setForeground(Color.decode("#FCFEFC"));
                         }
+                        else if(value.toString().equalsIgnoreCase("IN_PROCESS")){
+                            c.setBackground(Color.decode(ColorsDarcula.PURPLE.code));
+                        }
                         else{
                             c.setBackground(row%2==0 ? Color.decode("#303132") : Color.decode("#3C3F41")); //EDEDED
-                            c.setForeground(Color.decode("#000000"));
+                            c.setForeground(Color.decode("#BBBBBB"));
                         }
+                        c.setForeground(Color.decode(ColorsHolcim.WHITE.code));
                     }
                     else if(column == 5){
                         c.setBackground(new Color(120, 120, 123));
@@ -151,18 +154,19 @@ public class ActionPlansPane extends JPanel{
                 filterValues = new ArrayList<>();
                 filterValues.add(Status.OVERDUE);
                 globalFilter = ActionItemFilter.STATUS;
-                updateJTable(globalFilter, filterValues);
+                actionListTable.setModel(new DefaultTableModel());
+                updateJTable(globalFilter, filterValues, meetingName);
                 statusRadioButton.setSelected(true);
                 dateRadioButton.setSelected(false);
                 dateComboBox.setSelectedIndex(0);
                 contentRadioButton.setSelected(false);
                 hintTextField.setText("hint");
                 statusComboBox.setSelectedIndex(3);
-                if(actionListTable.getRowCount() == 0){
-                    JOptionPane.showMessageDialog(new JOptionPane(),
-                        "There's not action with the specified criteria",
-                        "Information",JOptionPane.INFORMATION_MESSAGE);
-                }
+//                if(actionListTable.getRowCount() == 0){
+  //                  JOptionPane.showMessageDialog(new JOptionPane(),
+    //                    "There's not action with the specified criteria",
+     //                   "Information",JOptionPane.INFORMATION_MESSAGE);
+           //     }
             }
         });
         meetingPopupMenu.add(item);
@@ -1128,7 +1132,7 @@ public class ActionPlansPane extends JPanel{
                     try {
                         clickFlag = true;
                         addIcon.setIcon(new ImageIcon(getClass().getResource("/images/plusGreen-24.png")));
-                        addAction = new AddAction(mainInterface,Aps.getTerminal(),meetingName);
+                        addAction = new AddAction(mainInterface,Aps.getTerminal(), getPanel(), meetingName);
                         addAction.setLocationRelativeTo(mainInterface);
                         addAction.setVisible(true);
                     } catch (Exception ex) {
@@ -1171,7 +1175,8 @@ public class ActionPlansPane extends JPanel{
                 }
                 else{
                     EditAction editAction = new EditAction(mainInterface,
-                            Aps.getTerminal(),meetingName, getSelectedRowData(), globalFilter, filterValues);
+                            Aps.getTerminal(), getPanel(), meetingName, 
+                            getSelectedRowData(), globalFilter, filterValues);
                     editAction.setLocationRelativeTo(mainInterface);
                     editAction.setVisible(true);
                     actionListTable.getSelectionModel().clearSelection();
@@ -1216,7 +1221,7 @@ public class ActionPlansPane extends JPanel{
                             boolean is_deleted = Aps.getTerminal().deleteAction(
                                     String.valueOf(model.getValueAt(row_index, 0)),meetingName);
                             if(is_deleted)
-                                updateJTable(globalFilter, filterValues);
+                                updateJTable(globalFilter, filterValues, meetingName);
                         } catch (Exception ex) {
                             Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -1253,15 +1258,15 @@ public class ActionPlansPane extends JPanel{
                     filterValues.add(Time.getDate(startDateChooser.getCalendar()));
                     if(dateComboBox.getSelectedIndex() == 1){
                         globalFilter = ActionItemFilter.S_DATE_OWNER;
-                        updateJTable(globalFilter, filterValues);
+                        updateJTable(globalFilter, filterValues, meetingName);
                     }
                     else if(dateComboBox.getSelectedIndex() == 2){
                         globalFilter = ActionItemFilter.D_DATE_OWNER;
-                        updateJTable(globalFilter, filterValues);
+                        updateJTable(globalFilter, filterValues, meetingName);
                     }
                     else if (dateComboBox.getSelectedIndex() == 3){
                         globalFilter = ActionItemFilter.E_DATE_OWNER;
-                        updateJTable(globalFilter, filterValues);                
+                        updateJTable(globalFilter, filterValues, meetingName);
                     }
                     else{
                         JOptionPane.showMessageDialog(this, 
@@ -1290,15 +1295,15 @@ public class ActionPlansPane extends JPanel{
                     filterValues.add(Time.getDate(startDateChooser.getCalendar()));
                     if(dateComboBox.getSelectedIndex() == 1){
                         globalFilter = ActionItemFilter.STATUS_S_DATE_OWNER;
-                        updateJTable(globalFilter, filterValues);
+                        updateJTable(globalFilter, filterValues, meetingName);
                     }
                     else if(dateComboBox.getSelectedIndex() == 2){
                         globalFilter = ActionItemFilter.STATUS_D_DATE_OWNER;
-                        updateJTable(globalFilter, filterValues);
+                        updateJTable(globalFilter, filterValues, meetingName);
                     }
                     else if (dateComboBox.getSelectedIndex() == 3){
                         globalFilter = ActionItemFilter.STATUS_E_DATE_OWNER;
-                        updateJTable(globalFilter, filterValues);
+                        updateJTable(globalFilter, filterValues, meetingName);
                     }
                     else{
                         JOptionPane.showMessageDialog(this, 
@@ -1321,15 +1326,15 @@ public class ActionPlansPane extends JPanel{
                     filterValues.add(Time.getDate(startDateChooser.getCalendar()));
                     if(dateComboBox.getSelectedIndex() == 1){
                         globalFilter = ActionItemFilter.S_DATE;
-                        updateJTable(globalFilter, filterValues);
+                        updateJTable(globalFilter, filterValues, meetingName);
                     }
                     else if(dateComboBox.getSelectedIndex() == 2){
                         globalFilter = ActionItemFilter.D_DATE;
-                        updateJTable(globalFilter, filterValues);
+                        updateJTable(globalFilter, filterValues, meetingName);
                     }
                     else if (dateComboBox.getSelectedIndex() == 3){
                         globalFilter = ActionItemFilter.E_DATE;
-                        updateJTable(globalFilter, filterValues);
+                        updateJTable(globalFilter, filterValues, meetingName);
                     }
                     else{
                         JOptionPane.showMessageDialog(this, 
@@ -1355,15 +1360,15 @@ public class ActionPlansPane extends JPanel{
                     filterValues.add(Time.getDate(startDateChooser.getCalendar()));
                     if(dateComboBox.getSelectedIndex() == 1){
                         globalFilter = ActionItemFilter.STATUS_S_DATE;
-                        updateJTable(globalFilter, filterValues);                
+                        updateJTable(globalFilter, filterValues, meetingName);
                     }
                     else if(dateComboBox.getSelectedIndex() == 2){
                         globalFilter = ActionItemFilter.STATUS_D_DATE;
-                        updateJTable(globalFilter, filterValues);                
+                        updateJTable(globalFilter, filterValues, meetingName);
                     }
                     else if (dateComboBox.getSelectedIndex() == 3){
                         globalFilter = ActionItemFilter.STATUS_E_DATE;
-                        updateJTable(globalFilter, filterValues);                
+                        updateJTable(globalFilter, filterValues, meetingName);     
                     }
                     else{
                        JOptionPane.showMessageDialog(this, 
@@ -1387,15 +1392,15 @@ public class ActionPlansPane extends JPanel{
                 filterValues.add(Time.getDate(startDateChooser.getCalendar()));
                 if(dateComboBox.getSelectedIndex() == 1){
                     globalFilter = ActionItemFilter.S_DATE_OWNER;
-                    updateJTable(globalFilter, filterValues);
+                    updateJTable(globalFilter, filterValues, meetingName);
                 }
                 else if(dateComboBox.getSelectedIndex() == 2){
                     globalFilter = ActionItemFilter.D_DATE_OWNER;
-                    updateJTable(globalFilter, filterValues);
+                    updateJTable(globalFilter, filterValues, meetingName);
                 }
                 else if (dateComboBox.getSelectedIndex() == 3){
                     globalFilter = ActionItemFilter.E_DATE_OWNER;
-                    updateJTable(globalFilter, filterValues);
+                    updateJTable(globalFilter, filterValues, meetingName);
                 }
                 else{
                     JOptionPane.showMessageDialog(this, 
@@ -1417,7 +1422,7 @@ public class ActionPlansPane extends JPanel{
                 if(collaborator != null){
                     filterValues.add(collaborator.getCollaboratorId());
                     globalFilter = ActionItemFilter.OWNER;
-                    updateJTable(globalFilter, filterValues);
+                    updateJTable(globalFilter, filterValues, meetingName);
                 }
                 else{
                     JOptionPane.showMessageDialog(this, 
@@ -1438,7 +1443,7 @@ public class ActionPlansPane extends JPanel{
                     filterValues.add(Status.valueOf(statusValue));
                     filterValues.add(collaborator.getCollaboratorId());
                     globalFilter = ActionItemFilter.STATUS_OWNER;
-                    updateJTable(globalFilter, filterValues);
+                    updateJTable(globalFilter, filterValues, meetingName);
                 }
                 else{
                     JOptionPane.showMessageDialog(this, 
@@ -1452,7 +1457,7 @@ public class ActionPlansPane extends JPanel{
             String statusValue = statusComboBox.getSelectedItem().toString();
             if(statusValue.equalsIgnoreCase("ALL")){
                 globalFilter = ActionItemFilter.ALL;
-                updateJTable(globalFilter, null);
+                updateJTable(globalFilter, null, meetingName);
             }
             else if(statusComboBox.getSelectedIndex() == 0){
                 JOptionPane.showMessageDialog(this, 
@@ -1463,7 +1468,7 @@ public class ActionPlansPane extends JPanel{
                 globalFilter = ActionItemFilter.STATUS;
                 filterValues.add(Status.valueOf(statusValue));
                 Status.valueOf(statusComboBox.getSelectedItem().toString());
-                updateJTable(globalFilter, filterValues);
+                updateJTable(globalFilter, filterValues, meetingName);
             }
         }
         else if(dateRadioButton.isSelected()){
@@ -1472,15 +1477,15 @@ public class ActionPlansPane extends JPanel{
                 filterValues.add(Time.getDate(startDateChooser.getCalendar()));
                 if(dateComboBox.getSelectedIndex() == 1){
                     globalFilter = ActionItemFilter.S_DATE;
-                    updateJTable(globalFilter, filterValues);
+                    updateJTable(globalFilter, filterValues, meetingName);
                 }
                 else if(dateComboBox.getSelectedIndex() == 2){
                     globalFilter = ActionItemFilter.D_DATE;
-                    updateJTable(globalFilter, filterValues);
+                    updateJTable(globalFilter, filterValues, meetingName);
                 }
                 else if (dateComboBox.getSelectedIndex() == 3){
                     globalFilter = ActionItemFilter.E_DATE;
-                    updateJTable(globalFilter, filterValues);
+                    updateJTable(globalFilter, filterValues, meetingName);
                 }
                 else{
                     JOptionPane.showMessageDialog(this, 
@@ -1493,7 +1498,6 @@ public class ActionPlansPane extends JPanel{
                         "Null date or wrong date format", "Date Error", 
                         JOptionPane.ERROR_MESSAGE);
             }
-            
         }
         else if(ownerRadioButton.isSelected()){
             if(owner2TextField.getText() != ""){
@@ -1502,7 +1506,7 @@ public class ActionPlansPane extends JPanel{
                 if(collaborator != null){
                     globalFilter = ActionItemFilter.OWNER;
                     filterValues.add(collaborator.getCollaboratorId());
-                    updateJTable(globalFilter, filterValues);
+                    updateJTable(globalFilter, filterValues, meetingName);
                 }
                 else{
                     JOptionPane.showMessageDialog(this, 
@@ -1522,7 +1526,7 @@ public class ActionPlansPane extends JPanel{
             globalFilter = ActionItemFilter.CONTENT;
             if(hintTextField.getText() != ""){
                 filterValues.add(hintTextField.getText());
-                updateJTable(globalFilter, filterValues);
+                updateJTable(globalFilter, filterValues, meetingName);
             }
             else{
                 JOptionPane.showMessageDialog(this, 
@@ -1586,7 +1590,7 @@ public class ActionPlansPane extends JPanel{
                 if (e.getClickCount() == 2) {
                     if(row != -1){
                         EditAction editAction = new EditAction(mainInterface,
-                            Aps.getTerminal(),meetingName, getSelectedRowData(), 
+                            Aps.getTerminal(), getPanel(), meetingName, getSelectedRowData(), 
                                 globalFilter, filterValues);
                         editAction.setLocationRelativeTo(mainInterface);
                         editAction.setVisible(true);
@@ -1625,7 +1629,7 @@ public class ActionPlansPane extends JPanel{
         return null;
     }
     
-    public JPanel getJPanel(){
+    public ActionPlansPane getPanel(){
         return this;
     }
     
@@ -1658,7 +1662,7 @@ public class ActionPlansPane extends JPanel{
         return rowData;
     }
     
-    protected void updateJTable(ActionItemFilter filter, ArrayList<Object> values){
+    protected void updateJTable(ActionItemFilter filter, ArrayList<Object> values, String meetingName){
         try {
             Object[] object = Aps.getTerminal().getTableContent(filter,values, meetingName);
             Meeting meeting = (Meeting)object[0];            
@@ -1725,6 +1729,8 @@ public class ActionPlansPane extends JPanel{
                 "Information",JOptionPane.INFORMATION_MESSAGE);
             }
             actionListTable.repaint();
+            actionListTable.revalidate();
+            this.repaint();
         }
         catch (Exception ex) {
             Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);

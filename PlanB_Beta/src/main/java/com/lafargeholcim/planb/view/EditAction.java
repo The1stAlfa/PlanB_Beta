@@ -17,6 +17,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -26,18 +27,20 @@ import javax.swing.JOptionPane;
  */
 public class EditAction extends MaintenanceForm{
     private String endDate;
+    private ActionPlansPane apPanel;
     private final Object[] rowData;
     private Object[] rowDataModified;
     private ActionItemFilter filter;
     private ArrayList<Object> filterValues;
     
-    public EditAction(JFrame parent, Terminal terminal, 
+    public EditAction(UITerminal parent, Terminal terminal, ActionPlansPane apPanel,
             String meetingName, Object[] rowData, ActionItemFilter filter, 
             ArrayList<Object> filterValues){
         super(parent, "Edit Action", false);
         super.parent = parent;
         super.terminal = terminal;
         super.meetingName = meetingName;
+        this.apPanel = apPanel;
         this.rowData = rowData;
         this.filter = filter;
         this.filterValues = filterValues;
@@ -73,8 +76,7 @@ public class EditAction extends MaintenanceForm{
                                 if(detectActionDataModification()){
                                     CursorToolkit.startWaitCursor(getJDialog().getRootPane());
                                     terminal.modifyAction(rowDataModified,meetingName);
-                                    ((UITerminal)parent).actionPlanPanel
-                                            .updateJTable(filter, filterValues);
+                                    apPanel.updateJTable(filter, filterValues, meetingName);
                                     getJDialog().dispose();
                                 }
                                 else{
@@ -94,8 +96,7 @@ public class EditAction extends MaintenanceForm{
                             if(detectActionDataModification()){
                                 CursorToolkit.startWaitCursor(getJDialog().getRootPane());
                                 terminal.modifyAction(rowDataModified,meetingName);
-                                ((UITerminal)parent).actionPlanPanel
-                                        .updateJTable(filter, filterValues);
+                                apPanel.updateJTable(filter, filterValues, meetingName);
                                 getJDialog().dispose();
                             }
                             else{

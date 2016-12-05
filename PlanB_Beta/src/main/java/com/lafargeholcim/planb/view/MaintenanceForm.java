@@ -49,9 +49,9 @@ public class MaintenanceForm extends JDialog{
     protected String startDate, dueDate;
     protected String meetingName;
     protected Terminal terminal;
-    protected JFrame parent;
+    protected UITerminal parent;
     
-    public MaintenanceForm(JFrame owner, String title, Boolean flag){
+    public MaintenanceForm(UITerminal owner, String title, Boolean flag){
         super(owner, title, flag);
     }
     
@@ -65,21 +65,21 @@ public class MaintenanceForm extends JDialog{
             @Override
             public void windowClosing(WindowEvent e){
                 CursorToolkit.stopWaitCursor(parent.getRootPane());
-                JLabel label = (JLabel) ((UITerminal)parent).actionPlanPanel
+                JLabel label = (JLabel) parent.getActionPlansPane()
                         .getComponent("addIcon");
                 label.setIcon(new ImageIcon(getClass()
                         .getResource("/images/plusWhite24.png")));
-                ((UITerminal)parent).actionPlanPanel.setFlag(false);
+                parent.getActionPlansPane().setFlag(false);
             }
             
             @Override
             public void windowClosed(WindowEvent e){
                 CursorToolkit.stopWaitCursor(parent.getRootPane());
-                JLabel label = (JLabel) ((UITerminal)parent).actionPlanPanel
+                JLabel label = (JLabel) parent.getActionPlansPane()
                         .getComponent("addIcon");
                 label.setIcon(new ImageIcon(getClass()
                         .getResource("/images/plusWhite24.png")));
-                ((UITerminal)parent).actionPlanPanel.setFlag(false);
+                parent.getActionPlansPane().setFlag(false);
             }
 
             @Override

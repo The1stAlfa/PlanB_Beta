@@ -115,10 +115,9 @@ public class UITerminal extends JFrame{
     private JMenuItem dashboardMenu, meetingMenu, actionPlanMenu, teamMenu,
             profileMenu,settingsMenu,menuItem,itemFlag;
     private JPanel contentPanel, highlightPanel, optionsContentPanel, mainPanel, dashboardPanel;
-    protected ActionPlansPane actionPlanPanel;
-    protected MeetingsPane meetingPanel;
-    private JLabel initImageLabel;
-    private String meetingName; 
+    private static ActionPlansPane actionPlanPanel;
+    private MeetingsPane meetingPanel;
+    private JLabel initImageLabel; 
     private JTable actionListTable; 
     private JPanel h1,h2,h3,h4,h5,h6,h7;
     private boolean menuFlag = false, clickFlag = false;
@@ -146,7 +145,7 @@ public class UITerminal extends JFrame{
     }
     
     private void createActionPlanPanel() throws Exception{
-        actionPlanPanel = new ActionPlansPane(getJFrame());
+        actionPlanPanel = new ActionPlansPane(getInterface());
     }
     
     private void createDashboardPanel(){
@@ -300,8 +299,12 @@ public class UITerminal extends JFrame{
         this.setEnabled(false);
     }
     
-    public JFrame getJFrame(){
+    public UITerminal getInterface(){
         return this;
+    }
+    
+    public ActionPlansPane getActionPlansPane(){
+        return this.actionPlanPanel;
     }
 
     private void initComponents() throws FontFormatException, Exception{
@@ -345,7 +348,7 @@ public class UITerminal extends JFrame{
         setContentPane(contentPanel);
         this.getRootPane().addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
-                if(getJFrame().getExtendedState() != 6){
+                if(getInterface().getExtendedState() != 6){
                     mainMenu.setPreferredSize(new Dimension(40,600));
                     mainPanel.repaint();
                     mainPanel.revalidate();
@@ -432,7 +435,7 @@ public class UITerminal extends JFrame{
                         mainMenu.setPreferredSize(new Dimension(140,600));
                         mainPanel.repaint();
                         mainPanel.revalidate();
-                        if(getJFrame().getExtendedState() != 6){
+                        if(getInterface().getExtendedState() != 6){
                             initImageLabel.setIcon(new ImageIcon(new ImageIcon(
                             getClass().getResource("/images/plantAtNight12.png"))
                             .getImage().getScaledInstance(optionsContentPanel.getSize().width - 100,
@@ -453,7 +456,7 @@ public class UITerminal extends JFrame{
                         mainMenu.setPreferredSize(new Dimension(40,600));
                         mainPanel.repaint();
                         mainPanel.revalidate();
-                        if(getJFrame().getExtendedState() != 6){
+                        if(getInterface().getExtendedState() != 6){
                             initImageLabel.setIcon(new ImageIcon(new ImageIcon(
                             getClass().getResource("/images/plantAtNight12.png"))
                             .getImage().getScaledInstance(optionsContentPanel.getSize().width + 100,
@@ -499,7 +502,8 @@ public class UITerminal extends JFrame{
                 }
                 else if(item.equals(actionPlanMenu)){
                     optionsContentPanel.removeAll();
-                    optionsContentPanel.add(new ActionPlansPane(getJFrame()), BorderLayout.CENTER);
+                    optionsContentPanel.add(new ActionPlansPane(
+                            getInterface()), BorderLayout.CENTER);
                     h2.setBackground(Color.decode("#3C3F41"));
                     h3.setBackground(Color.decode("#3C3F41"));
                     h4.setBackground(Color.decode("#4B6EAF"));

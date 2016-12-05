@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lafargeholcim.planb.sys;
+package com.lafargeholcim.planb.view.colors;
 
 /**
  *
@@ -11,9 +11,11 @@ package com.lafargeholcim.planb.sys;
  */
 public enum ColorsDarcula {
     BLACK ("#3C3F41"),
-    DARK_BLACK ("#303132"),
+    BLACK_DARK ("#303132"),
+    HIGHTLIGHT ("#4B6EAF"),
+    HIPERLINK ("#589DF6"),
     LIGHT_BLACK ("#45494A"),
-    HIGHTLIGHT ("");
+    PURPLE ("#9876AA");
     
     public String code;
     

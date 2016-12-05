@@ -49,31 +49,25 @@ public class Maintainance extends javax.swing.JFrame {
         durationLabel = new javax.swing.JLabel();
         durationValueLabel = new javax.swing.JLabel();
         daysLabel = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         idLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         idLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         idLabel.setText("ID");
-        getContentPane().add(idLabel, java.awt.BorderLayout.CENTER);
 
         detailLabel.setBackground(new java.awt.Color(48, 49, 50));
         detailLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         detailLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         detailLabel.setText("Detail");
-        getContentPane().add(detailLabel, java.awt.BorderLayout.PAGE_START);
 
         commentsLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         commentsLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         commentsLabel.setText("Comments");
-        getContentPane().add(commentsLabel, java.awt.BorderLayout.PAGE_END);
 
         idValueTextField.setBackground(new java.awt.Color(60, 63, 65));
-        idValueTextField.setForeground(javax.swing.UIManager.getDefaults().getColor("Table.selectionBackground"));
+        idValueTextField.setForeground(javax.swing.UIManager.getDefaults().getColor("Hyperlink.linkColor"));
         idValueTextField.setText("Auto-Generated");
-        getContentPane().add(idValueTextField, java.awt.BorderLayout.LINE_END);
 
         detailScrollPane.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
 
@@ -85,94 +79,149 @@ public class Maintainance extends javax.swing.JFrame {
         detailTextArea.setWrapStyleWord(true);
         detailScrollPane.setViewportView(detailTextArea);
 
-        getContentPane().add(detailScrollPane, java.awt.BorderLayout.LINE_START);
-
         commentsTextArea.setColumns(20);
         commentsTextArea.setRows(5);
         commentsScrollPane.setViewportView(commentsTextArea);
 
-        getContentPane().add(commentsScrollPane, java.awt.BorderLayout.CENTER);
-
         responsibleLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         responsibleLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         responsibleLabel.setText("Responsible");
-        getContentPane().add(responsibleLabel, java.awt.BorderLayout.CENTER);
 
         ownerComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SERGIO ORJUELA R", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(ownerComboBox, java.awt.BorderLayout.CENTER);
 
         startDateLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         startDateLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         startDateLabel.setText("Start Date");
-        getContentPane().add(startDateLabel, java.awt.BorderLayout.CENTER);
 
         dueDateLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         dueDateLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         dueDateLabel.setText("Due  Date");
-        getContentPane().add(dueDateLabel, java.awt.BorderLayout.CENTER);
 
         endDateLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         endDateLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         endDateLabel.setText("End  Date");
-        getContentPane().add(endDateLabel, java.awt.BorderLayout.CENTER);
 
         addButton.setText("ADD");
-        getContentPane().add(addButton, java.awt.BorderLayout.CENTER);
 
         cancellButton.setText("CANCELL");
-        getContentPane().add(cancellButton, java.awt.BorderLayout.CENTER);
 
         statusLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         statusLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         statusLabel.setText("Status");
-        getContentPane().add(statusLabel, java.awt.BorderLayout.CENTER);
 
         progressLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         progressLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         progressLabel.setText("Progress");
-        getContentPane().add(progressLabel, java.awt.BorderLayout.CENTER);
 
         progressValueLabel.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         progressValueLabel.setForeground(new java.awt.Color(0, 51, 255));
         progressValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         progressValueLabel.setText("100%");
         progressValueLabel.setOpaque(true);
-        getContentPane().add(progressValueLabel, java.awt.BorderLayout.CENTER);
 
         progressSlider.setValue(0);
-        getContentPane().add(progressSlider, java.awt.BorderLayout.CENTER);
 
         statusTextField.setText("IN_PROCESS");
-        getContentPane().add(statusTextField, java.awt.BorderLayout.CENTER);
 
         durationLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         durationLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         durationLabel.setText("Duration");
-        getContentPane().add(durationLabel, java.awt.BorderLayout.CENTER);
 
         durationValueLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         durationValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         durationValueLabel.setText("100");
-        getContentPane().add(durationValueLabel, java.awt.BorderLayout.CENTER);
 
         daysLabel.setText("days");
-        getContentPane().add(daysLabel, java.awt.BorderLayout.CENTER);
 
-        jTable1.setForeground(java.awt.SystemColor.controlShadow);
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(statusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(startDateLabel)
+            .addComponent(responsibleLabel)
+            .addComponent(durationValueLabel)
+            .addComponent(statusLabel)
+            .addComponent(endDateLabel)
+            .addComponent(idLabel)
+            .addComponent(durationLabel)
+            .addComponent(progressLabel)
+            .addComponent(progressValueLabel)
+            .addComponent(ownerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(dueDateLabel)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(424, 424, 424)
+                .addComponent(commentsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(176, 176, 176)
+                        .addComponent(addButton))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(191, 191, 191)
+                        .addComponent(commentsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(idValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(detailScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(216, 216, 216)
+                        .addComponent(detailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cancellButton)
+                        .addGap(256, 256, 256)
+                        .addComponent(daysLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(progressSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(112, 112, 112))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(139, 139, 139)
+                        .addComponent(detailLabel)
+                        .addGap(46, 46, 46)
+                        .addComponent(daysLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(progressSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(71, 71, 71)
+                        .addComponent(commentsLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addComponent(detailScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(commentsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(idLabel)
+                            .addComponent(statusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(startDateLabel)
+                            .addComponent(responsibleLabel)
+                            .addComponent(durationValueLabel)
+                            .addComponent(statusLabel)
+                            .addComponent(endDateLabel)
+                            .addComponent(durationLabel)
+                            .addComponent(progressLabel)
+                            .addComponent(progressValueLabel)
+                            .addComponent(ownerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dueDateLabel))
+                        .addGap(74, 74, 74)
+                        .addComponent(idValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(addButton)
+                        .addGap(136, 136, 136))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(cancellButton)
+                        .addGap(113, 113, 113))))
+        );
 
         pack();
     }//GEN-END:initComponents
@@ -229,8 +278,6 @@ public class Maintainance extends javax.swing.JFrame {
     private javax.swing.JLabel endDateLabel;
     private javax.swing.JLabel idLabel;
     private javax.swing.JTextField idValueTextField;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JComboBox<String> ownerComboBox;
     private javax.swing.JLabel progressLabel;
     private javax.swing.JSlider progressSlider;
