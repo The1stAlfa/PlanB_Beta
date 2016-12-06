@@ -17,6 +17,7 @@ import com.lafargeholcim.planb.model.Meeting;
 import com.lafargeholcim.planb.model.Status;
 import com.lafargeholcim.planb.model.WorkTeam;
 import com.lafargeholcim.planb.util.Time;
+import com.lafargeholcim.planb.view.colors.ColorsDarcula;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -335,6 +336,7 @@ public class UITerminal extends JFrame{
         highlightPanel.setBackground(Color.decode("#3C3F41"));
         setHighlightPanels();
         mainPanel.setLayout(new BorderLayout());
+        mainPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         contentPanel = new JPanel();
         contentPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#F8FAF8")));
         contentPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
@@ -343,7 +345,7 @@ public class UITerminal extends JFrame{
         contentPanel.add(mainPanel, BorderLayout.CENTER);
         mainPanel.add(optionsContentPanel,BorderLayout.CENTER);
         mainPanel.add(mainMenu,BorderLayout.WEST);
-        getContentPane().setBackground(Color.decode("#3C3F41"));
+        getContentPane().setBackground(Color.decode(ColorsDarcula.BLACK.code));
         addFonts();
         setContentPane(contentPanel);
         this.getRootPane().addComponentListener(new ComponentAdapter() {
@@ -359,7 +361,6 @@ public class UITerminal extends JFrame{
                         .getImage().getScaledInstance(optionsContentPanel.getSize().width + 100,
                                 optionsContentPanel.getSize().height - 45, Image.SCALE_SMOOTH)));
                     mainPanel.repaint();
-                    mainPanel.revalidate();
                 }
                 else{
                     mainMenu.setPreferredSize(new Dimension(140,600));
@@ -369,17 +370,15 @@ public class UITerminal extends JFrame{
                     menuFlag = true;
                     initImageLabel.setIcon(new ImageIcon(new ImageIcon(
                         getClass().getResource("/images/plantAtNight12.png"))
-                        .getImage().getScaledInstance(optionsContentPanel.getSize().width - 100,
+                        .getImage().getScaledInstance(optionsContentPanel.getSize().width ,
                                 optionsContentPanel.getSize().height - 65, Image.SCALE_SMOOTH)));
                     mainPanel.repaint();
-                    mainPanel.revalidate();
                 }
             }
         });
         pack();
         setExtendedState(6);
-        this.setTitle("PlanB v1.0");
-        mainPanel.revalidate();
+        this.setTitle("PlanB v1.0");        
         setVisible(true);
         
     }
@@ -448,14 +447,12 @@ public class UITerminal extends JFrame{
                                     optionsContentPanel.getSize().height - 65, Image.SCALE_SMOOTH)));
                         }
                         mainPanel.repaint();
-                        mainPanel.revalidate();
                         menuItem.setToolTipText("Minimize Navigation Bar");
                         menuFlag = true;
                     }
                     else{
                         mainMenu.setPreferredSize(new Dimension(40,600));
                         mainPanel.repaint();
-                        mainPanel.revalidate();
                         if(getInterface().getExtendedState() != 6){
                             initImageLabel.setIcon(new ImageIcon(new ImageIcon(
                             getClass().getResource("/images/plantAtNight12.png"))
@@ -469,7 +466,6 @@ public class UITerminal extends JFrame{
                                     optionsContentPanel.getSize().height - 65, Image.SCALE_SMOOTH)));
                         }
                         mainPanel.repaint();
-                        mainPanel.revalidate();
                         menuItem.setToolTipText("Maximize Navigation Bar");
                         menuFlag = false;
                     }
@@ -485,7 +481,6 @@ public class UITerminal extends JFrame{
                     h7.setBackground(Color.decode("#3C3F41"));
                     itemFlag = dashboardMenu;                  
                     optionsContentPanel.repaint();
-                    optionsContentPanel.revalidate();
                 }
                 else if(item.equals(meetingMenu)){
                     optionsContentPanel.removeAll();
@@ -502,8 +497,7 @@ public class UITerminal extends JFrame{
                 }
                 else if(item.equals(actionPlanMenu)){
                     optionsContentPanel.removeAll();
-                    optionsContentPanel.add(new ActionPlansPane(
-                            getInterface()), BorderLayout.CENTER);
+                    optionsContentPanel.add(actionPlanPanel, BorderLayout.CENTER);
                     h2.setBackground(Color.decode("#3C3F41"));
                     h3.setBackground(Color.decode("#3C3F41"));
                     h4.setBackground(Color.decode("#4B6EAF"));

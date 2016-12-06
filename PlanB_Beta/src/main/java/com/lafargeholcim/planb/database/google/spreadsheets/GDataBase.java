@@ -200,25 +200,6 @@ public class GDataBase {
     
     public void insert(String sheetTitle, List<CellData> values){
         try {
-            /*
-            Sheets service = getSheetsService();
-            String range = "access";
-            ValueRange values = new ValueRange();
-            List<List<Object>> ob = new ArrayList<>();
-            List<Object> o = new ArrayList<>();
-            o.add("01CTE0026");
-            o.add("3");
-            ob.add(o);
-            values.setValues(ob);
-            values.setMajorDimension("ROWS");
-            Update v = service.spreadsheets().values().update(spreadsheetId, range, values);
-            pdate
-            v.setValueInputOption("USER_ENTERED");
-            UpdateValuesResponse y = v.execute();
-            System.out.println("");
-            //.update(range, range, vr)
-            //service.spreadsheets().values().
-            */
             Sheets service = getSheetsService();
             List<Request> requests = new ArrayList<>();
             int sheetId = getSheetId(sheetTitle);

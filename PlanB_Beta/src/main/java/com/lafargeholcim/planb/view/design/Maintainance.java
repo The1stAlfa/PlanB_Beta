@@ -79,6 +79,7 @@ public class Maintainance extends javax.swing.JFrame {
         detailTextArea.setWrapStyleWord(true);
         detailScrollPane.setViewportView(detailTextArea);
 
+        commentsTextArea.setBackground(javax.swing.UIManager.getDefaults().getColor("textHighlight"));
         commentsTextArea.setColumns(20);
         commentsTextArea.setRows(5);
         commentsScrollPane.setViewportView(commentsTextArea);

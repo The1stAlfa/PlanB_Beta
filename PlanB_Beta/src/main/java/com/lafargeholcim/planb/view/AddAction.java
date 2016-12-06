@@ -34,6 +34,8 @@ public class AddAction extends MaintenanceForm{
         super.meetingName = meetingName;
         super.parent = parent;
         super.terminal = terminal;
+        this.apPanel = apPanel;
+        CursorToolkit.startWaitCursor(parent.getRootPane());
         initComponents();
     }
     
@@ -85,11 +87,11 @@ public class AddAction extends MaintenanceForm{
                                     filterValues.add(Status.IN_PROCESS);
                                 else
                                     filterValues.add(Status.NEAR_DUE_DATE);
-                                    apPanel.updateJTable(ActionItemFilter.STATUS, 
+                                apPanel.updateJTable(ActionItemFilter.STATUS, 
                                                 filterValues, meetingName);
                                 JLabel label = (JLabel) apPanel.getComponent("addIcon");
                                 label.setIcon(new ImageIcon(getClass().getResource("/images/plusWhite24.png")));
-                                ((UITerminal)parent).getActionPlansPane().setFlag(false);
+                                parent.getActionPlansPane().setFlag(false);
                                 getJDialog().dispose();
                            }
                         } 

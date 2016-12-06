@@ -44,6 +44,7 @@ public class EditAction extends MaintenanceForm{
         this.rowData = rowData;
         this.filter = filter;
         this.filterValues = filterValues;
+        CursorToolkit.startWaitCursor(parent.getRootPane());
         initComponents();
     }
     
@@ -83,7 +84,6 @@ public class EditAction extends MaintenanceForm{
                                     JOptionPane.showMessageDialog(getJDialog(),
                                         "There's NO change to apply","No Change",
                                         JOptionPane.INFORMATION_MESSAGE);
-                                    parent.setEnabled(true);
                                     getJDialog().dispose();
                                 }
                             }
@@ -103,7 +103,6 @@ public class EditAction extends MaintenanceForm{
                                 JOptionPane.showMessageDialog(getJDialog(),
                                     "There's NO change to apply","No Change",
                                     JOptionPane.INFORMATION_MESSAGE);
-                                parent.setEnabled(true);
                                 getJDialog().dispose();
                             }
                         }

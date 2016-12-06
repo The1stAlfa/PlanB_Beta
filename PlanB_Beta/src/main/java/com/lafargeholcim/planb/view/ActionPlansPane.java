@@ -109,25 +109,17 @@ public class ActionPlansPane extends JPanel{
                        c.setBackground(row%2==0 ? Color.decode(ColorsDarcula.BLACK_DARK.code) : Color.decode(ColorsDarcula.BLACK.code));
                     }
                     else if(column == 8){
-                        if(value.toString().equalsIgnoreCase("OVERDUE")){
+                        if(value.toString().equalsIgnoreCase("OVERDUE"))
                             c.setBackground(Color.decode(ColorsHolcim.RED.code)); // E80C0C
-                            c.setForeground(Color.decode(ColorsHolcim.WHITE.code));
-                        }
                         else if(value.toString().equalsIgnoreCase("COMPLETED_APP")){
                             c.setBackground(Color.decode(ColorsLight.YELLOW_DRIVE.code));
-                            c.setForeground(Color.decode("#FCFEFC"));                            
                         }
-                        else if(value.toString().equalsIgnoreCase("COMPLETED")){
+                        else if(value.toString().equalsIgnoreCase("COMPLETED"))
                             c.setBackground(Color.decode("#F2D345"));
-                            c.setForeground(Color.decode("#FCFEFC"));
-                        }
-                        else if(value.toString().equalsIgnoreCase("IN_PROCESS")){
+                        else if(value.toString().equalsIgnoreCase("IN_PROCESS"))
                             c.setBackground(Color.decode(ColorsDarcula.PURPLE.code));
-                        }
-                        else{
-                            c.setBackground(row%2==0 ? Color.decode("#303132") : Color.decode("#3C3F41")); //EDEDED
-                            c.setForeground(Color.decode("#BBBBBB"));
-                        }
+                        else
+                            c.setBackground(Color.decode(ColorsDarcula.ORANGE.code)); //EDEDED
                         c.setForeground(Color.decode(ColorsHolcim.WHITE.code));
                     }
                     else if(column == 5){
@@ -1135,6 +1127,7 @@ public class ActionPlansPane extends JPanel{
                         addAction = new AddAction(mainInterface,Aps.getTerminal(), getPanel(), meetingName);
                         addAction.setLocationRelativeTo(mainInterface);
                         addAction.setVisible(true);
+                        CursorToolkit.stopWaitCursor(mainInterface.getRootPane());
                     } catch (Exception ex) {
                         Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -1179,6 +1172,7 @@ public class ActionPlansPane extends JPanel{
                             getSelectedRowData(), globalFilter, filterValues);
                     editAction.setLocationRelativeTo(mainInterface);
                     editAction.setVisible(true);
+                    CursorToolkit.stopWaitCursor(mainInterface.getRootPane());
                     actionListTable.getSelectionModel().clearSelection();
                 }
             }
@@ -1729,8 +1723,6 @@ public class ActionPlansPane extends JPanel{
                 "Information",JOptionPane.INFORMATION_MESSAGE);
             }
             actionListTable.repaint();
-            actionListTable.revalidate();
-            this.repaint();
         }
         catch (Exception ex) {
             Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);

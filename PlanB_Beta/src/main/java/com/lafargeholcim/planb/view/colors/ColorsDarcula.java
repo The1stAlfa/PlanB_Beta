@@ -15,6 +15,7 @@ public enum ColorsDarcula {
     HIGHTLIGHT ("#4B6EAF"),
     HIPERLINK ("#589DF6"),
     LIGHT_BLACK ("#45494A"),
+    ORANGE ("#F07746"),
     PURPLE ("#9876AA");
     
     public String code;
