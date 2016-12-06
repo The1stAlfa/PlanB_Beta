@@ -11,7 +11,8 @@ package com.lafargeholcim.planb.view.colors;
  */
 public enum ColorsHolcim {
     WHITE ("#FCFEFC"),
-    RED ("#FE4344");
+    RED ("#FE4344"),
+    GRAY ("#9B9B9B");
     
     public String code;
     

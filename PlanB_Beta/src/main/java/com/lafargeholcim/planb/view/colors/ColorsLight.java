@@ -10,7 +10,9 @@ package com.lafargeholcim.planb.view.colors;
  * @author AI-Saac
  */
 public enum ColorsLight {
-    BLUE ("1160AE"),
+    BLACK_ABSOLUTE ("#000000"),
+    BLUE ("#1160AE"),
+    WHITE_ABSOLUTE ("#FFFFFF"),
     YELLOW_DRIVE ("#64D610");
     
     public String code;

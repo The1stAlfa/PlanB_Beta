@@ -13,6 +13,7 @@ import com.lafargeholcim.planb.model.Collaborator;
 import com.lafargeholcim.planb.model.Meeting;
 import com.lafargeholcim.planb.model.Status;
 import com.lafargeholcim.planb.model.WorkTeam;
+import com.lafargeholcim.planb.sys.User;
 import com.lafargeholcim.planb.view.colors.*;
 import com.lafargeholcim.planb.util.CursorToolkit;
 import com.lafargeholcim.planb.util.Time;
@@ -73,7 +74,7 @@ public class ActionPlansPane extends JPanel{
             filterLabel, firstNameLabel, meetingLabel, overdueLabel, 
             overdueValueLabel, owner2Label, ownerLabel, participantsLabel, 
             performanceLabel, performanceValueLabel, planLabel, surnameLabel, status2Label, 
-            title1Label, title2Label;
+            title1Label, title2Label, userLabel, userValueLabel;
     private JPanel pagePanel, actionListPanel,apInformationPanel, apPanel, appActionPanel,
             buttonsPanel, completedActionPanel, datePanel, filterLabelPanel, meetingNamePanel, 
             overdueActionPanel, ownerNamePanel, participantsPanel, 
@@ -86,9 +87,11 @@ public class ActionPlansPane extends JPanel{
     private JTextField hintTextField, owner2TextField;
     private JComboBox<String> dateComboBox, statusComboBox;
     private UITerminal mainInterface;
+    private User user;
     
-    public ActionPlansPane(UITerminal mainInterface){
+    public ActionPlansPane(UITerminal mainInterface, User user){
         this.mainInterface = mainInterface;
+        this.user = user;
         initComponents();
     }
     
@@ -227,11 +230,13 @@ public class ActionPlansPane extends JPanel{
         deleteIcon = new JLabel();
         startDateChooser = new JDateChooser();
         endDateChooser = new JDateChooser();
+        userLabel = new JLabel();
+        userValueLabel = new JLabel();
         
         meetingPopupMenu.setAutoscrolls(true);
         for(String name:Aps.getTerminal().getMeetingsNames())
             createMenuItem(name);
-
+        createMenuItem("ALL");
         apInformationPanel.setBackground(Color.decode("#3C3F41"));
         apInformationPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         apInformationPanel.setPreferredSize(new java.awt.Dimension(Short.MAX_VALUE, 250));
@@ -253,9 +258,13 @@ public class ActionPlansPane extends JPanel{
         planLabel.setForeground(new java.awt.Color(252, 254, 252));
         planLabel.setText("Plan");
 
+        userLabel.setText("User:");
+        userLabel.setForeground(Color.decode(ColorsHolcim.WHITE.code));
+        userValueLabel.setText("Administrator");
+        userValueLabel.setForeground(Color.decode(ColorsHolcim.WHITE.code));
         javax.swing.GroupLayout apPanelLayout = new javax.swing.GroupLayout(apPanel);
         apPanel.setLayout(apPanelLayout);
-        apPanelLayout.setHorizontalGroup(
+        /*apPanelLayout.setHorizontalGroup(
             apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(apPanelLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
@@ -272,6 +281,35 @@ public class ActionPlansPane extends JPanel{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(planLabel)
                 .addContainerGap(90, Short.MAX_VALUE))
+        );*/
+        apPanelLayout.setHorizontalGroup(
+            apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(apPanelLayout.createSequentialGroup()
+                .addGroup(apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(apPanelLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addGroup(apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(actionLabel)
+                            .addComponent(planLabel)))
+                    .addGroup(apPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(userLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(userValueLabel)))
+                .addContainerGap(53, Short.MAX_VALUE))
+        );
+        apPanelLayout.setVerticalGroup(
+            apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(apPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(actionLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(planLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addGroup(apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(userLabel)
+                    .addComponent(userValueLabel))
+                .addContainerGap())
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1123,15 +1161,17 @@ public class ActionPlansPane extends JPanel{
                     AddAction addAction;
                     try {
                         clickFlag = true;
-                        addIcon.setIcon(new ImageIcon(getClass().getResource("/images/plusGreen-24.png")));
-                        addAction = new AddAction(mainInterface,Aps.getTerminal(), getPanel(), meetingName);
+                        addIcon.setIcon(new ImageIcon(getClass()
+                                .getResource("/images/plusGreen-24.png")));
+                        Collaborator currentUser = 
+                                Aps.getTerminal().getParticipant(meetingName, 
+                                        String.valueOf(user.getCollaboratorId()));
+                        addAction = new AddAction(mainInterface,Aps.getTerminal(),
+                                getPanel(), meetingName, currentUser);
                         addAction.setLocationRelativeTo(mainInterface);
                         addAction.setVisible(true);
                         CursorToolkit.stopWaitCursor(mainInterface.getRootPane());
-                    } catch (Exception ex) {
-                        Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
+                    } catch (Exception ex) {}
                 }
                 else{
                     JOptionPane.showMessageDialog(mainInterface,
@@ -1545,6 +1585,7 @@ public class ActionPlansPane extends JPanel{
                 Color.decode(ColorsDarcula.BLACK.code)));
         actionListTable = new JTable();
         createInformationPanel();
+        userValueLabel.setText(user.getUsername());
         actionListPanel = new JPanel();
         actionListPanel.setLayout(new BorderLayout());
         actionListPanel.setPreferredSize(new Dimension(300,300));
@@ -1560,7 +1601,7 @@ public class ActionPlansPane extends JPanel{
             }));
         actionListTable.setMinimumSize(new Dimension(300, 200));
         actionListTable.setAutoCreateRowSorter(true);
-        actionListTable.setRowHeight(30);
+        actionListTable.setRowHeight(28);
         actionListTable.setFillsViewportHeight(true);
         actionListTable.setFocusable(false);
         actionListTable.setBackground(Color.decode("#3C3F41"));
@@ -1605,11 +1646,13 @@ public class ActionPlansPane extends JPanel{
         });
         alTableScrollPane = new JScrollPane();
         alTableScrollPane.setViewportView(actionListTable);
-        alTableScrollPane.getViewport().setBackground(Color.decode("#3C3F41"));
-        alTableScrollPane.setBorder(BorderFactory.createMatteBorder(0,1,1,1, Color.decode("#303132")));
+        alTableScrollPane.getViewport().setBackground(
+                Color.decode(ColorsDarcula.BLACK.code));
+        alTableScrollPane.setBorder(BorderFactory.createMatteBorder(0,1,1,1, 
+                Color.decode(ColorsDarcula.BLACK_DARK.code)));
         actionListPanel.add(alTableScrollPane, BorderLayout.CENTER);
         pagePanel = new JPanel();
-        pagePanel.setBackground(Color.decode("#3C3F41"));
+        pagePanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         pagePanel.setPreferredSize(new Dimension(Short.MAX_VALUE,15));
         this.add(apInformationPanel, BorderLayout.NORTH);
         this.add(actionListPanel, BorderLayout.CENTER);
@@ -1630,11 +1673,14 @@ public class ActionPlansPane extends JPanel{
     private String getParticipantsAcronyms(WorkTeam workteam, 
             ArrayList<Collaborator> adtParticipants){
         String s = "";
-        ArrayList<Collaborator> collaborators = (ArrayList<Collaborator>)workteam.getMembers().clone();
+        ArrayList<Collaborator> collaborators = 
+                (ArrayList<Collaborator>)workteam.getMembers().clone();
         if(!adtParticipants.isEmpty())
             collaborators.addAll((ArrayList<Collaborator>)adtParticipants.clone());
         
         for(int i=0;i<collaborators.size();i++){
+            if(collaborators.get(i).getAcronymName().equalsIgnoreCase("ALL"))
+                continue;
             if(i == collaborators.size()-1)
                 s = s+ collaborators.get(i).getAcronymName();
             else
@@ -1656,7 +1702,27 @@ public class ActionPlansPane extends JPanel{
         return rowData;
     }
     
-    protected void updateJTable(ActionItemFilter filter, ArrayList<Object> values, String meetingName){
+    private void setColumnWidth(){       
+        actionListTable.getColumnModel().getColumn(0).setMaxWidth(77);  //ID
+        actionListTable.getColumnModel().getColumn(0).setMinWidth(77);  //ID
+        actionListTable.getColumnModel().getColumn(1).setMaxWidth(40);  //RESPONSIBLE
+        actionListTable.getColumnModel().getColumn(4).setMinWidth(70);  //START DATE
+        actionListTable.getColumnModel().getColumn(4).setMaxWidth(73);  //START DATE
+        actionListTable.getColumnModel().getColumn(5).setMinWidth(70);  //DUE DATE
+        actionListTable.getColumnModel().getColumn(5).setMaxWidth(73);  //DUE DATE
+        actionListTable.getColumnModel().getColumn(6).setMaxWidth(73);  //END DATE
+        actionListTable.getColumnModel().getColumn(7).setMaxWidth(50);  //PROGRESS
+        actionListTable.getColumnModel().getColumn(8).setMaxWidth(120); //STATUS
+        actionListTable.getColumnModel().getColumn(8).setMinWidth(110); //STATUS
+        actionListTable.getColumnModel().getColumn(9).setMaxWidth(40);  //DURATION
+    }
+    
+    public void setFlag(boolean bool){
+        clickFlag = bool;
+    }
+    
+    protected void updateJTable(ActionItemFilter filter, ArrayList<Object> values,
+            String meetingName){
         try {
             Object[] object = Aps.getTerminal().getTableContent(filter,values, meetingName);
             Meeting meeting = (Meeting)object[0];            
@@ -1688,7 +1754,8 @@ public class ActionPlansPane extends JPanel{
                 completedValueLabel.setText(String.valueOf(summary.getActionsCompleted()));
                 appValueLabel.setText(String.valueOf(summary.getActionsCompletedApp()));
                 overdueValueLabel.setText(String.valueOf(summary.getActionsOverdue()));
-                participantsTextArea.setText(getParticipantsAcronyms(meeting.getTeam(),meeting.getAditionalParticipants()));
+                participantsTextArea.setText(getParticipantsAcronyms(
+                        meeting.getTeam(),meeting.getAditionalParticipants()));
                 int teamPerformance = 100;
                 if(summary.getActionsOverdue() == 0 && summary.getActionsCompletedApp() > 0)
                     performanceValueLabel.setText(String.valueOf(teamPerformance)+"%");
@@ -1727,24 +1794,5 @@ public class ActionPlansPane extends JPanel{
         catch (Exception ex) {
             Logger.getLogger(UITerminal.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-    private void setColumnWidth(){       
-        actionListTable.getColumnModel().getColumn(0).setMaxWidth(77);  //ID
-        actionListTable.getColumnModel().getColumn(0).setMinWidth(77);  //ID
-        actionListTable.getColumnModel().getColumn(1).setMaxWidth(40);  //RESPONSIBLE
-        actionListTable.getColumnModel().getColumn(4).setMinWidth(70);  //START DATE
-        actionListTable.getColumnModel().getColumn(4).setMaxWidth(73);  //START DATE
-        actionListTable.getColumnModel().getColumn(5).setMinWidth(70);  //DUE DATE
-        actionListTable.getColumnModel().getColumn(5).setMaxWidth(73);  //DUE DATE
-        actionListTable.getColumnModel().getColumn(6).setMaxWidth(73);  //END DATE
-        actionListTable.getColumnModel().getColumn(7).setMaxWidth(50);  //PROGRESS
-        actionListTable.getColumnModel().getColumn(8).setMaxWidth(120); //STATUS
-        actionListTable.getColumnModel().getColumn(8).setMinWidth(110); //STATUS
-        actionListTable.getColumnModel().getColumn(9).setMaxWidth(40);  //DURATION
-    }
-    
-    public void setFlag(boolean bool){
-        clickFlag = bool;
     }
 }

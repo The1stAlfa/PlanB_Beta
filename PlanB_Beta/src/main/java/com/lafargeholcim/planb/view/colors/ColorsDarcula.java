@@ -12,6 +12,7 @@ package com.lafargeholcim.planb.view.colors;
 public enum ColorsDarcula {
     BLACK ("#3C3F41"),
     BLACK_DARK ("#303132"),
+    FOREGROUND ("BBBBBB"),
     HIGHTLIGHT ("#4B6EAF"),
     HIPERLINK ("#589DF6"),
     LIGHT_BLACK ("#45494A"),

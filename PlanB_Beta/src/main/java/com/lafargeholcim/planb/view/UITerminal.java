@@ -16,8 +16,10 @@ import com.lafargeholcim.planb.model.Collaborator;
 import com.lafargeholcim.planb.model.Meeting;
 import com.lafargeholcim.planb.model.Status;
 import com.lafargeholcim.planb.model.WorkTeam;
+import com.lafargeholcim.planb.sys.User;
 import com.lafargeholcim.planb.util.Time;
 import com.lafargeholcim.planb.view.colors.ColorsDarcula;
+import com.lafargeholcim.planb.view.colors.ColorsHolcim;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -110,20 +112,22 @@ import javax.swing.Icon;
  */
 
 public class UITerminal extends JFrame{
+    private static ActionPlansPane actionPlanPanel;
     private Dimension nativeScreenSize;
     private int xPosition=0, yPosition=0, selectedRow=-1;
+    private JLabel initImageLabel; 
     private JMenuBar mainMenu;
     private JMenuItem dashboardMenu, meetingMenu, actionPlanMenu, teamMenu,
             profileMenu,settingsMenu,menuItem,itemFlag;
     private JPanel contentPanel, highlightPanel, optionsContentPanel, mainPanel, dashboardPanel;
-    private static ActionPlansPane actionPlanPanel;
-    private MeetingsPane meetingPanel;
-    private JLabel initImageLabel; 
-    private JTable actionListTable; 
     private JPanel h1,h2,h3,h4,h5,h6,h7;
+    private JTable actionListTable;
+    private MeetingsPane meetingPanel;
     private boolean menuFlag = false, clickFlag = false;
+    private User user;
        
     public UITerminal() throws IOException, FontFormatException, Exception{
+        user = Aps.getTerminal().getUser();
         initComponents(); 
     }
     
@@ -146,7 +150,7 @@ public class UITerminal extends JFrame{
     }
     
     private void createActionPlanPanel() throws Exception{
-        actionPlanPanel = new ActionPlansPane(getInterface());
+        actionPlanPanel = new ActionPlansPane(getInterface(), user);
     }
     
     private void createDashboardPanel(){
@@ -261,14 +265,14 @@ public class UITerminal extends JFrame{
     
     private void createOptionsContentPanel() throws Exception{
         optionsContentPanel = new JPanel();
-        optionsContentPanel.setBackground(Color.decode("#3C3F41"));
+        optionsContentPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         optionsContentPanel.setMaximumSize(new Dimension(
                 Short.MAX_VALUE, Short.MAX_VALUE));
         optionsContentPanel.setPreferredSize(new Dimension(
                 Short.MAX_VALUE, Short.MAX_VALUE));
         optionsContentPanel.setLayout(new BorderLayout());
         JPanel startPanel = new JPanel();
-        startPanel.setBackground(Color.decode("#45494A"));
+        startPanel.setBackground(Color.decode(ColorsDarcula.LIGHT_BLACK.code));
         startPanel.setPreferredSize(new Dimension(
                 Short.MAX_VALUE, 45));
         startPanel.setMaximumSize(new Dimension(
@@ -277,14 +281,14 @@ public class UITerminal extends JFrame{
         String welcome = "  WELCOME, " + 
                 Aps.getTerminal().getUser().getUsername();
         JLabel startLabel = new JLabel(welcome);
-        startLabel.setForeground(Color.decode("#FCFEFC"));
+        startLabel.setForeground(Color.decode(ColorsHolcim.WHITE.code));
         JLabel planbLabel = new JLabel("PlanB System  "); 
-        planbLabel.setForeground(Color.decode("#FCFEFC"));
+        planbLabel.setForeground(Color.decode(ColorsHolcim.WHITE.code));
         startPanel.add(startLabel);
         startPanel.add(Box.createHorizontalGlue());
         startPanel.add(planbLabel);
         startPanel.setBorder(BorderFactory
-                .createMatteBorder(8,8,4,8, Color.decode("#3C3F41")));
+                .createMatteBorder(8,8,4,8, Color.decode(ColorsDarcula.BLACK.code)));
         createDashboardPanel();
         createMeetingPanel();
         createActionPlanPanel();
@@ -314,7 +318,7 @@ public class UITerminal extends JFrame{
         setPreferredSize(new Dimension(1000, 700));
         setMinimumSize(new Dimension(800,600));
         setResizable(true);
-        
+        getContentPane().setBackground(Color.decode(ColorsDarcula.BLACK.code));
         UIManager.put("ToolTip.background", Color.decode("#303132"));
         UIManager.put("ToolTip.foreground", Color.decode("#C9CDD1"));
         UIManager.put("ProgressBar.selectionForeground", Color.decode("#FCFEFC"));
@@ -327,16 +331,17 @@ public class UITerminal extends JFrame{
         itemFlag = new JMenuItem();
         
         mainPanel = new JPanel();
+        mainPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         highlightPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         highlightPanel.setLayout(new BoxLayout(highlightPanel, BoxLayout.PAGE_AXIS));
         highlightPanel.setMaximumSize(new Dimension(4,Integer.MAX_VALUE));
         highlightPanel.setPreferredSize(new Dimension(4,600));
         highlightPanel.setMinimumSize(new Dimension(4,50));
-        highlightPanel.setBackground(Color.decode("#3C3F41"));
+        highlightPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         setHighlightPanels();
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
+
         contentPanel = new JPanel();
         contentPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#F8FAF8")));
         contentPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
@@ -345,7 +350,6 @@ public class UITerminal extends JFrame{
         contentPanel.add(mainPanel, BorderLayout.CENTER);
         mainPanel.add(optionsContentPanel,BorderLayout.CENTER);
         mainPanel.add(mainMenu,BorderLayout.WEST);
-        getContentPane().setBackground(Color.decode(ColorsDarcula.BLACK.code));
         addFonts();
         setContentPane(contentPanel);
         this.getRootPane().addComponentListener(new ComponentAdapter() {

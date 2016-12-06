@@ -56,36 +56,8 @@ public class Meeting {
      *
      * @return
      */
-    public ArrayList<Collaborator> getAditionalParticipants() {
-        return adtParticipants;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public WorkTeam getTeam() {
-        return team;
-    }
-
-    /**
-     *
-     * @return
-     */
     public ActionPlan getActionPlan() {
         return actionPlan;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getName() {
-        return name;
-    }
-
-    public int getMeetingId() {
-        return meetingId;
     }
 
     /**
@@ -100,10 +72,10 @@ public class Meeting {
      *
      * @return
      */
-    public String getPurpose() {
-        return purpose;
+    public ArrayList<Collaborator> getAditionalParticipants() {
+        return adtParticipants;
     }
-
+    
     /**
      *
      * @return
@@ -119,73 +91,43 @@ public class Meeting {
     public LocalDateTime getDateModified() {
         return dateModified;
     }
-
+    
+    public int getMeetingId() {
+        return meetingId;
+    }
+    
     /**
      *
-     * @param adtParticipants
+     * @return
      */
-    public void setAditionalParticipants(ArrayList<Collaborator> adtParticipants) {
-        this.adtParticipants = adtParticipants;
+    public String getName() {
+        return name;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public String getPurpose() {
+        return purpose;
     }
 
     /**
      *
-     * @param team
+     * @return
      */
-    public void setTeam(WorkTeam team) {
-        this.team = team;
+    public WorkTeam getTeam() {
+        return team;
     }
-
-    /**
-     *
-     * @param actionPlan
-     */
-    public void setActionPlan(ActionPlan actionPlan) {
-        this.actionPlan = actionPlan;
-    }
-
-    /**
-     *
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     *
-     * @param acronym
-     */
-    public void setAcronym(String acronym) {
-        this.acronym = acronym;
-    }
-
-    /**
-     *
-     * @param purpose
-     */
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
-    }
-
-    /**
-     *
-     * @param date_created
-     */
-    public void setDateCreated(LocalDateTime dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    /**
-     *
-     * @param date_modified
-     */
-    public void setDateModified(LocalDateTime dateModified) {
-        this.dateModified = dateModified;
-    }
-
-    public void setMeetingId(int meetingId) {
-        this.meetingId = meetingId;
+    
+    public Collaborator searchParticipant(int collaboratorId){
+        ArrayList<Collaborator> list = (ArrayList<Collaborator>)adtParticipants.clone();
+        list.addAll(team.getMembers());
+        for(Collaborator collaborator : list) {
+            if(collaborator.getCollaboratorId() == collaboratorId)
+                return collaborator;
+        }
+        return null;
     }
     
     public Collaborator searchParticipant(String hint, byte type){
@@ -208,13 +150,71 @@ public class Meeting {
         return null;
     }
     
-    public Collaborator searchParticipant(int collaboratorId){
-        ArrayList<Collaborator> list = (ArrayList<Collaborator>)adtParticipants.clone();
-        list.addAll(team.getMembers());
-        for(Collaborator collaborator : list) {
-            if(collaborator.getCollaboratorId() == collaboratorId)
-                return collaborator;
-        }
-        return null;
+    /**
+     *
+     * @param actionPlan
+     */
+    public void setActionPlan(ActionPlan actionPlan) {
+        this.actionPlan = actionPlan;
+    }
+    
+    /**
+     *
+     * @param acronym
+     */
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
+    }
+    
+    /**
+     *
+     * @param adtParticipants
+     */
+    public void setAditionalParticipants(ArrayList<Collaborator> adtParticipants) {
+        this.adtParticipants = adtParticipants;
+    }
+
+    /**
+     *
+     * @param date_created
+     */
+    public void setDateCreated(LocalDateTime dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    /**
+     *
+     * @param date_modified
+     */
+    public void setDateModified(LocalDateTime dateModified) {
+        this.dateModified = dateModified;
+    }
+    
+    /**
+     *
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMeetingId(int meetingId) {
+        this.meetingId = meetingId;
+    }
+    
+    /**
+     *
+     * @param purpose
+     */
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
+    
+    /**
+     *
+     * @param team
+     */
+    public void setTeam(WorkTeam team) {
+        this.team = team;
     }
 }

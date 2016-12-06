@@ -7,6 +7,7 @@ package com.lafargeholcim.planb.view;
 
 import com.lafargeholcim.planb.util.CursorToolkit;
 import com.lafargeholcim.planb.model.ActionItemFilter;
+import com.lafargeholcim.planb.model.Collaborator;
 import com.lafargeholcim.planb.model.Status;
 import com.lafargeholcim.planb.sys.Terminal;
 import com.lafargeholcim.planb.util.Time;
@@ -27,6 +28,8 @@ import javax.swing.JOptionPane;
  */
 public class AddAction extends MaintenanceForm{
     private ActionPlansPane apPanel;
+    private Collaborator user;
+    
     
     public AddAction(UITerminal parent, Terminal terminal, ActionPlansPane apPanel,
             String meetingName){
@@ -35,6 +38,19 @@ public class AddAction extends MaintenanceForm{
         super.parent = parent;
         super.terminal = terminal;
         this.apPanel = apPanel;
+        this.user = null;
+        CursorToolkit.startWaitCursor(parent.getRootPane());
+        initComponents();
+    }
+    
+    public AddAction(UITerminal parent, Terminal terminal, ActionPlansPane apPanel,
+            String meetingName, Collaborator user){
+        super(parent, "Add Action", false);
+        super.meetingName = meetingName;
+        super.parent = parent;
+        super.terminal = terminal;
+        this.apPanel = apPanel;
+        this.user = user;
         CursorToolkit.startWaitCursor(parent.getRootPane());
         initComponents();
     }
@@ -44,6 +60,9 @@ public class AddAction extends MaintenanceForm{
         super.setParticipantsNames(terminal.getParticipantsNames(meetingName));
         super.addWindowListener();
         setDates();
+        if(user != null)
+            ownerComboBox.setSelectedIndex(getResponsibleIndex());
+        ownerComboBox.setEnabled(false);
         statusTextField.setText("IN_PROCESS");
         endDateChooser.setVisible(false);
         endDateLabel.setVisible(false);
@@ -123,8 +142,17 @@ public class AddAction extends MaintenanceForm{
    
     }
     
-    public void setDates(){
+    private void setDates(){
         startDateChooser.setDate(Date.valueOf(Time.nowDate()));
         dueDateChooser.setDate(Date.valueOf(Time.nowDate().plusDays(1)));
+    }
+    
+    private int getResponsibleIndex(){
+        for(int index=0; index<ownerComboBox.getItemCount(); index++){
+            String name = ownerComboBox.getItemAt(index).toString();
+            if(name.equalsIgnoreCase(user.getFirstName()+" "+user.getLastName()))
+                return index;
+        }
+        return -1;
     }
 }

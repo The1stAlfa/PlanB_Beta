@@ -53,6 +53,7 @@ public class EditAction extends MaintenanceForm{
         super.addWindowListener();
         setParticipantsNames(terminal.getParticipantsNames(meetingName));
         setRowData();
+        ownerComboBox.setEnabled(false);
         ((JTextFieldDateEditor)startDateChooser.getDateEditor())
         .setEditable(false);
         startDateChooser.getCalendarButton().setEnabled(false);

@@ -18,12 +18,12 @@ import javax.swing.UnsupportedLookAndFeelException;
  *
  * @author AI-Saac
  */
-public class Panel extends javax.swing.JFrame {
+public class ActionPlansPanel extends javax.swing.JFrame {
 
     /**
      * Creates new form Panel
      */
-    public Panel() {
+    public ActionPlansPanel() {
         initComponents();
     }
 
@@ -39,10 +39,13 @@ public class Panel extends javax.swing.JFrame {
         meetingPopupMenu = new javax.swing.JPopupMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        actionPlanPanel = new javax.swing.JPanel();
         apInformationPanel = new javax.swing.JPanel();
         apPanel = new javax.swing.JPanel();
         actionLabel = new javax.swing.JLabel();
         planLabel = new javax.swing.JLabel();
+        userLabel = new javax.swing.JLabel();
+        userValueLabel = new javax.swing.JLabel();
         meetingNamePanel = new javax.swing.JPanel();
         meetingLabel = new javax.swing.JLabel();
         title1Label = new javax.swing.JLabel();
@@ -96,6 +99,10 @@ public class Panel extends javax.swing.JFrame {
         addIcon = new javax.swing.JLabel();
         editIcon = new javax.swing.JLabel();
         deleteIcon = new javax.swing.JLabel();
+        actionListPanel = new javax.swing.JPanel();
+        alTableScrollPane = new javax.swing.JScrollPane();
+        actionListTable = new javax.swing.JTable();
+        pagePanel = new javax.swing.JPanel();
 
         meetingPopupMenu.setAutoscrolls(true);
 
@@ -110,6 +117,8 @@ public class Panel extends javax.swing.JFrame {
         setLocationByPlatform(true);
         setUndecorated(true);
         setResizable(false);
+
+        actionPlanPanel.setLayout(new java.awt.BorderLayout());
 
         apInformationPanel.setBackground(new java.awt.Color(252, 254, 252));
         apInformationPanel.setMinimumSize(new java.awt.Dimension(650, 250));
@@ -130,16 +139,27 @@ public class Panel extends javax.swing.JFrame {
         planLabel.setForeground(new java.awt.Color(252, 254, 252));
         planLabel.setText("Plan");
 
+        userLabel.setText("User:");
+
+        userValueLabel.setText("Administrator");
+
         javax.swing.GroupLayout apPanelLayout = new javax.swing.GroupLayout(apPanel);
         apPanel.setLayout(apPanelLayout);
         apPanelLayout.setHorizontalGroup(
             apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(apPanelLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
                 .addGroup(apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(actionLabel)
-                    .addComponent(planLabel))
-                .addContainerGap(106, Short.MAX_VALUE))
+                    .addGroup(apPanelLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addGroup(apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(actionLabel)
+                            .addComponent(planLabel)))
+                    .addGroup(apPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(userLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(userValueLabel)))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
         apPanelLayout.setVerticalGroup(
             apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,7 +168,11 @@ public class Panel extends javax.swing.JFrame {
                 .addComponent(actionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(planLabel)
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addGroup(apPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(userLabel)
+                    .addComponent(userValueLabel))
+                .addContainerGap())
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -209,7 +233,7 @@ public class Panel extends javax.swing.JFrame {
                 .addGroup(meetingNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(meetingNamePanelLayout.createSequentialGroup()
                         .addComponent(title1Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                         .addComponent(meetingLabel))
                     .addGroup(meetingNamePanelLayout.createSequentialGroup()
                         .addGap(8, 8, 8)
@@ -225,10 +249,10 @@ public class Panel extends javax.swing.JFrame {
                     .addComponent(meetingLabel)
                     .addGroup(meetingNamePanelLayout.createSequentialGroup()
                         .addGap(8, 8, 8)
-                        .addComponent(title1Label, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)))
+                        .addComponent(title1Label, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(meetingNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(title2Label, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(title2Label, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                     .addComponent(dotMenuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10))
         );
@@ -278,7 +302,7 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(ownerNamePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(ownerNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(firstNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                    .addComponent(firstNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ownerNamePanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(ownerLabel))
@@ -294,7 +318,7 @@ public class Panel extends javax.swing.JFrame {
                 .addGap(4, 4, 4)
                 .addComponent(firstNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
-                .addComponent(surnameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(surnameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                 .addGap(15, 15, 15))
         );
 
@@ -343,7 +367,7 @@ public class Panel extends javax.swing.JFrame {
             .addGroup(participantsPanelLayout.createSequentialGroup()
                 .addGap(4, 4, 4)
                 .addGroup(participantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollParticipants, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                    .addComponent(scrollParticipants, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, participantsPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(participantsLabel)))
@@ -392,7 +416,7 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, totalActionsPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(actionsLabel))
-                    .addComponent(actionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
+                    .addComponent(actionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
                 .addContainerGap())
         );
         totalActionsPanelLayout.setVerticalGroup(
@@ -440,7 +464,7 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, completedActionPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(completedLabel))
-                    .addComponent(completedValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
+                    .addComponent(completedValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
                 .addContainerGap())
         );
         completedActionPanelLayout.setVerticalGroup(
@@ -487,7 +511,7 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(appActionPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(appLabel))
-                    .addComponent(appValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))
+                    .addComponent(appValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
                 .addContainerGap())
         );
         appActionPanelLayout.setVerticalGroup(
@@ -529,7 +553,7 @@ public class Panel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(overdueActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, overdueActionPanelLayout.createSequentialGroup()
-                        .addGap(0, 146, Short.MAX_VALUE)
+                        .addGap(0, 114, Short.MAX_VALUE)
                         .addComponent(overdueLabel))
                     .addComponent(overdueValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -576,7 +600,7 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(teamPerformancePanelLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(performanceLabel))
-                    .addComponent(performanceValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE))
+                    .addComponent(performanceValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
                 .addContainerGap())
         );
         teamPerformancePanelLayout.setVerticalGroup(
@@ -619,7 +643,7 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, planExecutionPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(executionLabel))
-                    .addComponent(executionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE))
+                    .addComponent(executionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
                 .addContainerGap())
         );
         planExecutionPanelLayout.setVerticalGroup(
@@ -664,7 +688,7 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(datePanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(dateLabel))
-                    .addComponent(dateValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
+                    .addComponent(dateValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
                 .addContainerGap())
         );
         datePanelLayout.setVerticalGroup(
@@ -841,7 +865,7 @@ public class Panel extends javax.swing.JFrame {
         apInformationPanel.add(statusPanel, gridBagConstraints);
 
         buttonsPanel.setBackground(new java.awt.Color(0, 66, 118));
-        buttonsPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 0, 4, 2, new java.awt.Color(252, 254, 252)));
+        buttonsPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 0, 4, 8, new java.awt.Color(252, 254, 252)));
         buttonsPanel.setMaximumSize(new java.awt.Dimension(122, 50));
         buttonsPanel.setMinimumSize(new java.awt.Dimension(120, 50));
         buttonsPanel.setPreferredSize(new java.awt.Dimension(120, 50));
@@ -883,7 +907,65 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints.weighty = 1.0;
         apInformationPanel.add(buttonsPanel, gridBagConstraints);
 
-        getContentPane().add(apInformationPanel, java.awt.BorderLayout.CENTER);
+        actionPlanPanel.add(apInformationPanel, java.awt.BorderLayout.NORTH);
+
+        actionListPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 8, 4, 8, new java.awt.Color(255, 255, 255)));
+        actionListPanel.setLayout(new java.awt.BorderLayout());
+
+        actionListTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "id", "Resp.", "Detail", "Comments", "StartDate", "DueDate", "EndDate", "Prog.%", "Status", "Dur."
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        actionListTable.setRowHeight(30);
+        alTableScrollPane.setViewportView(actionListTable);
+        if (actionListTable.getColumnModel().getColumnCount() > 0) {
+            actionListTable.getColumnModel().getColumn(0).setResizable(false);
+            actionListTable.getColumnModel().getColumn(1).setResizable(false);
+            actionListTable.getColumnModel().getColumn(4).setResizable(false);
+            actionListTable.getColumnModel().getColumn(5).setResizable(false);
+            actionListTable.getColumnModel().getColumn(6).setResizable(false);
+            actionListTable.getColumnModel().getColumn(7).setResizable(false);
+            actionListTable.getColumnModel().getColumn(8).setResizable(false);
+            actionListTable.getColumnModel().getColumn(9).setResizable(false);
+        }
+
+        actionListPanel.add(alTableScrollPane, java.awt.BorderLayout.CENTER);
+
+        actionPlanPanel.add(actionListPanel, java.awt.BorderLayout.CENTER);
+
+        javax.swing.GroupLayout pagePanelLayout = new javax.swing.GroupLayout(pagePanel);
+        pagePanel.setLayout(pagePanelLayout);
+        pagePanelLayout.setHorizontalGroup(
+            pagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1047, Short.MAX_VALUE)
+        );
+        pagePanelLayout.setVerticalGroup(
+            pagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        actionPlanPanel.add(pagePanel, java.awt.BorderLayout.SOUTH);
+
+        getContentPane().add(actionPlanPanel, java.awt.BorderLayout.PAGE_START);
 
         pack();
         setLocationRelativeTo(null);
@@ -934,7 +1016,7 @@ public class Panel extends javax.swing.JFrame {
             */
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Panel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ActionPlansPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         /*try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -944,29 +1026,33 @@ public class Panel extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ActionPlansPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ActionPlansPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ActionPlansPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ActionPlansPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Panel().setVisible(true);
+                new ActionPlansPanel().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel actionLabel;
+    private javax.swing.JPanel actionListPanel;
+    private javax.swing.JTable actionListTable;
+    private javax.swing.JPanel actionPlanPanel;
     private javax.swing.JLabel actionValueLabel;
     private javax.swing.JLabel actionsLabel;
     private javax.swing.JLabel addIcon;
+    private javax.swing.JScrollPane alTableScrollPane;
     private javax.swing.JPanel apInformationPanel;
     private javax.swing.JPanel apPanel;
     private javax.swing.JPanel appActionPanel;
@@ -1006,6 +1092,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JLabel ownerLabel;
     private javax.swing.JPanel ownerNamePanel;
     private javax.swing.JRadioButton ownerRadioButton;
+    private javax.swing.JPanel pagePanel;
     private javax.swing.JLabel participantsLabel;
     private javax.swing.JPanel participantsPanel;
     private javax.swing.JTextArea participantsTextArea;
@@ -1023,5 +1110,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JLabel title1Label;
     private javax.swing.JLabel title2Label;
     private javax.swing.JPanel totalActionsPanel;
+    private javax.swing.JLabel userLabel;
+    private javax.swing.JLabel userValueLabel;
     // End of variables declaration//GEN-END:variables
 }

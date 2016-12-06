@@ -65,9 +65,43 @@ public class Terminal{
         
         actionplanId = meeting.getActionPlan().getId();
         collaborator = facility.searchCollaborator(responsible,(byte)1);
-        saveActionToDatabase(
-                actionplanId, collaborator.getCollaboratorId(),detail,
-                comments, startDate, dueDate, progress, meeting, facilityId);
+        List<CellData> values = new ArrayList<>();
+        String acronym = meeting.getAcronym();
+        
+        values.add(getCellData("=row()", true)); // Value for the index
+        String id = "=CONCAT(\""+facilityId+acronym+"\";IF(ROW()=2;1;IF(ISNA"
+                + "(QUERY(INDIRECT(\"action!$A$2:$C\"&ROW()-1);\"SELECT COUNT(A)"
+                + " WHERE C = "+actionplanId+" LABEL COUNT(A) ''\")+1);1;QUERY"
+                + "(INDIRECT(\"action!$A$2:$C\"&ROW()-1);\"SELECT COUNT(A) "
+                + "WHERE C = "+actionplanId+" LABEL COUNT(A) ''\")+1)))";
+        values.add(getCellData(id, true));  // Value for actionId
+        values.add(getCellData((double)actionplanId));  // Value for actionplanId
+        values.add(getCellData((double)collaborator.getCollaboratorId()));  // Value for collaboratorId
+        values.add(getCellData(detail, false));  // Value for detail
+        values.add(getCellData(comments, false));  // Value for comments
+        values.add(getCellData(Time.getSerialNumberDate(startDate, false))
+                .setFormattedValue(startDate));  // Value for startDate
+        values.add(getCellData(Time.getSerialNumberDate(dueDate, false))
+                .setFormattedValue(dueDate));  // Value for dueDate
+        values.add(getCellData("", false));  // Value for endDate
+        values.add(getCellData(
+                Time.getSerialNumberDate(
+                Time.getNow(), true)));  // Value for DateCreated
+        values.add(getCellData("", false));  // Value for DateModified
+        String statusFormula = "=if(INDIRECT(\"$I\"&ROW())=\"\";IF(INDIRECT"
+                + "(\"$O\"&ROW())<0;5;IF(INDIRECT(\"$O\"&ROW())>3;3;4));"
+                + "IF(INDIRECT(\"$O\"&ROW())>0;1;2))";
+        values.add(getCellData(statusFormula, true));  // Value for status
+        values.add(getCellData((double)progress));  // Value for progress
+        values.add(getCellData((double)0));  // Value for isDeleted
+        String diffFormula = "=IF(ISERR(DATEVALUE(INDIRECT(\"$I\"&ROW()))-"
+                + "DATEVALUE(INDIRECT(\"$H\"&ROW())));DATEVALUE(INDIRECT(\"$H\""
+                + "&ROW()))-DATEVALUE(TODAY());DATEVALUE(INDIRECT(\"$I\"&ROW()))"
+                + "-DATEVALUE(INDIRECT(\"$H\"&ROW())))";
+        
+        values.add(getCellData(diffFormula, true)); // Value for the difference between dates
+        values.add(getCellData((double)user.getCollaboratorId()));
+        gPlanB.insert("action", values);
     }
     
     public ArrayList defineAccessList(String accesses){
@@ -272,12 +306,7 @@ public class Terminal{
         }
         return null;
     }
-    
-    public Collaborator getCollaborator(String facilityID, String collaboratorAcronym){
-        Facility facility = org.getFacility(facilityID,"id");
-        return facility.searchCollaborator(collaboratorAcronym,(byte) 2);
-    }
-    
+
     private ArrayList<Collaborator> getCollaborators(int facilityID) 
             throws SQLException, IOException{
         String query;
@@ -304,6 +333,11 @@ public class Terminal{
             }
         }
         return list;
+    }
+    
+    public Collaborator getCollaborator(String facilityID, String collaboratorAcronym){
+        Facility facility = org.getFacility(facilityID,"id");
+        return facility.searchCollaborator(collaboratorAcronym,(byte) 2);
     }
     
     public byte getId() {
@@ -382,12 +416,16 @@ public class Terminal{
                     .clone());
         
         if(members != null){   
-            int number_of_members = members.size();
-            String[] names = new String[number_of_members];
-            for(int i=0;i<number_of_members;i++){
-                String collaborator_names = members.get(i).getFirstName()
+            int numberOfMembers = members.size();
+            String[] names = new String[numberOfMembers];
+            for(int i=0;i<numberOfMembers;i++){
+                if(members.get(i).getFirstName().equalsIgnoreCase("ALL")){
+                    names[i] = members.get(i).getFirstName();
+                    continue;
+                }
+                String collaboratorNames = members.get(i).getFirstName()
                             +" "+ members.get(i).getLastName();
-                names[i] = collaborator_names;
+                names[i] = collaboratorNames;
             }
             return names;
         }
@@ -723,49 +761,6 @@ public class Terminal{
         }
 
 
-    }
-    
-    private void saveActionToDatabase(short actionplanId, int collaboratorId, 
-            String detail, String comments, String startDate, String dueDate, 
-            byte progress, Meeting meeting, String facilityId) throws SQLException, Exception{
-        
-        List<CellData> values = new ArrayList<>();
-        String acronym = meeting.getAcronym();
-        
-        values.add(getCellData("=row()", true)); // Value for the index
-        String id = "=CONCAT(\""+facilityId+acronym+"\";IF(ROW()=2;1;IF(ISNA"
-                + "(QUERY(INDIRECT(\"action!$A$2:$C\"&ROW()-1);\"SELECT COUNT(A)"
-                + " WHERE C = "+actionplanId+" LABEL COUNT(A) ''\")+1);1;QUERY"
-                + "(INDIRECT(\"action!$A$2:$C\"&ROW()-1);\"SELECT COUNT(A) "
-                + "WHERE C = "+actionplanId+" LABEL COUNT(A) ''\")+1)))";
-        values.add(getCellData(id, true));  // Value for actionId
-        values.add(getCellData((double)actionplanId));  // Value for actionplanId
-        values.add(getCellData((double)collaboratorId));  // Value for collaboratorId
-        values.add(getCellData(detail, false));  // Value for detail
-        values.add(getCellData(comments, false));  // Value for comments
-        values.add(getCellData(Time.getSerialNumberDate(startDate, false))
-                .setFormattedValue(startDate));  // Value for startDate
-        values.add(getCellData(Time.getSerialNumberDate(dueDate, false))
-                .setFormattedValue(dueDate));  // Value for dueDate
-        values.add(getCellData("", false));  // Value for endDate
-        values.add(getCellData(
-                Time.getSerialNumberDate(
-                Time.getNow(), true)));  // Value for DateCreated
-        values.add(getCellData("", false));  // Value for DateModified
-        String statusFormula = "=if(INDIRECT(\"$I\"&ROW())=\"\";IF(INDIRECT"
-                + "(\"$O\"&ROW())<0;5;IF(INDIRECT(\"$O\"&ROW())>3;3;4));"
-                + "IF(INDIRECT(\"$O\"&ROW())>0;1;2))";
-        values.add(getCellData(statusFormula, true));  // Value for status
-        values.add(getCellData((double)progress));  // Value for progress
-        values.add(getCellData((double)0));  // Value for isDeleted
-        String diffFormula = "=IF(ISERR(DATEVALUE(INDIRECT(\"$I\"&ROW()))-"
-                + "DATEVALUE(INDIRECT(\"$H\"&ROW())));DATEVALUE(INDIRECT(\"$H\""
-                + "&ROW()))-DATEVALUE(TODAY());DATEVALUE(INDIRECT(\"$I\"&ROW()))"
-                + "-DATEVALUE(INDIRECT(\"$H\"&ROW())))";
-        
-        values.add(getCellData(diffFormula, true)); // Value for the difference between dates
-        values.add(getCellData((double)collaboratorId));
-        gPlanB.insert("action", values);
     }
     
     public void setId(byte id) {
