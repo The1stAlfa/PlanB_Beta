@@ -10,9 +10,11 @@ package com.lafargeholcim.planb.view.colors;
  * @author AI-Saac
  */
 public enum ColorsHolcim {
+    BLUE ("#355F91"),
     WHITE ("#FCFEFC"),
     RED ("#FE4344"),
-    GRAY ("#9B9B9B");
+    GRAY ("#9B9B9B"),
+    BROWN_LIGHT ("#C2B4A7");
     
     public String code;
     

@@ -272,7 +272,7 @@ public class UITerminal extends JFrame{
                 Short.MAX_VALUE, Short.MAX_VALUE));
         optionsContentPanel.setLayout(new BorderLayout());
         JPanel startPanel = new JPanel();
-        startPanel.setBackground(Color.decode(ColorsDarcula.LIGHT_BLACK.code));
+        startPanel.setBackground(Color.decode(ColorsDarcula.BLACK_LIGHT.code));
         startPanel.setPreferredSize(new Dimension(
                 Short.MAX_VALUE, 45));
         startPanel.setMaximumSize(new Dimension(
@@ -313,12 +313,12 @@ public class UITerminal extends JFrame{
     }
 
     private void initComponents() throws FontFormatException, Exception{
+        getContentPane().setBackground(Color.decode(ColorsDarcula.BLACK.code));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setWindowListener();
         setPreferredSize(new Dimension(1000, 700));
-        setMinimumSize(new Dimension(800,600));
+        setMinimumSize(new Dimension(800,650));
         setResizable(true);
-        getContentPane().setBackground(Color.decode(ColorsDarcula.BLACK.code));
         UIManager.put("ToolTip.background", Color.decode("#303132"));
         UIManager.put("ToolTip.foreground", Color.decode("#C9CDD1"));
         UIManager.put("ProgressBar.selectionForeground", Color.decode("#FCFEFC"));
@@ -326,12 +326,12 @@ public class UITerminal extends JFrame{
         Border border = BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#3B3C3D"));
         UIManager.put("ToolTip.border", border);
         setIconImage(new ImageIcon(getClass().getResource("/images/planB-27x32.png")).getImage());
+        mainPanel = new JPanel();
+        mainPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         createMainMenu();
         createOptionsContentPanel();
         itemFlag = new JMenuItem();
         
-        mainPanel = new JPanel();
-        mainPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         highlightPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         highlightPanel.setLayout(new BoxLayout(highlightPanel, BoxLayout.PAGE_AXIS));
@@ -343,6 +343,7 @@ public class UITerminal extends JFrame{
         mainPanel.setLayout(new BorderLayout());
 
         contentPanel = new JPanel();
+        contentPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         contentPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#F8FAF8")));
         contentPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
         contentPanel.setLayout(new BorderLayout());

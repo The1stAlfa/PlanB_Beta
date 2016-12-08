@@ -109,16 +109,17 @@ public class ActionPlansPane extends JPanel{
                         c.setBackground(Color.decode(ColorsDarcula.HIGHTLIGHT.code));
                     else if(column == 0){
                        c.setForeground(Color.decode(ColorsDarcula.HIPERLINK.code));
-                       c.setBackground(row%2==0 ? Color.decode(ColorsDarcula.BLACK_DARK.code) : Color.decode(ColorsDarcula.BLACK.code));
+                       c.setBackground(row%2==0 ? Color.decode(ColorsDarcula.BLACK_DARK.code) 
+                               : Color.decode(ColorsDarcula.BLACK.code));
                     }
                     else if(column == 8){
                         if(value.toString().equalsIgnoreCase("OVERDUE"))
                             c.setBackground(Color.decode(ColorsHolcim.RED.code)); // E80C0C
                         else if(value.toString().equalsIgnoreCase("COMPLETED_APP")){
-                            c.setBackground(Color.decode(ColorsLight.YELLOW_DRIVE.code));
+                            c.setBackground(Color.decode(ColorsLight.GREEN.code));
                         }
                         else if(value.toString().equalsIgnoreCase("COMPLETED"))
-                            c.setBackground(Color.decode("#F2D345"));
+                            c.setBackground(Color.decode(ColorsLight.YELLOW_DRIVE.code));
                         else if(value.toString().equalsIgnoreCase("IN_PROCESS"))
                             c.setBackground(Color.decode(ColorsDarcula.PURPLE.code));
                         else
@@ -127,10 +128,11 @@ public class ActionPlansPane extends JPanel{
                     }
                     else if(column == 5){
                         c.setBackground(new Color(120, 120, 123));
-                        c.setForeground(Color.decode("#FCFEFC"));
+                        c.setForeground(Color.decode(ColorsHolcim.WHITE.code));
                     }
                     else{
-                        c.setBackground(row%2==0 ? Color.decode("#303132") : Color.decode("#3C3F41"));
+                        c.setBackground(row%2==0 ? Color.decode(ColorsDarcula.BLACK_DARK.code) 
+                               : Color.decode(ColorsDarcula.BLACK.code));
                     }
                     return c;
                 }

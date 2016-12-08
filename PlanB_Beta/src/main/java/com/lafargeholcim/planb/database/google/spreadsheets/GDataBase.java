@@ -5,38 +5,42 @@
  */
 package com.lafargeholcim.planb.database.google.spreadsheets;
 
-import com.lafargeholcim.planb.database.google.spreadsheets.json.model.Table;
-import com.lafargeholcim.planb.database.google.spreadsheets.json.model.TableQueryModel;
+import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
+import com.google.api.client.auth.oauth2.BearerToken;
+import com.google.api.client.auth.oauth2.ClientParametersAuthentication;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-import com.google.api.client.googleapis.batch.BatchRequest;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpResponse;
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpRequestFactory;
+import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.*;
-import com.google.gson.Gson;
 import com.google.api.services.sheets.v4.Sheets;
-import com.google.api.services.sheets.v4.Sheets.Spreadsheets;
-import com.google.api.services.sheets.v4.Sheets.Spreadsheets.BatchUpdate;
-import com.google.api.services.sheets.v4.Sheets.Spreadsheets.Values.Update;
+import com.google.api.services.sheets.v4.SheetsScopes;
+import com.google.gson.Gson;
+import com.lafargeholcim.planb.database.google.spreadsheets.json.model.Table;
+import com.lafargeholcim.planb.database.google.spreadsheets.json.model.TableQueryModel;
 import java.io.BufferedReader;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.net.URI;
 
 
 /**
@@ -77,7 +81,8 @@ public class GDataBase {
      * at ~/.credentials/sheets.googleapis.com-java-quickstart
      */
     private static final List<String> SCOPES =
-        Arrays.asList(SheetsScopes.SPREADSHEETS); 
+            Arrays.asList(SheetsScopes.SPREADSHEETS);
+//        Arrays.asList(SheetsScopes.SPREADSHEETS); 
     
     /** Global instance of the scopes required by this quickstart.
      *
@@ -97,9 +102,10 @@ public class GDataBase {
         }
     }
     
-    public GDataBase() throws IOException{
-        authorize();
-        this.spreadsheetId = "1Xkd22LiN9unvv7GYOqsv3XwvjVMbFsi-EZASg4hxF9E";
+    public GDataBase() throws IOException, Exception{
+        CREDENTIAL = authorize("");
+        this.spreadsheetId = "1opkeRYb5xsf_3CMpvsVVYcFx4ivbY0pchbgoeKpXIx8";
+        //this.spreadsheetId = "1Xkd22LiN9unvv7GYOqsv3XwvjVMbFsi-EZASg4hxF9E";
         fetchSheetsIds();
     }
     
@@ -115,7 +121,7 @@ public class GDataBase {
     public void authorize() throws IOException {
         // Load client secrets.
         InputStream in =
-            GDataBase.class.getResourceAsStream("/secret/client_secret.json");
+            GDataBase.class.getResourceAsStream("/secret/client_secret12.json");
         GoogleClientSecrets clientSecrets =
             GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
@@ -132,32 +138,6 @@ public class GDataBase {
         System.out.println(
                 "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
         CREDENTIAL = credential;
-        /*
-            public static void main(String[] args) {
-              try {
-                httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-                dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR);
-                // authorization
-                Credential credential = authorize();
-                // set up global Plus instance
-                plus = new Plus.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(
-                    APPLICATION_NAME).build();
-               // ...
-            }
-
-            private static Credential authorize() throws Exception {
-              // load client secrets
-              GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
-                  new InputStreamReader(PlusSample.class.getResourceAsStream("/client_secrets.json")));
-              // set up authorization code flow
-              GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                  httpTransport, JSON_FACTORY, clientSecrets,
-                  Collections.singleton(PlusScopes.PLUS_ME)).setDataStoreFactory(
-                  dataStoreFactory).build();
-              // authorize
-              return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
-            }
-        */
     }
         
     /**
@@ -171,17 +151,50 @@ public class GDataBase {
                 .build();
     }
     
+    private Credential authorize(String app) throws Exception {
+        // set up authorization code flow
+        AuthorizationCodeFlow flow = new AuthorizationCodeFlow.Builder(BearerToken
+            .authorizationHeaderAccessMethod(),
+            HTTP_TRANSPORT,
+            JSON_FACTORY,
+            new GenericUrl("https://www.googleapis.com/oauth2/v4/token"),
+            new ClientParametersAuthentication(
+                    "233923573086-q1nq8r49svbhamsf55bjs1gth1cp5nk8.apps.googleusercontent.com","SPpM4KHsu8u8TbcD-bEuaX9t"),
+            "233923573086-q1nq8r49svbhamsf55bjs1gth1cp5nk8.apps.googleusercontent.com",
+            "https://accounts.google.com/o/oauth2/v2/auth").setScopes(Arrays.asList("https://spreadsheets.google.com/feeds"))
+            .setDataStoreFactory(DATA_STORE_FACTORY).build();
+        // authorize
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setHost("127.0.0.1").setPort(8080).build();
+        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+    }
+    
     public Table selectQuery(String query, String table) throws IOException{
         String urlQuery = URL+query+"&key="+spreadsheetId+"&sheet="+table;
-        DBRequest request = new DBRequest("");
-        try {
-            request.get(urlQuery);
-        } catch (IOException ex) {
-            Logger.getLogger(GDataBase.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if(request.getResponseCode() == 200)
-            return readResponse(request.getDbResponse());
         
+        GenericUrl url = new GenericUrl(URI.create(urlQuery));
+        url.build();
+        HttpRequestFactory requestFactory =
+          HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
+            @Override
+            public void initialize(HttpRequest request) throws IOException {
+              CREDENTIAL.initialize(request);
+              request.setParser(new JsonObjectParser(JSON_FACTORY));
+            }
+          });
+        
+        try {
+            HttpRequest request = requestFactory.buildGetRequest(url);
+            HttpResponse response = request.execute();
+            if(response.getStatusCode() == 200 ){
+                try{
+                    return readResponse(response.getContent());
+                }catch(Exception ex){
+                    return null;
+                }
+            }
+        }catch (IOException ex) {
+            return null;
+        }
         return null;
     }
     
@@ -194,7 +207,7 @@ public class GDataBase {
                     .batchUpdate(spreadsheetId, batchUpdateRequest)
                     .execute();
         } catch (IOException ex) {
-            Logger.getLogger(GDataBase.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     }
     
@@ -218,7 +231,7 @@ public class GDataBase {
             service.spreadsheets().batchUpdate(spreadsheetId, batchUpdateRequest)
                     .execute();
         } catch (IOException ex) {
-            Logger.getLogger(GDataBase.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     }
     
@@ -321,7 +334,7 @@ public class GDataBase {
         return null;
     }
     
-    private static String convertStreamToString(InputStream input) {
+    protected static String convertStreamToString(InputStream input) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         StringBuilder result = new StringBuilder();
 
@@ -358,4 +371,5 @@ public class GDataBase {
                                     new RowData().setValues(values)))
                             .setFields("userEnteredValue,userEnteredFormat.backgroundColor"));
     }
+    
 }

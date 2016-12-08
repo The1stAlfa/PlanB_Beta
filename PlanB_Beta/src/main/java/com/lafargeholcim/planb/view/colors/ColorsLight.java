@@ -13,7 +13,10 @@ public enum ColorsLight {
     BLACK_ABSOLUTE ("#000000"),
     BLUE ("#1160AE"),
     WHITE_ABSOLUTE ("#FFFFFF"),
-    YELLOW_DRIVE ("#64D610");
+    GRAY ("#E6E7EA"),
+    GREEN ("#64D610"),
+    YELLOW_DRIVE ("#F2D345");
+    
     
     public String code;
     

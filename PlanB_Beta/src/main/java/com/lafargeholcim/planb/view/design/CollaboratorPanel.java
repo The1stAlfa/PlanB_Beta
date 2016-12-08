@@ -9,12 +9,12 @@ package com.lafargeholcim.planb.view.design;
  *
  * @author Jordone3
  */
-public class meetingPanel extends javax.swing.JFrame {
+public class CollaboratorPanel extends javax.swing.JFrame {
 
     /**
      * Creates new form meetingPanel
      */
-    public meetingPanel() {
+    public CollaboratorPanel() {
         initComponents();
     }
 
@@ -97,20 +97,21 @@ public class meetingPanel extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(meetingPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CollaboratorPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(meetingPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CollaboratorPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(meetingPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CollaboratorPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(meetingPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CollaboratorPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new meetingPanel().setVisible(true);
+                new CollaboratorPanel().setVisible(true);
             }
         });
     }
