@@ -7,6 +7,8 @@ package com.lafargeholcim.planb.view;
 
 import com.lafargeholcim.planb.sys.User;
 import com.lafargeholcim.planb.view.colors.ColorsDarcula;
+import com.lafargeholcim.planb.view.colors.ColorsHolcim;
+import com.lafargeholcim.planb.view.colors.ColorsLight;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -65,7 +67,7 @@ public class DashboardPane extends JPanel{
     private JPanel nearDueDateListPanel;
     private JTable nearDueDateListTable;
     private JPanel nearDueDatePanel;
-    private JScrollPane nearDueDateScrollPane;
+    private JScrollPane nearDueDateListScrollPane;
     private JLabel nearDueDateValueLabel;
     private JLabel overdueArrowIcon;
     private JButton overdueCloseButton;
@@ -153,7 +155,7 @@ public class DashboardPane extends JPanel{
         overdueCloseButton = new javax.swing.JButton();
         overdueEditIcon = new javax.swing.JLabel();
         nearDueDateListPanel = new javax.swing.JPanel();
-        nearDueDateScrollPane = new javax.swing.JScrollPane();
+        nearDueDateListScrollPane = new javax.swing.JScrollPane();
         nearDueDateListTable = new javax.swing.JTable();
         nearDueDateListLabel = new javax.swing.JLabel();
         nearDueDateCloseButton = new javax.swing.JButton();
@@ -773,15 +775,16 @@ public class DashboardPane extends JPanel{
         overdueListPanel.setPreferredSize(new java.awt.Dimension(864, 135));
         overdueListPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
 
-        overdueListScrollPane.setBorder(new javax.swing.border.MatteBorder(null));
-
-        overdueListTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
+        overdueListScrollPane.getViewport().setBackground(
+                Color.decode(ColorsDarcula.BLACK.code));
+        overdueListScrollPane.setBorder(BorderFactory.createMatteBorder(0,1,1,1, 
+                Color.decode(ColorsDarcula.BLACK_DARK.code)));
+        overdueListTable.setBackground(Color.decode(ColorsDarcula.BLACK.code));
+        overdueListTable.getTableHeader().setBackground(Color.decode("#3F4044"));
+        overdueListTable.getTableHeader().setForeground(Color.decode("#E3E3E3"));
+        overdueListTable.getTableHeader().setBorder(BorderFactory
+                .createMatteBorder(1,1,1,1, Color.decode("#303132")));
+        overdueListTable.setModel(new javax.swing.table.DefaultTableModel(null,
             new String [] {
                 "ID", "StartDate", "DueDate", "Detail", "Comments", "Prog. %", "DueDays"
             }
@@ -794,6 +797,7 @@ public class DashboardPane extends JPanel{
                 return canEdit [columnIndex];
             }
         });
+
         overdueListScrollPane.setViewportView(overdueListTable);
         if (overdueListTable.getColumnModel().getColumnCount() > 0) {
             overdueListTable.getColumnModel().getColumn(0).setMinWidth(76);
@@ -814,15 +818,16 @@ public class DashboardPane extends JPanel{
         }
 
         overdueListLabel.setText("Overdue Actions List");
+        overdueListLabel.setForeground(Color.decode(ColorsHolcim.WHITE.code));
         overdueListLabel.setMaximumSize(new java.awt.Dimension(118, 30));
         overdueListLabel.setMinimumSize(new java.awt.Dimension(118, 30));
         overdueListLabel.setPreferredSize(new java.awt.Dimension(118, 30));
 
         overdueCloseButton.setText("Close Action");
         overdueCloseButton.setIconTextGap(0);
-        overdueCloseButton.setMaximumSize(new java.awt.Dimension(77, 30));
-        overdueCloseButton.setMinimumSize(new java.awt.Dimension(77, 30));
-        overdueCloseButton.setPreferredSize(new java.awt.Dimension(77, 30));
+        overdueCloseButton.setMaximumSize(new java.awt.Dimension(105, 30));
+        overdueCloseButton.setMinimumSize(new java.awt.Dimension(105, 30));
+        overdueCloseButton.setPreferredSize(new java.awt.Dimension(105, 30));
         overdueCloseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 
@@ -848,7 +853,7 @@ public class DashboardPane extends JPanel{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(overdueEditIcon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(overdueCloseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(overdueCloseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(10, 10, 10))
         );
         overdueListPanelLayout.setVerticalGroup(
@@ -872,15 +877,17 @@ public class DashboardPane extends JPanel{
 
         nearDueDateListPanel.setMinimumSize(new java.awt.Dimension(0, 120));
         nearDueDateListPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
-        nearDueDateScrollPane.setBorder(new javax.swing.border.MatteBorder(null));
-
-        nearDueDateListTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
+        
+        nearDueDateListScrollPane.getViewport().setBackground(
+                Color.decode(ColorsDarcula.BLACK.code));
+        nearDueDateListScrollPane.setBorder(BorderFactory.createMatteBorder(0,1,1,1, 
+                Color.decode(ColorsDarcula.BLACK_DARK.code)));
+        nearDueDateListTable.setBackground(Color.decode(ColorsDarcula.BLACK.code));
+        nearDueDateListTable.getTableHeader().setBackground(Color.decode("#3F4044"));
+        nearDueDateListTable.getTableHeader().setForeground(Color.decode("#E3E3E3"));
+        nearDueDateListTable.getTableHeader().setBorder(BorderFactory
+                .createMatteBorder(1,1,1,1, Color.decode("#303132")));
+        nearDueDateListTable.setModel(new javax.swing.table.DefaultTableModel(null,
             new String [] {
                 "ID", "StartDate", "DueDate", "Detail", "Comments", "Prog. %", "Days"
             }
@@ -893,7 +900,8 @@ public class DashboardPane extends JPanel{
                 return canEdit [columnIndex];
             }
         });
-        nearDueDateScrollPane.setViewportView(nearDueDateListTable);
+        nearDueDateListTable.setBackground(Color.decode(ColorsDarcula.BLACK.code));
+        nearDueDateListScrollPane.setViewportView(nearDueDateListTable);
         if (nearDueDateListTable.getColumnModel().getColumnCount() > 0) {
             nearDueDateListTable.getColumnModel().getColumn(0).setMinWidth(76);
             nearDueDateListTable.getColumnModel().getColumn(0).setPreferredWidth(76);
@@ -913,15 +921,16 @@ public class DashboardPane extends JPanel{
         }
 
         nearDueDateListLabel.setText("Near Due Date Actions List");
+        nearDueDateListLabel.setForeground(Color.decode(ColorsHolcim.WHITE.code));
         nearDueDateListLabel.setMaximumSize(new java.awt.Dimension(118, 30));
         nearDueDateListLabel.setMinimumSize(new java.awt.Dimension(118, 30));
         nearDueDateListLabel.setPreferredSize(new java.awt.Dimension(118, 30));
 
         nearDueDateCloseButton.setText("Close Action");
         nearDueDateCloseButton.setIconTextGap(0);
-        nearDueDateCloseButton.setMaximumSize(new java.awt.Dimension(102, 30));
-        nearDueDateCloseButton.setMinimumSize(new java.awt.Dimension(102, 30));
-        nearDueDateCloseButton.setPreferredSize(new java.awt.Dimension(102, 30));
+        nearDueDateCloseButton.setMaximumSize(new java.awt.Dimension(105, 30));
+        nearDueDateCloseButton.setMinimumSize(new java.awt.Dimension(105, 30));
+        nearDueDateCloseButton.setPreferredSize(new java.awt.Dimension(105, 30));
 
         nearDueDateEditIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editWhite24.png"))); // NOI18N
         nearDueDateEditIcon.setIconTextGap(0);
@@ -941,8 +950,8 @@ public class DashboardPane extends JPanel{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(nearDueDateEditIcon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nearDueDateCloseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(nearDueDateScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE))
+                        .addComponent(nearDueDateCloseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nearDueDateListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE))
                 .addGap(10, 10, 10))
         );
         nearDueDateListPanelLayout.setVerticalGroup(
@@ -958,7 +967,7 @@ public class DashboardPane extends JPanel{
                             .addComponent(nearDueDateCloseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nearDueDateEditIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nearDueDateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nearDueDateListScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2))
         );
 
@@ -970,17 +979,21 @@ public class DashboardPane extends JPanel{
         inProcessListPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         
         inProcessListLabel.setText("In Process Action List");
+        inProcessListLabel.setForeground(Color.decode(ColorsHolcim.WHITE.code));
         inProcessListLabel.setMaximumSize(new java.awt.Dimension(124, 30));
         inProcessListLabel.setMinimumSize(new java.awt.Dimension(124, 30));
         inProcessListLabel.setPreferredSize(new java.awt.Dimension(124, 30));
-
-        inProcessListTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
+        
+        inProcessListScrollPane.getViewport().setBackground(
+                Color.decode(ColorsDarcula.BLACK.code));
+        inProcessListScrollPane.setBorder(BorderFactory.createMatteBorder(0,1,1,1, 
+                Color.decode(ColorsDarcula.BLACK_DARK.code)));
+        inProcessListTable.setBackground(Color.decode(ColorsDarcula.BLACK.code));
+        inProcessListTable.getTableHeader().setBackground(Color.decode("#3F4044"));
+        inProcessListTable.getTableHeader().setForeground(Color.decode("#E3E3E3"));
+        inProcessListTable.getTableHeader().setBorder(BorderFactory
+                .createMatteBorder(1,1,1,1, Color.decode("#303132")));
+        inProcessListTable.setModel(new javax.swing.table.DefaultTableModel(null,
             new String [] {
                 "ID", "StartDate", "DueDate", "Detail", "Comments", "Prog. %", "Dur."
             }
@@ -993,6 +1006,7 @@ public class DashboardPane extends JPanel{
                 return canEdit [columnIndex];
             }
         });
+        inProcessListTable.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         inProcessListScrollPane.setViewportView(inProcessListTable);
         if (inProcessListTable.getColumnModel().getColumnCount() > 0) {
             inProcessListTable.getColumnModel().getColumn(0).setMinWidth(76);
@@ -1013,10 +1027,10 @@ public class DashboardPane extends JPanel{
         }
 
         inProcessCloseButton.setIconTextGap(0);
-        inProcessCloseButton.setLabel("Close Action");
-        inProcessCloseButton.setMaximumSize(new java.awt.Dimension(102, 30));
-        inProcessCloseButton.setMinimumSize(new java.awt.Dimension(102, 30));
-        inProcessCloseButton.setPreferredSize(new java.awt.Dimension(102, 30));
+        inProcessCloseButton.setText("Close Action");
+        inProcessCloseButton.setMaximumSize(new java.awt.Dimension(105, 30));
+        inProcessCloseButton.setMinimumSize(new java.awt.Dimension(105, 30));
+        inProcessCloseButton.setPreferredSize(new java.awt.Dimension(105, 30));
 
         inProcessEditIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editWhite24.png"))); // NOI18N
         inProcessEditIcon.setIconTextGap(0);
@@ -1036,7 +1050,7 @@ public class DashboardPane extends JPanel{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(inProcessEditIcon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(inProcessCloseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(inProcessCloseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(inProcessListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE))
                 .addGap(10, 10, 10))
         );

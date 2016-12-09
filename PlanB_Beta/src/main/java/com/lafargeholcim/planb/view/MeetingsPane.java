@@ -5,9 +5,14 @@
  */
 package com.lafargeholcim.planb.view;
 
+import com.lafargeholcim.planb.view.colors.ColorsDarcula;
+import com.lafargeholcim.planb.view.colors.ColorsHolcim;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import javax.swing.border.TitledBorder;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -17,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.Box.Filler;
+
 
 /**
  *
@@ -126,12 +132,12 @@ public class MeetingsPane extends JPanel{
 
         this.add(optionTitlePanel, java.awt.BorderLayout.NORTH);
 
-        meetingContentPanel.setBackground(new java.awt.Color(187, 187, 187));
+        meetingContentPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));;
         meetingContentPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 8, 4, 8, new java.awt.Color(60, 63, 65)));
         meetingContentPanel.setPreferredSize(new java.awt.Dimension(816, 600));
         meetingContentPanel.setLayout(new javax.swing.BoxLayout(meetingContentPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        leftPanel.setBackground(new java.awt.Color(187, 187, 187));
+        leftPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));;
         leftPanel.setMaximumSize(new java.awt.Dimension(400, 32767));
         leftPanel.setPreferredSize(new java.awt.Dimension(400, 500));
 
@@ -147,15 +153,16 @@ public class MeetingsPane extends JPanel{
         editMeetingIcon.setIconTextGap(0);
 
         meetingListScrollPane.setPreferredSize(new java.awt.Dimension(352, 148));
-
-        meetingListTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
+        meetingListScrollPane.getViewport().setBackground(
+                Color.decode(ColorsDarcula.BLACK.code));
+        meetingListScrollPane.setBorder(BorderFactory.createMatteBorder(0,1,1,1, 
+                Color.decode(ColorsDarcula.BLACK_DARK.code)));
+        meetingListTable.setBackground(Color.decode(ColorsDarcula.BLACK.code));
+        meetingListTable.getTableHeader().setBackground(Color.decode("#3F4044"));
+        meetingListTable.getTableHeader().setForeground(Color.decode("#E3E3E3"));
+        meetingListTable.getTableHeader().setBorder(BorderFactory
+                .createMatteBorder(1,1,1,1, Color.decode("#303132")));
+        meetingListTable.setModel(new javax.swing.table.DefaultTableModel(null,
             new String [] {
                 "ID", "Name"
             }
@@ -168,6 +175,7 @@ public class MeetingsPane extends JPanel{
                 return canEdit [columnIndex];
             }
         });
+        meetingListTable.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         meetingListTable.setColumnSelectionAllowed(true);
         meetingListTable.setRowHeight(25);
         meetingListTable.setShowVerticalLines(false);
@@ -182,12 +190,16 @@ public class MeetingsPane extends JPanel{
         removeMeetingIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deleteWhite24.png"))); // NOI18N
         removeMeetingIcon.setIconTextGap(0);
 
-        meetingInfoPanel.setBackground(new java.awt.Color(187, 187, 187));
-        meetingInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Meeting Inforrmation", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        meetingInfoPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
+        meetingInfoPanel.setBorder(BorderFactory.createTitledBorder(
+                null, "Meeting Information", TitledBorder.LEFT, 
+                TitledBorder.DEFAULT_POSITION, new Font("Dialog", 1, 12), 
+                Color.decode(ColorsHolcim.WHITE.code)));
         meetingInfoPanel.setPreferredSize(new java.awt.Dimension(360, 291));
 
-        identifierLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        identifierLabel.setFont(new Font("Dialog", 1, 14)); // NOI18N
         identifierLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        identifierLabel.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
         identifierLabel.setText("Identifier");
         identifierLabel.setIconTextGap(0);
         identifierLabel.setPreferredSize(new java.awt.Dimension(68, 33));
@@ -199,12 +211,14 @@ public class MeetingsPane extends JPanel{
 
         meetingNameLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         meetingNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        meetingNameLabel.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
         meetingNameLabel.setText("Name");
         meetingNameLabel.setIconTextGap(0);
         meetingNameLabel.setPreferredSize(new java.awt.Dimension(63, 33));
 
         actionPlanIdLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         actionPlanIdLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        actionPlanIdLabel.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
         actionPlanIdLabel.setText("Action Plan ID");
         actionPlanIdLabel.setIconTextGap(0);
 
@@ -221,6 +235,7 @@ public class MeetingsPane extends JPanel{
 
         acronymLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         acronymLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        acronymLabel.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
         acronymLabel.setText("Acronym");
         acronymLabel.setPreferredSize(new java.awt.Dimension(68, 33));
 
@@ -230,6 +245,7 @@ public class MeetingsPane extends JPanel{
 
         facilityLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         facilityLabel.setText("Facility");
+        facilityLabel.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
 
         facilityTextField.setText("Planta Guayaquil");
         facilityTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(187, 187, 187)));
@@ -238,24 +254,29 @@ public class MeetingsPane extends JPanel{
 
         purposeLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         purposeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        purposeLabel.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
         purposeLabel.setText("Purpose");
         purposeLabel.setIconTextGap(0);
         purposeLabel.setPreferredSize(new java.awt.Dimension(68, 33));
 
         purposeScrollPane.setMaximumSize(new java.awt.Dimension(257, 71));
         purposeScrollPane.setPreferredSize(new java.awt.Dimension(257, 71));
-
+        purposeScrollPane.setBackground(Color.decode(ColorsDarcula.BLACK.code));
+        
         purposeTextArea.setEditable(false);
         purposeTextArea.setColumns(20);
         purposeTextArea.setLineWrap(true);
         purposeTextArea.setRows(5);
         purposeTextArea.setText("El propósito será siempre el mismo\nustedes ya saben como son este tipo\nde cosas\n");
         purposeTextArea.setWrapStyleWord(true);
+        purposeTextArea.setBackground(Color.decode(ColorsDarcula.BLACK.code));
+        purposeTextArea.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
         purposeTextArea.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(187, 187, 187)));
         purposeScrollPane.setViewportView(purposeTextArea);
 
         apOwnerLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         apOwnerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        apOwnerLabel.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
         apOwnerLabel.setText("Action Plan Owner");
         apOwnerLabel.setToolTipText("");
         apOwnerLabel.setPreferredSize(new java.awt.Dimension(143, 33));
@@ -373,16 +394,20 @@ public class MeetingsPane extends JPanel{
 
         meetingContentPanel.add(leftPanel);
 
-        rightPanel.setBackground(new java.awt.Color(187, 187, 187));
+        rightPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         rightPanel.setMinimumSize(new java.awt.Dimension(370, 500));
         rightPanel.setPreferredSize(new java.awt.Dimension(400, 500));
 
-        workTeamInformationPanel.setBackground(new java.awt.Color(187, 187, 187));
-        workTeamInformationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("WorkTeam Information"));
+        workTeamInformationPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
+        workTeamInformationPanel.setBorder(BorderFactory.createTitledBorder(
+                null, "WorkTeam Information", TitledBorder.LEFT, 
+                TitledBorder.DEFAULT_POSITION, new Font("Dialog", 1, 12), 
+                Color.decode(ColorsHolcim.WHITE.code)));
         workTeamInformationPanel.setPreferredSize(new java.awt.Dimension(340, 195));
 
         workTeamIdLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         workTeamIdLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        workTeamIdLabel.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
         workTeamIdLabel.setText("Identifier");
         workTeamIdLabel.setIconTextGap(0);
         workTeamIdLabel.setPreferredSize(new java.awt.Dimension(80, 33));
@@ -395,6 +420,7 @@ public class MeetingsPane extends JPanel{
 
         performanceTeamLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         performanceTeamLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        performanceTeamLabel.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
         performanceTeamLabel.setText("Performance");
         performanceTeamLabel.setPreferredSize(new java.awt.Dimension(107, 33));
 
@@ -406,6 +432,7 @@ public class MeetingsPane extends JPanel{
 
         totalTeamLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         totalTeamLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        totalTeamLabel.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
         totalTeamLabel.setText("Total");
         totalTeamLabel.setIconTextGap(0);
         totalTeamLabel.setPreferredSize(new java.awt.Dimension(80, 33));
@@ -413,11 +440,13 @@ public class MeetingsPane extends JPanel{
 
         actionsTitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         actionsTitleLabel.setText("Actions");
+        actionsTitleLabel.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
 
         actionsSeparator.setBackground(new java.awt.Color(187, 187, 187));
 
         appTeamLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         appTeamLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        appTeamLabel.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
         appTeamLabel.setText("Completed APP");
         appTeamLabel.setIconTextGap(0);
         appTeamLabel.setPreferredSize(new java.awt.Dimension(107, 33));
@@ -437,6 +466,7 @@ public class MeetingsPane extends JPanel{
 
         completedTeamLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         completedTeamLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        completedTeamLabel.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
         completedTeamLabel.setText("Completed");
         completedTeamLabel.setIconTextGap(0);
         completedTeamLabel.setPreferredSize(new java.awt.Dimension(80, 33));
@@ -449,6 +479,7 @@ public class MeetingsPane extends JPanel{
 
         overdueTeamLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         overdueTeamLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        overdueTeamLabel.setForeground(Color.decode(ColorsDarcula.FOREGROUND.code));
         overdueTeamLabel.setText("Overdue");
         overdueTeamLabel.setIconTextGap(0);
         overdueTeamLabel.setPreferredSize(new java.awt.Dimension(107, 33));
@@ -532,6 +563,7 @@ public class MeetingsPane extends JPanel{
 
         teamListLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         teamListLabel.setText("Team Members List");
+        teamListLabel.setForeground(Color.decode(ColorsHolcim.WHITE.code));
         teamListLabel.setIconTextGap(0);
 
         removeMemberIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deleteWhite24.png"))); // NOI18N
@@ -541,16 +573,17 @@ public class MeetingsPane extends JPanel{
         addMemberIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plusWhite24.png"))); // NOI18N
         addMemberIcon.setIconTextGap(0);
         addMemberIcon.setPreferredSize(new java.awt.Dimension(24, 30));
-
-        teamListTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
+        
+        teamListScrollPane.getViewport().setBackground(
+                Color.decode(ColorsDarcula.BLACK.code));
+        teamListScrollPane.setBorder(BorderFactory.createMatteBorder(0,1,1,1, 
+                Color.decode(ColorsDarcula.BLACK_DARK.code)));
+        teamListTable.setBackground(Color.decode(ColorsDarcula.BLACK.code));
+        teamListTable.getTableHeader().setBackground(Color.decode("#3F4044"));
+        teamListTable.getTableHeader().setForeground(Color.decode("#E3E3E3"));
+        teamListTable.getTableHeader().setBorder(BorderFactory
+                .createMatteBorder(1,1,1,1, Color.decode("#303132")));
+        teamListTable.setModel(new javax.swing.table.DefaultTableModel(null,
             new String [] {
                 "ID", "Names"
             }
@@ -563,10 +596,12 @@ public class MeetingsPane extends JPanel{
                 return canEdit [columnIndex];
             }
         });
+        teamListTable.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         teamListTable.setColumnSelectionAllowed(true);
         teamListTable.setRowHeight(25);
         teamListTable.setShowVerticalLines(false);
         teamListScrollPane.setViewportView(teamListTable);
+
         teamListTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (teamListTable.getColumnModel().getColumnCount() > 0) {
             teamListTable.getColumnModel().getColumn(0).setMinWidth(65);
@@ -577,6 +612,7 @@ public class MeetingsPane extends JPanel{
         participantListLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         participantListLabel.setText("Aditional Participants List");
         participantListLabel.setIconTextGap(0);
+        participantListLabel.setForeground(Color.decode(ColorsHolcim.WHITE.code));
 
         removeParticipantIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deleteWhite24.png"))); // NOI18N
         removeParticipantIcon.setIconTextGap(0);
@@ -585,19 +621,26 @@ public class MeetingsPane extends JPanel{
         addParticipantIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plusWhite24.png"))); // NOI18N
         addParticipantIcon.setIconTextGap(0);
         addParticipantIcon.setPreferredSize(new java.awt.Dimension(24, 30));
-
-        adtParticipantsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null}
-            },
+        
+        adtParticipantsScrollPane.getViewport().setBackground(
+                Color.decode(ColorsDarcula.BLACK.code));
+        adtParticipantsScrollPane.setBorder(BorderFactory.createMatteBorder(0,1,1,1, 
+                Color.decode(ColorsDarcula.BLACK_DARK.code)));
+        adtParticipantsTable.setBackground(Color.decode(ColorsDarcula.BLACK.code));
+        adtParticipantsTable.getTableHeader().setBackground(Color.decode("#3F4044"));
+        adtParticipantsTable.getTableHeader().setForeground(Color.decode("#E3E3E3"));
+        adtParticipantsTable.getTableHeader().setBorder(BorderFactory
+                .createMatteBorder(1,1,1,1, Color.decode("#303132")));
+        adtParticipantsTable.setModel(new javax.swing.table.DefaultTableModel(null,
             new String [] {
                 "ID", "Names"
             }
         ));
+        adtParticipantsTable.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         adtParticipantsTable.setRowHeight(25);
         adtParticipantsTable.setShowVerticalLines(false);
         adtParticipantsScrollPane.setViewportView(adtParticipantsTable);
+        adtParticipantsScrollPane.setBackground(Color.decode(ColorsDarcula.BLACK.code));
         if (adtParticipantsTable.getColumnModel().getColumnCount() > 0) {
             adtParticipantsTable.getColumnModel().getColumn(0).setMinWidth(65);
             adtParticipantsTable.getColumnModel().getColumn(0).setPreferredWidth(65);

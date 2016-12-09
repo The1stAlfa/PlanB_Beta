@@ -13,7 +13,7 @@ public enum ColorsDarcula {
     BLACK ("#3C3F41"),
     BLACK_DARK ("#303132"),
     BLACK_LIGHT ("#45494A"),
-    FOREGROUND ("BBBBBB"),
+    FOREGROUND ("#BBBBBB"),
     HIGHTLIGHT ("#4B6EAF"),
     HIPERLINK ("#589DF6"),
     ORANGE ("#F07746"),

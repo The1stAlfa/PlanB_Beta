@@ -628,7 +628,7 @@ public class ActionPlansPane extends JPanel{
 
         appLabel.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         appLabel.setForeground(new java.awt.Color(48, 49, 50));
-        appLabel.setText("app");
+        appLabel.setText("asPerPlanned");
 
         appValueLabel.setBackground(new java.awt.Color(48, 49, 50));
         appValueLabel.setFont(new java.awt.Font("Dialog", 1, 42)); // NOI18N
