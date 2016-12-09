@@ -5,6 +5,7 @@
  */
 package com.lafargeholcim.planb.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JOptionPane;
@@ -105,7 +106,7 @@ public class MeetingsPane extends JPanel{
         adtParticipantsTable = new JTable();
         
         this.setBackground(Color.decode("#3C3F41"));
-        this.setLayout(new java.awt.BorderLayout());
+        this.setLayout(new BorderLayout());
 
         optionTitlePanel.setBackground(new java.awt.Color(69, 73, 74));
         optionTitlePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(8, 8, 4, 8, new java.awt.Color(60, 63, 65)));

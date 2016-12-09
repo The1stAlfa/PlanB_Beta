@@ -154,28 +154,8 @@ public class UITerminal extends JFrame{
     }
     
     private void createDashboardPanel(){
-        dashboardPanel = new JPanel();
-        dashboardPanel.setLayout(new BorderLayout());
-        dashboardPanel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
-        dashboardPanel.setBackground(Color.decode("#3C3F41"));
-        initImageLabel = new JLabel();
-        initImageLabel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
-        initImageLabel.setPreferredSize(new Dimension(500,328));
-        //BufferedImage img = null;
-        //try {
-         //   img = ImageIO.read(getClass().getResource("/images/plantAtNight12.png"));
-        //} catch (IOException e) {
-            //e.printStackTrace();
-        //}
-        //Image dimg = img.getScaledInstance(200, 200,
-        //Image.SCALE_SMOOTH);
-        initImageLabel = new JLabel(new ImageIcon(new ImageIcon(
-              getClass().getResource("/images/plantAtNight12.png"))
-                .getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
-        //initImageLabel.setIcon(new ImageIcon(dimg));
-        
-        dashboardPanel.add(initImageLabel,BorderLayout.CENTER);
-        
+        dashboardPanel = new DashboardPane(getInterface(), user);
+        dashboardPanel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));        
     }
     
     private void createMainMenu(){ 
@@ -260,7 +240,6 @@ public class UITerminal extends JFrame{
     private void createMeetingPanel(){
         meetingPanel = new MeetingsPane();
         meetingPanel.setMaximumSize(new Dimension(Short.MAX_VALUE,Short.MAX_VALUE));
-        meetingPanel.setBackground(Color.decode("#3C3F41"));
     }
     
     private void createOptionsContentPanel() throws Exception{
@@ -328,8 +307,8 @@ public class UITerminal extends JFrame{
         setIconImage(new ImageIcon(getClass().getResource("/images/planB-27x32.png")).getImage());
         mainPanel = new JPanel();
         mainPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
-        createMainMenu();
         createOptionsContentPanel();
+        createMainMenu();
         itemFlag = new JMenuItem();
         
         highlightPanel = new JPanel();
@@ -486,6 +465,7 @@ public class UITerminal extends JFrame{
                     h7.setBackground(Color.decode("#3C3F41"));
                     itemFlag = dashboardMenu;                  
                     optionsContentPanel.repaint();
+                    optionsContentPanel.revalidate();
                 }
                 else if(item.equals(meetingMenu)){
                     optionsContentPanel.removeAll();
@@ -514,6 +494,8 @@ public class UITerminal extends JFrame{
                     optionsContentPanel.revalidate();
                 }
                 else if(item.equals(teamMenu)){
+                    optionsContentPanel.removeAll();
+                    optionsContentPanel.add(actionPlanPanel, BorderLayout.CENTER);
                     h2.setBackground(Color.decode("#3C3F41"));
                     h3.setBackground(Color.decode("#3C3F41"));
                     h4.setBackground(Color.decode("#3C3F41"));

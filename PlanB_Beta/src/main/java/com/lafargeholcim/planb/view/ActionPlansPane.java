@@ -1705,17 +1705,20 @@ public class ActionPlansPane extends JPanel{
     }
     
     private void setColumnWidth(){       
-        actionListTable.getColumnModel().getColumn(0).setMaxWidth(77);  //ID
-        actionListTable.getColumnModel().getColumn(0).setMinWidth(77);  //ID
+        actionListTable.getColumnModel().getColumn(0).setMaxWidth(76);  //ID
+        actionListTable.getColumnModel().getColumn(0).setMinWidth(76);  //ID
         actionListTable.getColumnModel().getColumn(1).setMaxWidth(40);  //RESPONSIBLE
         actionListTable.getColumnModel().getColumn(4).setMinWidth(70);  //START DATE
         actionListTable.getColumnModel().getColumn(4).setMaxWidth(73);  //START DATE
         actionListTable.getColumnModel().getColumn(5).setMinWidth(70);  //DUE DATE
         actionListTable.getColumnModel().getColumn(5).setMaxWidth(73);  //DUE DATE
+        actionListTable.getColumnModel().getColumn(6).setMinWidth(70);  //END DATE
         actionListTable.getColumnModel().getColumn(6).setMaxWidth(73);  //END DATE
+        actionListTable.getColumnModel().getColumn(7).setMinWidth(45);  //PROGRESS
         actionListTable.getColumnModel().getColumn(7).setMaxWidth(50);  //PROGRESS
         actionListTable.getColumnModel().getColumn(8).setMaxWidth(120); //STATUS
         actionListTable.getColumnModel().getColumn(8).setMinWidth(110); //STATUS
+        actionListTable.getColumnModel().getColumn(9).setMinWidth(35);  //DURATION
         actionListTable.getColumnModel().getColumn(9).setMaxWidth(40);  //DURATION
     }
     
