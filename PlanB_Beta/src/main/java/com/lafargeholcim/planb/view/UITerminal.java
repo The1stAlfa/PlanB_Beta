@@ -26,7 +26,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -44,9 +43,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -79,6 +75,8 @@ import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
 import java.sql.Date;
 import javax.imageio.ImageIO;
@@ -112,6 +110,7 @@ import javax.swing.Icon;
  */
 
 public class UITerminal extends JFrame{
+    private final byte NORMAL = 0, MAXIMIZED = 6;
     private static ActionPlansPane actionPlanPanel;
     private Dimension nativeScreenSize;
     private int xPosition=0, yPosition=0, selectedRow=-1;
@@ -119,11 +118,13 @@ public class UITerminal extends JFrame{
     private JMenuBar mainMenu;
     private JMenuItem dashboardMenu, meetingMenu, actionPlanMenu, teamMenu,
             profileMenu,settingsMenu,menuItem,itemFlag;
-    private JPanel contentPanel, highlightPanel, optionsContentPanel, mainPanel, dashboardPanel;
+    private JPanel contentPanel, highlightPanel, optionsContentPanel, mainPanel, 
+            dashboardPanel;
     private JPanel h1,h2,h3,h4,h5,h6,h7;
     private JTable actionListTable;
     private MeetingsPane meetingPanel;
-    private boolean menuFlag = false, clickFlag = false;
+    private boolean menuFlag = false, startFlag = true;
+    private byte programResized = -1;
     private User user;
        
     public UITerminal() throws IOException, FontFormatException, Exception{
@@ -134,7 +135,8 @@ public class UITerminal extends JFrame{
     public void addFonts() throws FontFormatException{
         try {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src\\fonts\\diane_de_france\\Diane de France.ttf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, 
+                    new File("src\\fonts\\diane_de_france\\Diane de France.ttf")));
         }
         catch (IOException e) {
             //Handle exception
@@ -268,15 +270,16 @@ public class UITerminal extends JFrame{
         startPanel.add(planbLabel);
         startPanel.setBorder(BorderFactory
                 .createMatteBorder(8,8,4,8, Color.decode(ColorsDarcula.BLACK.code)));
-        createDashboardPanel();
-        createMeetingPanel();
-        createActionPlanPanel();
+        
         initImageLabel = new JLabel();
         initImageLabel.setPreferredSize(new Dimension(500,328));
         initImageLabel.setBorder(BorderFactory
                 .createMatteBorder(4,8,4,8, Color.decode("#3C3F41")));
         optionsContentPanel.add(startPanel, BorderLayout.NORTH);
         optionsContentPanel.add(initImageLabel,BorderLayout.CENTER);
+        createDashboardPanel();
+        createMeetingPanel();
+        createActionPlanPanel();
     }
     
     public void disableFrame(){
@@ -323,7 +326,6 @@ public class UITerminal extends JFrame{
 
         contentPanel = new JPanel();
         contentPanel.setBackground(Color.decode(ColorsDarcula.BLACK.code));
-        contentPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.decode("#F8FAF8")));
         contentPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
         contentPanel.setLayout(new BorderLayout());
         contentPanel.add(highlightPanel, BorderLayout.WEST);
@@ -332,39 +334,42 @@ public class UITerminal extends JFrame{
         mainPanel.add(mainMenu,BorderLayout.WEST);
         addFonts();
         setContentPane(contentPanel);
-        this.getRootPane().addComponentListener(new ComponentAdapter() {
+        pack();
+        initImageLabel.setIcon(new ImageIcon(new ImageIcon(
+        getClass().getResource("/images/plantAtNight12.png"))
+        .getImage().getScaledInstance(optionsContentPanel.getSize().width + 100,
+                optionsContentPanel.getSize().height - 45, Image.SCALE_FAST)));
+        this.setTitle("PlanB v1.0");
+        setVisible(true);
+        T();
+        this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
-                if(getInterface().getExtendedState() != 6){
+                Component c = (Component)e.getSource();
+                System.out.println(c.getName());
+                if(programResized == NORMAL && startFlag){
                     mainMenu.setPreferredSize(new Dimension(40,600));
-                    mainPanel.repaint();
-                    mainPanel.revalidate();
                     menuItem.setToolTipText("Maximize Navigation Bar");
-                    menuFlag = false;
+                    menuFlag = false;    
                     initImageLabel.setIcon(new ImageIcon(new ImageIcon(
                         getClass().getResource("/images/plantAtNight12.png"))
                         .getImage().getScaledInstance(optionsContentPanel.getSize().width + 100,
-                                optionsContentPanel.getSize().height - 45, Image.SCALE_SMOOTH)));
+                                optionsContentPanel.getSize().height - 45, Image.SCALE_FAST)));
                     mainPanel.repaint();
+                    mainPanel.revalidate(); 
                 }
-                else{
+                else if(programResized == MAXIMIZED && startFlag){
                     mainMenu.setPreferredSize(new Dimension(140,600));
-                    mainPanel.repaint();
-                    mainPanel.revalidate();
                     menuItem.setToolTipText("Minimize Navigation Bar");
                     menuFlag = true;
                     initImageLabel.setIcon(new ImageIcon(new ImageIcon(
-                        getClass().getResource("/images/plantAtNight12.png"))
-                        .getImage().getScaledInstance(optionsContentPanel.getSize().width ,
-                                optionsContentPanel.getSize().height - 65, Image.SCALE_SMOOTH)));
+                            getClass().getResource("/images/plantAtNight12.png"))
+                            .getImage().getScaledInstance(optionsContentPanel.getSize().width -100,
+                                    optionsContentPanel.getSize().height - 65, Image.SCALE_FAST)));
                     mainPanel.repaint();
+                    mainPanel.revalidate();
                 }
             }
         });
-        pack();
-        setExtendedState(6);
-        this.setTitle("PlanB v1.0");        
-        setVisible(true);
-        
     }
 
     private void mainMenuEvents(JMenuItem item){
@@ -413,43 +418,44 @@ public class UITerminal extends JFrame{
             }
             @Override
             public void mouseClicked(MouseEvent e){
+                if (!item.equals(menuItem))
+                    startFlag = false;
                 if(item.equals(menuItem)){
                     if(!menuFlag){
                         mainMenu.setPreferredSize(new Dimension(140,600));
-                        mainPanel.repaint();
-                        mainPanel.revalidate();
                         if(getInterface().getExtendedState() != 6){
                             initImageLabel.setIcon(new ImageIcon(new ImageIcon(
                             getClass().getResource("/images/plantAtNight12.png"))
                             .getImage().getScaledInstance(optionsContentPanel.getSize().width - 100,
-                                    optionsContentPanel.getSize().height - 45, Image.SCALE_SMOOTH)));
+                                    optionsContentPanel.getSize().height - 45, Image.SCALE_FAST)));
                         }
                         else{
                             initImageLabel.setIcon(new ImageIcon(new ImageIcon(
                             getClass().getResource("/images/plantAtNight12.png"))
                             .getImage().getScaledInstance(optionsContentPanel.getSize().width - 100,
-                                    optionsContentPanel.getSize().height - 65, Image.SCALE_SMOOTH)));
+                                    optionsContentPanel.getSize().height - 65, Image.SCALE_FAST)));
                         }
                         mainPanel.repaint();
+                        mainPanel.revalidate();
                         menuItem.setToolTipText("Minimize Navigation Bar");
                         menuFlag = true;
                     }
                     else{
                         mainMenu.setPreferredSize(new Dimension(40,600));
-                        mainPanel.repaint();
                         if(getInterface().getExtendedState() != 6){
                             initImageLabel.setIcon(new ImageIcon(new ImageIcon(
                             getClass().getResource("/images/plantAtNight12.png"))
                             .getImage().getScaledInstance(optionsContentPanel.getSize().width + 100,
-                                    optionsContentPanel.getSize().height - 45, Image.SCALE_SMOOTH)));
+                                    optionsContentPanel.getSize().height - 45, Image.SCALE_FAST)));
                         }
                         else{
                             initImageLabel.setIcon(new ImageIcon(new ImageIcon(
                             getClass().getResource("/images/plantAtNight12.png"))
                             .getImage().getScaledInstance(optionsContentPanel.getSize().width + 100,
-                                    optionsContentPanel.getSize().height - 65, Image.SCALE_SMOOTH)));
+                                    optionsContentPanel.getSize().height - 65, Image.SCALE_FAST)));
                         }
                         mainPanel.repaint();
+                        mainPanel.revalidate();
                         menuItem.setToolTipText("Maximize Navigation Bar");
                         menuFlag = false;
                     }
@@ -606,5 +612,26 @@ public class UITerminal extends JFrame{
             @Override
             public void windowDeactivated(WindowEvent e){}
         });
+    }
+    
+    private void T(){
+        WindowStateListener listener;
+        listener = new WindowAdapter() {
+            @Override
+            public void windowStateChanged(WindowEvent evt) {
+                int oldState = evt.getOldState();
+                int newState = evt.getNewState();
+                
+                if(oldState == 0 && newState == 6){
+                    programResized = MAXIMIZED;
+                }
+                else if(oldState == 6 && newState == 0){
+                    programResized = NORMAL;
+                }
+                else
+                    programResized = -1;
+            }
+        };
+        this.addWindowStateListener(listener);
     }
 }
